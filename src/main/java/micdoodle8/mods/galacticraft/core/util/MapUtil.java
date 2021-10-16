@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.util;
 
+import org.apache.commons.io.FileUtils;
+
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
@@ -8,6 +10,7 @@ import micdoodle8.mods.galacticraft.core.client.screen.DrawGameScreen;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
+
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -19,34 +22,44 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldType;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.io.FileUtils;
 
-import javax.imageio.*;
-import javax.imageio.stream.FileImageOutputStream;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.ImageOutputStream;
+
 public class MapUtil
 {
-	//Mapgen management
+
+    // Mapgen management
     public static AtomicBoolean calculatingMap = new AtomicBoolean();
     public static AtomicBoolean resetClientFlag = new AtomicBoolean();
     private static MapGen currentMap = null;
@@ -59,35 +72,61 @@ public class MapUtil
 
     public static ArrayList<BlockVec3> biomeColours = new ArrayList<BlockVec3>(40);
     private static Random rand = new Random();
-	private static byte[] overworldImageBytesPart; //Used client side only
-	private static byte[] overworldImageCompressed = null;
-    
-    //Map size definitions
+    private static byte[] overworldImageBytesPart; // Used client side only
+    private static byte[] overworldImageCompressed = null;
+
+    // Map size definitions
     private static final int SIZE_STD = 176;
     public static final int SIZE_STD2 = SIZE_STD * 2;
-    public static final int OVERWORLD_LARGEMAP_WIDTH = 1536;   //Do not make a large map whose raw binary exceeds 2MB otherwise sendMapPacket() will not send it.  This raw binary is 576kB
+    public static final int OVERWORLD_LARGEMAP_WIDTH = 1536; // Do not make a
+                                                             // large map whose
+                                                             // raw binary
+                                                             // exceeds 2MB
+                                                             // otherwise
+                                                             // sendMapPacket()
+                                                             // will not send
+                                                             // it. This raw
+                                                             // binary is 576kB
     private static final int OVERWORLD_LARGEMAP_HEIGHT = 960;
-    private static final int OVERWORLD_MAP_SCALE = 4;  //Recommended is 4.  This gives a large overworld map of size (1536 x 16) by (960 x 16): that extends 12000 blocks from spawn in both EW directions and 7600 blocks from spawn north and south
-    private static final int OVERWORLD_TEXTURE_WIDTH = 192;   //Do not change - planet texture needs to be this size
-    private static final int OVERWORLD_TEXTURE_HEIGHT = 48;   //Do not change - planet texture needs to be this size
+    private static final int OVERWORLD_MAP_SCALE = 4; // Recommended is 4. This
+                                                      // gives a large overworld
+                                                      // map of size (1536 x 16)
+                                                      // by (960 x 16): that
+                                                      // extends 12000 blocks
+                                                      // from spawn in both EW
+                                                      // directions and 7600
+                                                      // blocks from spawn north
+                                                      // and south
+    private static final int OVERWORLD_TEXTURE_WIDTH = 192; // Do not change -
+                                                            // planet texture
+                                                            // needs to be this
+                                                            // size
+    private static final int OVERWORLD_TEXTURE_HEIGHT = 48; // Do not change -
+                                                            // planet texture
+                                                            // needs to be this
+                                                            // size
     private static final int OVERWORLD_TEXTURE_SCALE = 7;
-    
-    private static final int LARGEMAP_MARKER = 30000001;   //This is a marker to flag world map packets, it must be an impossible cx coordinate
 
-    //Color related constants
-	private static final int OCEAN_HEIGHT = 63;
-	private static final int DEEP_OCEAN = 56;
-    
+    private static final int LARGEMAP_MARKER = 30000001; // This is a marker to
+                                                         // flag world map
+                                                         // packets, it must be
+                                                         // an impossible cx
+                                                         // coordinate
+
+    // Color related constants
+    private static final int OCEAN_HEIGHT = 63;
+    private static final int DEEP_OCEAN = 56;
 
     static
     {
-        //TODO: Deal with mods like ExtraBiomes
+        // TODO: Deal with mods like ExtraBiomes
         setupColours();
     }
 
     public static void reset()
     {
-        if (currentMap != null) currentMap.abort();
+        if (currentMap != null)
+            currentMap.abort();
         currentMap = null;
         saveMapProgress();
         threadCurrentMap = null;
@@ -102,7 +141,7 @@ public class MapUtil
     public static void resetClient()
     {
         resetClientFlag.set(true);
-        //Threadsafe
+        // Threadsafe
     }
 
     @SideOnly(Side.CLIENT)
@@ -122,15 +161,18 @@ public class MapUtil
                 }
             }
         }
-        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(FMLClientHandler.instance().getClient().world), new Object[] {}));
+        GalacticraftCore.packetPipeline
+            .sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(FMLClientHandler.instance().getClient().world), new Object[]
+            {}));
         ClientProxyCore.overworldTextureRequestSent = true;
-		DrawGameScreen.reusableMap = new DynamicTexture(MapUtil.SIZE_STD2, MapUtil.SIZE_STD2);
-		MapUtil.biomeColours.clear();
-		setupColours();
+        DrawGameScreen.reusableMap = new DynamicTexture(MapUtil.SIZE_STD2, MapUtil.SIZE_STD2);
+        MapUtil.biomeColours.clear();
+        setupColours();
     }
 
     /**
-     * The BufferedImage needs to be already set up as a sized image of TYPE_INT_RGB
+     * The BufferedImage needs to be already set up as a sized image of
+     * TYPE_INT_RGB
      */
     public static void getLocalMap(World world, int chunkXPos, int chunkZPos, BufferedImage image)
     {
@@ -156,8 +198,7 @@ public class MapUtil
                                 {
                                     --l4;
                                     state = chunk.getBlockState(x, l4, z);
-                                }
-                                while (state.getMapColor(world, pos) == MapColor.AIR && l4 > 0);
+                                } while (state.getMapColor(world, pos) == MapColor.AIR && l4 > 0);
                             }
 
                             int col = pos != null ? state.getMapColor(world, pos).colorValue : 0;
@@ -180,17 +221,18 @@ public class MapUtil
         {
             return;
         }
-        
-        if (overworld.getWorldType() == WorldType.FLAT  || !(overworld.provider instanceof WorldProviderSurface))
+
+        if (overworld.getWorldType() == WorldType.FLAT || !(overworld.provider instanceof WorldProviderSurface))
         {
             doneOverworldTexture = true;
             return;
         }
 
-        File baseFolder = MapUtil.getBaseFolder();;
+        File baseFolder = MapUtil.getBaseFolder();
+        ;
         if (!baseFolder.exists() && !baseFolder.mkdirs())
         {
-            GCLog.severe("Base folder(s) could not be created: " + baseFolder.getAbsolutePath());
+            GCLog.error("Base folder(s) could not be created: " + baseFolder.getAbsolutePath());
             doneOverworldTexture = true;
             return;
         }
@@ -200,9 +242,12 @@ public class MapUtil
             doneOverworldTexture = true;
         }
 
-        //This will make the 'slow map', a map covering a large part of the world around spawn
-        //(On a typical modern PC, this should take 20-30 minutes to generate in its own thread)
-        //MapUtil.getBiomeMapForCoords(overworld, 0, 0, OVERWORLD_MAP_SCALE, OVERWORLD_LARGEMAP_WIDTH, OVERWORLD_LARGEMAP_HEIGHT, baseFolder);
+        // This will make the 'slow map', a map covering a large part of the
+        // world around spawn
+        // (On a typical modern PC, this should take 20-30 minutes to generate
+        // in its own thread)
+        // MapUtil.getBiomeMapForCoords(overworld, 0, 0, OVERWORLD_MAP_SCALE,
+        // OVERWORLD_LARGEMAP_WIDTH, OVERWORLD_LARGEMAP_HEIGHT, baseFolder);
     }
 
     public static void sendOverworldToClient(EntityPlayerMP client)
@@ -211,10 +256,11 @@ public class MapUtil
         {
             try
             {
-                File baseFolder = MapUtil.getBaseFolder();;
+                File baseFolder = MapUtil.getBaseFolder();
+                ;
                 if (!baseFolder.exists())
                 {
-                    GCLog.severe("Base folder missing: " + baseFolder.getAbsolutePath());
+                    GCLog.error("Base folder missing: " + baseFolder.getAbsolutePath());
                     return;
                 }
                 File file = new File(baseFolder, "Overworld" + OVERWORLD_TEXTURE_WIDTH + ".bin");
@@ -227,8 +273,7 @@ public class MapUtil
                 {
                     sendMapPacket(LARGEMAP_MARKER, 0, client, FileUtils.readFileToByteArray(file));
                 }
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 System.err.println("Error sending overworld image to player.");
                 ex.printStackTrace();
@@ -238,19 +283,20 @@ public class MapUtil
 
     public static void sendOrCreateMap(World world, int cx, int cz, EntityPlayerMP client)
     {
-        
-        if (world.getWorldType() == WorldType.FLAT  || !(world.provider instanceof WorldProviderSurface))
+
+        if (world.getWorldType() == WorldType.FLAT || !(world.provider instanceof WorldProviderSurface))
         {
             doneOverworldTexture = true;
             return;
         }
-        
+
         try
         {
-            File baseFolder = MapUtil.getBaseFolder();;
+            File baseFolder = MapUtil.getBaseFolder();
+            ;
             if (!baseFolder.exists())
             {
-                GCLog.severe("Base folder missing: " + baseFolder.getAbsolutePath());
+                GCLog.error("Base folder missing: " + baseFolder.getAbsolutePath());
                 return;
             }
             File file = makeFileName(baseFolder, cx, cz);
@@ -260,14 +306,13 @@ public class MapUtil
                 return;
             }
             sendMapPacket(cx, cz, client, FileUtils.readFileToByteArray(file));
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             System.err.println("Error sending map image to player.");
             ex.printStackTrace();
         }
     }
-    
+
     public static void sendMapPacket(int cx, int cz, EntityPlayerMP client, byte[] largeMap) throws IOException
     {
         byte[] compressed;
@@ -278,14 +323,13 @@ public class MapUtil
                 overworldImageCompressed = zipCompress(largeMap);
             }
             compressed = overworldImageCompressed;
-        }
-        else
+        } else
         {
             compressed = zipCompress(largeMap);
         }
         sendMapPacketCompressed(cx, cz, client, compressed);
     }
-    
+
     public static void sendMapPacketToAll(int cx, int cz, byte[] largeMap)
     {
         byte[] compressed;
@@ -296,14 +340,13 @@ public class MapUtil
                 overworldImageCompressed = zipCompress(largeMap);
             }
             compressed = overworldImageCompressed;
-        }
-        else
+        } else
         {
             compressed = zipCompress(largeMap);
         }
         sendMapPacketAllCompressed(cx, cz, compressed);
     }
-    
+
     private static void sendMapPacketCompressed(int cx, int cz, EntityPlayerMP client, byte[] map) throws IOException
     {
         if (cx == LARGEMAP_MARKER && map.length < 2080000)
@@ -311,13 +354,16 @@ public class MapUtil
             int halfSize = map.length / 2;
             byte[] largeMapPartA = Arrays.copyOf(map, halfSize);
             byte[] largeMapPartB = Arrays.copyOfRange(map, halfSize, map.length);
-            GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(client.world), new Object[] { cx, map.length, largeMapPartA }), client);
-            GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(client.world), new Object[] { cx + 1, map.length, largeMapPartB }), client);
+            GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(client.world), new Object[]
+            {cx, map.length, largeMapPartA}), client);
+            GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(client.world), new Object[]
+            {cx + 1, map.length, largeMapPartB}), client);
+        } else if (map.length < 1040000) // That's about the limit on a Forge
+                                         // packet length
+        {
+            GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(client.world), new Object[]
+            {cx, cz, map}), client);
         }
-        else if (map.length < 1040000)  //That's about the limit on a Forge packet length
-    	{
-    		GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(client.world), new Object[] { cx, cz, map }), client);
-    	}
     }
 
     private static void sendMapPacketAllCompressed(int cx, int cz, byte[] map)
@@ -327,19 +373,23 @@ public class MapUtil
             int halfSize = map.length / 2;
             byte[] largeMapPartA = Arrays.copyOf(map, halfSize);
             byte[] largeMapPartB = Arrays.copyOfRange(map, halfSize, map.length);
-            GCCoreUtil.sendToAllDimensions(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, new Object[] { cx, map.length, largeMapPartA });
-            GCCoreUtil.sendToAllDimensions(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, new Object[] { cx + 1, map.length, largeMapPartB });
-        }
-        else if (map.length < 1040000)  //That's about the limit on a Forge packet length
+            GCCoreUtil.sendToAllDimensions(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, new Object[]
+            {cx, map.length, largeMapPartA});
+            GCCoreUtil.sendToAllDimensions(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, new Object[]
+            {cx + 1, map.length, largeMapPartB});
+        } else if (map.length < 1040000) // That's about the limit on a Forge
+                                         // packet length
         {
-            GCCoreUtil.sendToAllDimensions(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, new Object[] { cx, cz, map });
+            GCCoreUtil.sendToAllDimensions(EnumSimplePacket.C_SEND_OVERWORLD_IMAGE, new Object[]
+            {cx, cz, map});
         }
     }
 
     /**
-     *  On a server, build any needed patchwork map files around co-ordinates (x, z)
-     *  The needed files may already have been generated by previous calls on the same server
-     *  Files are stored in the world save folder, subfolder galacticraft/overworldMap
+     * On a server, build any needed patchwork map files around co-ordinates (x,
+     * z) The needed files may already have been generated by previous calls on
+     * the same server Files are stored in the world save folder, subfolder
+     * galacticraft/overworldMap
      */
     public static boolean buildMaps(World world, int x, int z)
     {
@@ -348,10 +398,11 @@ public class MapUtil
             return false;
         }
 
-        File baseFolder = MapUtil.getBaseFolder();;
+        File baseFolder = MapUtil.getBaseFolder();
+        ;
         if (!baseFolder.exists() && !baseFolder.mkdirs())
         {
-            GCLog.severe("Base folder(s) could not be created: " + baseFolder.getAbsolutePath());
+            GCLog.error("Base folder(s) could not be created: " + baseFolder.getAbsolutePath());
             return false;
         }
         int cx = convertMap(x);
@@ -400,8 +451,7 @@ public class MapUtil
                 }
                 return false;
             }
-        }
-        else
+        } else
         {
             outputFile = makeFileName(baseFolder, cx, cz);
         }
@@ -412,8 +462,7 @@ public class MapUtil
             if (calculatingMap.getAndSet(true))
             {
                 queuedMaps.add(newGen);
-            }
-            else
+            } else
             {
                 currentMap = newGen;
             }
@@ -421,7 +470,7 @@ public class MapUtil
         }
         return true;
     }
-   
+
     public static void saveMapProgress()
     {
         if (slowMap != null)
@@ -431,7 +480,8 @@ public class MapUtil
             {
                 Thread.currentThread().sleep(90);
             } catch (InterruptedException e)
-            { }
+            {
+            }
             slowMap.writeOutputFile(false);
             slowMap = null;
         }
@@ -440,7 +490,8 @@ public class MapUtil
     /**
      * Poll any map threads to see if they need starting or if they're finished
      * 
-     *    Multi-threaded version - runs each MapGen in its own thread, polls MapGen.finishedCalculatingMap to know when finished
+     * Multi-threaded version - runs each MapGen in its own thread, polls
+     * MapGen.finishedCalculatingMap to know when finished
      */
     public static void BiomeMapNextTick_MultiThreaded()
     {
@@ -448,43 +499,41 @@ public class MapUtil
         {
             if (threadCurrentMap == null)
             {
-            	//Create the current map thread, pausing any slow map thread 
-	        	if (slowMap != null)
-	        	{
-	        		slowMap.pause();
-	        	}
-	        	//TODO = should it use a re-usable thread pool?
-            	threadCurrentMap = new Thread(currentMap);
+                // Create the current map thread, pausing any slow map thread
+                if (slowMap != null)
+                {
+                    slowMap.pause();
+                }
+                // TODO = should it use a re-usable thread pool?
+                threadCurrentMap = new Thread(currentMap);
                 threadCurrentMap.setName("Background world mapping");
-            	threadCurrentMap.setPriority(Thread.NORM_PRIORITY - 1);
-	            threadCurrentMap.start();
-            }
-            else if (currentMap.finishedCalculating.get())
+                threadCurrentMap.setPriority(Thread.NORM_PRIORITY - 1);
+                threadCurrentMap.start();
+            } else if (currentMap.finishedCalculating.get())
             {
-            	//Finished the current map
-            	threadCurrentMap = null;
-            	currentMap.writeOutputFile(true);
+                // Finished the current map
+                threadCurrentMap = null;
+                currentMap.writeOutputFile(true);
 
-      			if (queuedMaps.size() > 0)
-      			{
-      				currentMap = queuedMaps.removeFirst();
-      			}
-      			else
-      			{
-      				currentMap = null;
+                if (queuedMaps.size() > 0)
+                {
+                    currentMap = queuedMaps.removeFirst();
+                } else
+                {
+                    currentMap = null;
 
-      				if (slowMap == null)
-      					calculatingMap.set(false);
-      				else
-      				{
-      					if (slowMap != null)
-      					{
-      						slowMap.resume();
-      					}
-      				}
-      			}
+                    if (slowMap == null)
+                        calculatingMap.set(false);
+                    else
+                    {
+                        if (slowMap != null)
+                        {
+                            slowMap.resume();
+                        }
+                    }
+                }
             }
-            
+
             return;
         }
 
@@ -503,27 +552,26 @@ public class MapUtil
         {
             if (threadSlowMap == null)
             {
-            	//Create the slow map thread 
-            	threadSlowMap = new Thread(slowMap);
-            	threadSlowMap.setName("Background world mapping");
-            	threadSlowMap.setPriority(Thread.NORM_PRIORITY - 1);
-	            threadSlowMap.start();
-            }
-            else if (slowMap.finishedCalculating.get())
+                // Create the slow map thread
+                threadSlowMap = new Thread(slowMap);
+                threadSlowMap.setName("Background world mapping");
+                threadSlowMap.setPriority(Thread.NORM_PRIORITY - 1);
+                threadSlowMap.start();
+            } else if (slowMap.finishedCalculating.get())
             {
-            	//Finished the current map
-            	threadSlowMap = null;
-            	slowMap.writeOutputFile(true);
-      			slowMap = null;
-				calculatingMap.set(false);
+                // Finished the current map
+                threadSlowMap = null;
+                slowMap.writeOutputFile(true);
+                slowMap = null;
+                calculatingMap.set(false);
             }
-            
+
             return;
         }
     }
-    
-    //Single Threaded Version of the same code
-    //(Currently unused)
+
+    // Single Threaded Version of the same code
+    // (Currently unused)
     public static void BiomeMapNextTick_SingleThreaded()
     {
         MapGen map;
@@ -531,31 +579,29 @@ public class MapUtil
         if (currentMap != null)
         {
             map = currentMap;
-        }
-        else if (slowMap != null)
+        } else if (slowMap != null)
         {
             map = slowMap;
             doingSlow = true;
-        }
-        else
+        } else
         {
             return;
         }
 
-        //If single threade, allow GC background mapping around 9% of the server tick time if server running at full speed
-        //(on a slow server, it will be proportionately lower %)
+        // If single threade, allow GC background mapping around 9% of the
+        // server tick time if server running at full speed
+        // (on a slow server, it will be proportionately lower %)
         long end = System.nanoTime() + 4500000L;
         while (System.nanoTime() < end)
         {
             if (map.BiomeMapOneTick())
             {
-                //Finished
+                // Finished
                 map.writeOutputFile(true);
                 if (doingSlow)
                 {
                     slowMap = null;
-                }
-                else
+                } else
                 {
                     currentMap = null;
                     if (queuedMaps.size() > 0)
@@ -572,18 +618,19 @@ public class MapUtil
         }
     }
 
-
     public static boolean backgroundMapping(Thread currentThread)
     {
         return currentThread == threadSlowMap || currentThread == threadCurrentMap;
     }
 
-    
     /**
-     * Converts a 48px high image to a 12px high image with a palette chosen only from the colours in the paletteImage
+     * Converts a 48px high image to a 12px high image with a palette chosen
+     * only from the colours in the paletteImage
      *
-     * @param overworldImage Output image already created as a blank image, dimensions biomeMapSizeX x biomeMapSizeY
-     * @param paletteImage   Palette image, dimensions must be a square with sides biomeMapSizeZ / 4
+     * @param overworldImage Output image already created as a blank image,
+     *        dimensions biomeMapSizeX x biomeMapSizeY
+     * @param paletteImage Palette image, dimensions must be a square with sides
+     *        biomeMapSizeZ / 4
      */
     public static BufferedImage convertTo12pxTexture(BufferedImage overworldImage, BufferedImage paletteImage)
     {
@@ -660,7 +707,7 @@ public class MapUtil
         return result;
     }
 
-    //Unused
+    // Unused
     public static BufferedImage readImage(Object source) throws IOException
     {
         ImageInputStream stream = ImageIO.createImageInputStream(source);
@@ -669,7 +716,7 @@ public class MapUtil
         ImageReadParam param = reader.getDefaultReadParam();
 
         ImageTypeSpecifier typeToUse = null;
-        for (Iterator i = reader.getImageTypes(0); i.hasNext(); )
+        for (Iterator i = reader.getImageTypes(0); i.hasNext();)
         {
             ImageTypeSpecifier type = (ImageTypeSpecifier) i.next();
             if (type.getColorModel().getColorSpace().isCS_sRGB())
@@ -701,8 +748,7 @@ public class MapUtil
                 GalacticraftCore.jpgWriter.setOutput(outputStreamA);
                 GalacticraftCore.jpgWriter.write(null, new IIOImage(img, null, null), GalacticraftCore.writeParam);
                 outputStreamA.close();
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
             }
         }
@@ -723,33 +769,32 @@ public class MapUtil
         }
         return compressed.toByteArray();
     }
-    
+
     private static byte[] zipDeCompress(byte[] data) throws DataFormatException
     {
         Inflater inflater = new Inflater();
-        inflater.setInput(data); 
-        ByteArrayOutputStream deCompressed = new ByteArrayOutputStream(data.length * 2);  
+        inflater.setInput(data);
+        ByteArrayOutputStream deCompressed = new ByteArrayOutputStream(data.length * 2);
         byte[] miniBuffer = new byte[4096];
         while (!inflater.finished())
-        {  
+        {
             int count = inflater.inflate(miniBuffer);
-            deCompressed.write(miniBuffer, 0, count);  
-        }  
+            deCompressed.write(miniBuffer, 0, count);
+        }
         return deCompressed.toByteArray();
     }
-    
+
     @SideOnly(Side.CLIENT)
     public static void receiveOverworldImageCompressed(int cx, int cz, byte[] raw) throws IOException
     {
         if (cx == LARGEMAP_MARKER)
         {
-            //Received large map part A
+            // Received large map part A
             if (overworldImageBytesPart == null)
             {
                 overworldImageBytesPart = raw;
                 return;
-            }
-            else
+            } else
             {
                 byte[] overWorldImageComplete = Arrays.copyOf(raw, cz);
                 int offsetPartB = cz / 2;
@@ -758,16 +803,14 @@ public class MapUtil
                 overworldImageBytesPart = null;
                 raw = overWorldImageComplete;
             }
-        }
-        else if (cx == LARGEMAP_MARKER + 1)
+        } else if (cx == LARGEMAP_MARKER + 1)
         {
-            //Received large map part B
+            // Received large map part B
             if (overworldImageBytesPart == null)
             {
                 overworldImageBytesPart = raw;
                 return;
-            }
-            else
+            } else
             {
                 byte[] overWorldImageComplete = Arrays.copyOf(overworldImageBytesPart, cz);
                 int offsetPartB = cz / 2;
@@ -777,44 +820,45 @@ public class MapUtil
                 raw = overWorldImageComplete;
             }
         }
-        
+
         try
         {
             getOverworldImageFromRaw(cx, cz, zipDeCompress(raw));
         } catch (DataFormatException e)
-        {  
+        {
             GCLog.debug(e.toString());
             GCLog.debug("Client received a corrupted map image data packet from server " + cx + "_" + cz);
         }
     }
-    
+
     @SideOnly(Side.CLIENT)
     public static void getOverworldImageFromRaw(int cx, int cz, byte[] raw) throws IOException
     {
-    	File folder = MapUtil.getClientMapsFolder();
+        File folder = MapUtil.getClientMapsFolder();
 
-    	if (raw.length == OVERWORLD_LARGEMAP_WIDTH * OVERWORLD_LARGEMAP_HEIGHT * 2)
+        if (raw.length == OVERWORLD_LARGEMAP_WIDTH * OVERWORLD_LARGEMAP_HEIGHT * 2)
         {
-    	    if (folder != null)
-    	    {            
-    	        File file0 = new File(folder, "overworldRaw.bin");
+            if (folder != null)
+            {
+                File file0 = new File(folder, "overworldRaw.bin");
 
-    	        if (!file0.exists() || (file0.canRead() && file0.canWrite()))
-    	        {
-    	            FileUtils.writeByteArrayToFile(file0, raw);
-    	        }
-    	        else
-    	        {
-    	            System.err.println("Cannot write to file %minecraft%/assets/galacticraftMaps/overworldRaw.bin");
-    	        }
-    	    }
-    	    else
-    	    {
+                if (!file0.exists() || (file0.canRead() && file0.canWrite()))
+                {
+                    FileUtils.writeByteArrayToFile(file0, raw);
+                } else
+                {
+                    System.err.println("Cannot write to file %minecraft%/assets/galacticraftMaps/overworldRaw.bin");
+                }
+            } else
+            {
                 System.err.println("No folder for file %minecraft%/assets/galacticraftMaps/overworldRaw.bin");
-    	    }
+            }
 
-            //raw is a WIDTH_WORLD x HEIGHT_WORLD array of 2 byte entries: biome type followed by height
-            //Here we will make a texture from that, but twice as large: 4 pixels for each data point, it just looks better that way when the texture is used
+            // raw is a WIDTH_WORLD x HEIGHT_WORLD array of 2 byte entries:
+            // biome type followed by height
+            // Here we will make a texture from that, but twice as large: 4
+            // pixels for each data point, it just looks better that way when
+            // the texture is used
             BufferedImage worldImageLarge = new BufferedImage(OVERWORLD_LARGEMAP_WIDTH * 2, OVERWORLD_LARGEMAP_HEIGHT * 2, BufferedImage.TYPE_INT_RGB);
             ArrayList<Integer> cols = new ArrayList<Integer>();
             int lastcol = -1;
@@ -829,7 +873,7 @@ public class MapUtil
 
                     if (height < OCEAN_HEIGHT && biome != 2 && biome != 10)
                     {
-                    	//Includes ponds, lakes and rivers in other biomes
+                        // Includes ponds, lakes and rivers in other biomes
                         biome = 0;
                     }
                     if (height < DEEP_OCEAN && biome == 0)
@@ -851,7 +895,7 @@ public class MapUtil
 //            }
 //            ClientProxyCore.overworldTextureLarge.update(worldImageLarge);
 
-            //Write it to a .jpg file on client for beta preview 
+            // Write it to a .jpg file on client for beta preview
             if (GalacticraftCore.enableJPEG && folder != null)
             {
                 ImageOutputStream outputStream = new FileImageOutputStream(new File(folder, "large.jpg"));
@@ -860,10 +904,11 @@ public class MapUtil
                 outputStream.close();
             }
         }
-    	//This is the dimensions of the Overworld texture map
+        // This is the dimensions of the Overworld texture map
         else if (raw.length == OVERWORLD_TEXTURE_WIDTH * OVERWORLD_TEXTURE_HEIGHT * 2)
         {
-            //raw is a WIDTH_STD x HEIGHT_STD array of 2 byte entries: biome type followed by height
+            // raw is a WIDTH_STD x HEIGHT_STD array of 2 byte entries: biome
+            // type followed by height
             BufferedImage worldImage = new BufferedImage(OVERWORLD_TEXTURE_WIDTH, OVERWORLD_TEXTURE_HEIGHT, BufferedImage.TYPE_INT_RGB);
             ArrayList<Integer> cols = new ArrayList<Integer>();
             int lastcol = -1;
@@ -878,7 +923,7 @@ public class MapUtil
 
                     if (height < OCEAN_HEIGHT && biome != 2 && biome != 10)
                     {
-                    	//Includes ponds, lakes and rivers in other biomes
+                        // Includes ponds, lakes and rivers in other biomes
                         biome = 0;
                     }
                     if (height < DEEP_OCEAN && biome == 0)
@@ -898,8 +943,7 @@ public class MapUtil
                 paletteImage = ImageIO.read(in);
                 in.close();
                 paletteImage.getHeight();
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
                 return;
@@ -921,8 +965,7 @@ public class MapUtil
                 ClientProxyCore.overworldTextureClient.update(result);
                 ClientProxyCore.overworldTexturesValid = true;
             }
-        }
-        else if (folder != null)
+        } else if (folder != null)
         {
             File file0 = makeFileName(folder, cx, cz);
 
@@ -930,8 +973,7 @@ public class MapUtil
             {
                 FileUtils.writeByteArrayToFile(file0, raw);
             }
-        }
-        else
+        } else
         {
             System.err.println("No folder %minecraft%/assets/galacticraftMaps for local map file.");
         }
@@ -948,7 +990,7 @@ public class MapUtil
         File baseFolder = new File(FMLClientHandler.instance().getClient().gameDir, "assets/galacticraftMaps");
         if (!baseFolder.exists() && !baseFolder.mkdirs())
         {
-            GCLog.severe("Base folder(s) could not be created: " + baseFolder.getAbsolutePath());
+            GCLog.error("Base folder(s) could not be created: " + baseFolder.getAbsolutePath());
             return false;
         }
 
@@ -1001,13 +1043,16 @@ public class MapUtil
         {
             if (clientRequests.contains(filename.getName()))
             {
-                //GCLog.debug("Info: Server not yet ready to send map file " + baseFolder.getName() + "/" + filename.getName());
-            }
-            else
+                // GCLog.debug("Info: Server not yet ready to send map file " +
+                // baseFolder.getName() + "/" + filename.getName());
+            } else
             {
                 clientRequests.add(filename.getName());
-                //GCLog.debug("Info: Client requested map file" + filename.getName());
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_MAP_IMAGE, GCCoreUtil.getDimensionID(FMLClientHandler.instance().getClient().world), new Object[] { dim, cx, cz }));
+                // GCLog.debug("Info: Client requested map file" +
+                // filename.getName());
+                GalacticraftCore.packetPipeline
+                    .sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_MAP_IMAGE, GCCoreUtil.getDimensionID(FMLClientHandler.instance().getClient().world), new Object[]
+                    {dim, cx, cz}));
             }
             return true;
         }
@@ -1024,10 +1069,9 @@ public class MapUtil
         try
         {
             raw = FileUtils.readFileToByteArray(filename);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
-            GCLog.severe("Problem reading map file: " + baseFolder.getAbsolutePath() + filename.getName());
+            GCLog.error("Problem reading map file: " + baseFolder.getAbsolutePath() + filename.getName());
             return true;
         }
         if (raw == null || raw.length != SIZE_STD * SIZE_STD * 2)
@@ -1056,10 +1100,10 @@ public class MapUtil
                 int arrayIndex = (x * SIZE_STD + z) * 2;
                 int biome = ((int) raw[arrayIndex]) & 255;
                 int height = ((int) raw[arrayIndex + 1]) & 255;
-              
+
                 if (height < OCEAN_HEIGHT && biome != 2 && biome != 10)
                 {
-                	//Includes ponds, lakes and rivers in other biomes
+                    // Includes ponds, lakes and rivers in other biomes
                     biome = 0;
                 }
                 if (height < DEEP_OCEAN && biome == 0)
@@ -1070,8 +1114,7 @@ public class MapUtil
                 if (imagex < 0 || imageZ < 0)
                 {
                     GCLog.debug("Outside image " + imagex + "," + imageZ + " - " + "x=" + x + " z=" + z + " offsetX=" + offsetX + " offsetZ = " + offsetZ + " ox=" + ox + " oz=" + oz);
-                }
-                else
+                } else
                 {
                     array[imagex + SIZE_STD2 * imageZ] = convertBiomeColour(biome, height) + 0xff000000;
                 }
@@ -1080,7 +1123,6 @@ public class MapUtil
         return false;
     }
 
-
     private static File makeFileName(File folder, int cx, int cz)
     {
         return new File(folder, "overworld" + cx / SIZE_STD2 + "_" + cz / SIZE_STD2 + ".bin");
@@ -1088,11 +1130,11 @@ public class MapUtil
 
     private static int getBiomeBaseColour(int biomeId)
     {
-    	Biome biomegenbase = Biome.REGISTRY.getObjectById(biomeId);
+        Biome biomegenbase = Biome.REGISTRY.getObjectById(biomeId);
 //    	return biomegenbase == null ? Biomes.OCEAN.color : biomegenbase.color; TODO Fix vanilla biome colors
         return 0;
     }
-    
+
     public static int convertBiomeColour(int in, int height)
     {
         int rv;
@@ -1104,21 +1146,18 @@ public class MapUtil
         if (in >= s)
         {
             rv = getBiomeBaseColour(in);
-        }
-        else
+        } else
         {
             BlockVec3 bv = MapUtil.biomeColours.get(in);
             if (bv == null)
             {
                 rv = getBiomeBaseColour(in);
-            }
-            else
+            } else
             {
                 if (bv.z > 0 && MapUtil.rand.nextInt(100) < bv.z)
                 {
                     rv = bv.y;
-                }
-                else
+                } else
                 {
                     rv = bv.x;
                 }
@@ -1145,83 +1184,87 @@ public class MapUtil
 
     private static void setupColours()
     {
-        //ocean = Ocean(0) colour(112) "Ocean"
+        // ocean = Ocean(0) colour(112) "Ocean"
         MapUtil.biomeColours.add(new BlockVec3(Material.WATER.getMaterialMapColor().colorValue, 0, 0));
-        //plains = Plains(1) colour(9286496) "Plains"
+        // plains = Plains(1) colour(9286496) "Plains"
         MapUtil.biomeColours.add(new BlockVec3(0x497436, 0, 0));
-        //desert = Desert(2) colour(16421912) "Desert"
+        // desert = Desert(2) colour(16421912) "Desert"
         MapUtil.biomeColours.add(new BlockVec3(0xd4cd98, Material.CACTUS.getMaterialMapColor().colorValue, 3));
-        //extremeHills = Hills(3, false) colour(6316128) "Extreme Hills"
+        // extremeHills = Hills(3, false) colour(6316128) "Extreme Hills"
         MapUtil.biomeColours.add(new BlockVec3(0x4d654c, Material.ROCK.getMaterialMapColor().colorValue, 15));
-        //forest = Forest(4, 0) colour(353825) "Forest"
+        // forest = Forest(4, 0) colour(353825) "Forest"
         MapUtil.biomeColours.add(new BlockVec3(0x3c7521, 0x295416, 45));
-        //taiga = Taiga(5, 0) colour(747097) "Taiga"
+        // taiga = Taiga(5, 0) colour(747097) "Taiga"
         MapUtil.biomeColours.add(new BlockVec3(0x627e61, 0x172a17, 18));
-        //swampland = Swamp(6) colour(522674) "Swampland"
+        // swampland = Swamp(6) colour(522674) "Swampland"
         MapUtil.biomeColours.add(new BlockVec3(0x43541b, 0x111309, 25));
-        //river = River(7) colour(255) "River"
+        // river = River(7) colour(255) "River"
         MapUtil.biomeColours.add(new BlockVec3(0x497436, 0, 0));
         MapUtil.biomeColours.add(new BlockVec3(0, 0, 0));
         MapUtil.biomeColours.add(new BlockVec3(0, 0, 0));
-        //frozenOcean = Ocean(10) colour(9474208) "FrozenOcean"
+        // frozenOcean = Ocean(10) colour(9474208) "FrozenOcean"
         MapUtil.biomeColours.add(new BlockVec3(Material.ICE.getMaterialMapColor().colorValue, 0, 0));
-        //frozenRiver = River(11) colour(10526975) "FrozenRiver"
+        // frozenRiver = River(11) colour(10526975) "FrozenRiver"
         MapUtil.biomeColours.add(new BlockVec3(Material.ICE.getMaterialMapColor().colorValue, 0, 0));
-        //icePlains = Snow(12, false) colour(16777215) "Ice Plains"
+        // icePlains = Snow(12, false) colour(16777215) "Ice Plains"
         MapUtil.biomeColours.add(new BlockVec3(Material.SNOW.getMaterialMapColor().colorValue, 0x497436, 3));
-        //iceMountains = Snow(13, false) colour(10526880) "Ice Mountains"
+        // iceMountains = Snow(13, false) colour(10526880) "Ice Mountains"
         MapUtil.biomeColours.add(new BlockVec3(Material.SNOW.getMaterialMapColor().colorValue, Material.ICE.getMaterialMapColor().colorValue, 5));
-        //mushroomIsland = MushroomIsland(14) colour(16711935) "MushroomIsland"
+        // mushroomIsland = MushroomIsland(14) colour(16711935) "MushroomIsland"
         MapUtil.biomeColours.add(new BlockVec3(0x63565f, 0x7c1414, 10));
-        //mushroomIslandShore = MushroomIsland(15) colour(10486015) "MushroomIslandShore"
+        // mushroomIslandShore = MushroomIsland(15) colour(10486015)
+        // "MushroomIslandShore"
         MapUtil.biomeColours.add(new BlockVec3(0x6a6066, 0, 0));
-        //beach = Beach(16) colour(16440917) "Beach"
+        // beach = Beach(16) colour(16440917) "Beach"
         MapUtil.biomeColours.add(new BlockVec3(Material.SAND.getMaterialMapColor().colorValue, 0, 0));
-        //desertHills = Desert(17) colour(13786898) "DesertHills"
+        // desertHills = Desert(17) colour(13786898) "DesertHills"
         MapUtil.biomeColours.add(new BlockVec3(0xd4cd98, 0, 0));
-        //forestHills = Forest(18, 0) colour(2250012) "ForestHills"
+        // forestHills = Forest(18, 0) colour(2250012) "ForestHills"
         MapUtil.biomeColours.add(new BlockVec3(0x3c7521, 0x295416, 35));
-        //taigaHills = Taiga(19, 0) colour(1456435) "TaigaHills"
+        // taigaHills = Taiga(19, 0) colour(1456435) "TaigaHills"
         MapUtil.biomeColours.add(new BlockVec3(0x627e61, 0x172a17, 14));
-        //extremeHillsEdge = Hills(20, true) colour(7501978) "Extreme Hills Edge"
+        // extremeHillsEdge = Hills(20, true) colour(7501978) "Extreme Hills
+        // Edge"
         MapUtil.biomeColours.add(new BlockVec3(0x4d654c, 0x497436, 50));
-        //jungle = Jungle(21, false) colour(5470985) "Jungle"
+        // jungle = Jungle(21, false) colour(5470985) "Jungle"
         MapUtil.biomeColours.add(new BlockVec3(0x176c03, 0x0f4502, 25));
-        //jungleHills = Jungle(22, false) colour(2900485) "JungleHills"
+        // jungleHills = Jungle(22, false) colour(2900485) "JungleHills"
         MapUtil.biomeColours.add(new BlockVec3(0x176c03, 0x0f4502, 25));
-        //jungleEdge = Jungle(23, true) colour(6458135) "JungleEdge"
+        // jungleEdge = Jungle(23, true) colour(6458135) "JungleEdge"
         MapUtil.biomeColours.add(new BlockVec3(0x176c03, 0x0f4502, 25));
-        //deepOcean = Ocean(24) colour(48) "Deep Ocean"
+        // deepOcean = Ocean(24) colour(48) "Deep Ocean"
         MapUtil.biomeColours.add(new BlockVec3(0x2f2fd4, 0, 0));
-        //stoneBeach = StoneBeach(25) colour(10658436) "Stone Beach"
+        // stoneBeach = StoneBeach(25) colour(10658436) "Stone Beach"
         MapUtil.biomeColours.add(new BlockVec3(Material.ROCK.getMaterialMapColor().colorValue, 0, 0));
-        //coldBeach = Beach(26) colour(16445632) "Cold Beach"
+        // coldBeach = Beach(26) colour(16445632) "Cold Beach"
         MapUtil.biomeColours.add(new BlockVec3(Material.SAND.getMaterialMapColor().colorValue, Material.SNOW.getMaterialMapColor().colorValue, 75));
-        //birchForest = Forest(27, 2)) colour(3175492) "Birch Forest"
+        // birchForest = Forest(27, 2)) colour(3175492) "Birch Forest"
         MapUtil.biomeColours.add(new BlockVec3(0x516b36, 0x497436, 65));
-        //birchForestHills = Forest(28, 2)) colour(2055986) "Birch Forest Hills"
+        // birchForestHills = Forest(28, 2)) colour(2055986) "Birch Forest
+        // Hills"
         MapUtil.biomeColours.add(new BlockVec3(0x516b36, 0x497436, 55));
-        //roofedForest = Forest(29, 3) colour(4215066) "Roofed Forest"
+        // roofedForest = Forest(29, 3) colour(4215066) "Roofed Forest"
         MapUtil.biomeColours.add(new BlockVec3(0x9c2424, 0x1e2e18, 98));
-        //coldTaiga = Taiga(30, 0) colour(3233098) "Cold Taiga"
+        // coldTaiga = Taiga(30, 0) colour(3233098) "Cold Taiga"
         MapUtil.biomeColours.add(new BlockVec3(Material.SNOW.getMaterialMapColor().colorValue, 0x172a17, 12));
-        //coldTaigaHills = Taiga(31, 0) colour(2375478) "Cold Taiga Hills"
+        // coldTaigaHills = Taiga(31, 0) colour(2375478) "Cold Taiga Hills"
         MapUtil.biomeColours.add(new BlockVec3(Material.SNOW.getMaterialMapColor().colorValue, 0x172a17, 12));
-        //megaTaiga = Taiga(32, 1) colour(5858897) "Mega Taiga"
+        // megaTaiga = Taiga(32, 1) colour(5858897) "Mega Taiga"
         MapUtil.biomeColours.add(new BlockVec3(0x172a17, 0x6e4e35, 12));
-        //megaTaigaHills = Taiga(33, 1) colour(4542270) "Mega Taiga Hills"
+        // megaTaigaHills = Taiga(33, 1) colour(4542270) "Mega Taiga Hills"
         MapUtil.biomeColours.add(new BlockVec3(0x172a17, 0x6e4e35, 12));
-        //extremeHillsPlus = Hills(34, true) colour(5271632) "Extreme Hills+"
+        // extremeHillsPlus = Hills(34, true) colour(5271632) "Extreme Hills+"
         MapUtil.biomeColours.add(new BlockVec3(0x7b7978, 0x497436, 10));
-        //savanna = Savanna(35) colour(12431967) "Savanna"
+        // savanna = Savanna(35) colour(12431967) "Savanna"
         MapUtil.biomeColours.add(new BlockVec3(0x565529, 0x262304, 20));
-        //savannaPlateau = Savanna(36) colour(10984804) "Savanna Plateau"
+        // savannaPlateau = Savanna(36) colour(10984804) "Savanna Plateau"
         MapUtil.biomeColours.add(new BlockVec3(0x565529, 0x262304, 14));
-        //mesa = Mesa(37, false, false) colour(14238997) "Mesa"
+        // mesa = Mesa(37, false, false) colour(14238997) "Mesa"
         MapUtil.biomeColours.add(new BlockVec3(0xa0521f, 0x712f23, 14));
-        //mesaPlateau_F = Mesa(38, false, true) colour(11573093) "Mesa Plateau F"
+        // mesaPlateau_F = Mesa(38, false, true) colour(11573093) "Mesa Plateau
+        // F"
         MapUtil.biomeColours.add(new BlockVec3(0xa0521f, 0x712f23, 17));
-        //mesaPlateau = Mesa(39, false, false) colour(13274213) "Mesa Plateau"
+        // mesaPlateau = Mesa(39, false, false) colour(13274213) "Mesa Plateau"
         MapUtil.biomeColours.add(new BlockVec3(0xa0521f, 0x712f23, 20));
     }
 
@@ -1251,8 +1294,7 @@ public class MapUtil
                                     --l4;
                                     pos = new BlockPos(x, l4, z);
                                     state = chunk.getBlockState(pos);
-                                }
-                                while (state.getMapColor(world, pos) == MapColor.AIR && l4 > 0);
+                                } while (state.getMapColor(world, pos) == MapColor.AIR && l4 > 0);
                             }
 
                             int col = pos != null ? state.getMapColor(world, pos).colorValue : 0;
@@ -1271,8 +1313,7 @@ public class MapUtil
             {
                 ImageIO.write(image, "jpg", outputFile);
             }
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -1287,13 +1328,11 @@ public class MapUtil
             if (folder.exists() || folder.mkdirs())
             {
                 return folder;
-            }
-            else
+            } else
             {
                 System.err.println("Cannot create directory %minecraft%/assets/galacticraftMaps! : " + folder.toString());
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             System.err.println(folder.toString());
             e.printStackTrace();

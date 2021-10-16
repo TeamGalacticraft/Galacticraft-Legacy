@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import micdoodle8.mods.galacticraft.core.tile.IMachineSides.Face;
+
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.util.IStringSerializable;
 
@@ -12,10 +13,11 @@ import net.minecraft.util.IStringSerializable;
  * and to correspondingly constrain the allowable faces.
  *
  * It's not compulsory to use this, a block could create its blockState model
- * from the machine sides in some different way. 
+ * from the machine sides in some different way.
  */
 public class IMachineSidesProperties
 {
+
     public static IMachineSidesProperties NOT_CONFIGURABLE = new IMachineSidesProperties(MachineSidesModel.noneConfigurable(), Face.Horizontals);
     public static IMachineSidesProperties ONEFACE_HORIZ = new IMachineSidesProperties(MachineSidesModel.oneFacedHoriz(), Face.Horizontals);
     public static IMachineSidesProperties ONEFACE = new IMachineSidesProperties(MachineSidesModel.oneFacedAll(), Face.AllAvailable);
@@ -25,14 +27,14 @@ public class IMachineSidesProperties
     public PropertyEnum<MachineSidesModel> asProperty;
     private Predicate<MachineSidesModel> filter;
     private Face[] toFaces;
-    
+
     public IMachineSidesProperties(Predicate<MachineSidesModel> theFilter, Face[] faces)
     {
         this.asProperty = PropertyEnum.create("msm", MachineSidesModel.class, theFilter);
         this.filter = theFilter;
         this.toFaces = faces;
     }
-    
+
     /**
      * Default blockState model to use if the tile can't be read
      */
@@ -42,13 +44,14 @@ public class IMachineSidesProperties
     }
 
     /**
-     * Allowable faces for the configurable sides, consistent with the blockState variants 
+     * Allowable faces for the configurable sides, consistent with the
+     * blockState variants
      */
     public Face[] allowableFaces()
     {
         return this.toFaces;
     }
-    
+
     public boolean isValidFor(MachineSidesModel machineSidesModel)
     {
         return filter.apply(machineSidesModel);
@@ -59,7 +62,8 @@ public class IMachineSidesProperties
         String result = faceA.getName() + faceB.getName();
         for (MachineSidesModel test : MachineSidesModel.values())
         {
-            if (result.equals(test.name)) return test;
+            if (result.equals(test.name))
+                return test;
         }
         return MachineSidesModel.RIGHT1;
     }
@@ -71,17 +75,17 @@ public class IMachineSidesProperties
     {
         switch (allowedSide)
         {
-        case RIGHT:
-            return MachineSidesModel.RIGHT1;
-        case REAR:
-            return MachineSidesModel.REAR1;
-        case TOP:
-            return MachineSidesModel.TOP1;
-        case BOTTOM:
-            return MachineSidesModel.BOTTOM1;
-        case LEFT:
-        default:
-            return MachineSidesModel.LEFT1;
+            case RIGHT:
+                return MachineSidesModel.RIGHT1;
+            case REAR:
+                return MachineSidesModel.REAR1;
+            case TOP:
+                return MachineSidesModel.TOP1;
+            case BOTTOM:
+                return MachineSidesModel.BOTTOM1;
+            case LEFT:
+            default:
+                return MachineSidesModel.LEFT1;
         }
     }
 
@@ -90,7 +94,9 @@ public class IMachineSidesProperties
      */
     public static enum MachineSidesModel implements IStringSerializable
     {
-        //Don't change the order, the ordinal is important for the predicate definitions
+
+        // Don't change the order, the ordinal is important for the predicate
+        // definitions
         LEFT1("lr"),
         LEFT2("lb"),
         LEFT3("lu"),
@@ -138,6 +144,7 @@ public class IMachineSidesProperties
         {
             return new Predicate<MachineSidesModel>()
             {
+
                 @Override
                 public boolean apply(MachineSidesModel msm)
                 {
@@ -155,6 +162,7 @@ public class IMachineSidesProperties
         {
             return new Predicate<MachineSidesModel>()
             {
+
                 @Override
                 public boolean apply(MachineSidesModel msm)
                 {
@@ -162,11 +170,12 @@ public class IMachineSidesProperties
                 }
             };
         }
-        
+
         private static Predicate<MachineSidesModel> twoFacedHoriz()
         {
             return new Predicate<MachineSidesModel>()
             {
+
                 @Override
                 public boolean apply(MachineSidesModel msm)
                 {
@@ -179,6 +188,7 @@ public class IMachineSidesProperties
         {
             return new Predicate<MachineSidesModel>()
             {
+
                 @Override
                 public boolean apply(MachineSidesModel msm)
                 {

@@ -10,9 +10,11 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.tile.TileEntitySolar;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -20,12 +22,14 @@ import java.util.List;
 
 public class GuiSolar extends GuiContainerGC
 {
+
     private static final ResourceLocation solarGuiTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/solar.png");
 
     private final TileEntitySolar solarPanel;
 
     private GuiButton buttonEnableSolar;
-    private GuiElementInfoRegion electricInfoRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 107, (this.height - this.ySize) / 2 + 101, 56, 9, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion electricInfoRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 107, (this.height - this.ySize) / 2 + 101, 56, 9, new ArrayList<String>(), this.width, this.height, this);
 
     public GuiSolar(InventoryPlayer par1InventoryPlayer, TileEntitySolar solarPanel)
     {
@@ -40,9 +44,10 @@ public class GuiSolar extends GuiContainerGC
     {
         switch (par1GuiButton.id)
         {
-        case 0:
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.mc.world), new Object[] { this.solarPanel.getPos(), 0 }));
-            break;
+            case 0:
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.mc.world), new Object[]
+                {this.solarPanel.getPos(), 0}));
+                break;
         }
     }
 
@@ -52,7 +57,8 @@ public class GuiSolar extends GuiContainerGC
         super.initGui();
         List<String> electricityDesc = new ArrayList<String>();
         electricityDesc.add(GCCoreUtil.translate("gui.energy_storage.desc.0"));
-        electricityDesc.add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1") + ((int) Math.floor(this.solarPanel.getEnergyStoredGC()) + " / " + (int) Math.floor(this.solarPanel.getMaxEnergyStoredGC())));
+        electricityDesc.add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1")
+            + ((int) Math.floor(this.solarPanel.getEnergyStoredGC()) + " / " + (int) Math.floor(this.solarPanel.getMaxEnergyStoredGC())));
         this.electricInfoRegion.tooltipStrings = electricityDesc;
         this.electricInfoRegion.xPosition = (this.width - this.xSize) / 2 + 96;
         this.electricInfoRegion.yPosition = (this.height - this.ySize) / 2 + 24;
@@ -80,13 +86,18 @@ public class GuiSolar extends GuiContainerGC
         this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 7, 4210752);
         displayString = GCCoreUtil.translate("gui.message.status.name") + ": " + this.getStatus();
         this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 45 + 23 - 46 + offsetY, 4210752);
-        displayString = GCCoreUtil.translate("gui.message.generating.name") + ": " + (this.solarPanel.generateWatts > 0 ? EnergyDisplayHelper.getEnergyDisplayS(this.solarPanel.generateWatts) + "/t" : GCCoreUtil.translate("gui.status.not_generating.name"));
+        displayString = GCCoreUtil.translate("gui.message.generating.name") + ": "
+            + (this.solarPanel.generateWatts > 0 ? EnergyDisplayHelper.getEnergyDisplayS(this.solarPanel.generateWatts) + "/t" : GCCoreUtil.translate("gui.status.not_generating.name"));
         this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 34 + 23 - 46 + offsetY, 4210752);
         float boost = Math.round((this.solarPanel.getSolarBoost() - 1) * 1000) / 10.0F;
         displayString = GCCoreUtil.translate("gui.message.environment.name") + ": " + boost + "%";
         this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 56 + 23 - 46 + offsetY, 4210752);
-        //		displayString = ElectricityDisplay.getDisplay(this.solarPanel.getVoltage(), ElectricUnit.VOLTAGE);
-        //		this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 68 + 23 - 46 + offsetY, 4210752);
+        // displayString =
+        // ElectricityDisplay.getDisplay(this.solarPanel.getVoltage(),
+        // ElectricUnit.VOLTAGE);
+        // this.fontRenderer.drawString(displayString, this.xSize / 2 -
+        // this.fontRenderer.getStringWidth(displayString) / 2, 68 + 23 - 46 +
+        // offsetY, 4210752);
         this.fontRenderer.drawString(GCCoreUtil.translate("container.inventory"), 8, this.ySize - 94, 4210752);
     }
 

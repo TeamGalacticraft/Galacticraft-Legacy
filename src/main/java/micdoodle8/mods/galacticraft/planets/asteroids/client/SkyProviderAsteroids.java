@@ -1,16 +1,20 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.client;
 
+import java.util.Random;
+
+import org.lwjgl.opengl.GL11;
+
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -20,12 +24,10 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import org.lwjgl.opengl.GL11;
-import java.util.Random;
-
 @SideOnly(Side.CLIENT)
 public class SkyProviderAsteroids extends IRenderHandler
 {
+
     private static final ResourceLocation overworldTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/celestialbodies/earth.png");
     private static final ResourceLocation galaxyTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/planets/galaxy.png");
     private static final ResourceLocation sunTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/planets/orbitalsun.png");
@@ -133,7 +135,8 @@ public class SkyProviderAsteroids extends IRenderHandler
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         var12 = this.sunSize / 1.2F;
-        //110 distance instead of the normal 100, because there is no atmosphere to make the disk seem larger
+        // 110 distance instead of the normal 100, because there is no
+        // atmosphere to make the disk seem larger
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(SkyProviderAsteroids.sunTexture);
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         worldRenderer.pos(-var12, 90.0D, -var12).tex(0.0D, 0.0D).endVertex();
@@ -170,46 +173,46 @@ public class SkyProviderAsteroids extends IRenderHandler
         GL11.glColor3f(0.0F, 0.0F, 0.0F);
         final double var25 = mc.player.getPosition().getY() - world.getHorizon();
 
-        //		if (var25 < 0.0D)
-        //		{
-        //			GL11.glPushMatrix();
-        //			GL11.glTranslatef(0.0F, 12.0F, 0.0F);
-        //			GL11.glCallList(this.glSkyList2);
-        //			GL11.glPopMatrix();
-        //			var10 = 1.0F;
-        //			var11 = -((float) (var25 + 65.0D));
-        //			var12 = -var10;
-        //			var23.startDrawingQuads();
-        //			var23.setColorRGBA_I(0, 255);
-        //			var23.addVertex(-var10, var11, var10);
-        //			var23.addVertex(var10, var11, var10);
-        //			var23.addVertex(var10, var12, var10);
-        //			var23.addVertex(-var10, var12, var10);
-        //			var23.addVertex(-var10, var12, -var10);
-        //			var23.addVertex(var10, var12, -var10);
-        //			var23.addVertex(var10, var11, -var10);
-        //			var23.addVertex(-var10, var11, -var10);
-        //			var23.addVertex(var10, var12, -var10);
-        //			var23.addVertex(var10, var12, var10);
-        //			var23.addVertex(var10, var11, var10);
-        //			var23.addVertex(var10, var11, -var10);
-        //			var23.addVertex(-var10, var11, -var10);
-        //			var23.addVertex(-var10, var11, var10);
-        //			var23.addVertex(-var10, var12, var10);
-        //			var23.addVertex(-var10, var12, -var10);
-        //			var23.addVertex(-var10, var12, -var10);
-        //			var23.addVertex(-var10, var12, var10);
-        //			var23.addVertex(var10, var12, var10);
-        //			var23.addVertex(var10, var12, -var10);
-        //			var23.draw();
-        //		}
+        // if (var25 < 0.0D)
+        // {
+        // GL11.glPushMatrix();
+        // GL11.glTranslatef(0.0F, 12.0F, 0.0F);
+        // GL11.glCallList(this.glSkyList2);
+        // GL11.glPopMatrix();
+        // var10 = 1.0F;
+        // var11 = -((float) (var25 + 65.0D));
+        // var12 = -var10;
+        // var23.startDrawingQuads();
+        // var23.setColorRGBA_I(0, 255);
+        // var23.addVertex(-var10, var11, var10);
+        // var23.addVertex(var10, var11, var10);
+        // var23.addVertex(var10, var12, var10);
+        // var23.addVertex(-var10, var12, var10);
+        // var23.addVertex(-var10, var12, -var10);
+        // var23.addVertex(var10, var12, -var10);
+        // var23.addVertex(var10, var11, -var10);
+        // var23.addVertex(-var10, var11, -var10);
+        // var23.addVertex(var10, var12, -var10);
+        // var23.addVertex(var10, var12, var10);
+        // var23.addVertex(var10, var11, var10);
+        // var23.addVertex(var10, var11, -var10);
+        // var23.addVertex(-var10, var11, -var10);
+        // var23.addVertex(-var10, var11, var10);
+        // var23.addVertex(-var10, var12, var10);
+        // var23.addVertex(-var10, var12, -var10);
+        // var23.addVertex(-var10, var12, -var10);
+        // var23.addVertex(-var10, var12, var10);
+        // var23.addVertex(var10, var12, var10);
+        // var23.addVertex(var10, var12, -var10);
+        // var23.draw();
+        // }
 
         GL11.glColor3f(70F / 256F, 70F / 256F, 70F / 256F);
 
-        //		GL11.glPushMatrix();
-        //		GL11.glTranslatef(0.0F, -((float) (var25 - 16.0D)), 0.0F);
-        //		GL11.glCallList(this.glSkyList2);
-        //		GL11.glPopMatrix();
+        // GL11.glPushMatrix();
+        // GL11.glTranslatef(0.0F, -((float) (var25 - 16.0D)), 0.0F);
+        // GL11.glCallList(this.glSkyList2);
+        // GL11.glPopMatrix();
         GlStateManager.enableRescaleNormal();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDepthMask(true);

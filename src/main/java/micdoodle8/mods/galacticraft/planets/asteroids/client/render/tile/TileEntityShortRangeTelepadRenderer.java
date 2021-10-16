@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.planets.asteroids.client.render.tile;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
+
 import micdoodle8.mods.galacticraft.core.client.model.OBJLoaderGC;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
@@ -24,6 +25,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class TileEntityShortRangeTelepadRenderer extends TileEntitySpecialRenderer<TileEntityShortRangeTelepad>
 {
+
     private static OBJModel.OBJBakedModel teleporterTop;
     private static OBJModel.OBJBakedModel teleporterBottom;
 
@@ -38,8 +40,7 @@ public class TileEntityShortRangeTelepadRenderer extends TileEntitySpecialRender
 
                 teleporterTop = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Top", "Connector"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 teleporterBottom = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Bottom"), false), DefaultVertexFormats.ITEM, spriteFunction);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -56,8 +57,7 @@ public class TileEntityShortRangeTelepadRenderer extends TileEntitySpecialRender
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }

@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.planets.mars.entities;
 
+import java.util.List;
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntityTieredRocket;
 import micdoodle8.mods.galacticraft.api.tile.IFuelDock;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
@@ -21,11 +24,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-import java.util.List;
-import java.util.Random;
-
 public class EntityTier2Rocket extends EntityTieredRocket
 {
+
     public EntityTier2Rocket(World par1World)
     {
         super(par1World);
@@ -92,8 +93,7 @@ public class EntityTier2Rocket extends EntityTieredRocket
         if (this.timeUntilLaunch >= 100)
         {
             i = Math.abs(this.timeUntilLaunch / 100);
-        }
-        else
+        } else
         {
             i = 1;
         }
@@ -115,8 +115,7 @@ public class EntityTier2Rocket extends EntityTieredRocket
                 if (this.world.provider instanceof IGalacticraftWorldProvider && ((IGalacticraftWorldProvider) this.world.provider).hasNoAtmosphere())
                 {
                     d = Math.min(d * 1.2, 1.8);
-                }
-                else
+                } else
                 {
                     d = Math.min(d, 1.2);
                 }
@@ -125,8 +124,7 @@ public class EntityTier2Rocket extends EntityTieredRocket
                 {
                     this.motionY = -d * 2.0D * Math.cos((this.rotationPitch - 180) / Constants.RADIANS_TO_DEGREES_D);
                 }
-            }
-            else
+            } else
             {
                 this.motionY -= 0.008D;
             }
@@ -151,8 +149,7 @@ public class EntityTier2Rocket extends EntityTieredRocket
                     this.stopRocketSound();
                 }
             }
-        }
-        else if (!this.hasValidFuel() && this.getLaunched() && !this.world.isRemote)
+        } else if (!this.hasValidFuel() && this.getLaunched() && !this.world.isRemote)
         {
             if (Math.abs(Math.sin(this.timeSinceLaunch / 1000)) / 10 != 0.0)
             {
@@ -173,8 +170,7 @@ public class EntityTier2Rocket extends EntityTieredRocket
             if (this.stacks == null || this.stacks.size() == 0)
             {
                 stats.setRocketStacks(NonNullList.withSize(2, ItemStack.EMPTY));
-            }
-            else
+            } else
             {
                 stats.setRocketStacks(this.stacks);
             }
@@ -203,7 +199,7 @@ public class EntityTier2Rocket extends EntityTieredRocket
             }
 
             final double y = this.prevPosY + (this.posY - this.prevPosY) + y1 - this.motionY + (!this.getLaunched() ? 2.5D : 1D);
-;
+            ;
 
             final double x2 = this.posX + x1 - this.motionX;
             final double z2 = this.posZ + z1 - this.motionZ;
@@ -212,13 +208,16 @@ public class EntityTier2Rocket extends EntityTieredRocket
             final double z3 = z2 + z1 / 2D;
             Vector3 motionVec = new Vector3(x1, y1, z1);
 
-            if (this.ticksExisted % 2 == 0 && !this.getLaunched()) return;
-            
+            if (this.ticksExisted % 2 == 0 && !this.getLaunched())
+                return;
+
             String flame = this.getLaunched() ? "launchFlameLaunched" : "launchFlameIdle";
 
             EntityLivingBase riddenByEntity = this.getPassengers().isEmpty() || !(this.getPassengers().get(0) instanceof EntityLivingBase) ? null : (EntityLivingBase) this.getPassengers().get(0);
-            Object[] rider = new Object[] { riddenByEntity };
-            Object[] none = new Object[] { };
+            Object[] rider = new Object[]
+            {riddenByEntity};
+            Object[] none = new Object[]
+            {};
             Random random = this.rand;
             GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x2 + 0.4 - random.nextDouble() / 10D, y, z2 + 0.4 - random.nextDouble() / 10D), motionVec, rider);
             GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x2 - 0.4 + random.nextDouble() / 10D, y, z2 + 0.4 - random.nextDouble() / 10D), motionVec, rider);
@@ -229,26 +228,42 @@ public class EntityTier2Rocket extends EntityTieredRocket
             GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x2 - 0.4, y, z2), motionVec, rider);
             GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x2, y, z2 + 0.4D), motionVec, rider);
             GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x2, y, z2 - 0.4D), motionVec, rider);
-            //Larger flameball for T2 - positioned behind the smaller one
+            // Larger flameball for T2 - positioned behind the smaller one
             double a = 4D;
             double bx = motionVec.x + 0.5D / a;
             double bz = motionVec.z + 0.5D / a;
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.2 - random.nextDouble() / 6D, y3 + 0.4, z3 + 0.2 - random.nextDouble() / 6D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.2 + random.nextDouble() / 6D, y3 + 0.4, z3 + 0.2 - random.nextDouble() / 6D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.2 + random.nextDouble() / 6D, y3 + 0.4, z3 - 0.2 + random.nextDouble() / 6D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.2 - random.nextDouble() / 6D, y3 + 0.4, z3 - 0.2 + random.nextDouble() / 6D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.2 - random.nextDouble() / 6D, y3 - 0.4, z3 + 0.2 - random.nextDouble() / 6D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.2 + random.nextDouble() / 6D, y3 - 0.4, z3 + 0.2 - random.nextDouble() / 6D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.2 + random.nextDouble() / 6D, y3 - 0.4, z3 - 0.2 + random.nextDouble() / 6D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.2 - random.nextDouble() / 6D, y3 - 0.4, z3 - 0.2 + random.nextDouble() / 6D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.7 - random.nextDouble() / 8D, y3, z3 + 0.7 - random.nextDouble() / 8D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.7 + random.nextDouble() / 8D, y3, z3 + 0.7 - random.nextDouble() / 8D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.7 + random.nextDouble() / 8D, y3, z3 - 0.7 + random.nextDouble() / 8D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.7 - random.nextDouble() / 8D, y3, z3 - 0.7 + random.nextDouble() / 8D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.7 - random.nextDouble() / 8D, y3, z3 - random.nextDouble() / 8D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.7 + random.nextDouble() / 8D, y3, z3 - random.nextDouble() / 8D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + random.nextDouble() / 8D, y3, z3 + 0.7 + random.nextDouble() / 8D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
-            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - random.nextDouble() / 8D, y3, z3 - 0.7 + random.nextDouble() / 8D), new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.2 - random.nextDouble() / 6D, y3 + 0.4, z3 + 0.2 - random.nextDouble() / 6D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.2 + random.nextDouble() / 6D, y3 + 0.4, z3 + 0.2 - random.nextDouble() / 6D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.2 + random.nextDouble() / 6D, y3 + 0.4, z3 - 0.2 + random.nextDouble() / 6D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.2 - random.nextDouble() / 6D, y3 + 0.4, z3 - 0.2 + random.nextDouble() / 6D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.2 - random.nextDouble() / 6D, y3 - 0.4, z3 + 0.2 - random.nextDouble() / 6D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.2 + random.nextDouble() / 6D, y3 - 0.4, z3 + 0.2 - random.nextDouble() / 6D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.2 + random.nextDouble() / 6D, y3 - 0.4, z3 - 0.2 + random.nextDouble() / 6D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.2 - random.nextDouble() / 6D, y3 - 0.4, z3 - 0.2 + random.nextDouble() / 6D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.7 - random.nextDouble() / 8D, y3, z3 + 0.7 - random.nextDouble() / 8D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.7 + random.nextDouble() / 8D, y3, z3 + 0.7 - random.nextDouble() / 8D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.7 + random.nextDouble() / 8D, y3, z3 - 0.7 + random.nextDouble() / 8D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.7 - random.nextDouble() / 8D, y3, z3 - 0.7 + random.nextDouble() / 8D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + 0.7 - random.nextDouble() / 8D, y3, z3 - random.nextDouble() / 8D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - 0.7 + random.nextDouble() / 8D, y3, z3 - random.nextDouble() / 8D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 + random.nextDouble() / 8D, y3, z3 + 0.7 + random.nextDouble() / 8D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
+            GalacticraftCore.proxy.spawnParticle(flame, new Vector3(x3 - random.nextDouble() / 8D, y3, z3 - 0.7 + random.nextDouble() / 8D),
+                new Vector3(bx - random.nextDouble() / a, motionVec.y, bz - random.nextDouble() / a), rider);
             GalacticraftCore.proxy.spawnParticle("blueflame", new Vector3(x2 - 0.8, y, z2), motionVec, none);
             GalacticraftCore.proxy.spawnParticle("blueflame", new Vector3(x2 + 0.8, y, z2), motionVec, none);
             GalacticraftCore.proxy.spawnParticle("blueflame", new Vector3(x2, y, z2 - 0.8), motionVec, none);

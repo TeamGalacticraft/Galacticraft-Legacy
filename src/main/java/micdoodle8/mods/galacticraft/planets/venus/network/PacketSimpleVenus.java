@@ -23,8 +23,10 @@ import java.util.List;
 
 public class PacketSimpleVenus extends PacketBase
 {
+
     public static enum EnumSimplePacketVenus
     {
+
         // SERVER
         S_UPDATE_ADVANCED_GUI(Side.SERVER, Integer.class, BlockPos.class, Integer.class),
         S_OPEN_LASER_TURRET_GUI(Side.SERVER, BlockPos.class),
@@ -86,8 +88,7 @@ public class PacketSimpleVenus extends PacketBase
         try
         {
             NetworkUtil.encodeData(buffer, this.data);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -118,8 +119,8 @@ public class PacketSimpleVenus extends PacketBase
 
         switch (this.type)
         {
-        default:
-            break;
+            default:
+                break;
         }
     }
 
@@ -130,94 +131,94 @@ public class PacketSimpleVenus extends PacketBase
 
         switch (this.type)
         {
-        case S_UPDATE_ADVANCED_GUI:
-            TileEntity tile0 = player.world.getTileEntity((BlockPos) this.data.get(1));
+            case S_UPDATE_ADVANCED_GUI:
+                TileEntity tile0 = player.world.getTileEntity((BlockPos) this.data.get(1));
 
-            switch ((Integer) this.data.get(0))
-            {
-            case 0:
-                if (tile0 instanceof TileEntityLaserTurret)
+                switch ((Integer) this.data.get(0))
                 {
-                    TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
-                    launchController.blacklistMode = ((Integer) this.data.get(2)) != 0;
+                    case 0:
+                        if (tile0 instanceof TileEntityLaserTurret)
+                        {
+                            TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
+                            launchController.blacklistMode = ((Integer) this.data.get(2)) != 0;
+                        }
+                        break;
+                    case 1:
+                        if (tile0 instanceof TileEntityLaserTurret)
+                        {
+                            TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
+                            launchController.targetMeteors = ((Integer) this.data.get(2)) != 0;
+                        }
+                        break;
+                    case 2:
+                        if (tile0 instanceof TileEntityLaserTurret)
+                        {
+                            TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
+                            launchController.alwaysIgnoreSpaceRace = ((Integer) this.data.get(2)) != 0;
+                        }
+                        break;
+                    case 3:
+                        if (tile0 instanceof TileEntityLaserTurret)
+                        {
+                            TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
+                            launchController.priorityClosest = ((Integer) this.data.get(2));
+                        }
+                        break;
+                    case 4:
+                        if (tile0 instanceof TileEntityLaserTurret)
+                        {
+                            TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
+                            launchController.priorityLowestHealth = ((Integer) this.data.get(2));
+                        }
+                        break;
+                    case 5:
+                        if (tile0 instanceof TileEntityLaserTurret)
+                        {
+                            TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
+                            launchController.priorityHighestHealth = ((Integer) this.data.get(2));
+                        }
+                        break;
+                    default:
+                        break;
                 }
                 break;
-            case 1:
-                if (tile0 instanceof TileEntityLaserTurret)
-                {
-                    TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
-                    launchController.targetMeteors = ((Integer) this.data.get(2)) != 0;
-                }
+            case S_OPEN_LASER_TURRET_GUI:
+                BlockPos pos = (BlockPos) this.data.get(0);
+                player.openGui(GalacticraftPlanets.instance, GuiIdsPlanets.MACHINE_VENUS, player.world, pos.getX(), pos.getY(), pos.getZ());
                 break;
-            case 2:
-                if (tile0 instanceof TileEntityLaserTurret)
+            case S_MODIFY_LASER_TARGET:
+                TileEntity tile1 = player.world.getTileEntity((BlockPos) this.data.get(1));
+
+                switch ((Integer) this.data.get(0))
                 {
-                    TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
-                    launchController.alwaysIgnoreSpaceRace = ((Integer) this.data.get(2)) != 0;
-                }
-                break;
-            case 3:
-                if (tile0 instanceof TileEntityLaserTurret)
-                {
-                    TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
-                    launchController.priorityClosest = ((Integer) this.data.get(2));
-                }
-                break;
-            case 4:
-                if (tile0 instanceof TileEntityLaserTurret)
-                {
-                    TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
-                    launchController.priorityLowestHealth = ((Integer) this.data.get(2));
-                }
-                break;
-            case 5:
-                if (tile0 instanceof TileEntityLaserTurret)
-                {
-                    TileEntityLaserTurret launchController = (TileEntityLaserTurret) tile0;
-                    launchController.priorityHighestHealth = ((Integer) this.data.get(2));
+                    case 0:
+                        if (tile1 instanceof TileEntityLaserTurret)
+                        {
+                            ((TileEntityLaserTurret) tile1).addPlayer((String) this.data.get(2));
+                        }
+                        break;
+                    case 1:
+                        if (tile1 instanceof TileEntityLaserTurret)
+                        {
+                            ((TileEntityLaserTurret) tile1).addEntity(new ResourceLocation((String) this.data.get(2)));
+                        }
+                        break;
+                    case 2:
+                        if (tile1 instanceof TileEntityLaserTurret)
+                        {
+                            ((TileEntityLaserTurret) tile1).removePlayer((String) this.data.get(2));
+                        }
+                        break;
+                    case 3:
+                        if (tile1 instanceof TileEntityLaserTurret)
+                        {
+                            ((TileEntityLaserTurret) tile1).removeEntity(new ResourceLocation((String) this.data.get(2)));
+                        }
+                        break;
                 }
                 break;
             default:
                 break;
-            }
-            break;
-        case S_OPEN_LASER_TURRET_GUI:
-            BlockPos pos = (BlockPos) this.data.get(0);
-            player.openGui(GalacticraftPlanets.instance, GuiIdsPlanets.MACHINE_VENUS, player.world, pos.getX(), pos.getY(), pos.getZ());
-            break;
-        case S_MODIFY_LASER_TARGET:
-            TileEntity tile1 = player.world.getTileEntity((BlockPos) this.data.get(1));
-
-            switch ((Integer) this.data.get(0))
-            {
-            case 0:
-                if (tile1 instanceof TileEntityLaserTurret)
-                {
-                    ((TileEntityLaserTurret) tile1).addPlayer((String) this.data.get(2));
-                }
-                break;
-            case 1:
-                if (tile1 instanceof TileEntityLaserTurret)
-                {
-                    ((TileEntityLaserTurret) tile1).addEntity(new ResourceLocation((String) this.data.get(2)));
-                }
-                break;
-            case 2:
-                if (tile1 instanceof TileEntityLaserTurret)
-                {
-                    ((TileEntityLaserTurret) tile1).removePlayer((String) this.data.get(2));
-                }
-                break;
-            case 3:
-                if (tile1 instanceof TileEntityLaserTurret)
-                {
-                    ((TileEntityLaserTurret) tile1).removeEntity(new ResourceLocation((String) this.data.get(2)));
-                }
-                break;
-            }
-            break;
-        default:
-            break;
         }
     }
 }

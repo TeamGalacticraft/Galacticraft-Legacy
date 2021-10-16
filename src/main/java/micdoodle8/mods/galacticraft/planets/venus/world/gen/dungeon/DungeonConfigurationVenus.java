@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class DungeonConfigurationVenus extends DungeonConfiguration
 {
+
     private IBlockState brickBlockFloor;
 
     public DungeonConfigurationVenus()
@@ -33,8 +34,7 @@ public class DungeonConfigurationVenus extends DungeonConfiguration
         try
         {
             this.brickBlockFloor = Block.getBlockFromName(tagCompound.getString("brickBlock")).getStateFromMeta(tagCompound.getInteger("brickBlockMeta"));
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             System.err.println("Failed to read dungeon configuration from NBT");
             e.printStackTrace();

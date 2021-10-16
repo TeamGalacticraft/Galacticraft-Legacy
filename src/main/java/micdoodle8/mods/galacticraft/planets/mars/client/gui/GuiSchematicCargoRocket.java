@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiSchematicCargoRocket extends GuiPositionedContainer implements ISchematicResultPage
 {
+
     private static final ResourceLocation cargoRocketTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/schematic_rocket_cargo.png");
 
     private int pageIndex;
@@ -41,12 +42,12 @@ public class GuiSchematicCargoRocket extends GuiPositionedContainer implements I
         {
             switch (par1GuiButton.id)
             {
-            case 0:
-                SchematicRegistry.flipToLastPage(this, this.pageIndex);
-                break;
-            case 1:
-                SchematicRegistry.flipToNextPage(this, this.pageIndex);
-                break;
+                case 0:
+                    SchematicRegistry.flipToLastPage(this, this.pageIndex);
+                    break;
+                case 1:
+                    SchematicRegistry.flipToNextPage(this, this.pageIndex);
+                    break;
             }
         }
     }

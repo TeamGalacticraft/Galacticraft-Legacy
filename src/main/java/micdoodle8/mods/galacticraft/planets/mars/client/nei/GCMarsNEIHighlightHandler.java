@@ -1,10 +1,12 @@
-//package micdoodle8.mods.galacticraft.planets.mars.client.nei;
+package micdoodle8.mods.galacticraft.planets.mars.client.nei;
+
+//package galacticraft.planets.mars.client.nei;
 //
 //import codechicken.nei.api.IHighlightHandler;
 //import codechicken.nei.api.ItemInfo;
 //import codechicken.nei.guihook.GuiContainerManager;
-//import micdoodle8.mods.galacticraft.planets.asteroids.blocks.AsteroidBlocks;
-//import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
+//import galacticraft.planets.asteroids.blocks.AsteroidBlocks;
+//import galacticraft.planets.mars.blocks.MarsBlocks;
 //import net.minecraft.block.Block;
 //import net.minecraft.block.state.IBlockState;
 //import net.minecraft.entity.player.EntityPlayer;

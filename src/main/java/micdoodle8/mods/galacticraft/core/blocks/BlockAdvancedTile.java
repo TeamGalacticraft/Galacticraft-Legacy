@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.blocks;
 
 import micdoodle8.mods.galacticraft.api.tile.ILockable;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -16,6 +17,7 @@ import java.util.Random;
 
 public abstract class BlockAdvancedTile extends BlockAdvanced implements ITileEntityProvider
 {
+
     public BlockAdvancedTile(Material par3Material)
     {
         super(par3Material);
@@ -46,7 +48,7 @@ public abstract class BlockAdvancedTile extends BlockAdvanced implements ITileEn
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity instanceof ILockable)
         {
-            ((ILockable)tileEntity).clearLockedInventory();
+            ((ILockable) tileEntity).clearLockedInventory();
         }
 
         if (tileEntity != null)

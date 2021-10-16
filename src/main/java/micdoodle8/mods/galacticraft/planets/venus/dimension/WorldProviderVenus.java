@@ -38,6 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class WorldProviderVenus extends WorldProviderSpace implements IGalacticraftWorldProvider, ISolarLevel, IWeatherProvider
 {
+
     private double solarMultiplier = -0.36D;
     private float prevRainingStrength;
     private float rainingStrength;
@@ -57,9 +58,7 @@ public class WorldProviderVenus extends WorldProviderSpace implements IGalacticr
         float nightColR = 131.0F / 255.0F;
         float nightColG = 108.0F / 255.0F;
         float nightColB = 46.0F / 255.0F;
-        return new Vector3(dayColR * day + nightColR * night,
-                dayColG * day + nightColG * night,
-                dayColB * day + nightColB * night);
+        return new Vector3(dayColR * day + nightColR * night, dayColG * day + nightColG * night, dayColB * day + nightColB * night);
     }
 
     @Override
@@ -73,9 +72,7 @@ public class WorldProviderVenus extends WorldProviderSpace implements IGalacticr
         float nightColR = 118.0F / 255.0F;
         float nightColG = 89.0F / 255.0F;
         float nightColB = 21.0F / 255.0F;
-        return new Vector3(dayColR * day + nightColR * night,
-                dayColG * day + nightColG * night,
-                dayColB * day + nightColB * night);
+        return new Vector3(dayColR * day + nightColR * night, dayColG * day + nightColG * night, dayColB * day + nightColB * night);
     }
 
     @Override
@@ -141,7 +138,7 @@ public class WorldProviderVenus extends WorldProviderSpace implements IGalacticr
         return true;
     }
 
-    //Overriding so that beds do not explode on Mars
+    // Overriding so that beds do not explode on Mars
     @Override
     public boolean canRespawnHere()
     {
@@ -205,7 +202,7 @@ public class WorldProviderVenus extends WorldProviderSpace implements IGalacticr
     {
         return GCPlanetDimensions.VENUS;
     }
-    
+
     @Override
     public int getDungeonSpacing()
     {
@@ -231,6 +228,7 @@ public class WorldProviderVenus extends WorldProviderSpace implements IGalacticr
         list.add(VenusBlocks.venusBlock);
         return list;
     }
+
     @Override
     public boolean canDoRainSnowIce(net.minecraft.world.chunk.Chunk chunk)
     {
@@ -255,8 +253,7 @@ public class WorldProviderVenus extends WorldProviderSpace implements IGalacticr
                 if (this.raining)
                 {
                     this.rainTime = (this.world.rand.nextInt(3600) + 1000);
-                }
-                else
+                } else
                 {
                     this.rainTime = (this.world.rand.nextInt(2000) + 1000);
                 }
@@ -273,8 +270,7 @@ public class WorldProviderVenus extends WorldProviderSpace implements IGalacticr
             if (this.raining && strength < this.targetRain)
             {
                 strength += 0.004F;
-            }
-            else if (!this.raining || strength > this.targetRain)
+            } else if (!this.raining || strength > this.targetRain)
             {
                 strength -= 0.004F;
             }
@@ -285,11 +281,10 @@ public class WorldProviderVenus extends WorldProviderSpace implements IGalacticr
     @Override
     public void weatherSounds(int j, Minecraft mc, World world, BlockPos blockpos, double xx, double yy, double zz, Random random)
     {
-        if ((int)yy >= blockpos.getY() + 1 && world.getPrecipitationHeight(blockpos).getY() > blockpos.getY())
+        if ((int) yy >= blockpos.getY() + 1 && world.getPrecipitationHeight(blockpos).getY() > blockpos.getY())
         {
             mc.world.playSound(xx, yy, zz, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.WEATHER, 0.025F, 0.6F + random.nextFloat() * 0.2F, false);
-        }
-        else
+        } else
         {
             mc.world.playSound(xx, yy, zz, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.WEATHER, 0.04F, 0.8F + random.nextFloat() * 0.06F + random.nextFloat() * 0.06F, false);
         }
@@ -298,7 +293,7 @@ public class WorldProviderVenus extends WorldProviderSpace implements IGalacticr
     @Override
     public int getSoundInterval(float rainStrength)
     {
-        int result = 80 - (int)(rainStrength * 88F);
+        int result = 80 - (int) (rainStrength * 88F);
         return result > 0 ? result : 0;
     }
 }

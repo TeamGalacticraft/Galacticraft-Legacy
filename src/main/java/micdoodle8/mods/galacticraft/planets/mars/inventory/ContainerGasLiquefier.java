@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerGasLiquefier extends Container
 {
+
     private final TileEntityGasLiquefier tileEntity;
 
     public ContainerGasLiquefier(InventoryPlayer par1InventoryPlayer, TileEntityGasLiquefier tileEntity, EntityPlayer player)
@@ -86,8 +87,7 @@ public class ContainerGasLiquefier extends Container
                 {
                     slot.onSlotChange(var4, var2);
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(var4.getItem()))
                 {
@@ -95,8 +95,7 @@ public class ContainerGasLiquefier extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     boolean outputTankSlotsSuccess = false;
                     if (FluidUtil.isEmptyContainerFor(var4, this.tileEntity.liquidTank2.getFluid()))
@@ -122,15 +121,13 @@ public class ContainerGasLiquefier extends Container
                             {
                                 return ItemStack.EMPTY;
                             }
-                        }
-                        else if (par1 < 31)
+                        } else if (par1 < 31)
                         {
                             if (!this.mergeItemStack(var4, 31, 40, false))
                             {
                                 return ItemStack.EMPTY;
                             }
-                        }
-                        else if (!this.mergeItemStack(var4, 4, 31, false))
+                        } else if (!this.mergeItemStack(var4, 4, 31, false))
                         {
                             return ItemStack.EMPTY;
                         }
@@ -141,8 +138,7 @@ public class ContainerGasLiquefier extends Container
             if (var4.isEmpty())
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

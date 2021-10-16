@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.items;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.items.ISortableItem;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
@@ -15,13 +19,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 public class ItemBasicAsteroids extends Item implements ISortableItem
 {
-    public static String[] names = { "ingot_titanium", "engine_t2", "rocket_fins_t2", "shard_iron", "shard_titanium", "reinforced_plate_t3", "compressed_titanium", "thermal_cloth", "beam_core", "dust_titanium" };
+
+    public static String[] names =
+    {"ingot_titanium", "engine_t2", "rocket_fins_t2", "shard_iron", "shard_titanium", "reinforced_plate_t3", "compressed_titanium", "thermal_cloth", "beam_core", "dust_titanium"};
 //    protected IIcon[] icons = new IIcon[ItemBasicAsteroids.names.length];
 
     public ItemBasicAsteroids(String name)
@@ -46,28 +48,16 @@ public class ItemBasicAsteroids extends Item implements ISortableItem
         return ClientProxyCore.galacticraftItem;
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        int i = 0;
-
-        for (String name : ItemBasicAsteroids.names)
-        {
-            this.icons[i++] = iconRegister.registerIcon(GalacticraftPlanets.TEXTURE_PREFIX + name);
-        }
-    }
-
-    @Override
-    public IIcon getIconFromDamage(int damage)
-    {
-        if (this.icons.length > damage)
-        {
-            return this.icons[damage];
-        }
-
-        return super.getIconFromDamage(damage);
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister
+     * iconRegister) { int i = 0; for (String name : ItemBasicAsteroids.names) {
+     * this.icons[i++] =
+     * iconRegister.registerIcon(GalacticraftPlanets.TEXTURE_PREFIX + name); } }
+     * @Override public IIcon getIconFromDamage(int damage) { if
+     * (this.icons.length > damage) { return this.icons[damage]; } return
+     * super.getIconFromDamage(damage); }
+     */
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
@@ -113,11 +103,11 @@ public class ItemBasicAsteroids extends Item implements ISortableItem
     {
         switch (meta)
         {
-        case 0:
-            return EnumSortCategoryItem.INGOT;
-        case 5:
-        case 6:
-            return EnumSortCategoryItem.PLATE;
+            case 0:
+                return EnumSortCategoryItem.INGOT;
+            case 5:
+            case 6:
+                return EnumSortCategoryItem.PLATE;
         }
         return EnumSortCategoryItem.GENERAL;
     }
@@ -127,10 +117,10 @@ public class ItemBasicAsteroids extends Item implements ISortableItem
     {
         switch (item.getItemDamage())
         {
-        case 5:
-            return 2F;
-        case 6:
-            return 1F;
+            case 5:
+                return 2F;
+            case 6:
+                return 1F;
         }
         return -1F;
     }

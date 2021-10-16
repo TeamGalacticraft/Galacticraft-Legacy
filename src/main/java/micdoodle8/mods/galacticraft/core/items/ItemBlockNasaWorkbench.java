@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.items;
 
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class ItemBlockNasaWorkbench extends ItemBlockDesc
 {
+
     public ItemBlockNasaWorkbench(Block block)
     {
         super(block);
@@ -41,18 +43,19 @@ public class ItemBlockNasaWorkbench extends ItemBlockDesc
                                 {
                                     if (world.isRemote)
                                     {
-                                        FMLClientHandler.instance().getClient().ingameGUI.setOverlayMessage(new TextComponentString(GCCoreUtil.translate("gui.warning.noroom")).setStyle(new Style().setColor(TextFormatting.RED)).getFormattedText(), false);
+                                        FMLClientHandler.instance().getClient().ingameGUI.setOverlayMessage(
+                                            new TextComponentString(GCCoreUtil.translate("gui.warning.noroom")).setStyle(new Style().setColor(TextFormatting.RED)).getFormattedText(), false);
                                     }
                                     return false;
                                 }
-                            }
-                            else if (y != 0 && y != 3)
+                            } else if (y != 0 && y != 3)
                             {
                                 if (!stateAt.getMaterial().isReplaceable())
                                 {
                                     if (world.isRemote)
                                     {
-                                        FMLClientHandler.instance().getClient().ingameGUI.setOverlayMessage(new TextComponentString(GCCoreUtil.translate("gui.warning.noroom")).setStyle(new Style().setColor(TextFormatting.RED)).getFormattedText(), false);
+                                        FMLClientHandler.instance().getClient().ingameGUI.setOverlayMessage(
+                                            new TextComponentString(GCCoreUtil.translate("gui.warning.noroom")).setStyle(new Style().setColor(TextFormatting.RED)).getFormattedText(), false);
                                     }
                                     return false;
                                 }

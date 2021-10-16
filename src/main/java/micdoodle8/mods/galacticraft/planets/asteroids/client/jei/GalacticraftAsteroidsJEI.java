@@ -21,6 +21,7 @@ import javax.annotation.Nonnull;
 @JEIPlugin
 public class GalacticraftAsteroidsJEI extends BlankModPlugin
 {
+
     @Override
     public void register(@Nonnull IModRegistry registry)
     {
@@ -36,7 +37,6 @@ public class GalacticraftAsteroidsJEI extends BlankModPlugin
     public void registerCategories(IRecipeCategoryRegistration registry)
     {
         IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
-        registry.addRecipeCategories(new Tier3RocketRecipeCategory(guiHelper),
-                new AstroMinerRecipeCategory(guiHelper));
+        registry.addRecipeCategories(new Tier3RocketRecipeCategory(guiHelper), new AstroMinerRecipeCategory(guiHelper));
     }
 }

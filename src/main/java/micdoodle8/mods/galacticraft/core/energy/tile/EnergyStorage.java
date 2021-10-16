@@ -1,10 +1,12 @@
 package micdoodle8.mods.galacticraft.core.energy.tile;
 
 import micdoodle8.mods.galacticraft.api.power.IEnergyStorageGC;
+
 import net.minecraft.nbt.NBTTagCompound;
 
 public class EnergyStorage implements IEnergyStorageGC
 {
+
     protected float energy;
     protected float capacity;
     protected float maxReceive;
@@ -57,8 +59,8 @@ public class EnergyStorage implements IEnergyStorageGC
     }
 
     /*
-     * Sets the maximum energy transfer rate on input
-     * Call this AFTER setMaxExtract().
+     * Sets the maximum energy transfer rate on input Call this AFTER
+     * setMaxExtract().
      */
     public void setMaxReceive(float maxReceive)
     {
@@ -66,15 +68,11 @@ public class EnergyStorage implements IEnergyStorageGC
     }
 
     /*
-     * Sets the energy consumption rate in gJ/t
-     * (For machines, this is the energy used per tick.)
-     * (For energy sources, this is the maximum output.)
-     *
-     * Also sets the receive rate at a default value
-     * of 2 * the energy consumption rate - so the machine's
-     * energy store can charge up even while it is working.
-     *
-     * If that is not required, call setMaxReceive() AFTER
+     * Sets the energy consumption rate in gJ/t (For machines, this is the
+     * energy used per tick.) (For energy sources, this is the maximum output.)
+     * Also sets the receive rate at a default value of 2 * the energy
+     * consumption rate - so the machine's energy store can charge up even while
+     * it is working. If that is not required, call setMaxReceive() AFTER
      * calling setMaxExtract().
      */
     public void setMaxExtract(float maxExtract)
@@ -166,10 +164,7 @@ public class EnergyStorage implements IEnergyStorageGC
         if (obj instanceof EnergyStorage)
         {
             EnergyStorage storage = (EnergyStorage) obj;
-            return (storage.getEnergyStoredGC() == energy &&
-                    storage.getCapacityGC() == capacity &&
-                    storage.getMaxReceive() == maxReceive &&
-                    storage.getMaxExtract() == maxExtract);
+            return (storage.getEnergyStoredGC() == energy && storage.getCapacityGC() == capacity && storage.getMaxReceive() == maxReceive && storage.getMaxExtract() == maxExtract);
         }
         return false;
     }

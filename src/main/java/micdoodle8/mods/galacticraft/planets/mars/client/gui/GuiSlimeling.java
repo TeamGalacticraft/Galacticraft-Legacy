@@ -26,6 +26,7 @@ import java.io.IOException;
 
 public class GuiSlimeling extends GuiScreen
 {
+
     private final int xSize;
     private final int ySize;
     private static final ResourceLocation slimelingPanelGui = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/slimeling_panel0.png");
@@ -100,7 +101,8 @@ public class GuiSlimeling extends GuiScreen
             if (this.nameField.textboxKeyTyped(typedChar, keyCode))
             {
                 this.slimeling.setName(this.nameField.getText());
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(this.slimeling.world), new Object[] { this.slimeling.getEntityId(), 1, this.slimeling.getName() }));
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(this.slimeling.world), new Object[]
+                {this.slimeling.getEntityId(), 1, this.slimeling.getName()}));
             }
         }
         super.keyTyped(typedChar, keyCode);
@@ -113,9 +115,10 @@ public class GuiSlimeling extends GuiScreen
         {
             switch (button.id)
             {
-            case 0:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(this.slimeling.world), new Object[] { this.slimeling.getEntityId(), 0, "" }));
-                break;
+                case 0:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(this.slimeling.world), new Object[]
+                    {this.slimeling.getEntityId(), 0, ""}));
+                    break;
             }
         }
     }
@@ -130,7 +133,8 @@ public class GuiSlimeling extends GuiScreen
         if (mouseX >= this.invX && mouseX < this.invX + this.invWidth && mouseY >= this.invY && mouseY < this.invY + this.invHeight)
         {
             this.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(this.slimeling.world), new Object[] { this.slimeling.getEntityId(), 6, "" }));
+            GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(this.slimeling.world), new Object[]
+            {this.slimeling.getEntityId(), 6, ""}));
         }
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
@@ -181,7 +185,8 @@ public class GuiSlimeling extends GuiScreen
         this.fontRenderer.drawString(GCCoreUtil.translate("gui.slimeling.name") + ": ", dX + i + 55, dY + j - 6, 0x404040);
         this.fontRenderer.drawString(GCCoreUtil.translate("gui.slimeling.owner") + ": " + this.slimeling.getOwnerUsername(), dX + i + 55, dY + j + 7, 0x404040);
         this.fontRenderer.drawString(GCCoreUtil.translate("gui.slimeling.kills") + ": " + this.slimeling.getKillCount(), dX + i + 55, dY + j + 20, 0x404040);
-        this.fontRenderer.drawString(GCCoreUtil.translate("gui.slimeling.scale") + ": " + Math.round(this.slimeling.getAge() / (float) this.slimeling.MAX_AGE * 1000.0F) / 10.0F + "%", dX + i + 55, dY + j + 33, 0x404040);
+        this.fontRenderer.drawString(GCCoreUtil.translate("gui.slimeling.scale") + ": " + Math.round(this.slimeling.getAge() / (float) this.slimeling.MAX_AGE * 1000.0F) / 10.0F + "%", dX + i + 55,
+            dY + j + 33, 0x404040);
         str = "" + (this.slimeling.isSitting() ? GCCoreUtil.translate("gui.slimeling.sitting") : GCCoreUtil.translate("gui.slimeling.following"));
         this.fontRenderer.drawString(str, i + 145 - this.fontRenderer.getStringWidth(str) / 2, j + 112, 0x404040);
         str = GCCoreUtil.translate("gui.slimeling.damage") + ": " + Math.round(this.slimeling.getDamage() * 100.0F) / 100.0F;

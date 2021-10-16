@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.inventory;
 
 import micdoodle8.mods.galacticraft.api.inventory.IInventoryGC;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,7 @@ import javax.annotation.Nonnull;
 
 public class InventoryExtended implements IInventoryGC
 {
+
     public NonNullList<ItemStack> stacks = NonNullList.withSize(11, ItemStack.EMPTY);
 
     @Override

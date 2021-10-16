@@ -8,6 +8,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class ModelBalloonParachute extends ModelBase
 {
+
     private static final ResourceLocation grayParachuteTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/parachute/gray.png");
 
     public ModelRenderer[] parachute = new ModelRenderer[3];

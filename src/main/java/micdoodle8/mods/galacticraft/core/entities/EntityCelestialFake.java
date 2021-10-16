@@ -1,8 +1,8 @@
 package micdoodle8.mods.galacticraft.core.entities;
 
-import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.api.entity.IIgnoreShift;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
+
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,10 +16,17 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
+
+import io.netty.buffer.ByteBuf;
 
 public class EntityCelestialFake extends EntityAdvancedMotion implements IIgnoreShift
 {
+
     private boolean lastShouldMove;
     private UUID persistantRiderUUID;
     private Boolean shouldMoveClient;
@@ -180,12 +187,11 @@ public class EntityCelestialFake extends EntityAdvancedMotion implements IIgnore
         {
             this.shouldMoveClient = this.shouldMove();
             objList.add(this.shouldMoveClient);
-        }
-        else
+        } else
         {
             this.shouldMoveServer = this.shouldMove();
             objList.add(this.shouldMoveServer);
-            //Server send rider information for client to check
+            // Server send rider information for client to check
             objList.add(this.getPassengers().isEmpty() ? -1 : this.getPassengers().get(0).getEntityId());
         }
 
@@ -228,7 +234,7 @@ public class EntityCelestialFake extends EntityAdvancedMotion implements IIgnore
                 this.hasReceivedPacket = true;
                 this.shouldMoveServer = buffer.readBoolean();
 
-                //Check has correct rider on client
+                // Check has correct rider on client
                 int shouldBeMountedId = buffer.readInt();
                 if (this.getPassengers().isEmpty())
                 {
@@ -240,14 +246,12 @@ public class EntityCelestialFake extends EntityAdvancedMotion implements IIgnore
                             e.startRiding(this, true);
                         }
                     }
-                }
-                else if (this.getPassengers().get(0).getEntityId() != shouldBeMountedId)
+                } else if (this.getPassengers().get(0).getEntityId() != shouldBeMountedId)
                 {
                     if (shouldBeMountedId == -1)
                     {
                         this.removePassengers();
-                    }
-                    else
+                    } else
                     {
                         Entity e = FMLClientHandler.instance().getWorldClient().getEntityByID(shouldBeMountedId);
                         if (e != null)
@@ -256,13 +260,11 @@ public class EntityCelestialFake extends EntityAdvancedMotion implements IIgnore
                         }
                     }
                 }
-            }
-            else
+            } else
             {
                 this.shouldMoveClient = buffer.readBoolean();
             }
-        }
-        catch (final Exception e)
+        } catch (final Exception e)
         {
             e.printStackTrace();
         }
@@ -307,8 +309,7 @@ public class EntityCelestialFake extends EntityAdvancedMotion implements IIgnore
             id = this.getPassengers().get(0).getPersistentID();
 
             this.persistantRiderUUID = id;
-        }
-        else
+        } else
         {
             id = this.persistantRiderUUID;
         }
@@ -353,8 +354,7 @@ public class EntityCelestialFake extends EntityAdvancedMotion implements IIgnore
     }
 
     @Override
-    public Particle getParticle(Random rand, double x, double y, double z,
-                                double motX, double motY, double motZ)
+    public Particle getParticle(Random rand, double x, double y, double z, double motX, double motY, double motZ)
     {
         return null;
     }

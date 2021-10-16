@@ -1,30 +1,28 @@
 package micdoodle8.mods.galacticraft.core.client.render.tile;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
 import micdoodle8.mods.galacticraft.api.transmission.tile.IBufferTransmitter;
-import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.client.EventHandlerClient;
 import micdoodle8.mods.galacticraft.core.fluid.FluidNetwork;
-import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityFluidPipe;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityFluidTank;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fluids.Fluid;
 
 import org.lwjgl.opengl.GL11;
@@ -33,6 +31,7 @@ import java.util.HashMap;
 
 public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileEntityFluidPipe>
 {
+
     private static HashMap<Integer, HashMap<Fluid, Integer[]>> cache = new HashMap<>();
 
     private final int stages = 100;
@@ -51,8 +50,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
             if (Minecraft.isAmbientOcclusionEnabled())
             {
                 GlStateManager.shadeModel(GL11.GL_SMOOTH);
-            }
-            else
+            } else
             {
                 GlStateManager.shadeModel(GL11.GL_FLAT);
             }
@@ -71,18 +69,18 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
                     if (sideTile instanceof TileEntityFluidTank)
                         switch (facing)
                         {
-                        case SOUTH:
-                            GL11.glTranslatef(0F, 0F, 1/16F);
-                            break;
-                        case NORTH:
-                            GL11.glTranslatef(0F, 0F, -1/16F);
-                            break;
-                        case EAST:
-                            GL11.glTranslatef(1/16F, 0F, 0F);
-                            break;
-                        case WEST:
-                            GL11.glTranslatef(-1/16F, 0F, 0F);
-                            break;
+                            case SOUTH:
+                                GL11.glTranslatef(0F, 0F, 1 / 16F);
+                                break;
+                            case NORTH:
+                                GL11.glTranslatef(0F, 0F, -1 / 16F);
+                                break;
+                            case EAST:
+                                GL11.glTranslatef(1 / 16F, 0F, 0F);
+                                break;
+                            case WEST:
+                                GL11.glTranslatef(-1 / 16F, 0F, 0F);
+                                break;
                         }
                     ClientUtil.drawBakedModel(EventHandlerClient.fluidPipeModels[facing.ordinal()]);
                     GL11.glPopMatrix();
@@ -98,8 +96,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
         {
             FluidNetwork network = (FluidNetwork) pipe.getNetwork();
             scale = network.fluidScale;
-        }
-        else
+        } else
         {
             scale = pipe.buffer.getFluidAmount() / (float) pipe.buffer.getCapacity();
         }
@@ -110,8 +107,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
         {
             FluidNetwork network = (FluidNetwork) pipe.getNetwork();
             fluid = network.refFluid;
-        }
-        else
+        } else
         {
             fluid = pipe.getBuffer() == null ? null : pipe.getBuffer().getFluid();
         }
@@ -161,8 +157,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
                         {
                             Integer list = displayLists[Math.max(3, (int) (scale * (stages - 1)))];
                             GL11.glCallList(list);
-                        }
-                        else
+                        } else
                         {
                             Integer list = displayLists[stages - 1];
                             GL11.glCallList(list);
@@ -179,8 +174,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
                 {
                     Integer list = displayLists[Math.max(3, (int) (scale * (stages - 1)))];
                     GL11.glCallList(list);
-                }
-                else
+                } else
                 {
                     Integer list = displayLists[stages - 1];
                     GL11.glCallList(list);
@@ -224,8 +218,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
         if (cache.containsKey(sideIndex))
         {
             cache.get(sideIndex).put(fluid, displayLists);
-        }
-        else
+        } else
         {
             HashMap<Fluid, Integer[]> map = Maps.newHashMap();
             map.put(fluid, displayLists);
@@ -241,62 +234,62 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
 
             switch (sideIndex)
             {
-            case 0:
-                minX = mid - level * size;
-                maxX = mid + level * size;
-                minY = mid + size;
-                maxY = mid + 0.5F;
-                minZ = mid - level * size;
-                maxZ = mid + level * size;
-                break;
-            case 1:
-                minX = mid - level * size;
-                maxX = mid + level * size;
-                minY = mid - 0.5F;
-                maxY = mid - size;
-                minZ = mid - level * size;
-                maxZ = mid + level * size;
-                break;
-            case 2:
-                minX = mid - size;
-                maxX = mid + size;
-                maxY = mid + size;
-                minY = mid + size - level * size * 2.0F;
-                minZ = mid + size;
-                maxZ = mid + 0.5F;
-                break;
-            case 3:
-                minX = mid - size;
-                maxX = mid + size;
-                maxY = mid + size;
-                minY = mid + size - level * size * 2.0F;
-                minZ = mid - 0.5F;
-                maxZ = mid - size;
-                break;
-            case 4:
-                minX = mid - 0.5F;
-                maxX = mid - size;
-                maxY = mid + size;
-                minY = mid + size - level * size * 2.0F;
-                minZ = mid - size;
-                maxZ = mid + size;
-                break;
-            case 5:
-                minX = mid + size;
-                maxX = mid + 0.5F;
-                maxY = mid + size;
-                minY = mid + size - level * size * 2.0F;
-                minZ = mid - size;
-                maxZ = mid + size;
-                break;
-            default:
-                minX = mid - size;
-                maxX = mid + size;
-                maxY = mid + size;
-                minY = mid + size - level * size * 2.0F;
-                minZ = mid - size;
-                maxZ = mid + size;
-                break;
+                case 0:
+                    minX = mid - level * size;
+                    maxX = mid + level * size;
+                    minY = mid + size;
+                    maxY = mid + 0.5F;
+                    minZ = mid - level * size;
+                    maxZ = mid + level * size;
+                    break;
+                case 1:
+                    minX = mid - level * size;
+                    maxX = mid + level * size;
+                    minY = mid - 0.5F;
+                    maxY = mid - size;
+                    minZ = mid - level * size;
+                    maxZ = mid + level * size;
+                    break;
+                case 2:
+                    minX = mid - size;
+                    maxX = mid + size;
+                    maxY = mid + size;
+                    minY = mid + size - level * size * 2.0F;
+                    minZ = mid + size;
+                    maxZ = mid + 0.5F;
+                    break;
+                case 3:
+                    minX = mid - size;
+                    maxX = mid + size;
+                    maxY = mid + size;
+                    minY = mid + size - level * size * 2.0F;
+                    minZ = mid - 0.5F;
+                    maxZ = mid - size;
+                    break;
+                case 4:
+                    minX = mid - 0.5F;
+                    maxX = mid - size;
+                    maxY = mid + size;
+                    minY = mid + size - level * size * 2.0F;
+                    minZ = mid - size;
+                    maxZ = mid + size;
+                    break;
+                case 5:
+                    minX = mid + size;
+                    maxX = mid + 0.5F;
+                    maxY = mid + size;
+                    minY = mid + size - level * size * 2.0F;
+                    minZ = mid - size;
+                    maxZ = mid + size;
+                    break;
+                default:
+                    minX = mid - size;
+                    maxX = mid + size;
+                    maxY = mid + size;
+                    minY = mid + size - level * size * 2.0F;
+                    minZ = mid - size;
+                    maxZ = mid + size;
+                    break;
             }
 
             renderBox(minX, maxX, minY, maxY, minZ, maxZ, level, sprite);

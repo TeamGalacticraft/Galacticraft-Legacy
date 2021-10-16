@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlaySensorGlasses
 import micdoodle8.mods.galacticraft.core.client.model.ModelEvolvedWitch;
 import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerHeldItemEvolvedWitch;
 import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedWitch;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderEvolvedWitch extends RenderLiving<EntityEvolvedWitch>
 {
+
     private static final ResourceLocation witchTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/evolved_witch.png");
     private boolean texSwitch;
 
@@ -33,7 +35,7 @@ public class RenderEvolvedWitch extends RenderLiving<EntityEvolvedWitch>
     @Override
     public void doRender(EntityEvolvedWitch entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        ((ModelEvolvedWitch)this.mainModel).holdingItem = entity.getHeldItemMainhand() != null;
+        ((ModelEvolvedWitch) this.mainModel).holdingItem = entity.getHeldItemMainhand() != null;
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
         if (OverlaySensorGlasses.overrideMobTexture())
         {

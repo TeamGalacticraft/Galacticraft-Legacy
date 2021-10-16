@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.tile.TileEntityCargoUnloader;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -30,10 +31,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockCargoLoader extends BlockAdvancedTile implements IShiftDescription, ISortableBlock
 {
+
     private enum EnumLoaderType implements IStringSerializable
     {
-        CARGO_LOADER(METADATA_CARGO_LOADER, "cargo_loader"),
-        CARGO_UNLOADER(METADATA_CARGO_UNLOADER, "cargo_unloader");
+
+        CARGO_LOADER(METADATA_CARGO_LOADER, "cargo_loader"), CARGO_UNLOADER(METADATA_CARGO_UNLOADER, "cargo_unloader");
 
         private final int meta;
         private final String name;
@@ -96,8 +98,7 @@ public class BlockCargoLoader extends BlockAdvancedTile implements IShiftDescrip
             if (tileEntity instanceof TileEntityCargoLoader)
             {
                 ((TileEntityCargoLoader) tileEntity).checkForCargoEntity();
-            }
-            else if (tileEntity instanceof TileEntityCargoUnloader)
+            } else if (tileEntity instanceof TileEntityCargoUnloader)
             {
                 ((TileEntityCargoUnloader) tileEntity).checkForCargoEntity();
             }
@@ -117,8 +118,7 @@ public class BlockCargoLoader extends BlockAdvancedTile implements IShiftDescrip
         if (state.getValue(TYPE) == EnumLoaderType.CARGO_LOADER)
         {
             return new TileEntityCargoLoader();
-        }
-        else
+        } else
         {
             return new TileEntityCargoUnloader();
         }
@@ -161,10 +161,10 @@ public class BlockCargoLoader extends BlockAdvancedTile implements IShiftDescrip
     {
         switch (meta)
         {
-        case METADATA_CARGO_LOADER:
-            return GCCoreUtil.translate("tile.cargo_loader.description");
-        case METADATA_CARGO_UNLOADER:
-            return GCCoreUtil.translate("tile.cargo_unloader.description");
+            case METADATA_CARGO_LOADER:
+                return GCCoreUtil.translate("tile.cargo_loader.description");
+            case METADATA_CARGO_UNLOADER:
+                return GCCoreUtil.translate("tile.cargo_unloader.description");
         }
         return "";
     }

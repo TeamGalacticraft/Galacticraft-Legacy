@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
  */
 public class ElectricItemHelper
 {
+
     /**
      * Recharges an electric item.
      *

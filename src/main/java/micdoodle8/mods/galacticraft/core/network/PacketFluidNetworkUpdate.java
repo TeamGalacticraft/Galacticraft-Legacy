@@ -1,9 +1,10 @@
 package micdoodle8.mods.galacticraft.core.network;
 
 import com.google.common.collect.Sets;
-import io.netty.buffer.ByteBuf;
+
 import micdoodle8.mods.galacticraft.api.transmission.tile.IBufferTransmitter;
 import micdoodle8.mods.galacticraft.core.fluid.FluidNetwork;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -14,8 +15,11 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 import java.util.Collection;
 
+import io.netty.buffer.ByteBuf;
+
 public class PacketFluidNetworkUpdate extends PacketBase
 {
+
     private PacketType type;
     private BlockPos pos;
 
@@ -70,32 +74,31 @@ public class PacketFluidNetworkUpdate extends PacketBase
 
         switch (this.type)
         {
-        case ADD_TRANSMITTER:
-            buffer.writeBoolean(this.newNetwork);
-            buffer.writeInt(this.transmittersAdded.size());
+            case ADD_TRANSMITTER:
+                buffer.writeBoolean(this.newNetwork);
+                buffer.writeInt(this.transmittersAdded.size());
 
-            for (IBufferTransmitter transmitter : this.transmittersAdded)
-            {
-                TileEntity tile = (TileEntity) transmitter;
-                buffer.writeInt(tile.getPos().getX());
-                buffer.writeInt(tile.getPos().getY());
-                buffer.writeInt(tile.getPos().getZ());
-            }
-            break;
-        case FLUID:
-            if (this.stack != null)
-            {
-                buffer.writeBoolean(true);
-                ByteBufUtils.writeUTF8String(buffer, FluidRegistry.getFluidName(this.stack));
-                buffer.writeInt(this.stack.amount);
-            }
-            else
-            {
-                buffer.writeBoolean(false);
-            }
+                for (IBufferTransmitter transmitter : this.transmittersAdded)
+                {
+                    TileEntity tile = (TileEntity) transmitter;
+                    buffer.writeInt(tile.getPos().getX());
+                    buffer.writeInt(tile.getPos().getY());
+                    buffer.writeInt(tile.getPos().getZ());
+                }
+                break;
+            case FLUID:
+                if (this.stack != null)
+                {
+                    buffer.writeBoolean(true);
+                    ByteBufUtils.writeUTF8String(buffer, FluidRegistry.getFluidName(this.stack));
+                    buffer.writeInt(this.stack.amount);
+                } else
+                {
+                    buffer.writeBoolean(false);
+                }
 
-            buffer.writeBoolean(this.didTransfer);
-            break;
+                buffer.writeBoolean(this.didTransfer);
+                break;
         }
     }
 
@@ -108,33 +111,32 @@ public class PacketFluidNetworkUpdate extends PacketBase
 
         switch (this.type)
         {
-        case ADD_TRANSMITTER:
-            this.newNetwork = buffer.readBoolean();
-            this.transmittersCoords = Sets.newHashSet();
-            int transmitterCount = buffer.readInt();
+            case ADD_TRANSMITTER:
+                this.newNetwork = buffer.readBoolean();
+                this.transmittersCoords = Sets.newHashSet();
+                int transmitterCount = buffer.readInt();
 
-            for (int i = 0; i < transmitterCount; ++i)
-            {
-                this.transmittersCoords.add(new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt()));
-            }
-            break;
-        case FLUID:
-            if (buffer.readBoolean())
-            {
-                this.fluidType = FluidRegistry.getFluid(ByteBufUtils.readUTF8String(buffer));
-                if (this.fluidType != null)
+                for (int i = 0; i < transmitterCount; ++i)
                 {
-                    this.stack = new FluidStack(this.fluidType, buffer.readInt());
+                    this.transmittersCoords.add(new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt()));
                 }
-            }
-            else
-            {
-                this.fluidType = null;
-                this.stack = null;
-            }
+                break;
+            case FLUID:
+                if (buffer.readBoolean())
+                {
+                    this.fluidType = FluidRegistry.getFluid(ByteBufUtils.readUTF8String(buffer));
+                    if (this.fluidType != null)
+                    {
+                        this.stack = new FluidStack(this.fluidType, buffer.readInt());
+                    }
+                } else
+                {
+                    this.fluidType = null;
+                    this.stack = null;
+                }
 
-            this.didTransfer = buffer.readBoolean();
-            break;
+                this.didTransfer = buffer.readBoolean();
+                break;
         }
     }
 
@@ -149,39 +151,39 @@ public class PacketFluidNetworkUpdate extends PacketBase
 
             switch (this.type)
             {
-            case ADD_TRANSMITTER:
-            {
-                FluidNetwork network = transmitter.hasNetwork() && !this.newNetwork ? (FluidNetwork) transmitter.getNetwork() : new FluidNetwork();
-                network.register();
-                transmitter.setNetwork(network);
-
-                for (BlockPos pos : this.transmittersCoords)
+                case ADD_TRANSMITTER:
                 {
-                    TileEntity transmitterTile = player.world.getTileEntity(pos);
+                    FluidNetwork network = transmitter.hasNetwork() && !this.newNetwork ? (FluidNetwork) transmitter.getNetwork() : new FluidNetwork();
+                    network.register();
+                    transmitter.setNetwork(network);
 
-                    if (transmitterTile instanceof IBufferTransmitter)
+                    for (BlockPos pos : this.transmittersCoords)
                     {
-                        ((IBufferTransmitter) transmitterTile).setNetwork(network);
-                    }
-                }
+                        TileEntity transmitterTile = player.world.getTileEntity(pos);
 
-                network.updateCapacity();
-            }
-            break;
-            case FLUID:
-                if (transmitter.getNetwork() != null)
-                {
-                    FluidNetwork network = (FluidNetwork) transmitter.getNetwork();
-
-                    if (this.fluidType != null)
-                    {
-                        network.refFluid = this.fluidType;
+                        if (transmitterTile instanceof IBufferTransmitter)
+                        {
+                            ((IBufferTransmitter) transmitterTile).setNetwork(network);
+                        }
                     }
 
-                    network.buffer = this.stack;
-                    network.didTransfer = this.didTransfer;
+                    network.updateCapacity();
                 }
-                break;
+                    break;
+                case FLUID:
+                    if (transmitter.getNetwork() != null)
+                    {
+                        FluidNetwork network = (FluidNetwork) transmitter.getNetwork();
+
+                        if (this.fluidType != null)
+                        {
+                            network.refFluid = this.fluidType;
+                        }
+
+                        network.buffer = this.stack;
+                        network.didTransfer = this.didTransfer;
+                    }
+                    break;
             }
         }
     }
@@ -194,7 +196,6 @@ public class PacketFluidNetworkUpdate extends PacketBase
 
     public enum PacketType
     {
-        ADD_TRANSMITTER,
-        FLUID,
+        ADD_TRANSMITTER, FLUID,
     }
 }

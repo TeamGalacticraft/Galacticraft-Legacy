@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.blocks.BlockScreen;
 import micdoodle8.mods.galacticraft.core.client.screen.DrawGameScreen;
 import micdoodle8.mods.galacticraft.core.tick.TickHandlerClient;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -21,7 +22,8 @@ import java.util.List;
 
 public class TileEntityScreen extends TileEntityAdvanced implements ITileClientUpdates
 {
-    public static float FRAMEBORDER = 0.098F;  //used for rendering
+
+    public static float FRAMEBORDER = 0.098F; // used for rendering
     public int imageType;
     public DrawGameScreen screen;
     public boolean connectedUp;
@@ -39,7 +41,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
 
     private int requiresUpdate = 0;
     private boolean doneClientUpdate = false;
-    //Used on client side only
+    // Used on client side only
     public boolean refreshOnUpdate = false;
     private AxisAlignedBB renderAABB;
     private static final boolean LOGGING = false;
@@ -150,8 +152,8 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
     }
 
     /**
-     * Call when a screen (which maybe part of a multiscreen) is either
-     * broken or rotated.
+     * Call when a screen (which maybe part of a multiscreen) is either broken
+     * or rotated.
      *
      * @param state The state of the screen prior to breaking or rotation
      */
@@ -179,8 +181,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                 if (x == 0 && z == 0)
                 {
                     this.resetToSingle();
-                }
-                else
+                } else
                 {
                     BlockVec3 newVec = vec.clone().modifyPositionFromSide(facingRight, x).modifyPositionFromSide(EnumFacing.DOWN, z);
                     tile = newVec.getTileEntity(this.world);
@@ -192,7 +193,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
             }
         }
 
-        //TODO  Try to generate largest screen possible out of remaining blocks
+        // TODO Try to generate largest screen possible out of remaining blocks
 
         this.setConnectedDown(false);
         this.setConnectedUp(false);
@@ -282,14 +283,16 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
     }
 
     /**
-     * Check whether the screen can sustain 'multi-screen' connections on each of its 4 sides
-     * (note: this can be called recursively from inside itself)
+     * Check whether the screen can sustain 'multi-screen' connections on each
+     * of its 4 sides (note: this can be called recursively from inside itself)
      *
-     * @param doScreen If true, build a new multi-screen if connections are found
+     * @param doScreen If true, build a new multi-screen if connections are
+     *        found
      */
     public void refreshConnections(boolean doScreen)
     {
-        if (LOGGING) this.log("Starting connection check");
+        if (LOGGING)
+            this.log("Starting connection check");
 
         IBlockState iblockstate = this.world.getBlockState(this.pos);
         EnumFacing facing = iblockstate.getValue(BlockScreen.FACING);
@@ -297,7 +300,8 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         int meta = this.getBlockMetadata() & 7;
         if (meta < 2)
         {
-            //TODO System.out.println("Up/down oriented screens cannot be multiscreen");
+            // TODO System.out.println("Up/down oriented screens cannot be
+            // multiscreen");
             this.resetToSingle();
             return;
         }
@@ -308,7 +312,8 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         TileEntity tileRight = null;
         BlockVec3 vec = new BlockVec3(this);
 
-        //First, basic check that a neighbour is there and in the same orientation
+        // First, basic check that a neighbour is there and in the same
+        // orientation
         if (this.connectedUp)
         {
             tileUp = this.setVerifiedConnectedUp(vec, meta);
@@ -326,7 +331,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
             tileRight = this.setVerifiedConnectedRight(vec, meta);
         }
 
-        //Now test whether a connection can be sustained with that other tile
+        // Now test whether a connection can be sustained with that other tile
         if (this.connectedUp)
         {
             this.setConnectedUp(this.tryConnectUp((TileEntityScreen) tileUp));
@@ -346,7 +351,8 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         {
             this.setConnectedRight(this.tryConnectRight((TileEntityScreen) tileRight));
         }
-        if (LOGGING) this.log("Ending connection check");
+        if (LOGGING)
+            this.log("Ending connection check");
         if (doScreen)
         {
             this.checkScreenSize();
@@ -378,18 +384,15 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
             {
                 this.joinRight();
                 flag = true;
-            }
-            else if (!this.connectedLeft && this.canJoinLeft())
+            } else if (!this.connectedLeft && this.canJoinLeft())
             {
                 this.joinLeft();
                 flag = true;
-            }
-            else if (!this.connectedUp && this.canJoinUp())
+            } else if (!this.connectedUp && this.canJoinUp())
             {
                 this.joinUp();
                 flag = true;
-            }
-            else if (!this.connectedDown && this.canJoinDown())
+            } else if (!this.connectedDown && this.canJoinDown())
             {
                 this.joinDown();
                 flag = true;
@@ -447,7 +450,8 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
 
     public void checkScreenSize()
     {
-        if (LOGGING) this.log("Checking screen size");
+        if (LOGGING)
+            this.log("Checking screen size");
         int up = 0;
         int down = 0;
         int left = 0;
@@ -466,8 +470,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                 {
                     tile = (TileEntityScreen) newTile;
                     vec.translate(0, 1, 0);
-                }
-                else
+                } else
                 {
                     System.out.println("Debug - connected up to a non-screen tile");
 //    				tile.connectedUp = false;
@@ -476,8 +479,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                     up--;
                     break;
                 }
-            }
-            else
+            } else
             {
                 break;
             }
@@ -495,8 +497,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                 {
                     tile = (TileEntityScreen) newTile;
                     vec.translate(0, -1, 0);
-                }
-                else
+                } else
                 {
                     System.out.println("Debug - connected down to a non-screen tile");
 //    				tile.connectedDown = false;
@@ -505,8 +506,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                     down--;
                     break;
                 }
-            }
-            else
+            } else
             {
                 break;
             }
@@ -525,8 +525,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                 {
                     tile = (TileEntityScreen) newTile;
                     vec = vec.newVecSide(leftside);
-                }
-                else
+                } else
                 {
                     System.out.println("Debug - connected left to a non-screen tile");
 //    				tile.connectedLeft = false;
@@ -535,8 +534,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                     left--;
                     break;
                 }
-            }
-            else
+            } else
             {
                 break;
             }
@@ -555,8 +553,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                 {
                     tile = (TileEntityScreen) newTile;
                     vec = vec.newVecSide(rightside);
-                }
-                else
+                } else
                 {
                     System.out.println("Debug - connected right to a non-screen tile");
 //    				tile.connectedRight = false;
@@ -565,14 +562,14 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                     right--;
                     break;
                 }
-            }
-            else
+            } else
             {
                 break;
             }
         }
 
-        if (LOGGING) this.log("Screen size check midpoint " + up + " " + down + " " + left + " " + right + " ");
+        if (LOGGING)
+            this.log("Screen size check midpoint " + up + " " + down + " " + left + " " + right + " ");
 
         vec = new BlockVec3(this);
         TileEntity newtile = vec.getTileEntityOnSide(this.world, 1);
@@ -583,22 +580,21 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         TileEntityScreen tileLeft = (newtile instanceof TileEntityScreen) ? (TileEntityScreen) newtile : null;
         newtile = vec.getTileEntityOnSide(this.world, rightside);
         TileEntityScreen tileRight = (newtile instanceof TileEntityScreen) ? (TileEntityScreen) newtile : null;
-        //Prevent 3 x 1 and longer
+        // Prevent 3 x 1 and longer
         if (left + right == 0 && up + down >= 1)
         {
-            if (up > 0 && !tileUp.connectedUp)  //No need for null check if up > 0
+            if (up > 0 && !tileUp.connectedUp) // No need for null check if up >
+                                               // 0
             {
                 up = 1;
                 down = 0;
-            }
-            else
+            } else
             {
                 up = 0;
                 if (tileDown != null && !tileDown.connectedDown)
                 {
                     down = 1;
-                }
-                else
+                } else
                 {
                     down = 0;
                 }
@@ -606,27 +602,25 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         }
         if (up + down == 0 && left + right >= 1)
         {
-            if (left > 0 && !tileLeft.connectedLeft)  //No need for null check if right > 0
+            if (left > 0 && !tileLeft.connectedLeft) // No need for null check
+                                                     // if right > 0
             {
                 if (right == 0 || tileRight == null || tileRight.connectionsLeft == 0)
                 {
                     left = 1;
                     right = 0;
-                }
-                else
+                } else
                 {
                     left = 0;
                     right = 1;
                 }
-            }
-            else
+            } else
             {
                 left = 0;
                 if (tileRight != null && !tileRight.connectedRight)
                 {
                     right = 1;
-                }
-                else
+                } else
                 {
                     right = 0;
                 }
@@ -674,21 +668,25 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
 //    		if (tileRight != null) tileRight.connectedLeft = false;
         }
 
-        if (LOGGING) this.log("Finished screen size check");
+        if (LOGGING)
+            this.log("Finished screen size check");
 
         this.checkWholeScreen(up, down, left, right);
     }
 
     /**
-     * After figuring out the screen edges (overall screen dimensions)
-     * check that the screen is a whole A x B rectangle with no tiles missing
-     * <p>
-     * If it is whole, set all tiles in the screen to match this screen type
+     * After figuring out the screen edges (overall screen dimensions) check
+     * that the screen is a whole A x B rectangle with no tiles missing <p> If
+     * it is whole, set all tiles in the screen to match this screen type
      *
-     * @param up    Number of blocks the screen edge is away from this in the up direction
-     * @param down  Number of blocks the screen edge is away from this in the down direction
-     * @param left  Number of blocks the screen edge is away from this in the left direction
-     * @param right Number of blocks the screen edge is away from this in the right direction
+     * @param up Number of blocks the screen edge is away from this in the up
+     *        direction
+     * @param down Number of blocks the screen edge is away from this in the
+     *        down direction
+     * @param left Number of blocks the screen edge is away from this in the
+     *        left direction
+     * @param right Number of blocks the screen edge is away from this in the
+     *        right direction
      * @return True if the screen was whole
      */
     private boolean checkWholeScreen(int up, int down, int left, int right)
@@ -696,11 +694,13 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         if (up + down + left + right == 0 || up < 0 || down < 0 || left < 0 || right < 0)
         {
             this.doneClientUpdate = true;
-       	    this.resetToSingle();
+            this.resetToSingle();
             return true;
         }
 
-        //System.out.println("Checking screen size at "+this.getPos().getX()+","+this.getPos().getZ()+": Up "+up+" Dn "+down+" Lf "+left+" Rg "+right);
+        // System.out.println("Checking screen size at
+        // "+this.getPos().getX()+","+this.getPos().getZ()+": Up "+up+" Dn
+        // "+down+" Lf "+left+" Rg "+right);
 
         boolean screenWhole = true;
         boolean existingScreen = false;
@@ -750,8 +750,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
                             existingScreen = true;
                         }
                     }
-                }
-                else
+                } else
                 {
                     screenWhole = false;
                 }
@@ -778,7 +777,8 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         TileEntity bottomLeft = vec.clone().modifyPositionFromSide(side, -left).modifyPositionFromSide(EnumFacing.DOWN, down).getTileEntity(this.world);
         if (this.world.isRemote)
         {
-            if (bottomLeft instanceof TileEntityScreen)  //It always will be if reached this far
+            if (bottomLeft instanceof TileEntityScreen) // It always will be if
+                                                        // reached this far
             {
                 newScreen = ((TileEntityScreen) bottomLeft).screen;
                 if (!newScreen.check(1.0F + left + right, 1.0F + up + down))
@@ -844,49 +844,48 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         if (this.world.isRemote)
         {
             this.screen = new DrawGameScreen(1.0F, 1.0F, this);
-        }
-        else
+        } else
         {
-        	this.updateAllInDimension();
+            this.updateAllInDimension();
         }
     }
 
     /**
-     * Get the Minecraft direction which is on the left side
-     * for the block orientation given by metadata
+     * Get the Minecraft direction which is on the left side for the block
+     * orientation given by metadata
      */
     private int getLeft(int meta)
     {
         switch (meta)
         {
-        case 2:
-            return 4;
-        case 3:
-            return 5;
-        case 4:
-            return 3;
-        case 5:
-            return 2;
+            case 2:
+                return 4;
+            case 3:
+                return 5;
+            case 4:
+                return 3;
+            case 5:
+                return 2;
         }
         return 4;
     }
 
     /**
-     * Get the Minecraft direction which is on the right side
-     * for the block orientation given by metadata
+     * Get the Minecraft direction which is on the right side for the block
+     * orientation given by metadata
      */
     private int getRight(int meta)
     {
         switch (meta)
         {
-        case 2:
-            return 5;
-        case 3:
-            return 4;
-        case 4:
-            return 2;
-        case 5:
-            return 3;
+            case 2:
+                return 5;
+            case 3:
+                return 4;
+            case 4:
+                return 2;
+            case 5:
+                return 3;
         }
         return 5;
     }
@@ -926,7 +925,6 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         }
         return true;
     }
-
 
     private boolean canJoinLeft()
     {
@@ -1048,8 +1046,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
             if (z == 0)
             {
                 tile = this;
-            }
-            else
+            } else
             {
                 tile = newVec.getTileEntity(this.world);
             }
@@ -1079,8 +1076,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
             if (z == 0)
             {
                 tile = this;
-            }
-            else
+            } else
             {
                 tile = newVec.getTileEntity(this.world);
             }
@@ -1111,8 +1107,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
             if (x == 0)
             {
                 tile = this;
-            }
-            else
+            } else
             {
                 tile = newVec.getTileEntity(this.world);
             }
@@ -1143,8 +1138,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
             if (x == 0)
             {
                 tile = this;
-            }
-            else
+            } else
             {
                 tile = newVec.getTileEntity(this.world);
             }
@@ -1166,7 +1160,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
     {
         if (screenTile.connectedDown)
         {
-            return true;        //No checks?
+            return true; // No checks?
         }
 
 //		screenTile.connectedDown = true;
@@ -1182,11 +1176,13 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         }
         if (this.connectedRight)
         {
-            if (vec == null) vec = new BlockVec3(screenTile);
+            if (vec == null)
+                vec = new BlockVec3(screenTile);
             screenTile.setVerifiedConnectedRight(vec, meta);
         }
         screenTile.refreshConnections(false);
-        //Undo if the neighbour could not maintain the same left-right connections
+        // Undo if the neighbour could not maintain the same left-right
+        // connections
         if ((this.connectedLeft ^ screenTile.connectedLeft) || (this.connectedRight ^ screenTile.connectedRight))
         {
             screenTile.setConnectedDown(false);
@@ -1201,7 +1197,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
     {
         if (screenTile.connectedUp)
         {
-            return true;        //No checks?
+            return true; // No checks?
         }
 
 //		screenTile.connectedUp = true;
@@ -1217,11 +1213,13 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         }
         if (this.connectedRight)
         {
-            if (vec == null) vec = new BlockVec3(screenTile);
+            if (vec == null)
+                vec = new BlockVec3(screenTile);
             screenTile.setVerifiedConnectedRight(vec, meta);
         }
         screenTile.refreshConnections(false);
-        //Undo if the neighbour could not maintain the same left-right connections
+        // Undo if the neighbour could not maintain the same left-right
+        // connections
         if ((this.connectedLeft ^ screenTile.connectedLeft) || (this.connectedRight ^ screenTile.connectedRight))
         {
             screenTile.setConnectedUp(false);
@@ -1236,7 +1234,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
     {
         if (screenTile.connectedRight)
         {
-            return true;        //No checks?
+            return true; // No checks?
         }
 
         if ((screenTile.connectedUp && !this.connectedUp) || (screenTile.connectedDown && !this.connectedDown))
@@ -1257,11 +1255,12 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         }
         if (this.connectedDown)
         {
-            if (vec == null) vec = new BlockVec3(screenTile);
+            if (vec == null)
+                vec = new BlockVec3(screenTile);
             screenTile.setVerifiedConnectedDown(vec, meta);
         }
         screenTile.refreshConnections(false);
-        //Undo if the neighbour could not maintain the same up-down connections
+        // Undo if the neighbour could not maintain the same up-down connections
         if ((this.connectedUp ^ screenTile.connectedUp) || (this.connectedDown ^ screenTile.connectedDown))
         {
             screenTile.setConnectedRight(false);
@@ -1276,7 +1275,7 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
     {
         if (screenTile.connectedLeft)
         {
-            return true;        //No checks?
+            return true; // No checks?
         }
 
         if ((screenTile.connectedUp && !this.connectedUp) || (screenTile.connectedDown && !this.connectedDown))
@@ -1297,11 +1296,12 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         }
         if (this.connectedDown)
         {
-            if (vec == null) vec = new BlockVec3(screenTile);
+            if (vec == null)
+                vec = new BlockVec3(screenTile);
             screenTile.setVerifiedConnectedDown(vec, meta);
         }
         screenTile.refreshConnections(false);
-        //Undo if the neighbour could not maintain the same up-down connections
+        // Undo if the neighbour could not maintain the same up-down connections
         if ((this.connectedUp ^ screenTile.connectedUp) || (this.connectedDown ^ screenTile.connectedDown))
         {
             screenTile.setConnectedLeft(false);
@@ -1336,7 +1336,8 @@ public class TileEntityScreen extends TileEntityAdvanced implements ITileClientU
         {
             strSide = "C";
         }
-        //System.out.println(strSide + ":" + msg + " at "+this.getPos().getX()+","+this.getPos().getZ()+" "+connections);
+        // System.out.println(strSide + ":" + msg + " at
+        // "+this.getPos().getX()+","+this.getPos().getZ()+" "+connections);
     }
 
     @SideOnly(Side.CLIENT)

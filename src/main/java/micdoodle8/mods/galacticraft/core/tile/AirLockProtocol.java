@@ -9,6 +9,7 @@ import java.util.HashSet;
 
 class AirLockProtocol
 {
+
     private ArrayList<BlockPos> adjacentAirLocks;
     private HashSet<BlockPos> checked;
     private final World world;
@@ -124,8 +125,7 @@ class AirLockProtocol
         if (horizontal)
         {
             this.loopThroughHorizontal(headPos, this.maxLoops);
-        }
-        else
+        } else
         {
             this.loopThrough(headPos, this.maxLoops);
         }
@@ -183,13 +183,13 @@ class AirLockProtocol
         if (horizontal)
         {
             this.checkDimensionsHorizontal();
-        }
-        else
+        } else
         {
             this.checkDimensions();
         }
 
-        if (this.airLocksDimension2Max == 0 || this.airLocksDimension2Min == 0 || (this.airLocksDimension1Min == 0 || this.airLocksDimension1Max == 0) || this.airLocksDimension2Max != this.airLocksDimension2Min || this.airLocksDimension1Max != this.airLocksDimension1Min)
+        if (this.airLocksDimension2Max == 0 || this.airLocksDimension2Min == 0 || (this.airLocksDimension1Min == 0 || this.airLocksDimension1Max == 0)
+            || this.airLocksDimension2Max != this.airLocksDimension2Min || this.airLocksDimension1Max != this.airLocksDimension1Min)
         {
             return -1;
         }
@@ -240,8 +240,7 @@ class AirLockProtocol
                     this.airLocksDimension2Min++;
                 }
             }
-        }
-        else if (this.minZ != this.maxZ)
+        } else if (this.minZ != this.maxZ)
         {
             for (int z = this.minZ; z <= this.maxZ; z++)
             {

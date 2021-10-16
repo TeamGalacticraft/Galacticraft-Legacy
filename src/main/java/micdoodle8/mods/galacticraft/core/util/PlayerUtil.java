@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
+
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 public class PlayerUtil
 {
+
     public static HashMap<String, GameProfile> knownSkins = new HashMap<>();
 
     public static EntityPlayerMP getPlayerForUsernameVanilla(MinecraftServer server, String username)
@@ -41,8 +43,7 @@ public class PlayerUtil
             if (ignoreCase)
             {
                 return getPlayerForUsernameVanilla(server, username);
-            }
-            else
+            } else
             {
                 Iterator iterator = server.getPlayerList().getPlayers().iterator();
                 EntityPlayerMP entityplayermp;
@@ -55,14 +56,13 @@ public class PlayerUtil
                     }
 
                     entityplayermp = (EntityPlayerMP) iterator.next();
-                }
-                while (!entityplayermp.getName().equalsIgnoreCase(username));
+                } while (!entityplayermp.getName().equalsIgnoreCase(username));
 
                 return entityplayermp;
             }
         }
 
-        GCLog.severe("Warning: Could not find player base server instance for player " + username);
+        GCLog.error("Warning: Could not find player base server instance for player " + username);
 
         return null;
     }
@@ -89,7 +89,7 @@ public class PlayerUtil
 
         if (clientPlayer == null && player != null)
         {
-            GCLog.severe("Warning: Could not find player base client instance for player " + PlayerUtil.getName(player));
+            GCLog.error("Warning: Could not find player base client instance for player " + PlayerUtil.getName(player));
         }
 
         return clientPlayer;
@@ -140,12 +140,13 @@ public class PlayerUtil
             }
             if (!profile.getProperties().containsKey("textures"))
             {
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_REQUEST_PLAYERSKIN, dimID, new Object[] { strName }));
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_REQUEST_PLAYERSKIN, dimID, new Object[]
+                {strName}));
             }
         }
         return profile;
     }
-    
+
     public static EntityPlayerMP getPlayerByUUID(UUID theUUID)
     {
         List<EntityPlayerMP> players = PlayerUtil.getPlayersOnline();
@@ -161,25 +162,25 @@ public class PlayerUtil
         }
         return null;
     }
-    
-    
+
     public static List<EntityPlayerMP> getPlayersOnline()
     {
         return GCCoreUtil.getServer().getPlayerList().getPlayers();
     }
 
-
     public static boolean isPlayerOnline(EntityPlayerMP player)
     {
         return player.server.getPlayerList().getPlayers().contains(player);
     }
-    
+
     public static String getName(EntityPlayer player)
     {
-        if (player == null) return null;
-        
-        if (player.getGameProfile() == null) return null;
-        
+        if (player == null)
+            return null;
+
+        if (player.getGameProfile() == null)
+            return null;
+
         return player.getGameProfile().getName();
     }
 }

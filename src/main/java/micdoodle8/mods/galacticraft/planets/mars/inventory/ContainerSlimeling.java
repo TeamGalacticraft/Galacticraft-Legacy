@@ -13,6 +13,7 @@ import java.util.Collections;
 
 public class ContainerSlimeling extends Container
 {
+
     private final InventorySlimeling slimelingInventory;
 
     public ContainerSlimeling(InventoryPlayer playerInventory, EntitySlimeling slimeling, EntityPlayer player)
@@ -48,7 +49,7 @@ public class ContainerSlimeling extends Container
             container.addSlotToContainer(slot);
         }
     }
-    
+
     public static void removeSlots(ContainerSlimeling container)
     {
         Collections.copy(container.inventoryItemStacks, container.inventoryItemStacks.subList(0, 37));
@@ -59,20 +60,22 @@ public class ContainerSlimeling extends Container
     {
         if (!stack.isEmpty() && stack.getItem() == MarsItems.marsItemBasic && stack.getItemDamage() == 4)
         {
-        	//Note that if NEI is installed, this can be called by InventorySlimeling.setInventorySlotContents even if the container already has the slots
-        	if (container.inventorySlots.size() < 63)
-        	{
-        		for (int var3 = 0; var3 < 3; ++var3)
-        		{
-        			for (int var4 = 0; var4 < 9; ++var4)
-        			{
-        				Slot slot = new Slot(slimeling.slimelingInventory, var4 + var3 * 9 + 2, 8 + var4 * 18, 54 + var3 * 18);
-        				slot.slotNumber = container.inventorySlots.size();
-        				container.inventorySlots.add(slot);
-        				container.inventoryItemStacks.add(ItemStack.EMPTY);
-        			}
-        		}
-        	}
+            // Note that if NEI is installed, this can be called by
+            // InventorySlimeling.setInventorySlotContents even if the container
+            // already has the slots
+            if (container.inventorySlots.size() < 63)
+            {
+                for (int var3 = 0; var3 < 3; ++var3)
+                {
+                    for (int var4 = 0; var4 < 9; ++var4)
+                    {
+                        Slot slot = new Slot(slimeling.slimelingInventory, var4 + var3 * 9 + 2, 8 + var4 * 18, 54 + var3 * 18);
+                        slot.slotNumber = container.inventorySlots.size();
+                        container.inventorySlots.add(slot);
+                        container.inventoryItemStacks.add(ItemStack.EMPTY);
+                    }
+                }
+            }
         }
     }
 
@@ -108,8 +111,7 @@ public class ContainerSlimeling extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     if (var4.getItem() == MarsItems.marsItemBasic && var4.getItemDamage() == 4)
                     {
@@ -117,25 +119,22 @@ public class ContainerSlimeling extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (par1 < b - 9)
+                    } else if (par1 < b - 9)
                     {
                         if (!this.mergeItemStack(var4, b - 9, b, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(var4, b - 36, b - 9, false))
+                    } else if (!this.mergeItemStack(var4, b - 36, b - 9, false))
                     {
                         return ItemStack.EMPTY;
                     }
                 }
-            }
-            else
+            } else
             {
-                //With inventory bag, slot 0 is a bag slot
-                //Slots 1-36 are regular inventory (27 inventory, 9 hotbar)
-                //Slots 37-63 are the inventory bag slots
+                // With inventory bag, slot 0 is a bag slot
+                // Slots 1-36 are regular inventory (27 inventory, 9 hotbar)
+                // Slots 37-63 are the inventory bag slots
                 if (par1 == 0)
                 {
                     return ItemStack.EMPTY;
@@ -147,8 +146,7 @@ public class ContainerSlimeling extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     if (par1 < 28)
                     {
@@ -159,8 +157,7 @@ public class ContainerSlimeling extends Container
                                 return ItemStack.EMPTY;
                             }
                         }
-                    }
-                    else if (!this.mergeItemStack(var4, 37, 64, false))
+                    } else if (!this.mergeItemStack(var4, 37, 64, false))
                     {
                         if (!this.mergeItemStack(var4, 1, 28, false))
                         {
@@ -173,8 +170,7 @@ public class ContainerSlimeling extends Container
             if (var4.isEmpty())
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

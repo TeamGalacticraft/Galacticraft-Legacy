@@ -1,11 +1,13 @@
 package micdoodle8.mods.galacticraft.core.client.gui.screen;
 
 import com.google.common.collect.Maps;
+
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.gui.element.GuiElementCheckboxPreLaunch;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -23,6 +25,7 @@ import java.util.Map;
 
 public class GuiPreLaunchChecklist extends GuiScreen implements GuiElementCheckboxPreLaunch.ICheckBoxCallback
 {
+
     private static final ResourceLocation bookGuiTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/checklist_book.png");
     private int bookImageWidth = 192;
     private int bookImageHeight = 192;
@@ -74,8 +77,7 @@ public class GuiPreLaunchChecklist extends GuiScreen implements GuiElementCheckb
                     index++;
                 }
                 yPos += size + mc.fontRenderer.FONT_HEIGHT / 2;
-            }
-            else
+            } else
             {
                 page++;
                 yPos = 25;
@@ -104,8 +106,7 @@ public class GuiPreLaunchChecklist extends GuiScreen implements GuiElementCheckb
                         index++;
                     }
                     yPos += size + mc.fontRenderer.FONT_HEIGHT / 2;
-                }
-                else
+                } else
                 {
                     page++;
                     yPos = 25;
@@ -144,10 +145,14 @@ public class GuiPreLaunchChecklist extends GuiScreen implements GuiElementCheckb
         }
 
         // Send changed tag compound to server
-        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_UPDATE_CHECKLIST, GCCoreUtil.getDimensionID(mc.player.world), new Object[] { this.tagCompound }));
+        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_UPDATE_CHECKLIST, GCCoreUtil.getDimensionID(mc.player.world), new Object[]
+        {this.tagCompound}));
 
         // Update client item
-        ItemStack stack = mc.player.getHeldItem(EnumHand.MAIN_HAND /* TODO Support off-hand use */);
+        ItemStack stack = mc.player
+            .getHeldItem(EnumHand.MAIN_HAND /*
+                                             * TODO Support off-hand use
+                                             */);
         NBTTagCompound tagCompound = stack.getTagCompound();
         if (tagCompound == null)
         {
@@ -164,8 +169,7 @@ public class GuiPreLaunchChecklist extends GuiScreen implements GuiElementCheckb
         {
             this.currPage++;
             this.initGui();
-        }
-        else if (buttonClicked == this.buttonPreviousPage)
+        } else if (buttonClicked == this.buttonPreviousPage)
         {
             this.currPage--;
             this.initGui();
@@ -203,13 +207,11 @@ public class GuiPreLaunchChecklist extends GuiScreen implements GuiElementCheckb
                 if (button.x > element.x)
                 {
                     ((GuiElementCheckboxPreLaunch) button).isSelected = newSelected;
-                }
-                else
+                } else
                 {
                     break;
                 }
-            }
-            else if (button == element)
+            } else if (button == element)
             {
                 started = true;
             }
@@ -238,6 +240,7 @@ public class GuiPreLaunchChecklist extends GuiScreen implements GuiElementCheckb
     @SideOnly(Side.CLIENT)
     static class NextPageButton extends GuiButton
     {
+
         private final boolean forward;
 
         public NextPageButton(int id, int x, int y, boolean forward)

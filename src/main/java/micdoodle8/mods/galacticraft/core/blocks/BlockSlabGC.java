@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.blocks;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
@@ -26,6 +27,7 @@ import java.util.Random;
 
 public class BlockSlabGC extends BlockSlab implements ISortableBlock
 {
+
     public final static PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
 
     public BlockSlabGC(String name, Material material)
@@ -79,18 +81,19 @@ public class BlockSlabGC extends BlockSlab implements ISortableBlock
     {
         Block block = worldIn.getBlockState(pos).getBlock();
 
-        if (!(block instanceof BlockSlabGC)) //This will prevent game crashing when harvest block
+        if (!(block instanceof BlockSlabGC)) // This will prevent game crashing
+                                             // when harvest block
         {
             return 0;
         }
 
         switch (this.getMetaFromState(worldIn.getBlockState(pos)))
         {
-        case 2:
-        case 3:
-            return 1.5F;
-        default:
-            return 2.0F;
+            case 2:
+            case 3:
+                return 1.5F;
+            default:
+                return 2.0F;
         }
     }
 
@@ -164,6 +167,7 @@ public class BlockSlabGC extends BlockSlab implements ISortableBlock
 
     public enum BlockType implements IStringSerializable
     {
+
         TIN_SLAB_1(0, "tin_slab_1"),
         TIN_SLAB_2(1, "tin_slab_2"),
         MOON_STONE_SLAB(2, "moon_slab"),

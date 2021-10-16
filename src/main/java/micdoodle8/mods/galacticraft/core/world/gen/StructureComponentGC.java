@@ -13,6 +13,7 @@ import java.util.Random;
 
 public abstract class StructureComponentGC extends StructureComponent
 {
+
     public StructureComponentGC(int var1)
     {
         super(var1);
@@ -24,14 +25,14 @@ public abstract class StructureComponentGC extends StructureComponent
         {
             switch (SwitchEnumFacing.field_176064_a[coordBaseMode.ordinal()])
             {
-            case 0:
-                return new StructureBoundingBox(x + lengthOffset, y + heightOffset, z + widthOffset, x + length + lengthOffset, y + height + heightOffset, z + width + widthOffset);
-            case 1:
-                return new StructureBoundingBox(x - width + widthOffset, y + heightOffset, z + lengthOffset, x + widthOffset, y + height + heightOffset, z + length + lengthOffset);
-            case 2:
-                return new StructureBoundingBox(x - length - lengthOffset, y + heightOffset, z - width - widthOffset, x - lengthOffset, y + height + heightOffset, z - widthOffset);
-            case 3:
-                return new StructureBoundingBox(x + widthOffset, y + heightOffset, z - length, x + width + widthOffset, y + height + heightOffset, z + lengthOffset);
+                case 0:
+                    return new StructureBoundingBox(x + lengthOffset, y + heightOffset, z + widthOffset, x + length + lengthOffset, y + height + heightOffset, z + width + widthOffset);
+                case 1:
+                    return new StructureBoundingBox(x - width + widthOffset, y + heightOffset, z + lengthOffset, x + widthOffset, y + height + heightOffset, z + length + lengthOffset);
+                case 2:
+                    return new StructureBoundingBox(x - length - lengthOffset, y + heightOffset, z - width - widthOffset, x - lengthOffset, y + height + heightOffset, z - widthOffset);
+                case 3:
+                    return new StructureBoundingBox(x + widthOffset, y + heightOffset, z - length, x + width + widthOffset, y + height + heightOffset, z + lengthOffset);
             }
         }
         return new StructureBoundingBox(x + lengthOffset, y + heightOffset, z + widthOffset, x + length + lengthOffset, y + height + heightOffset, z + width + widthOffset);
@@ -61,7 +62,12 @@ public abstract class StructureComponentGC extends StructureComponent
         final int var6 = this.getXWithOffset(var1, var3);
         final int var7 = this.getYWithOffset(var2);
         final int var8 = this.getZWithOffset(var1, var3);
-        return var5 == 0 ? new int[] { var6 + 1, var7 - 1, var8 - var4 / 2 } : var5 == 1 ? new int[] { var6 + var4 / 2, var7 - 1, var8 + 1 } : var5 == 2 ? new int[] { var6 - 1, var7 - 1, var8 + var4 / 2 } : var5 == 3 ? new int[] { var6 - var4 / 2, var7 - 1, var8 - 1 } : new int[] { var1, var2, var3 };
+        return var5 == 0 ? new int[]
+        {var6 + 1, var7 - 1, var8 - var4 / 2} : var5 == 1 ? new int[]
+        {var6 + var4 / 2, var7 - 1, var8 + 1} : var5 == 2 ? new int[]
+        {var6 - 1, var7 - 1, var8 + var4 / 2} : var5 == 3 ? new int[]
+        {var6 - var4 / 2, var7 - 1, var8 - 1} : new int[]
+        {var1, var2, var3};
     }
 
     public int[] getOffsetAsIfRotated(int[] var1, EnumFacing var2)
@@ -81,20 +87,20 @@ public abstract class StructureComponentGC extends StructureComponent
     {
         switch (getCoordBaseMode().getHorizontalIndex())
         {
-        case 0:
-            return this.boundingBox.minX + var1;
+            case 0:
+                return this.boundingBox.minX + var1;
 
-        case 1:
-            return this.boundingBox.maxX - var2;
+            case 1:
+                return this.boundingBox.maxX - var2;
 
-        case 2:
-            return this.boundingBox.maxX - var1;
+            case 2:
+                return this.boundingBox.maxX - var1;
 
-        case 3:
-            return this.boundingBox.minX + var2;
+            case 3:
+                return this.boundingBox.minX + var2;
 
-        default:
-            return var1;
+            default:
+                return var1;
         }
     }
 
@@ -103,20 +109,20 @@ public abstract class StructureComponentGC extends StructureComponent
     {
         switch (getCoordBaseMode().getHorizontalIndex())
         {
-        case 0:
-            return this.boundingBox.minZ + var2;
+            case 0:
+                return this.boundingBox.minZ + var2;
 
-        case 1:
-            return this.boundingBox.minZ + var1;
+            case 1:
+                return this.boundingBox.minZ + var1;
 
-        case 2:
-            return this.boundingBox.maxZ - var2;
+            case 2:
+                return this.boundingBox.maxZ - var2;
 
-        case 3:
-            return this.boundingBox.maxZ - var1;
+            case 3:
+                return this.boundingBox.maxZ - var1;
 
-        default:
-            return var2;
+            default:
+                return var2;
         }
     }
 
@@ -128,6 +134,7 @@ public abstract class StructureComponentGC extends StructureComponent
 
     protected static class SwitchEnumFacing
     {
+
         protected static int[] field_176064_a = new int[EnumFacing.VALUES.length];
 
         static
@@ -135,32 +142,28 @@ public abstract class StructureComponentGC extends StructureComponent
             try
             {
                 field_176064_a[EnumFacing.NORTH.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var4)
+            } catch (NoSuchFieldError var4)
             {
             }
 
             try
             {
                 field_176064_a[EnumFacing.SOUTH.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
             }
 
             try
             {
                 field_176064_a[EnumFacing.WEST.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
             }
 
             try
             {
                 field_176064_a[EnumFacing.EAST.ordinal()] = 4;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
             }
         }

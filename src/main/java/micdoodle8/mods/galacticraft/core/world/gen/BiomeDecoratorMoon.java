@@ -18,6 +18,7 @@ import java.util.Random;
 
 public class BiomeDecoratorMoon extends BiomeDecorator
 {
+
     private World world;
     private Random randomGenerator;
 
@@ -40,8 +41,7 @@ public class BiomeDecoratorMoon extends BiomeDecorator
         if (this.world != null)
         {
             throw new RuntimeException("Already decorating!!");
-        }
-        else
+        } else
         {
             this.world = worldIn;
             this.randomGenerator = random;

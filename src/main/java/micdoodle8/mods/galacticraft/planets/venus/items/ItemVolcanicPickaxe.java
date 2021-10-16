@@ -39,6 +39,7 @@ import javax.annotation.Nullable;
 
 public class ItemVolcanicPickaxe extends ItemPickaxe implements ISortableItem, IShiftDescription
 {
+
     public ItemVolcanicPickaxe(String assetName)
     {
         super(VenusItems.TOOL_VOLCANIC);
@@ -54,8 +55,7 @@ public class ItemVolcanicPickaxe extends ItemPickaxe implements ISortableItem, I
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
             {
                 info.addAll(FMLClientHandler.instance().getClient().fontRenderer.listFormattedStringToWidth(this.getShiftDescription(stack.getItemDamage()), 150));
-            }
-            else
+            } else
             {
                 info.add(GCCoreUtil.translateWithFormat("item_desc.shift.name", GameSettings.getKeyDisplayString(FMLClientHandler.instance().getClient().gameSettings.keyBindSneak.getKeyCode())));
             }
@@ -97,15 +97,14 @@ public class ItemVolcanicPickaxe extends ItemPickaxe implements ISortableItem, I
         if (entityLiving.rotationPitch < -45.0F)
         {
             facing = EnumFacing.UP;
-        }
-        else if (entityLiving.rotationPitch > 45.0F)
+        } else if (entityLiving.rotationPitch > 45.0F)
         {
             facing = EnumFacing.DOWN;
         }
 
         boolean yAxis = facing.getAxis() == EnumFacing.Axis.Y;
         boolean xAxis = facing.getAxis() == EnumFacing.Axis.X;
-        
+
         for (int i = -1; i <= 1; ++i)
         {
             for (int j = -1; j <= 1 && !stack.isEmpty(); ++j)
@@ -119,17 +118,16 @@ public class ItemVolcanicPickaxe extends ItemPickaxe implements ISortableItem, I
                 if (yAxis)
                 {
                     pos1 = pos.add(i, 0, j);
-                }
-                else if (xAxis)
+                } else if (xAxis)
                 {
                     pos1 = pos.add(0, i, j);
-                }
-                else
+                } else
                 {
                     pos1 = pos.add(i, j, 0);
                 }
 
-                //:Replicate logic of PlayerInteractionManager.tryHarvestBlock(pos1)
+                // :Replicate logic of
+                // PlayerInteractionManager.tryHarvestBlock(pos1)
                 IBlockState state1 = worldIn.getBlockState(pos1);
                 float f = state1.getBlockHardness(worldIn, pos1);
                 if (f >= 0F)
@@ -138,7 +136,7 @@ public class ItemVolcanicPickaxe extends ItemPickaxe implements ISortableItem, I
                     MinecraftForge.EVENT_BUS.post(event);
                     if (!event.isCanceled())
                     {
-                        Block block = state1.getBlock(); 
+                        Block block = state1.getBlock();
                         if ((block instanceof BlockCommandBlock || block instanceof BlockStructure) && !player.canUseCommandBlock())
                         {
                             worldIn.notifyBlockUpdate(pos1, state1, state1, 3);
@@ -150,10 +148,10 @@ public class ItemVolcanicPickaxe extends ItemPickaxe implements ISortableItem, I
                             Packet<?> pkt = tileentity.getUpdatePacket();
                             if (pkt != null)
                             {
-                                ((EntityPlayerMP)player).connection.sendPacket(pkt);
+                                ((EntityPlayerMP) player).connection.sendPacket(pkt);
                             }
                         }
-    
+
                         boolean canHarvest = block.canHarvestBlock(worldIn, pos1, player);
                         boolean destroyed = block.removedByPlayer(state1, worldIn, pos1, player, canHarvest);
                         if (destroyed)

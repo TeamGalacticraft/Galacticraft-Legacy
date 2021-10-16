@@ -31,6 +31,7 @@ import net.minecraft.world.World;
 
 public class BlockLaserTurret extends BlockTileGC implements ITileEntityProvider, IShiftDescription, IPartialSealableBlock, ISortableBlock
 {
+
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockLaserTurret(String assetName)

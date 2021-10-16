@@ -8,11 +8,13 @@ import micdoodle8.mods.galacticraft.core.client.gui.element.GuiElementInfoRegion
 import micdoodle8.mods.galacticraft.core.inventory.ContainerRocketInventory;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiRocketInventory extends GuiContainerGC
 {
+
     private static ResourceLocation[] rocketTextures = new ResourceLocation[4];
 
     static
@@ -50,7 +53,8 @@ public class GuiRocketInventory extends GuiContainerGC
         List<String> fuelTankDesc = new ArrayList<String>();
         fuelTankDesc.add(GCCoreUtil.translate("gui.fuel_tank.desc.0"));
         fuelTankDesc.add(GCCoreUtil.translate("gui.fuel_tank.desc.1"));
-        this.infoRegions.add(new GuiElementInfoRegion((this.width - this.xSize) / 2 + (((EntityTieredRocket) this.mc.player.getRidingEntity()).rocketType.getInventorySpace() == 2 ? 70 : 71), (this.height - this.ySize) / 2 + 6, 36, 40, fuelTankDesc, this.width, this.height, this));
+        this.infoRegions.add(new GuiElementInfoRegion((this.width - this.xSize) / 2 + (((EntityTieredRocket) this.mc.player.getRidingEntity()).rocketType.getInventorySpace() == 2 ? 70 : 71),
+            (this.height - this.ySize) / 2 + 6, 36, 40, fuelTankDesc, this.width, this.height, this));
     }
 
     @Override
@@ -84,7 +88,8 @@ public class GuiRocketInventory extends GuiContainerGC
         {
             final int fuelLevel = ((EntitySpaceshipBase) this.mc.player.getRidingEntity()).getScaledFuelLevel(38);
 
-            this.drawTexturedModalRect((this.width - this.xSize) / 2 + (((EntityTieredRocket) this.mc.player.getRidingEntity()).rocketType.getInventorySpace() == 2 ? 71 : 72), (this.height - this.ySize) / 2 + 45 - fuelLevel, 176, 38 - fuelLevel, 42, fuelLevel);
+            this.drawTexturedModalRect((this.width - this.xSize) / 2 + (((EntityTieredRocket) this.mc.player.getRidingEntity()).rocketType.getInventorySpace() == 2 ? 71 : 72),
+                (this.height - this.ySize) / 2 + 45 - fuelLevel, 176, 38 - fuelLevel, 42, fuelLevel);
         }
     }
 }

@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.blocks;
 
 import micdoodle8.mods.galacticraft.core.tile.TileEntityPainter;
+
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -9,18 +10,20 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 
 /**
- * A block for several types of UNPOWERED Galacticraft machine
- * with a base building purpose - e.g. Painter
+ * A block for several types of UNPOWERED Galacticraft machine with a base
+ * building purpose - e.g. Painter
  * 
  * Note: does not implement IMachineSides
  *
  */
 public class BlockMachine3 extends BlockMachineBase
 {
+
     public static final PropertyEnum<EnumMachineBuildingType> TYPE = PropertyEnum.create("type", EnumMachineBuildingType.class);
 
     public enum EnumMachineBuildingType implements EnumMachineBase, IStringSerializable
     {
+
         PAINTER(0, "painter", TileEntityPainter::new, "tile.painter.description", "tile.machine3.9");
 
         private final int meta;
@@ -45,18 +48,19 @@ public class BlockMachine3 extends BlockMachineBase
         }
 
         private final static EnumMachineBuildingType[] values = values();
+
         @Override
         public EnumMachineBuildingType fromMetadata(int meta)
         {
             return values[(meta / 4) % values.length];
         }
-        
+
         @Override
         public String getName()
         {
             return this.name;
         }
-        
+
         @Override
         public TileEntity tileConstructor()
         {
@@ -66,7 +70,8 @@ public class BlockMachine3 extends BlockMachineBase
         @FunctionalInterface
         private static interface TileConstructor
         {
-              TileEntity create();
+
+            TileEntity create();
         }
 
         @Override

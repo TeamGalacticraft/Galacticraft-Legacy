@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 
 public abstract class PacketBase implements IPacket
 {
+
     public static final int INVALID_DIMENSION_ID = Integer.MIN_VALUE + 12;
     private int dimensionID;
 

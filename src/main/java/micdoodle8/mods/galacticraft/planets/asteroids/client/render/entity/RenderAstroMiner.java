@@ -36,6 +36,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class RenderAstroMiner extends Render<EntityAstroMiner>
 {
+
     private static final float LSIZE = 0.12F;
     private static final float RETRACTIONSPEED = 0.02F;
     private float lastPartTime;
@@ -73,8 +74,7 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
 
                 model = OBJLoaderGC.instance.loadModel(new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "astro_miner_full_off.obj"));
                 this.mainModelInactive = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Hull", "Lasers", "HoverPad"), false), DefaultVertexFormats.ITEM, spriteFunction);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -123,7 +123,7 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
         int ais = astroMiner.AIstate;
         boolean active = ais > EntityAstroMiner.AISTATE_ATBASE;
         float time = astroMiner.ticksExisted + partialTickTime;
-        float sinOfTheTime = (MathHelper.sin(time / 4) + 1F)/4F + 0.5F;
+        float sinOfTheTime = (MathHelper.sin(time / 4) + 1F) / 4F + 0.5F;
         float wx = active ? this.wobbleX.getNoise(time) + this.wobbleXX.getNoise(time) : 0F;
         float wy = active ? this.wobbleY.getNoise(time) + this.wobbleYY.getNoise(time) : 0F;
         float wz = active ? this.wobbleZ.getNoise(time) + this.wobbleZZ.getNoise(time) : 0F;
@@ -141,8 +141,7 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }
@@ -153,31 +152,31 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
         final float rotPitch = astroMiner.prevRotationPitch + (astroMiner.rotationPitch - astroMiner.prevRotationPitch) * partialTickTime;
         final float rotYaw = astroMiner.prevRotationYaw + (astroMiner.rotationYaw - astroMiner.prevRotationYaw) * partialTickTime;
 
-        GlStateManager.translate((float)x, (float)y + 1.4F, (float)z);
+        GlStateManager.translate((float) x, (float) y + 1.4F, (float) z);
         float partBlock;
 
         switch (astroMiner.facing)
         {
-        case DOWN:
-            partBlock = (float) (astroMiner.posY % 2D);
-            break;
-        case UP:
-            partBlock = 1F - (float) (astroMiner.posY % 2D);
-            break;
-        case NORTH:
-            partBlock = (float) (astroMiner.posZ % 2D);
-            break;
-        case SOUTH:
-            partBlock = 1F - (float) (astroMiner.posZ % 2D);
-            break;
-        case WEST:
-            partBlock = (float) (astroMiner.posX % 2D);
-            break;
-        case EAST:
-            partBlock = 1F - (float) (astroMiner.posX % 2D);
-            break;
-        default:
-            partBlock = 0F;
+            case DOWN:
+                partBlock = (float) (astroMiner.posY % 2D);
+                break;
+            case UP:
+                partBlock = 1F - (float) (astroMiner.posY % 2D);
+                break;
+            case NORTH:
+                partBlock = (float) (astroMiner.posZ % 2D);
+                break;
+            case SOUTH:
+                partBlock = 1F - (float) (astroMiner.posZ % 2D);
+                break;
+            case WEST:
+                partBlock = (float) (astroMiner.posX % 2D);
+                break;
+            case EAST:
+                partBlock = 1F - (float) (astroMiner.posX % 2D);
+                break;
+            default:
+                partBlock = 0F;
         }
         partBlock /= 0.06F;
 
@@ -220,7 +219,7 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
 
             if (ais < EntityAstroMiner.AISTATE_DOCKING)
             {
-                //This is the scanning lasers:
+                // This is the scanning lasers:
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(scanTexture);
                 final Tessellator tess = Tessellator.getInstance();
                 GlStateManager.color(0, 0.6F, 1.0F, 0.2F);
@@ -248,15 +247,14 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
                 int afterglowCount = 0;
                 GlStateManager.popMatrix();
                 GlStateManager.pushMatrix();
-                GlStateManager.translate((float)(x - astroMiner.posX), (float)(y - astroMiner.posY), (float)(z - astroMiner.posZ));
+                GlStateManager.translate((float) (x - astroMiner.posX), (float) (y - astroMiner.posY), (float) (z - astroMiner.posZ));
 
                 for (Integer blockTime : new ArrayList<Integer>(astroMiner.laserTimes))
                 {
                     if (blockTime < astroMiner.ticksExisted - 19)
                     {
                         removeCount++;
-                    }
-                    else if (blockTime < astroMiner.ticksExisted - 3)
+                    } else if (blockTime < astroMiner.ticksExisted - 3)
                     {
                         afterglowCount++;
                     }
@@ -276,12 +274,11 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
                             fade = 0;
                         }
                         this.doAfterGlow(blockLaser, fade);
-                    }
-                    else
+                    } else
                     {
                         this.doLaser(astroMiner, blockLaser);
                     }
-                    count ++;
+                    count++;
                 }
                 if (astroMiner.retraction > 0F)
                 {
@@ -292,8 +289,7 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
                     }
                 }
                 GlStateManager.popMatrix();
-            }
-            else
+            } else
             {
                 if (astroMiner.retraction < 1F)
                 {
@@ -313,8 +309,7 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
             GlStateManager.enableLighting();
             GlStateManager.depthMask(true);
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightMapSaveX, lightMapSaveY);
-        }
-        else
+        } else
         {
             this.bindEntityTexture(astroMiner);
             ClientUtil.drawBakedModel(this.mainModelInactive);
@@ -447,13 +442,11 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
         {
             xx = xD < 0 ? cA : cB;
             this.drawLaserX(mainLaserX, mainLaserY, mainLaserZ, xx, 0.5F, 0.5F);
-        }
-        else if (entity.facing.getIndex() <= EnumFacing.UP.getIndex())
+        } else if (entity.facing.getIndex() <= EnumFacing.UP.getIndex())
         {
             yy = yD < 0 ? cA : cB;
             this.drawLaserY(mainLaserX, mainLaserY, mainLaserZ, 0.5F, yy, 0.5F);
-        }
-        else
+        } else
         {
             zz = zD < 0 ? cA : cB;
             this.drawLaserZ(mainLaserX, mainLaserY, mainLaserZ, 0.5F, 0.5F, zz);
@@ -577,7 +570,7 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
         ClientUtil.drawBakedModel(this.modellaser1);
         if (yadjust == 0.938F)
         {
-            //Do not move laser centre into body
+            // Do not move laser centre into body
             GlStateManager.translate(0F, 0F, -zadjust + 0.938F);
         }
         ClientUtil.drawBakedModel(this.modellaser3);
@@ -595,7 +588,7 @@ public class RenderAstroMiner extends Render<EntityAstroMiner>
     {
         return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }
-    
+
     @Override
     public boolean shouldRender(EntityAstroMiner miner, ICamera camera, double camX, double camY, double camZ)
     {

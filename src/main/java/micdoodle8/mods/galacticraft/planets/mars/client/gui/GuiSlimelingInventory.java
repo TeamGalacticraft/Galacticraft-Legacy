@@ -20,6 +20,7 @@ import java.io.IOException;
 
 public class GuiSlimelingInventory extends GuiContainer
 {
+
     private static final ResourceLocation slimelingPanelGui = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/slimeling_panel2.png");
     private final EntitySlimeling slimeling;
 
@@ -60,8 +61,8 @@ public class GuiSlimelingInventory extends GuiContainer
         {
             switch (par1GuiButton.id)
             {
-            case 0:
-                break;
+                case 0:
+                    break;
             }
         }
     }
@@ -96,7 +97,6 @@ public class GuiSlimelingInventory extends GuiContainer
         int yOffset = (int) Math.floor(30.0D * (1.0F - this.slimeling.getScale()));
 
         GuiSlimeling.drawSlimelingOnGui(this.slimeling, this.width / 2, var6 + 62 - yOffset, 70, var5 + 51 - i, var6 + 75 - 50 - j);
-
 
         GlStateManager.translate(0, 0, 100);
 

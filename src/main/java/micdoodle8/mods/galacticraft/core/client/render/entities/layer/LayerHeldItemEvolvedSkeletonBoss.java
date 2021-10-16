@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.client.render.entities.layer;
 import micdoodle8.mods.galacticraft.core.client.model.ModelEvolvedSkeletonBoss;
 import micdoodle8.mods.galacticraft.core.client.render.entities.RenderEvolvedSkeletonBoss;
 import micdoodle8.mods.galacticraft.core.entities.EntitySkeletonBoss;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class LayerHeldItemEvolvedSkeletonBoss implements LayerRenderer<EntitySkeletonBoss>
 {
+
     private final RenderEvolvedSkeletonBoss renderer;
 
     public LayerHeldItemEvolvedSkeletonBoss(RenderEvolvedSkeletonBoss renderer)
@@ -45,15 +47,14 @@ public class LayerHeldItemEvolvedSkeletonBoss implements LayerRenderer<EntitySke
         if (bow != null)
         {
             GlStateManager.pushMatrix();
-            ((ModelEvolvedSkeletonBoss)this.renderer.getMainModel()).postRenderArm(0.0625F, type);
+            ((ModelEvolvedSkeletonBoss) this.renderer.getMainModel()).postRenderArm(0.0625F, type);
 
             if (type == ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND)
             {
                 GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
                 GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
                 GlStateManager.translate(0.05F, 0.125F, -1.525F);
-            }
-            else
+            } else
             {
                 GlStateManager.translate(0.025F, 1.525F, -0.125F);
             }

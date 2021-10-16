@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.tile.IMultiBlock;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityBuggyFueler;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityLandingPad;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -30,13 +31,14 @@ import java.util.Random;
 
 public class BlockLandingPadFull extends BlockAdvancedTile implements IPartialSealableBlock
 {
+
     public static final PropertyEnum<EnumLandingPadFullType> PAD_TYPE = PropertyEnum.create("type", EnumLandingPadFullType.class);
     private final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.1875D, 1.0D);
 
     public enum EnumLandingPadFullType implements IStringSerializable
     {
-        ROCKET_PAD(0, "rocket"),
-        BUGGY_PAD(1, "buggy");
+
+        ROCKET_PAD(0, "rocket"), BUGGY_PAD(1, "buggy");
 
         private final int meta;
         private final String name;
@@ -53,6 +55,7 @@ public class BlockLandingPadFull extends BlockAdvancedTile implements IPartialSe
         }
 
         private final static EnumLandingPadFullType[] values = values();
+
         public static EnumLandingPadFullType byMetadata(int meta)
         {
             return values[meta % values.length];
@@ -151,14 +154,14 @@ public class BlockLandingPadFull extends BlockAdvancedTile implements IPartialSe
     {
         switch (getMetaFromState(state))
         {
-        case 0:
-            return new TileEntityLandingPad();
-        case 1:
-            return new TileEntityBuggyFueler();
-        // case 2:
-        // return new GCCoreTileEntityCargoPad();
-        default:
-            return null;
+            case 0:
+                return new TileEntityLandingPad();
+            case 1:
+                return new TileEntityBuggyFueler();
+            // case 2:
+            // return new GCCoreTileEntityCargoPad();
+            default:
+                return null;
         }
     }
 

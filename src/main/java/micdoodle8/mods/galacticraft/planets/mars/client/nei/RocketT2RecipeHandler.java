@@ -1,11 +1,13 @@
-//package micdoodle8.mods.galacticraft.planets.mars.client.nei;
+package micdoodle8.mods.galacticraft.planets.mars.client.nei;
+
+//package galacticraft.planets.mars.client.nei;
 //
 //import codechicken.lib.gui.GuiDraw;
 //import codechicken.nei.api.stack.PositionedStack;
 //import codechicken.nei.recipe.TemplateRecipeHandler;
 //import codechicken.nei.util.NEIServerUtils;
-//import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
-//import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
+//import galacticraft.core.util.GCCoreUtil;
+//import galacticraft.planets.GalacticraftPlanets;
 //import net.minecraft.item.ItemStack;
 //import net.minecraft.util.ResourceLocation;
 //import org.lwjgl.opengl.GL11;

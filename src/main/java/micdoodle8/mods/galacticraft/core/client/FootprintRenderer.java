@@ -5,10 +5,11 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlaySensorGlasses;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.Footprint;
+
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -25,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class FootprintRenderer
 {
+
     public static Map<Long, List<Footprint>> footprints = new ConcurrentHashMap<Long, List<Footprint>>();
     private static final ResourceLocation footprintTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/misc/footprint.png");
 
@@ -88,7 +90,7 @@ public class FootprintRenderer
             {
                 int j = footprint.lightmapVal % 65536;
                 int k = footprint.lightmapVal / 65536;
-                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
+                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j, (float) k);
             }
 
             float ageScale = footprint.age / (float) Footprint.MAX_AGE;
@@ -102,13 +104,22 @@ public class FootprintRenderer
             GL11.glTranslatef(f11, f12, f13);
 
             int brightness = (int) (100 + ageScale * 155);
-            //                    worldRenderer.putBrightness4(brightness, brightness, brightness, brightness);
+            // worldRenderer.putBrightness4(brightness, brightness, brightness,
+            // brightness);
             GlStateManager.color(1F - ageScale, 1F - ageScale, 1F - ageScale, 1F - ageScale);
             double footprintScale = 0.5F;
-            worldRenderer.pos(Math.sin((45 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale, 0, Math.cos((45 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale).tex(f7, f9).endVertex();
-            worldRenderer.pos(Math.sin((135 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale, 0, Math.cos((135 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale).tex(f7, f8).endVertex();
-            worldRenderer.pos(Math.sin((225 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale, 0, Math.cos((225 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale).tex(f6, f8).endVertex();
-            worldRenderer.pos(Math.sin((315 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale, 0, Math.cos((315 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale).tex(f6, f9).endVertex();
+            worldRenderer
+                .pos(Math.sin((45 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale, 0, Math.cos((45 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale)
+                .tex(f7, f9).endVertex();
+            worldRenderer
+                .pos(Math.sin((135 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale, 0, Math.cos((135 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale)
+                .tex(f7, f8).endVertex();
+            worldRenderer
+                .pos(Math.sin((225 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale, 0, Math.cos((225 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale)
+                .tex(f6, f8).endVertex();
+            worldRenderer
+                .pos(Math.sin((315 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale, 0, Math.cos((315 - footprint.rotation) / Constants.RADIANS_TO_DEGREES_D) * footprintScale)
+                .tex(f6, f9).endVertex();
 
             tessellator.draw();
             GlStateManager.popMatrix();

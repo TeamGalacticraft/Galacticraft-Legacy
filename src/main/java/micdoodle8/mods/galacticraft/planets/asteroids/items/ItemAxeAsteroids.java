@@ -1,6 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.items;
 
+import java.util.Set;
+
 import com.google.common.collect.Sets;
+
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.items.ISortableItem;
@@ -17,11 +20,12 @@ import net.minecraft.item.ItemTool;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Set;
-
 public class ItemAxeAsteroids extends ItemTool implements ISortableItem
 {
-    private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(new Block[] { Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON, Blocks.WOODEN_PRESSURE_PLATE});
+
+    private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(new Block[]
+    {Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON,
+            Blocks.WOODEN_PRESSURE_PLATE});
 
     public ItemAxeAsteroids(String assetName)
     {

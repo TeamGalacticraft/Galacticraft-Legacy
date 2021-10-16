@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.tile;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseElectricBlock;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
 import net.minecraft.block.state.IBlockState;
@@ -11,17 +14,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-
 public class TileEntityTelepadFake extends TileBaseElectricBlock
 {
+
     // The the position of the main block
-    @NetworkedField(targetSide = Side.CLIENT)
-    public BlockPos mainBlockPosition;
+    @NetworkedField(targetSide = Side.CLIENT) public BlockPos mainBlockPosition;
     private WeakReference<TileEntityShortRangeTelepad> mainTelepad = null;
-    @NetworkedField(targetSide = Side.CLIENT)
-    private boolean canConnect = false;
+    @NetworkedField(targetSide = Side.CLIENT) private boolean canConnect = false;
 
     public TileEntityTelepadFake()
     {
@@ -112,16 +111,14 @@ public class TileEntityTelepadFake extends TileBaseElectricBlock
         if (mainTelepad == null)
         {
             this.world.setBlockToAir(this.mainBlockPosition);
-        }
-        else
+        } else
         {
             TileEntityShortRangeTelepad telepad = this.mainTelepad.get();
 
             if (telepad != null)
             {
                 return telepad;
-            }
-            else
+            } else
             {
                 this.world.removeTileEntity(this.getPos());
             }
@@ -170,28 +167,28 @@ public class TileEntityTelepadFake extends TileBaseElectricBlock
     @Override
     public boolean isNetworkedTile()
     {
-            return true;
-        }
-    
+        return true;
+    }
+
     @Override
     public void getNetworkedData(ArrayList<Object> sendData)
+    {
+        if (this.mainBlockPosition == null)
         {
-    	if (this.mainBlockPosition == null)
-    	{
-    		if (this.world.isRemote || !this.resetMainBlockPosition())
-    		{
-    			return;
-    		}
-    	}
+            if (this.world.isRemote || !this.resetMainBlockPosition())
+            {
+                return;
+            }
+        }
         super.getNetworkedData(sendData);
     }
 
     private boolean resetMainBlockPosition()
+    {
+        for (int x = -1; x <= 1; x++)
         {
-            for (int x = -1; x <= 1; x++)
+            for (int z = -1; z <= 1; z++)
             {
-                for (int z = -1; z <= 1; z++)
-                {
                 for (int y = -2; y < 1; y += 2)
                 {
                     final BlockPos vecToCheck = this.getPos().add(x, y, z);
@@ -243,8 +240,9 @@ public class TileEntityTelepadFake extends TileBaseElectricBlock
             {
                 if (this.getPos().getY() > mainBlockPosition.getY())
                 {
-                    // If the block has the same x- and y- coordinates, but is above the base block, this is the
-                    //      connectable tile
+                    // If the block has the same x- and y- coordinates, but is
+                    // above the base block, this is the
+                    // connectable tile
                     this.canConnect = true;
                     return;
                 }

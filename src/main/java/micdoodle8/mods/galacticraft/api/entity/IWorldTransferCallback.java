@@ -4,5 +4,6 @@ import net.minecraft.world.World;
 
 public interface IWorldTransferCallback
 {
+
     void onWorldTransferred(World world);
 }

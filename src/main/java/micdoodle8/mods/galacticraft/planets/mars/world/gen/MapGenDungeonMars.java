@@ -6,6 +6,7 @@ import net.minecraft.world.gen.structure.MapGenStructureIO;
 
 public class MapGenDungeonMars extends MapGenDungeon
 {
+
     private static boolean initialized;
 
     static
@@ -13,8 +14,7 @@ public class MapGenDungeonMars extends MapGenDungeon
         try
         {
             MapGenDungeonMars.initiateStructures();
-        }
-        catch (Throwable e)
+        } catch (Throwable e)
         {
 
         }

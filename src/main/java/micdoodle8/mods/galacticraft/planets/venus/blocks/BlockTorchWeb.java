@@ -31,14 +31,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockTorchWeb extends Block implements IShearable, IShiftDescription, ISortableBlock
 {
+
     public static final PropertyEnum<EnumWebType> WEB_TYPE = PropertyEnum.create("webtype", EnumWebType.class);
     protected static final AxisAlignedBB AABB_WEB = new AxisAlignedBB(0.35, 0.0, 0.35, 0.65, 1.0, 0.65);
     protected static final AxisAlignedBB AABB_WEB_TORCH = new AxisAlignedBB(0.35, 0.25, 0.35, 0.65, 1.0, 0.65);
 
     public enum EnumWebType implements IStringSerializable
     {
-        WEB_0(0, "web_torch_0"),
-        WEB_1(1, "web_torch_1");
+
+        WEB_0(0, "web_torch_0"), WEB_1(1, "web_torch_1");
 
         private final int meta;
         private final String name;
@@ -55,6 +56,7 @@ public class BlockTorchWeb extends Block implements IShearable, IShiftDescriptio
         }
 
         private final static EnumWebType[] values = values();
+
         public static EnumWebType byMetadata(int meta)
         {
             return values[meta % values.length];

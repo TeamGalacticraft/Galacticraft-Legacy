@@ -1,16 +1,19 @@
 package micdoodle8.mods.galacticraft.core.network;
 
-import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.api.vector.Vector2;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.UUID;
 
+import io.netty.buffer.ByteBuf;
+
 public class PacketEntityUpdate extends PacketBase
 {
+
     private int entityID;
     private Vector3 position;
     private float rotationYaw;
@@ -36,7 +39,8 @@ public class PacketEntityUpdate extends PacketBase
 
     public PacketEntityUpdate(Entity entity)
     {
-        this(entity.getEntityId(), new Vector3(entity.posX, entity.posY, entity.posZ), new Vector2(entity.rotationYaw, entity.rotationPitch), new Vector3(entity.motionX, entity.motionY, entity.motionZ), entity.onGround, GCCoreUtil.getDimensionID(entity.world));
+        this(entity.getEntityId(), new Vector3(entity.posX, entity.posY, entity.posZ), new Vector2(entity.rotationYaw, entity.rotationPitch),
+            new Vector3(entity.motionX, entity.motionY, entity.motionZ), entity.onGround, GCCoreUtil.getDimensionID(entity.world));
     }
 
     @Override
@@ -88,13 +92,15 @@ public class PacketEntityUpdate extends PacketBase
             if (player.world.isRemote || player.getUniqueID().equals(((IEntityFullSync) entity).getOwnerUUID()) || ((IEntityFullSync) entity).getOwnerUUID() == null)
             {
                 IEntityFullSync controllable = (IEntityFullSync) entity;
-                controllable.setPositionRotationAndMotion(this.position.x, this.position.y, this.position.z, this.rotationYaw, this.rotationPitch, this.motion.x, this.motion.y, this.motion.z, this.onGround);
+                controllable.setPositionRotationAndMotion(this.position.x, this.position.y, this.position.z, this.rotationYaw, this.rotationPitch, this.motion.x, this.motion.y, this.motion.z,
+                    this.onGround);
             }
         }
     }
 
     public interface IEntityFullSync
     {
+
         void setPositionRotationAndMotion(double x, double y, double z, float yaw, float pitch, double motX, double motY, double motZ, boolean onGround);
 
         UUID getOwnerUUID();

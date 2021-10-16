@@ -1,39 +1,42 @@
 package micdoodle8.mods.galacticraft.core.client.jei.ingotcompressor;
 
-import java.util.List;
-
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.*;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.jei.GalacticraftJEI;
 import micdoodle8.mods.galacticraft.core.client.jei.RecipeCategories;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
+
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IDrawableAnimated;
+import mezz.jei.api.gui.IDrawableStatic;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IRecipeCategory;
+import mezz.jei.api.recipe.IRecipeWrapper;
 
 public class IngotCompressorRecipeCategory implements IRecipeCategory
 {
+
     private static final ResourceLocation compressorTex = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/ingot_compressor.png");
     private static final ResourceLocation compressorTexBlank = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/ingot_compressor_blank.png");
 
-    @Nonnull
-    private final IDrawable background;
-    @Nonnull
-    private final IDrawable backgroundBlank;
-    @Nonnull
-    private final String localizedName;
-    @Nonnull
-    private final IDrawableAnimated progressBar;
-    
-    private boolean drawNothing = false; 
+    @Nonnull private final IDrawable background;
+    @Nonnull private final IDrawable backgroundBlank;
+    @Nonnull private final String localizedName;
+    @Nonnull private final IDrawableAnimated progressBar;
+
+    private boolean drawNothing = false;
 
     public IngotCompressorRecipeCategory(IGuiHelper guiHelper)
     {
@@ -73,14 +76,16 @@ public class IngotCompressorRecipeCategory implements IRecipeCategory
     @Override
     public void drawExtras(@Nonnull Minecraft minecraft)
     {
-        if (!this.drawNothing) this.progressBar.draw(minecraft, 59, 19);
+        if (!this.drawNothing)
+            this.progressBar.draw(minecraft, 59, 19);
     }
 
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients)
     {
         this.drawNothing = GalacticraftJEI.hidden.contains(recipeWrapper);
-        if (this.drawNothing) return;
+        if (this.drawNothing)
+            return;
 
         IGuiItemStackGroup itemstacks = recipeLayout.getItemStacks();
 

@@ -9,6 +9,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 public class FluidHandlerWrapper implements IFluidHandler
 {
+
     public IFluidHandlerWrapper wrapper;
 
     public EnumFacing side;
@@ -22,7 +23,7 @@ public class FluidHandlerWrapper implements IFluidHandler
     @Override
     public IFluidTankProperties[] getTankProperties()
     {
-        FluidTankInfo[] infos = wrapper.getTankInfo(side); 
+        FluidTankInfo[] infos = wrapper.getTankInfo(side);
         if (infos != null)
         {
             FluidTankProperties[] properties = new FluidTankProperties[infos.length];
@@ -33,7 +34,8 @@ public class FluidHandlerWrapper implements IFluidHandler
             }
             return properties;
         }
-        return new IFluidTankProperties[]{};
+        return new IFluidTankProperties[]
+        {};
     }
 
     @Override

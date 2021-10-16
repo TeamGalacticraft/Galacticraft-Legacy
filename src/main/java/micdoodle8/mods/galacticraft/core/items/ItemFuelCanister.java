@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.items;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -24,15 +25,13 @@ public class ItemFuelCanister extends ItemCanisterGeneric implements ISortableIt
 //        this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        for (int i = 0; i < this.icons.length; i++)
-        {
-            this.icons[i] = iconRegister.registerIcon(this.getIconString() + "_" + i);
-        }
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister
+     * iconRegister) { for (int i = 0; i < this.icons.length; i++) {
+     * this.icons[i] = iconRegister.registerIcon(this.getIconString() + "_" +
+     * i); } }
+     */
 
     @Override
     public String getTranslationKey(ItemStack itemStack)
@@ -45,18 +44,12 @@ public class ItemFuelCanister extends ItemCanisterGeneric implements ISortableIt
         return "item.fuel_canister_partial";
     }
 
-    /*@Override
-    public IIcon getIconFromDamage(int par1)
-    {
-        final int damage = 6 * par1 / this.getMaxDamage();
-
-        if (this.icons.length > damage)
-        {
-            return this.icons[this.icons.length - damage - 1];
-        }
-
-        return super.getIconFromDamage(damage);
-    }*/
+    /*
+     * @Override public IIcon getIconFromDamage(int par1) { final int damage = 6
+     * * par1 / this.getMaxDamage(); if (this.icons.length > damage) { return
+     * this.icons[this.icons.length - damage - 1]; } return
+     * super.getIconFromDamage(damage); }
+     */
 
     @Override
     @SideOnly(Side.CLIENT)

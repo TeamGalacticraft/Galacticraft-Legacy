@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.blocks;
 import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -30,16 +31,12 @@ import java.util.Random;
 
 public class BlockCheese extends Block implements IShiftDescription, ISortableBlock
 {
+
     public static final PropertyInteger BITES = PropertyInteger.create("bites", 0, 6);
-    protected static final AxisAlignedBB[] CHEESE_AABB = new AxisAlignedBB[] {
-            new AxisAlignedBB(0.0625, 0.0, 0.0625, 0.9375, 0.5, 0.9375),
-            new AxisAlignedBB(0.1875, 0.0, 0.0625, 0.9375, 0.5, 0.9375),
-            new AxisAlignedBB(0.3125, 0.0, 0.0625, 0.9375, 0.5, 0.9375),
-            new AxisAlignedBB(0.4375, 0.0, 0.0625, 0.9375, 0.5, 0.9375),
-            new AxisAlignedBB(0.5625, 0.0, 0.0625, 0.9375, 0.5, 0.9375),
-            new AxisAlignedBB(0.6875, 0.0, 0.0625, 0.9375, 0.5, 0.9375),
-            new AxisAlignedBB(0.8125, 0.0, 0.0625, 0.9375, 0.5, 0.9375)
-    };
+    protected static final AxisAlignedBB[] CHEESE_AABB = new AxisAlignedBB[]
+    {new AxisAlignedBB(0.0625, 0.0, 0.0625, 0.9375, 0.5, 0.9375), new AxisAlignedBB(0.1875, 0.0, 0.0625, 0.9375, 0.5, 0.9375), new AxisAlignedBB(0.3125, 0.0, 0.0625, 0.9375, 0.5, 0.9375),
+            new AxisAlignedBB(0.4375, 0.0, 0.0625, 0.9375, 0.5, 0.9375), new AxisAlignedBB(0.5625, 0.0, 0.0625, 0.9375, 0.5, 0.9375), new AxisAlignedBB(0.6875, 0.0, 0.0625, 0.9375, 0.5, 0.9375),
+            new AxisAlignedBB(0.8125, 0.0, 0.0625, 0.9375, 0.5, 0.9375)};
 
     public BlockCheese(String assetName)
     {
@@ -58,7 +55,7 @@ public class BlockCheese extends Block implements IShiftDescription, ISortableBl
         int bites = 0;
         if (state.getBlock() instanceof BlockCheese)
         {
-            bites = ((Integer)state.getValue(BITES)).intValue();
+            bites = ((Integer) state.getValue(BITES)).intValue();
         }
         return CHEESE_AABB[bites];
     }
@@ -104,8 +101,7 @@ public class BlockCheese extends Block implements IShiftDescription, ISortableBl
             if (i < 6)
             {
                 worldIn.setBlockState(pos, state.withProperty(BITES, Integer.valueOf(i + 1)), 3);
-            }
-            else
+            } else
             {
                 worldIn.setBlockToAir(pos);
             }
@@ -184,7 +180,8 @@ public class BlockCheese extends Block implements IShiftDescription, ISortableBl
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] { BITES });
+        return new BlockStateContainer(this, new IProperty[]
+        {BITES});
     }
 
     @Override

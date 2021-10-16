@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.client.gui;
 
 public class GuiIdsCore
 {
+
     public static final int NASA_WORKBENCH_ROCKET = 0;
     public static final int NASA_WORKBENCH_BUGGY = 1;
     public static final int NASA_WORKBENCH_NEW_SCHEMATIC = 2;

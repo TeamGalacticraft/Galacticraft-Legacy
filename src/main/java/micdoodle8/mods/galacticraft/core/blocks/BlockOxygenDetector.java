@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenDetector;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -22,8 +23,9 @@ import net.minecraft.world.World;
 
 public class BlockOxygenDetector extends BlockContainer implements ITileEntityProvider, IShiftDescription, ISortableBlock
 {
+
     public static final PropertyBool ACTIVE = PropertyBool.create("active");
-    
+
     public BlockOxygenDetector(String assetName)
     {
         super(Material.IRON);
@@ -55,8 +57,7 @@ public class BlockOxygenDetector extends BlockContainer implements ITileEntityPr
         if (valid)
         {
             worldIn.setBlockState(pos, getStateFromMeta(1), 3);
-        }
-        else
+        } else
         {
             worldIn.setBlockState(pos, getStateFromMeta(0), 3);
         }

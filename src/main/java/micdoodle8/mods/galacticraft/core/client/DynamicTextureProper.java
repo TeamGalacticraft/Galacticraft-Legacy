@@ -6,9 +6,11 @@ import java.awt.image.BufferedImage;
 
 public class DynamicTextureProper extends DynamicTexture
 {
+
     private boolean updateFlag = false;
-    private final int width;    //We could transform these in the base class to protected
-    private final int height;    //but whatever.
+    private final int width; // We could transform these in the base class to
+                             // protected
+    private final int height; // but whatever.
 
     public DynamicTextureProper(BufferedImage img)
     {

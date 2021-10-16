@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.api.prefab.entity.EntitySpaceshipBase.EnumLa
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class OverlayDockingRocket extends Overlay
 {
+
     /**
      * Render the GUI when player is docking a vehicle
      */

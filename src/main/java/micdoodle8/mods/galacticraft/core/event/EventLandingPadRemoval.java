@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 
 public class EventLandingPadRemoval extends Event
 {
+
     public boolean allow = true;
     public final BlockPos pos;
     public final World world;

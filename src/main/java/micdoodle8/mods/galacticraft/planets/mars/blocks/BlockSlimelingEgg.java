@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.mars.blocks;
 
+import javax.annotation.Nullable;
+
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.blocks.ISortableBlock;
 import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
@@ -36,20 +38,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-
 public class BlockSlimelingEgg extends Block implements ITileEntityProvider, IShiftDescription, ISortableBlock
 {
-    //    private IIcon[] icons;
+
+    // private IIcon[] icons;
     public static final PropertyEnum<EnumEggColor> EGG_COLOR = PropertyEnum.create("eggcolor", EnumEggColor.class);
     public static final PropertyBool BROKEN = PropertyBool.create("broken");
     protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 0.625, 0.75);
 
     public enum EnumEggColor implements IStringSerializable
     {
-        RED(0, "red"),
-        BLUE(1, "blue"),
-        YELLOW(2, "yellow");
+
+        RED(0, "red"), BLUE(1, "blue"), YELLOW(2, "yellow");
 
         private final int meta;
         private final String name;
@@ -132,8 +132,7 @@ public class BlockSlimelingEgg extends Block implements ITileEntityProvider, ISh
             world.markBlockRangeForRenderUpdate(pos, pos);
 
             return true;
-        }
-        else
+        } else
         {
             world.markBlockRangeForRenderUpdate(pos, pos);
             return false;
@@ -147,12 +146,10 @@ public class BlockSlimelingEgg extends Block implements ITileEntityProvider, ISh
         if (currentStack != null && currentStack.getItem() instanceof ItemPickaxe)
         {
             return world.setBlockToAir(pos);
-        }
-        else if (player.capabilities.isCreativeMode)
+        } else if (player.capabilities.isCreativeMode)
         {
             return world.setBlockToAir(pos);
-        }
-        else
+        } else
         {
             beginHatch(world, pos, player, 0);
             return false;
@@ -185,12 +182,11 @@ public class BlockSlimelingEgg extends Block implements ITileEntityProvider, ISh
         }
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata)
-    {
-        return this.icons[metadata % 6];
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public IIcon getIcon(int side, int metadata) {
+     * return this.icons[metadata % 6]; }
+     */
 
     @SideOnly(Side.CLIENT)
     @Override

@@ -1,11 +1,10 @@
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import java.util.Random;
-
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityPlayerDetector;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.RedstoneUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -23,8 +22,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockConcealedDetector extends Block implements ISortableBlock, ITileEntityProvider
 {
+
     public static final PropertyInteger VARIANT = PropertyInteger.create("var", 0, 1);
     public static final PropertyInteger FACING = PropertyInteger.create("facing", 0, 3);
     public static final PropertyBool DETECTED = PropertyBool.create("det");
@@ -48,7 +50,7 @@ public class BlockConcealedDetector extends Block implements ISortableBlock, ITi
     @Override
     public EnumSortCategoryBlock getCategory(int meta)
     {
-         return EnumSortCategoryBlock.DECORATION;
+        return EnumSortCategoryBlock.DECORATION;
     }
 
     @Override
@@ -74,7 +76,8 @@ public class BlockConcealedDetector extends Block implements ISortableBlock, ITi
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] {FACING, VARIANT, DETECTED});
+        return new BlockStateContainer(this, new IProperty[]
+        {FACING, VARIANT, DETECTED});
     }
 
     @Override
@@ -82,7 +85,7 @@ public class BlockConcealedDetector extends Block implements ISortableBlock, ITi
     {
         return 0;
     }
-    
+
     @Override
     public boolean isOpaqueCube(IBlockState state)
     {
@@ -106,7 +109,7 @@ public class BlockConcealedDetector extends Block implements ISortableBlock, ITi
     {
         return new TileEntityPlayerDetector();
     }
-    
+
     @Override
     public boolean canProvidePower(IBlockState state)
     {
@@ -118,7 +121,7 @@ public class BlockConcealedDetector extends Block implements ISortableBlock, ITi
     {
         if (worldIn instanceof World && RedstoneUtil.isBlockReceivingDirectRedstone((World) worldIn, pos))
             return 0;
-            
+
         return worldIn.getBlockState(pos).getValue(DETECTED) ? 0 : 15;
     }
 

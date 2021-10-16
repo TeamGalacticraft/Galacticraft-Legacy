@@ -14,6 +14,7 @@ import java.util.Random;
 
 public abstract class StructureComponentMoon extends StructureComponent
 {
+
     public StructureComponentMoon()
     {
     }
@@ -27,20 +28,20 @@ public abstract class StructureComponentMoon extends StructureComponent
     {
         switch (var9)
         {
-        case 0:
-            return new StructureBoundingBox(var0 + var3, var1 + var4, var2 + var5, var0 + var6 + var3, var1 + var7 + var4, var2 + var8 + var5);
+            case 0:
+                return new StructureBoundingBox(var0 + var3, var1 + var4, var2 + var5, var0 + var6 + var3, var1 + var7 + var4, var2 + var8 + var5);
 
-        case 1:
-            return new StructureBoundingBox(var0 - var8 + var5, var1 + var4, var2 + var3, var0 + var5, var1 + var7 + var4, var2 + var6 + var3);
+            case 1:
+                return new StructureBoundingBox(var0 - var8 + var5, var1 + var4, var2 + var3, var0 + var5, var1 + var7 + var4, var2 + var6 + var3);
 
-        case 2:
-            return new StructureBoundingBox(var0 - var6 - var3, var1 + var4, var2 - var8 - var5, var0 - var3, var1 + var7 + var4, var2 - var5);
+            case 2:
+                return new StructureBoundingBox(var0 - var6 - var3, var1 + var4, var2 - var8 - var5, var0 - var3, var1 + var7 + var4, var2 - var5);
 
-        case 3:
-            return new StructureBoundingBox(var0 + var5, var1 + var4, var2 - var6, var0 + var8 + var5, var1 + var7 + var4, var2 + var3);
+            case 3:
+                return new StructureBoundingBox(var0 + var5, var1 + var4, var2 - var6, var0 + var8 + var5, var1 + var7 + var4, var2 + var3);
 
-        default:
-            return new StructureBoundingBox(var0 + var3, var1 + var4, var2 + var5, var0 + var6 + var3, var1 + var7 + var4, var2 + var8 + var5);
+            default:
+                return new StructureBoundingBox(var0 + var3, var1 + var4, var2 + var5, var0 + var6 + var3, var1 + var7 + var4, var2 + var8 + var5);
         }
     }
 
@@ -70,7 +71,12 @@ public abstract class StructureComponentMoon extends StructureComponent
         final int var6 = this.getXWithOffset(var1, var3);
         final int var7 = this.getYWithOffset(var2);
         final int var8 = this.getZWithOffset(var1, var3);
-        return var5 == 0 ? new int[] { var6 + 1, var7 - 1, var8 - var4 / 2 } : var5 == 1 ? new int[] { var6 + var4 / 2, var7 - 1, var8 + 1 } : var5 == 2 ? new int[] { var6 - 1, var7 - 1, var8 + var4 / 2 } : var5 == 3 ? new int[] { var6 - var4 / 2, var7 - 1, var8 - 1 } : new int[] { var1, var2, var3 };
+        return var5 == 0 ? new int[]
+        {var6 + 1, var7 - 1, var8 - var4 / 2} : var5 == 1 ? new int[]
+        {var6 + var4 / 2, var7 - 1, var8 + 1} : var5 == 2 ? new int[]
+        {var6 - 1, var7 - 1, var8 + var4 / 2} : var5 == 3 ? new int[]
+        {var6 - var4 / 2, var7 - 1, var8 - 1} : new int[]
+        {var1, var2, var3};
     }
 
 //    public int[] getOffsetAsIfRotated(int[] var1, int var2)
@@ -90,61 +96,6 @@ public abstract class StructureComponentMoon extends StructureComponent
     {
         switch (this.getCoordBaseMode().getHorizontalIndex())
         {
-        case 0:
-            return this.boundingBox.minX + var1;
-
-        case 1:
-            return this.boundingBox.maxX - var2;
-
-        case 2:
-            return this.boundingBox.maxX - var1;
-
-        case 3:
-            return this.boundingBox.minX + var2;
-
-        default:
-            return var1;
-        }
-    }
-
-    @Override
-    protected int getYWithOffset(int var1)
-    {
-        return super.getYWithOffset(var1);
-    }
-
-    @Override
-    protected int getZWithOffset(int var1, int var2)
-    {
-        switch (this.getCoordBaseMode().getHorizontalIndex())
-        {
-        case 0:
-            return this.boundingBox.minZ + var2;
-
-        case 1:
-            return this.boundingBox.minZ + var1;
-
-        case 2:
-            return this.boundingBox.maxZ - var2;
-
-        case 3:
-            return this.boundingBox.maxZ - var1;
-
-        default:
-            return var2;
-        }
-    }
-
-    protected int getXWithOffsetAsIfRotated(int var1, int var2, int var3)
-    {
-        if (this.getCoordBaseMode().getHorizontalIndex() < 0)
-        {
-            return var1;
-        }
-        else
-        {
-            switch ((this.getCoordBaseMode().getHorizontalIndex() + var3) % 4)
-            {
             case 0:
                 return this.boundingBox.minX + var1;
 
@@ -159,20 +110,20 @@ public abstract class StructureComponentMoon extends StructureComponent
 
             default:
                 return var1;
-            }
         }
     }
 
-    protected int getZWithOffsetAsIfRotated(int var1, int var2, int var3)
+    @Override
+    protected int getYWithOffset(int var1)
     {
-        if (this.getCoordBaseMode().getHorizontalIndex() < 0)
+        return super.getYWithOffset(var1);
+    }
+
+    @Override
+    protected int getZWithOffset(int var1, int var2)
+    {
+        switch (this.getCoordBaseMode().getHorizontalIndex())
         {
-            return var1;
-        }
-        else
-        {
-            switch ((this.getCoordBaseMode().getHorizontalIndex() + var3) % 4)
-            {
             case 0:
                 return this.boundingBox.minZ + var2;
 
@@ -187,6 +138,59 @@ public abstract class StructureComponentMoon extends StructureComponent
 
             default:
                 return var2;
+        }
+    }
+
+    protected int getXWithOffsetAsIfRotated(int var1, int var2, int var3)
+    {
+        if (this.getCoordBaseMode().getHorizontalIndex() < 0)
+        {
+            return var1;
+        } else
+        {
+            switch ((this.getCoordBaseMode().getHorizontalIndex() + var3) % 4)
+            {
+                case 0:
+                    return this.boundingBox.minX + var1;
+
+                case 1:
+                    return this.boundingBox.maxX - var2;
+
+                case 2:
+                    return this.boundingBox.maxX - var1;
+
+                case 3:
+                    return this.boundingBox.minX + var2;
+
+                default:
+                    return var1;
+            }
+        }
+    }
+
+    protected int getZWithOffsetAsIfRotated(int var1, int var2, int var3)
+    {
+        if (this.getCoordBaseMode().getHorizontalIndex() < 0)
+        {
+            return var1;
+        } else
+        {
+            switch ((this.getCoordBaseMode().getHorizontalIndex() + var3) % 4)
+            {
+                case 0:
+                    return this.boundingBox.minZ + var2;
+
+                case 1:
+                    return this.boundingBox.minZ + var1;
+
+                case 2:
+                    return this.boundingBox.maxZ - var2;
+
+                case 3:
+                    return this.boundingBox.maxZ - var1;
+
+                default:
+                    return var2;
             }
         }
     }
@@ -232,20 +236,20 @@ public abstract class StructureComponentMoon extends StructureComponent
     {
         switch ((this.getCoordBaseMode().getHorizontalIndex() + var1) % 4)
         {
-        case 0:
-            return 0;
+            case 0:
+                return 0;
 
-        case 1:
-            return 2;
+            case 1:
+                return 2;
 
-        case 2:
-            return 1;
+            case 2:
+                return 1;
 
-        case 3:
-            return 3;
+            case 3:
+                return 3;
 
-        default:
-            return -1;
+            default:
+                return -1;
         }
     }
 
@@ -253,20 +257,20 @@ public abstract class StructureComponentMoon extends StructureComponent
     {
         switch ((this.getCoordBaseMode().getHorizontalIndex() + var1) % 4)
         {
-        case 0:
-            return 4;
+            case 0:
+                return 4;
 
-        case 1:
-            return 2;
+            case 1:
+                return 2;
 
-        case 2:
-            return 5;
+            case 2:
+                return 5;
 
-        case 3:
-            return 3;
+            case 3:
+                return 3;
 
-        default:
-            return -1;
+            default:
+                return -1;
         }
     }
 
@@ -282,7 +286,8 @@ public abstract class StructureComponentMoon extends StructureComponent
 
     public void nullifySkyLightAtCurrentPosition(World var1, int var2, int var3, int var4, int var5, int var6, int var7)
     {
-        this.nullifySkyLight(var1, this.getXWithOffset(var2, var4), this.getYWithOffset(var3), this.getZWithOffset(var2, var4), this.getXWithOffset(var5, var7), this.getYWithOffset(var6), this.getZWithOffset(var5, var7));
+        this.nullifySkyLight(var1, this.getXWithOffset(var2, var4), this.getYWithOffset(var3), this.getZWithOffset(var2, var4), this.getXWithOffset(var5, var7), this.getYWithOffset(var6),
+            this.getZWithOffset(var5, var7));
     }
 
     public void nullifySkyLight(World var1, int var2, int var3, int var4, int var5, int var6, int var7)

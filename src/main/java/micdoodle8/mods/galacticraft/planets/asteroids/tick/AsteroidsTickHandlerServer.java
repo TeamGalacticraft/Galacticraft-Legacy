@@ -30,11 +30,12 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class AsteroidsTickHandlerServer
 {
+
     public static ShortRangeTelepadHandler spaceRaceData = null;
     public static List<EntityAstroMiner> activeMiners = new ArrayList<>();
     public static AtomicBoolean loadingSavedChunks = new AtomicBoolean();
     private static Field droppedChunks = null;
-    
+
     public static void restart()
     {
         spaceRaceData = null;
@@ -45,7 +46,7 @@ public class AsteroidsTickHandlerServer
     public void onServerTick(TickEvent.ServerTickEvent event)
     {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-        //Prevent issues when clients switch to LAN servers
+        // Prevent issues when clients switch to LAN servers
         if (server == null)
         {
             return;
@@ -54,7 +55,7 @@ public class AsteroidsTickHandlerServer
         if (event.phase == TickEvent.Phase.START)
         {
             TileEntityMinerBase.checkNewMinerBases();
-            
+
             if (AsteroidsTickHandlerServer.spaceRaceData == null)
             {
                 World world = server.getWorld(0);
@@ -66,17 +67,17 @@ public class AsteroidsTickHandlerServer
                     world.getMapStorage().setData(ShortRangeTelepadHandler.saveDataID, AsteroidsTickHandlerServer.spaceRaceData);
                 }
             }
-            
+
             int index = -1;
-            for(EntityAstroMiner miner : activeMiners)
+            for (EntityAstroMiner miner : activeMiners)
             {
-                index ++;
+                index++;
                 if (miner.isDead)
                 {
 //                    minerIt.remove();  Don't remove it, we want the index number to be static for the others
                     continue;
                 }
-                
+
                 if (miner.playerMP != null)
                 {
                     GCPlayerStats stats = GCPlayerStats.get(miner.playerMP);
@@ -88,13 +89,26 @@ public class AsteroidsTickHandlerServer
                         while (it.hasNext())
                         {
                             BlockVec3 data = it.next();
-                            if (data.sideDoneBits == index)  //SideDoneBits won't be saved to NBT, but during an active server session we can use it as a cross-reference to the index here - it's a 4th data int hidden inside a BlockVec3
+                            if (data.sideDoneBits == index) // SideDoneBits
+                                                            // won't be saved to
+                                                            // NBT, but during
+                                                            // an active server
+                                                            // session we can
+                                                            // use it as a
+                                                            // cross-reference
+                                                            // to the index here
+                                                            // - it's a 4th data
+                                                            // int hidden inside
+                                                            // a BlockVec3
                             {
                                 if (miner.isDead)
                                 {
-                                    it.remove();  //Player stats should not save position of dead AstroMiner entity (probably broken by player deliberately breaking it)
-                                }
-                                else
+                                    it.remove(); // Player stats should not save
+                                                 // position of dead AstroMiner
+                                                 // entity (probably broken by
+                                                 // player deliberately breaking
+                                                 // it)
+                                } else
                                 {
                                     data.x = miner.chunkCoordX;
                                     data.z = miner.chunkCoordZ;
@@ -115,13 +129,13 @@ public class AsteroidsTickHandlerServer
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onWorldTick(WorldTickEvent event)
     {
         if (event.phase == Phase.START)
         {
-            for(EntityAstroMiner miner : activeMiners)
+            for (EntityAstroMiner miner : activeMiners)
             {
                 if (miner.playerMP != null && miner.world == event.world && !miner.isDead)
                 {
@@ -129,10 +143,9 @@ public class AsteroidsTickHandlerServer
                     miner.serverTickSave = miner.ticksExisted;
                 }
             }
-        }
-        else if (event.phase == Phase.END)
+        } else if (event.phase == Phase.END)
         {
-            for(EntityAstroMiner miner : activeMiners)
+            for (EntityAstroMiner miner : activeMiners)
             {
                 if (miner.isDead)
                 {
@@ -143,7 +156,11 @@ public class AsteroidsTickHandlerServer
                 {
                     if (miner.serverTick)
                     {
-                        //Force an entity update tick, if it didn't happen already (mainly needed on Sponge servers - entities not super close to players seem to be not updated at all on Sponge even if the chunk is active, see issue #3307)
+                        // Force an entity update tick, if it didn't happen
+                        // already (mainly needed on Sponge servers - entities
+                        // not super close to players seem to be not updated at
+                        // all on Sponge even if the chunk is active, see issue
+                        // #3307)
                         miner.ticksExisted = miner.serverTickSave + 1;
                         miner.onUpdate();
                     }
@@ -152,33 +169,34 @@ public class AsteroidsTickHandlerServer
                     {
                         if (droppedChunks == null)
                         {
-                            Class clazz = ((WorldServer)miner.world).getChunkProvider().getClass();
+                            Class clazz = ((WorldServer) miner.world).getChunkProvider().getClass();
                             droppedChunks = clazz.getDeclaredField(GCCoreUtil.isDeobfuscated() ? "droppedChunks" : "field_73248_b");
                             droppedChunks.setAccessible(true);
                         }
-                        Set<Long> undrop = (Set<Long>) droppedChunks.get(((WorldServer)miner.world).getChunkProvider());
+                        Set<Long> undrop = (Set<Long>) droppedChunks.get(((WorldServer) miner.world).getChunkProvider());
                         undrop.remove(ChunkPos.asLong(miner.chunkCoordX, miner.chunkCoordZ));
                     } catch (Exception ignore)
                     {
                     }
                 }
-            }            
+            }
         }
     }
 
     public static void removeChunkData(GCPlayerStats stats, EntityAstroMiner entityToRemove)
     {
         int index = 0;
-        for(EntityAstroMiner miner : activeMiners)
+        for (EntityAstroMiner miner : activeMiners)
         {
-            if (miner == entityToRemove)  //Found it in the list here
+            if (miner == entityToRemove) // Found it in the list here
             {
                 List<BlockVec3> list = stats.getActiveAstroMinerChunks();
                 Iterator<BlockVec3> it = list.iterator();
                 while (it.hasNext())
                 {
                     BlockVec3 data = it.next();
-                    if (data.sideDoneBits == index)  //Found it in the player's stats
+                    if (data.sideDoneBits == index) // Found it in the player's
+                                                    // stats
                     {
                         it.remove();
                         return;
@@ -191,12 +209,12 @@ public class AsteroidsTickHandlerServer
     }
 
     /**
-     * How this works: every spawned or saved (in player stats) miner is added to the
-     * activeMiners list here.
-     * Once per server tick its position will be saved to player stats.
-     * When the player quits, the saved miner positions will be saved with the player's stats NBT
-     * When the player next loads, loadAstroChunkList will force load those chunks, therefore
-     * reactivating AstroMiners if those chunks weren't already loaded.
+     * How this works: every spawned or saved (in player stats) miner is added
+     * to the activeMiners list here. Once per server tick its position will be
+     * saved to player stats. When the player quits, the saved miner positions
+     * will be saved with the player's stats NBT When the player next loads,
+     * loadAstroChunkList will force load those chunks, therefore reactivating
+     * AstroMiners if those chunks weren't already loaded.
      */
     public static void loadAstroChunkList(List<BlockVec3> activeChunks)
     {
@@ -210,7 +228,7 @@ public class AsteroidsTickHandlerServer
                 if (p != null && p.world != null)
                 {
                     GCLog.debug("Loading chunk " + data.y + ": " + data.x + "," + data.z + " - should contain a miner!");
-                    WorldServer w = (WorldServer)p.world;
+                    WorldServer w = (WorldServer) p.world;
                     boolean previous = CompatibilityManager.forceLoadChunks(w);
                     w.getChunkProvider().loadChunk(data.x, data.z);
                     CompatibilityManager.forceLoadChunksEnd(w, previous);

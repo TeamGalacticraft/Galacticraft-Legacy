@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ParticleAcidVapor extends Particle
 {
+
     float smokeParticleScale;
 
     public ParticleAcidVapor(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double motionX, double motionY, double motionZ, float p_i46348_14_)
@@ -22,15 +23,15 @@ public class ParticleAcidVapor extends Particle
         this.motionX += motionX / 10.0F;
         this.motionY += motionY;
         this.motionZ += motionZ / 10.0F;
-        this.particleRed = (float)(Math.random() * 0.10000001192092896D + 0.8);
+        this.particleRed = (float) (Math.random() * 0.10000001192092896D + 0.8);
         this.particleGreen = particleRed;
-        this.particleBlue = (float)(Math.random() * 0.10000001192092896D);
+        this.particleBlue = (float) (Math.random() * 0.10000001192092896D);
         this.particleAlpha = 1.0F;
 //        this.particleScale *= 0.75F;
         this.particleScale *= p_i46348_14_;
         this.smokeParticleScale = this.particleScale;
-        this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
-        this.particleMaxAge = (int)((float)this.particleMaxAge * p_i46348_14_);
+        this.particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
+        this.particleMaxAge = (int) ((float) this.particleMaxAge * p_i46348_14_);
         this.canCollide = true;
     }
 

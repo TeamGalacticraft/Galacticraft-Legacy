@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
  */
 public class PartialCanister
 {
+
     private Item item;
     private String modID;
     private String baseName;

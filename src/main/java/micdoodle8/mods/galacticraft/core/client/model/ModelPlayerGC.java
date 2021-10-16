@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.client.model;
 
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -9,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModelPlayerGC extends ModelPlayer
 {
+
     public static final ResourceLocation oxygenMaskTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/oxygen.png");
     public static final ResourceLocation playerTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/player.png");
 
@@ -24,8 +26,7 @@ public class ModelPlayerGC extends ModelPlayer
             this.bipedRightArm = new ModelRenderer(this, 40, 16);
             this.bipedRightArm.addBox(-2.0F, -2.0F, -2.0F, 3, 12, 4, var1);
             this.bipedRightArm.setRotationPoint(-5.0F, 2.5F, 0.0F);
-        }
-        else
+        } else
         {
             this.bipedLeftArm = new ModelRenderer(this, 32, 48);
             this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, var1);

@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.client.render.entities;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.model.ModelMeteorChunk;
 import micdoodle8.mods.galacticraft.core.entities.EntityMeteorChunk;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -10,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderMeteorChunk extends Render<EntityMeteorChunk>
 {
+
     private static final ResourceLocation meteorChunkTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/blocks/meteor_chunk.png");
     private static final ResourceLocation meteorChunkHotTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/blocks/meteor_chunk_hot.png");
     private final ModelMeteorChunk modelMeteor;
@@ -27,8 +29,7 @@ public class RenderMeteorChunk extends Render<EntityMeteorChunk>
         if (entity.isHot())
         {
             return RenderMeteorChunk.meteorChunkHotTexture;
-        }
-        else
+        } else
         {
             return RenderMeteorChunk.meteorChunkTexture;
         }

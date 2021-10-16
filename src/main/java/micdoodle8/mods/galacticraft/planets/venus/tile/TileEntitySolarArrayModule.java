@@ -6,6 +6,7 @@ import net.minecraft.util.EnumFacing;
 
 public class TileEntitySolarArrayModule extends TileEntitySolarTransmitter
 {
+
     public TileEntitySolarArrayModule()
     {
         super("container.solar_array_module.name");

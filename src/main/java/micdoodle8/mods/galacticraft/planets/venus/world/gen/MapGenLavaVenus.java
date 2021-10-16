@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class MapGenLavaVenus extends MapGenBaseMeta
 {
+
     protected void generateCaveNode(long par1, int par3, int par4, ChunkPrimer primer, double par6, double par8, double par10, float par12, float par13, float par14, int par15, int par16, double par17)
     {
         final double d4 = par3 * 16 + 8;
@@ -51,8 +52,7 @@ public class MapGenLavaVenus extends MapGenBaseMeta
             if (flag1)
             {
                 par14 *= 0.92F;
-            }
-            else
+            } else
             {
                 par14 *= 0.7F;
             }
@@ -165,7 +165,7 @@ public class MapGenLavaVenus extends MapGenBaseMeta
                                             IBlockState toReplace = primer.getBlockState(localX, localY, localZ);
                                             if (toReplace.getBlock() == VenusBlocks.venusBlock)
                                             {
-                                                BlockBasicVenus.EnumBlockBasicVenus type = (BlockBasicVenus.EnumBlockBasicVenus)toReplace.getValue(BlockBasicVenus.BASIC_TYPE_VENUS);
+                                                BlockBasicVenus.EnumBlockBasicVenus type = (BlockBasicVenus.EnumBlockBasicVenus) toReplace.getValue(BlockBasicVenus.BASIC_TYPE_VENUS);
                                                 if (type == BlockBasicVenus.EnumBlockBasicVenus.ROCK_HARD || type == BlockBasicVenus.EnumBlockBasicVenus.ROCK_SOFT)
                                                 {
                                                     IBlockState north = localZ == 0 ? Blocks.AIR.getDefaultState() : primer.getBlockState(localX, localY, localZ - 1);
@@ -173,11 +173,12 @@ public class MapGenLavaVenus extends MapGenBaseMeta
                                                     IBlockState east = localX == 15 ? Blocks.AIR.getDefaultState() : primer.getBlockState(localX + 1, localY, localZ);
                                                     IBlockState west = localX == 0 ? Blocks.AIR.getDefaultState() : primer.getBlockState(localX - 1, localY, localZ);
                                                     IBlockState below = localY == 0 ? Blocks.AIR.getDefaultState() : primer.getBlockState(localX, localY - 1, localZ);
-                                                    if (north.getBlock() == Blocks.AIR || south.getBlock() == Blocks.AIR || east.getBlock() == Blocks.AIR || west.getBlock() == Blocks.AIR || below.getBlock() == Blocks.AIR)
+                                                    if (north.getBlock() == Blocks.AIR || south.getBlock() == Blocks.AIR || east.getBlock() == Blocks.AIR || west.getBlock() == Blocks.AIR
+                                                        || below.getBlock() == Blocks.AIR)
                                                     {
-                                                        primer.setBlockState(localX, localY, localZ, VenusBlocks.venusBlock.getDefaultState().withProperty(BlockBasicVenus.BASIC_TYPE_VENUS, BlockBasicVenus.EnumBlockBasicVenus.ROCK_MAGMA));
-                                                    }
-                                                    else
+                                                        primer.setBlockState(localX, localY, localZ,
+                                                            VenusBlocks.venusBlock.getDefaultState().withProperty(BlockBasicVenus.BASIC_TYPE_VENUS, BlockBasicVenus.EnumBlockBasicVenus.ROCK_MAGMA));
+                                                    } else
                                                     {
                                                         primer.setBlockState(localX, localY, localZ, Blocks.LAVA.getDefaultState());
                                                     }

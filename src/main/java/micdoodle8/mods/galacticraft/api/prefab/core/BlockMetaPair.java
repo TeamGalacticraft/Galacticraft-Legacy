@@ -9,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 @Deprecated
 public class BlockMetaPair
 {
+
     private final Block block;
     private final byte metadata;
 

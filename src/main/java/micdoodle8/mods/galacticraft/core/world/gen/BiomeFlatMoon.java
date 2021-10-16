@@ -1,11 +1,13 @@
 package micdoodle8.mods.galacticraft.core.world.gen;
 
+import micdoodle8.mods.galacticraft.api.world.DataBuilder.BiomeData;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeFlatMoon extends BiomeMoon
 {
-    public BiomeFlatMoon(BiomeProperties properties)
+
+    public BiomeFlatMoon(BiomeData properties)
     {
         super(properties);
     }

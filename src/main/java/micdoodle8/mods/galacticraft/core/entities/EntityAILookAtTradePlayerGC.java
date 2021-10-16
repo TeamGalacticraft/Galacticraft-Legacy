@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class EntityAILookAtTradePlayerGC extends EntityAIWatchClosest
 {
+
     private final EntityAlienVillager theMerchant;
 
     public EntityAILookAtTradePlayerGC(EntityAlienVillager theMerchantIn)
@@ -23,8 +24,7 @@ public class EntityAILookAtTradePlayerGC extends EntityAIWatchClosest
         {
             this.closestEntity = this.theMerchant.getCustomer();
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

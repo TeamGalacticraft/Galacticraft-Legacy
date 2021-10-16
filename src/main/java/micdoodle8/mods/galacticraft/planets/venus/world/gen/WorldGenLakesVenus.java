@@ -1,7 +1,5 @@
 package micdoodle8.mods.galacticraft.planets.venus.world.gen;
 
-import micdoodle8.mods.galacticraft.planets.venus.VenusBlocks;
-import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockBasicVenus;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -13,8 +11,12 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 import java.util.Random;
 
+import micdoodle8.mods.galacticraft.planets.venus.VenusBlocks;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockBasicVenus;
+
 public class WorldGenLakesVenus extends WorldGenerator
 {
+
     public WorldGenLakesVenus()
     {
     }
@@ -30,8 +32,7 @@ public class WorldGenLakesVenus extends WorldGenerator
         if (position.getY() <= 4)
         {
             return false;
-        }
-        else
+        } else
         {
             position = position.down(4);
             boolean[] aboolean = new boolean[2048];
@@ -52,9 +53,9 @@ public class WorldGenLakesVenus extends WorldGenerator
                     {
                         for (int j1 = 1; j1 < 7; ++j1)
                         {
-                            double d6 = ((double)l - d3) / (d0 / 2.0D);
-                            double d7 = ((double)j1 - d4) / (d1 / 2.0D);
-                            double d8 = ((double)i1 - d5) / (d2 / 2.0D);
+                            double d6 = ((double) l - d3) / (d0 / 2.0D);
+                            double d7 = ((double) j1 - d4) / (d1 / 2.0D);
+                            double d8 = ((double) i1 - d5) / (d2 / 2.0D);
                             double d9 = d6 * d6 + d7 * d7 + d8 * d8;
 
                             if (d9 < 1.0D)
@@ -72,7 +73,9 @@ public class WorldGenLakesVenus extends WorldGenerator
                 {
                     for (int k = 0; k < 8; ++k)
                     {
-                        boolean flag = !aboolean[(k1 * 16 + l2) * 8 + k] && (k1 < 15 && aboolean[((k1 + 1) * 16 + l2) * 8 + k] || k1 > 0 && aboolean[((k1 - 1) * 16 + l2) * 8 + k] || l2 < 15 && aboolean[(k1 * 16 + l2 + 1) * 8 + k] || l2 > 0 && aboolean[(k1 * 16 + (l2 - 1)) * 8 + k] || k < 7 && aboolean[(k1 * 16 + l2) * 8 + k + 1] || k > 0 && aboolean[(k1 * 16 + l2) * 8 + (k - 1)]);
+                        boolean flag = !aboolean[(k1 * 16 + l2) * 8 + k]
+                            && (k1 < 15 && aboolean[((k1 + 1) * 16 + l2) * 8 + k] || k1 > 0 && aboolean[((k1 - 1) * 16 + l2) * 8 + k] || l2 < 15 && aboolean[(k1 * 16 + l2 + 1) * 8 + k]
+                                || l2 > 0 && aboolean[(k1 * 16 + (l2 - 1)) * 8 + k] || k < 7 && aboolean[(k1 * 16 + l2) * 8 + k + 1] || k > 0 && aboolean[(k1 * 16 + l2) * 8 + (k - 1)]);
 
                         if (flag)
                         {
@@ -124,8 +127,7 @@ public class WorldGenLakesVenus extends WorldGenerator
                                 if (biomegenbase.topBlock.getBlock() == Blocks.MYCELIUM)
                                 {
                                     worldIn.setBlockState(blockpos, Blocks.MYCELIUM.getDefaultState(), 2);
-                                }
-                                else
+                                } else
                                 {
                                     worldIn.setBlockState(blockpos, Blocks.GRASS.getDefaultState(), 2);
                                 }
@@ -141,12 +143,15 @@ public class WorldGenLakesVenus extends WorldGenerator
                 {
                     for (int k4 = 0; k4 < 8; ++k4)
                     {
-                        boolean flag1 = !aboolean[(j2 * 16 + k3) * 8 + k4] && (j2 < 15 && aboolean[((j2 + 1) * 16 + k3) * 8 + k4] || j2 > 0 && aboolean[((j2 - 1) * 16 + k3) * 8 + k4] || k3 < 15 && aboolean[(j2 * 16 + k3 + 1) * 8 + k4] || k3 > 0 && aboolean[(j2 * 16 + (k3 - 1)) * 8 + k4] || k4 < 7 && aboolean[(j2 * 16 + k3) * 8 + k4 + 1] || k4 > 0 && aboolean[(j2 * 16 + k3) * 8 + (k4 - 1)]);
+                        boolean flag1 = !aboolean[(j2 * 16 + k3) * 8 + k4]
+                            && (j2 < 15 && aboolean[((j2 + 1) * 16 + k3) * 8 + k4] || j2 > 0 && aboolean[((j2 - 1) * 16 + k3) * 8 + k4] || k3 < 15 && aboolean[(j2 * 16 + k3 + 1) * 8 + k4]
+                                || k3 > 0 && aboolean[(j2 * 16 + (k3 - 1)) * 8 + k4] || k4 < 7 && aboolean[(j2 * 16 + k3) * 8 + k4 + 1] || k4 > 0 && aboolean[(j2 * 16 + k3) * 8 + (k4 - 1)]);
 
                         IBlockState state = worldIn.getBlockState(position.add(j2, k4, k3));
                         if (flag1 && (k4 < 4 || rand.nextInt(2) != 0) && state.getMaterial().isSolid())
                         {
-                            worldIn.setBlockState(position.add(j2, k4, k3), VenusBlocks.venusBlock.getDefaultState().withProperty(BlockBasicVenus.BASIC_TYPE_VENUS, BlockBasicVenus.EnumBlockBasicVenus.ROCK_MAGMA), 2);
+                            worldIn.setBlockState(position.add(j2, k4, k3),
+                                VenusBlocks.venusBlock.getDefaultState().withProperty(BlockBasicVenus.BASIC_TYPE_VENUS, BlockBasicVenus.EnumBlockBasicVenus.ROCK_MAGMA), 2);
                         }
                     }
                 }

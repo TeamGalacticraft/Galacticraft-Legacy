@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.client.render.entities.layer;
 
 import micdoodle8.mods.galacticraft.core.client.render.entities.RenderEvolvedEnderman;
 import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedEnderman;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class LayerEvolvedEndermanHeldBlock implements LayerRenderer<EntityEvolvedEnderman>
 {
+
     private RenderEvolvedEnderman render;
 
     public LayerEvolvedEndermanHeldBlock(RenderEvolvedEnderman render)

@@ -26,6 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockCreeperEgg extends BlockDragonEgg implements IShiftDescription, ISortableBlock
 {
+
     protected static final AxisAlignedBB DRAGON_EGG_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 1.0D, 0.9375D);
 
     public BlockCreeperEgg(String assetName)
@@ -105,7 +106,7 @@ public class BlockCreeperEgg extends BlockDragonEgg implements IShiftDescription
         return false;
     }
 
-    //Can only be harvested with a Sticky Desh Pickaxe
+    // Can only be harvested with a Sticky Desh Pickaxe
     @Override
     public boolean canHarvestBlock(IBlockAccess world, BlockPos pos, EntityPlayer player)
     {

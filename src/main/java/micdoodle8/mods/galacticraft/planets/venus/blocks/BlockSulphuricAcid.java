@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
 
 public class BlockSulphuricAcid extends BlockFluidClassic
 {
+
     public BlockSulphuricAcid(String assetName)
     {
         super(VenusModule.sulphuricAcid, VenusModule.acidMaterial);
@@ -66,7 +67,8 @@ public class BlockSulphuricAcid extends BlockFluidClassic
 
         if (rand.nextInt(1200) == 0)
         {
-            worldIn.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, rand.nextFloat() * 0.25F + 0.75F, 0.00001F + rand.nextFloat() * 0.5F);
+            worldIn.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, rand.nextFloat() * 0.25F + 0.75F,
+                0.00001F + rand.nextFloat() * 0.5F);
         }
         if (rand.nextInt(10) == 0)
         {

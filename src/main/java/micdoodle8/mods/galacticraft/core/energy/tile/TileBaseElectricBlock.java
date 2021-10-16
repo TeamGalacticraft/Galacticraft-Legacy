@@ -11,13 +11,14 @@ import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.RedstoneUtil;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
 import micdoodle8.mods.miccore.Annotations.RuntimeInterface;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -26,15 +27,12 @@ import java.util.List;
 
 public abstract class TileBaseElectricBlock extends TileBaseUniversalElectrical implements IDisableableMachine, IConnector
 {
-    //	public int energyPerTick = 200;
-    //	private final float ueMaxEnergy;
+    // public int energyPerTick = 200;
+    // private final float ueMaxEnergy;
 
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean disabled = false;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int disableCooldown = 0;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean hasEnoughEnergyToRun = false;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean disabled = false;
+    @NetworkedField(targetSide = Side.CLIENT) public int disableCooldown = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean hasEnoughEnergyToRun = false;
     public boolean noRedstoneControl = false;
 
     public TileBaseElectricBlock(String tileName)
@@ -53,51 +51,51 @@ public abstract class TileBaseElectricBlock extends TileBaseUniversalElectrical 
 
     public abstract ItemStack getBatteryInSlot();
 
-    //	public TileBaseElectricBlock()
-    //	{
-    //		this.storage.setMaxReceive(ueWattsPerTick);
-    //		this.storage.setMaxExtract(0);
-    //		this.storage.setCapacity(maxEnergy);
-    ////		this.ueMaxEnergy = maxEnergy;
-    ////		this.ueWattsPerTick = ueWattsPerTick;
+    // public TileBaseElectricBlock()
+    // {
+    // this.storage.setMaxReceive(ueWattsPerTick);
+    // this.storage.setMaxExtract(0);
+    // this.storage.setCapacity(maxEnergy);
+    //// this.ueMaxEnergy = maxEnergy;
+    //// this.ueWattsPerTick = ueWattsPerTick;
     //
-    //		/*
-    //		 * if (PowerFramework.currentFramework != null) { this.bcPowerProvider =
-    //		 * new GCCoreLinkedPowerProvider(this);
-    //		 * this.bcPowerProvider.configure(20, 1, 10, 10, 1000); }
-    //		 */
-    //	}
+    // /*
+    // * if (PowerFramework.currentFramework != null) { this.bcPowerProvider =
+    // * new GCCoreLinkedPowerProvider(this);
+    // * this.bcPowerProvider.configure(20, 1, 10, 10, 1000); }
+    // */
+    // }
 
-    //	@Override
-    //	public float getMaxEnergyStored()
-    //	{
-    //		return this.ueMaxEnergy;
-    //	}
+    // @Override
+    // public float getMaxEnergyStored()
+    // {
+    // return this.ueMaxEnergy;
+    // }
 
     public int getScaledElecticalLevel(int i)
     {
         return (int) Math.floor(this.getEnergyStoredGC(null) * i / this.getMaxEnergyStoredGC(null));
-        //- this.ueWattsPerTick;
+        // - this.ueWattsPerTick;
     }
 
-    //	@Override
-    //	public float getRequest(EnumFacing direction)
-    //	{
-    //		if (this.shouldPullEnergy())
-    //		{
-    //			return this.ueWattsPerTick * 2;
-    //		}
-    //		else
-    //		{
-    //			return 0;
-    //		}
-    //	}
+    // @Override
+    // public float getRequest(EnumFacing direction)
+    // {
+    // if (this.shouldPullEnergy())
+    // {
+    // return this.ueWattsPerTick * 2;
+    // }
+    // else
+    // {
+    // return 0;
+    // }
+    // }
     //
-    //	@Override
-    //	public float getProvide(EnumFacing direction)
-    //	{
-    //		return 0;
-    //	}
+    // @Override
+    // public float getProvide(EnumFacing direction)
+    // {
+    // return 0;
+    // }
 
     @Override
     public void update()
@@ -115,13 +113,11 @@ public abstract class TileBaseElectricBlock extends TileBaseUniversalElectrical 
                 if (this.shouldUseEnergy())
                 {
                     this.storage.extractEnergyGC(this.storage.getMaxExtract(), false);
-                }
-                else
+                } else
                 {
                     this.slowDischarge();
                 }
-            }
-            else
+            } else
             {
                 this.hasEnoughEnergyToRun = false;
                 this.slowDischarge();
@@ -141,10 +137,10 @@ public abstract class TileBaseElectricBlock extends TileBaseUniversalElectrical 
 
     public void slowDischarge()
     {
-       	if (this.ticks % 10 == 0)
-       	{
-       	    this.storage.extractEnergyGC(5F, false);
-       	}
+        if (this.ticks % 10 == 0)
+        {
+            this.storage.extractEnergyGC(5F, false);
+        }
     }
 
     @Override
@@ -267,8 +263,10 @@ public abstract class TileBaseElectricBlock extends TileBaseUniversalElectrical 
     }
 
     /**
-     * @param missingInput = dynamically: null if all inputs are present, or a string if an input (e.g. oxygen, fuel) is missing
-     * @param activeString = the specific 'Running' / 'Processing' etc string for this machine
+     * @param missingInput = dynamically: null if all inputs are present, or a
+     *        string if an input (e.g. oxygen, fuel) is missing
+     * @param activeString = the specific 'Running' / 'Processing' etc string
+     *        for this machine
      * @return
      */
     public String getGUIstatus(String missingInput, String activeString, boolean shorten)
@@ -282,7 +280,7 @@ public abstract class TileBaseElectricBlock extends TileBaseUniversalElectrical 
         {
             return EnumColor.DARK_RED + GCCoreUtil.translate(shorten ? "gui.status.missingpower.short.name" : "gui.status.missingpower.name");
         }
-        
+
         if (missingInput != null)
         {
             return missingInput;

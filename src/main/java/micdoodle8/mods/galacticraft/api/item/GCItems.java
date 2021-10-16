@@ -1,9 +1,9 @@
 package micdoodle8.mods.galacticraft.api.item;
 
-import net.minecraft.item.ItemStack;
-
 import java.lang.reflect.Field;
 import java.util.HashMap;
+
+import net.minecraft.item.ItemStack;
 
 public class GCItems
 {
@@ -170,15 +170,12 @@ public class GCItems
     // "frequencyModule"
 
     /**
-     * Request an itemstack from Galacticraft.
-     * <p/>
-     * Be sure to check if the itemstack is null, since items may be disabled,
-     * planets addon might not be installed, etc.
-     * <p/>
-     * Since the items are initialized and added to list in pre-init, you should
-     * only be calling this method in init or later.
+     * Request an itemstack from Galacticraft. <p/> Be sure to check if the
+     * itemstack is null, since items may be disabled, planets addon might not
+     * be installed, etc. <p/> Since the items are initialized and added to list
+     * in pre-init, you should only be calling this method in init or later.
      *
-     * @param key    Item identifier, see {@link GCItems} for item/block keys
+     * @param key Item identifier, see {@link GCItems} for item/block keys
      * @param amount Stack size
      * @return A stack of Galacticraft items with the passed key.
      */
@@ -198,8 +195,7 @@ public class GCItems
                 ItemStack stack = GCItems.itemsList.get(key);
                 return new ItemStack(stack.getItem(), amount, stack.getItemDamage());
             }
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             ex.printStackTrace();
         }
@@ -208,15 +204,12 @@ public class GCItems
     }
 
     /**
-     * Request an itemstack from Galacticraft.
-     * <p/>
-     * Be sure to check if the itemstack is null, since items may be disabled,
-     * planets addon might not be installed, etc.
-     * <p/>
-     * Since the items are initialized and added to list in pre-init, you should
-     * only be calling this method in init or later.
+     * Request an itemstack from Galacticraft. <p/> Be sure to check if the
+     * itemstack is null, since items may be disabled, planets addon might not
+     * be installed, etc. <p/> Since the items are initialized and added to list
+     * in pre-init, you should only be calling this method in init or later.
      *
-     * @param key    Item identifier, see {@link GCItems} for item/block keys
+     * @param key Item identifier, see {@link GCItems} for item/block keys
      * @param amount Stack size
      * @return A stack of Galacticraft items with the passed key.
      */
@@ -236,8 +229,7 @@ public class GCItems
                 ItemStack stack = GCItems.blocksList.get(key);
                 return new ItemStack(stack.getItem(), amount, stack.getItemDamage());
             }
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             ex.printStackTrace();
         }

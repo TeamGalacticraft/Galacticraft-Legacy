@@ -16,6 +16,7 @@ import java.util.List;
 
 public class NetworkRenderer
 {
+
     public static void renderNetworks(World world, float partialTicks)
     {
         List<TileEntityBeamOutput> nodes = new ArrayList<TileEntityBeamOutput>();
@@ -70,8 +71,10 @@ public class NetworkRenderer
 
             for (EnumFacing dir : EnumFacing.VALUES)
             {
-                tess.getBuffer().pos(dir.getXOffset() / 40.0F, dir.getYOffset() / 40.0F, dir.getZOffset() / 40.0F).color(tileEntity.getColor().floatX(), tileEntity.getColor().floatY(), tileEntity.getColor().floatZ(), 1.0F).endVertex();
-                tess.getBuffer().pos(dir.getXOffset() / 40.0F, dir.getYOffset() / 40.0F, directionLength + dir.getZOffset() / 40.0F).color(tileEntity.getColor().floatX(), tileEntity.getColor().floatY(), tileEntity.getColor().floatZ(), 1.0F).endVertex();
+                tess.getBuffer().pos(dir.getXOffset() / 40.0F, dir.getYOffset() / 40.0F, dir.getZOffset() / 40.0F)
+                    .color(tileEntity.getColor().floatX(), tileEntity.getColor().floatY(), tileEntity.getColor().floatZ(), 1.0F).endVertex();
+                tess.getBuffer().pos(dir.getXOffset() / 40.0F, dir.getYOffset() / 40.0F, directionLength + dir.getZOffset() / 40.0F)
+                    .color(tileEntity.getColor().floatX(), tileEntity.getColor().floatY(), tileEntity.getColor().floatZ(), 1.0F).endVertex();
             }
 
             tess.draw();

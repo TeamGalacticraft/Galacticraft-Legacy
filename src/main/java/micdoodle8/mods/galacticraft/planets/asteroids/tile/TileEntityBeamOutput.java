@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.tile;
 
+import java.util.LinkedList;
+
 import micdoodle8.mods.galacticraft.api.power.ILaserNode;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
@@ -18,13 +20,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.LinkedList;
-
 public abstract class TileEntityBeamOutput extends TileEntityAdvanced implements ILaserNode
 {
+
     public LinkedList<ILaserNode> nodeList = new LinkedList<ILaserNode>();
-    @NetworkedField(targetSide = Side.CLIENT)
-    public BlockPos targetVec = new BlockPos(-1, -1, -1);
+    @NetworkedField(targetSide = Side.CLIENT) public BlockPos targetVec = new BlockPos(-1, -1, -1);
     public float pitch;
     public float yaw;
     private BlockPos preLoadTarget = null;
@@ -61,8 +61,7 @@ public abstract class TileEntityBeamOutput extends TileEntityAdvanced implements
         if (this.world.isRemote)
         {
             this.updateOrientation();
-        }
-        else if (this.targetVec.getX() == -1 && this.targetVec.getY() == -1 && this.targetVec.getZ() == -1)
+        } else if (this.targetVec.getX() == -1 && this.targetVec.getY() == -1 && this.targetVec.getZ() == -1)
         {
             this.initiateReflector();
         }
@@ -174,8 +173,7 @@ public abstract class TileEntityBeamOutput extends TileEntityAdvanced implements
         if (this.nodeList.isEmpty())
         {
             this.nodeList.add(node);
-        }
-        else
+        } else
         {
             int nodeCompare = this.nodeList.get(0).compareTo(node, new BlockVec3(this));
 
@@ -225,17 +223,14 @@ public abstract class TileEntityBeamOutput extends TileEntityAdvanced implements
                 if (this.nodeList.size() > 1)
                 {
                     this.setTarget(this.nodeList.get(index + 1));
-                }
-                else
+                } else
                 {
                     this.setTarget(null);
                 }
-            }
-            else if (index > 0)
+            } else if (index > 0)
             {
                 this.setTarget(this.nodeList.get(index - 1));
-            }
-            else
+            } else
             {
                 this.setTarget(null);
             }
@@ -272,8 +267,7 @@ public abstract class TileEntityBeamOutput extends TileEntityAdvanced implements
         if (thisDistance < otherDistance)
         {
             return 1;
-        }
-        else if (thisDistance > otherDistance)
+        } else if (thisDistance > otherDistance)
         {
             return -1;
         }
@@ -303,8 +297,7 @@ public abstract class TileEntityBeamOutput extends TileEntityAdvanced implements
             {
                 // This shouldn't happen, but just in case...
                 this.initiateReflector();
-            }
-            else
+            } else
             {
                 index++;
                 index %= this.nodeList.size();
@@ -339,8 +332,7 @@ public abstract class TileEntityBeamOutput extends TileEntityAdvanced implements
         if (target != null)
         {
             this.targetVec = target.getTile().getPos();
-        }
-        else
+        } else
         {
             this.targetVec = new BlockPos(-1, -1, -1);
         }

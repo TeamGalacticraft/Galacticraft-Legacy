@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.GCFluids;
 import micdoodle8.mods.galacticraft.core.blocks.BlockOxygenCollector;
 import micdoodle8.mods.galacticraft.core.energy.item.ItemElectricBase;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -22,11 +23,11 @@ import java.util.EnumSet;
 
 public class TileEntityOxygenCollector extends TileEntityOxygen
 {
+
     public boolean active;
     public static final int OUTPUT_PER_TICK = 100;
     public static float OXYGEN_PER_PLANT = 0.75F;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public float lastOxygenCollected;
+    @NetworkedField(targetSide = Side.CLIENT) public float lastOxygenCollected;
     private boolean noAtmosphericOxygen = true;
     private boolean isInitialised = false;
     private boolean producedLastTick = false;
@@ -93,29 +94,34 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
             // }
             // }
 
-            //Approximately once every 40 ticks, search out oxygen producing blocks
+            // Approximately once every 40 ticks, search out oxygen producing
+            // blocks
             if (this.world.rand.nextInt(10) == 0)
             {
                 if (this.hasEnoughEnergyToRun)
                 {
-                    // The later calculations are more efficient if power is a float, so
+                    // The later calculations are more efficient if power is a
+                    // float, so
                     // there are fewer casts
                     float nearbyLeaves = 0;
 
                     if (!this.isInitialised)
                     {
-                        this.noAtmosphericOxygen = (this.world.provider instanceof IGalacticraftWorldProvider && !((IGalacticraftWorldProvider) this.world.provider).isGasPresent(EnumAtmosphericGas.OXYGEN));
+                        this.noAtmosphericOxygen =
+                            (this.world.provider instanceof IGalacticraftWorldProvider && !((IGalacticraftWorldProvider) this.world.provider).isGasPresent(EnumAtmosphericGas.OXYGEN));
                         this.isInitialised = true;
                     }
 
                     if (this.noAtmosphericOxygen)
                     {
                         // Pre-test to see if close to the map edges, so code
-                        // doesn't have to continually test for map edges inside the
+                        // doesn't have to continually test for map edges inside
+                        // the
                         // loop
                         if (this.getPos().getX() > -29999995 && this.getPos().getY() < 2999995 && this.getPos().getZ() > -29999995 && this.getPos().getZ() < 29999995)
                         {
-                            // Test the y coordinates, so code doesn't have to keep
+                            // Test the y coordinates, so code doesn't have to
+                            // keep
                             // testing that either
                             int miny = this.getPos().getY() - 5;
                             int maxy = this.getPos().getY() + 5;
@@ -128,14 +134,16 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
                                 maxy = this.world.getHeight() - 1;
                             }
 
-                            // Loop the x and the z first, so the y loop will be at
+                            // Loop the x and the z first, so the y loop will be
+                            // at
                             // fixed (x,z) coordinates meaning fixed chunk
                             // coordinates
                             for (int x = this.getPos().getX() - 5; x <= this.getPos().getX() + 5; x++)
                             {
                                 int chunkx = x >> 4;
                                 int intrachunkx = x & 15;
-                                // Preload the first chunk for the z loop - there
+                                // Preload the first chunk for the z loop -
+                                // there
                                 // can be a maximum of 2 chunks in the z loop
                                 int chunkz = this.getPos().getZ() - 5 >> 4;
                                 Chunk chunk = this.world.getChunk(chunkx, chunkz);
@@ -143,24 +151,29 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
                                 {
                                     if (z >> 4 != chunkz)
                                     {
-                                        // moved across z chunk boundary into a new
+                                        // moved across z chunk boundary into a
+                                        // new
                                         // chunk, so load the new chunk
                                         chunkz = z >> 4;
                                         chunk = this.world.getChunk(chunkx, chunkz);
                                     }
                                     for (int y = miny; y <= maxy; y++)
                                     {
-                                        // chunk.getBlockID is like world.getBlock
+                                        // chunk.getBlockID is like
+                                        // world.getBlock
                                         // but faster - needs to be given
                                         // intra-chunk coordinates though
                                         final IBlockState state = chunk.getBlockState(intrachunkx, y, z & 15);
-                                        // Test for the two most common blocks (air
-                                        // and breatheable air) without looking up
+                                        // Test for the two most common blocks
+                                        // (air
+                                        // and breatheable air) without looking
+                                        // up
                                         // in the blocksList
                                         if (!(state.getBlock() instanceof BlockAir))
                                         {
                                             BlockPos pos = new BlockPos(x, y, z);
-                                            if (state.getBlock().isLeaves(state, this.world, pos) || state.getBlock() instanceof IPlantable && ((IPlantable) state.getBlock()).getPlantType(this.world, pos) == EnumPlantType.Crop)
+                                            if (state.getBlock().isLeaves(state, this.world, pos)
+                                                || state.getBlock() instanceof IPlantable && ((IPlantable) state.getBlock()).getPlantType(this.world, pos) == EnumPlantType.Crop)
                                             {
                                                 nearbyLeaves += OXYGEN_PER_PLANT;
                                             }
@@ -169,8 +182,7 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
                                 }
                             }
                         }
-                    }
-                    else
+                    } else
                     {
                         nearbyLeaves = 9.3F * 10F;
                     }
@@ -180,8 +192,7 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
                     this.lastOxygenCollected = nearbyLeaves / 10F;
 
                     this.tank.setFluid(new FluidStack(GCFluids.fluidOxygenGas, (int) Math.max(Math.min(this.getOxygenStored() + nearbyLeaves, this.getMaxOxygenStored()), 0)));
-                }
-                else
+                } else
                 {
                     this.lastOxygenCollected = 0;
                 }
@@ -194,7 +205,8 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[] { 0 };
+        return new int[]
+        {0};
     }
 
     @Override
@@ -218,7 +230,7 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
     @Override
     public EnumFacing byIndex()
     {
-        IBlockState state = this.world.getBlockState(getPos()); 
+        IBlockState state = this.world.getBlockState(getPos());
         if (state.getBlock() instanceof BlockOxygenCollector)
         {
             return state.getValue(BlockOxygenCollector.FACING);

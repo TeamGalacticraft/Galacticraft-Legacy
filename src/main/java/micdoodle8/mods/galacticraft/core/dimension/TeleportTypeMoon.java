@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
@@ -16,6 +17,7 @@ import java.util.Random;
 
 public class TeleportTypeMoon implements ITeleportType
 {
+
     @Override
     public boolean useParachute()
     {
@@ -37,8 +39,7 @@ public class TeleportTypeMoon implements ITeleportType
                 {
                     z *= limit / x;
                     x = limit;
-                }
-                else if (x < -limit)
+                } else if (x < -limit)
                 {
                     z *= -limit / x;
                     x = -limit;
@@ -47,10 +48,9 @@ public class TeleportTypeMoon implements ITeleportType
                 {
                     x *= limit / z;
                     z = limit;
-                }
-                else if (z < -limit)
+                } else if (z < -limit)
                 {
-                    x *= - limit / z;
+                    x *= -limit / z;
                     z = -limit;
                 }
             }

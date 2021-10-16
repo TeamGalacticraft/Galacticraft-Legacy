@@ -5,8 +5,8 @@ import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class BlockBrightAir extends BlockAir
 {
+
     public BlockBrightAir(String assetName)
     {
         this.setResistance(1000.0F);
@@ -51,7 +52,7 @@ public class BlockBrightAir extends BlockAir
     {
         return 15;
     }
-    
+
     @Override
     public int getLightOpacity(IBlockState state)
     {

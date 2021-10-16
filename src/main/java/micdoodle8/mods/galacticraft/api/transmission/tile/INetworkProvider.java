@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.api.transmission.grid.IGridNetwork;
 
 public interface INetworkProvider
 {
+
     IGridNetwork getNetwork();
 
     boolean hasNetwork();

@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
-import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.api.block.IOxygenReliantBlock;
 import micdoodle8.mods.galacticraft.api.item.IItemOxygenSupply;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
@@ -12,6 +11,7 @@ import micdoodle8.mods.galacticraft.core.energy.item.ItemElectricBase;
 import micdoodle8.mods.galacticraft.core.entities.IBubbleProviderColored;
 import micdoodle8.mods.galacticraft.core.util.FluidUtil;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -28,15 +28,17 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+
 public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBubbleProviderColored
 {
+
     public boolean active;
     public boolean lastActive;
 
     public static HashSet<BlockVec3Dim> loadedTiles = new HashSet<>();
     public float bubbleSize;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean shouldRenderBubble = true;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean shouldRenderBubble = true;
 
     public TileEntityOxygenDistributor()
     {
@@ -48,20 +50,22 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
     @Override
     public void onLoad()
     {
-        if (!this.world.isRemote) TileEntityOxygenDistributor.loadedTiles.add(new BlockVec3Dim(this));
+        if (!this.world.isRemote)
+            TileEntityOxygenDistributor.loadedTiles.add(new BlockVec3Dim(this));
     }
 
     @Override
     public void onChunkUnload()
     {
-        if (!this.world.isRemote) TileEntityOxygenDistributor.loadedTiles.remove(new BlockVec3Dim(this));
+        if (!this.world.isRemote)
+            TileEntityOxygenDistributor.loadedTiles.remove(new BlockVec3Dim(this));
         super.onChunkUnload();
     }
 
     @Override
     public void invalidate()
     {
-        if (!this.world.isRemote/* && this.oxygenBubble != null*/)
+        if (!this.world.isRemote/* && this.oxygenBubble != null */)
         {
             int bubbleR = MathHelper.ceil(bubbleSize);
             int bubbleR2 = (int) (bubbleSize * bubbleSize);
@@ -75,7 +79,8 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
             {
                 for (int z = zMin; z < zMax; z++)
                 {
-                    //Doing y as the inner loop allows BlockVec3 to cache the chunks more efficiently
+                    // Doing y as the inner loop allows BlockVec3 to cache the
+                    // chunks more efficiently
                     for (int y = yMin; y < yMax; y++)
                     {
                         IBlockState state = new BlockVec3(x, y, z).getBlockState(this.world);
@@ -113,7 +118,7 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
             if (this.world.getMinecraftServer().isDedicatedServer())
             {
                 networkedList.add(loadedTiles.size());
-                //TODO: Limit this to ones in the same dimension as this tile?
+                // TODO: Limit this to ones in the same dimension as this tile?
                 for (BlockVec3Dim distributor : loadedTiles)
                 {
                     if (distributor == null)
@@ -122,8 +127,7 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
                         networkedList.add(-1);
                         networkedList.add(-1);
                         networkedList.add(-1);
-                    }
-                    else
+                    } else
                     {
                         networkedList.add(distributor.x);
                         networkedList.add(distributor.y);
@@ -131,9 +135,8 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
                         networkedList.add(distributor.dim);
                     }
                 }
-            }
-            else
-            //Signal integrated server, do not clear loadedTiles
+            } else
+            // Signal integrated server, do not clear loadedTiles
             {
                 networkedList.add(-1);
             }
@@ -145,7 +148,8 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox()
     {
-        return new AxisAlignedBB(this.getPos().getX() - this.bubbleSize, this.getPos().getY() - this.bubbleSize, this.getPos().getZ() - this.bubbleSize, this.getPos().getX() + this.bubbleSize, this.getPos().getY() + this.bubbleSize, this.getPos().getZ() + this.bubbleSize);
+        return new AxisAlignedBB(this.getPos().getX() - this.bubbleSize, this.getPos().getY() - this.bubbleSize, this.getPos().getZ() - this.bubbleSize, this.getPos().getX() + this.bubbleSize,
+            this.getPos().getY() + this.bubbleSize, this.getPos().getZ() + this.bubbleSize);
     }
 
     @Override
@@ -154,7 +158,7 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
     {
         return Constants.RENDERDISTANCE_LONG;
     }
-    
+
     @Override
     public void readExtraNetworkedData(ByteBuf dataStream)
     {
@@ -218,8 +222,7 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
             if (this.getEnergyStoredGC() > 0.0F && this.hasEnoughEnergyToRun && this.getOxygenStored() > this.oxygenPerTick)
             {
                 this.bubbleSize += 0.01F;
-            }
-            else
+            } else
             {
                 this.bubbleSize -= 0.1F;
             }
@@ -238,7 +241,7 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
 //            }
 //        }
 
-        if (!this.world.isRemote/* && this.oxygenBubble != null*/)
+        if (!this.world.isRemote/* && this.oxygenBubble != null */)
         {
             this.active = bubbleSize >= 1 && this.hasEnoughEnergyToRun && this.getOxygenStored() > this.oxygenPerTick;
 
@@ -254,7 +257,7 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
                         for (int z = this.getPos().getZ() - bubbleR; z <= this.getPos().getZ() + bubbleR; z++)
                         {
                             BlockPos pos = new BlockPos(x, y, z);
-                            IBlockState state = this.world.getBlockState(pos); 
+                            IBlockState state = this.world.getBlockState(pos);
                             Block block = state.getBlock();
 
                             if (block instanceof IOxygenReliantBlock)
@@ -262,10 +265,10 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
                                 if (this.getDistanceFromServer(x, y, z) <= bubbleR2)
                                 {
                                     ((IOxygenReliantBlock) block).onOxygenAdded(this.world, pos, state);
-                                }
-                                else
+                                } else
                                 {
-                                    //Do not necessarily extinguish it - it might be inside another oxygen system
+                                    // Do not necessarily extinguish it - it
+                                    // might be inside another oxygen system
                                     this.world.scheduleUpdate(pos, block, 0);
                                 }
                             }
@@ -311,7 +314,8 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[] { 0, 1 };
+        return new int[]
+        {0, 1};
     }
 
     @Override
@@ -321,12 +325,12 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
         {
             switch (slotID)
             {
-            case 0:
-                return ItemElectricBase.isElectricItemCharged(itemstack);
-            case 1:
-                return itemstack.getItemDamage() < itemstack.getItem().getMaxDamage();
-            default:
-                return false;
+                case 0:
+                    return ItemElectricBase.isElectricItemCharged(itemstack);
+                case 1:
+                    return itemstack.getItemDamage() < itemstack.getItem().getMaxDamage();
+                default:
+                    return false;
             }
         }
         return false;
@@ -337,12 +341,12 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
     {
         switch (slotID)
         {
-        case 0:
-            return ItemElectricBase.isElectricItemEmpty(itemstack);
-        case 1:
-            return FluidUtil.isEmptyContainer(itemstack);
-        default:
-            return false;
+            case 0:
+                return ItemElectricBase.isElectricItemEmpty(itemstack);
+            case 1:
+                return FluidUtil.isEmptyContainer(itemstack);
+            default:
+                return false;
         }
     }
 
@@ -379,7 +383,7 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
     @Override
     public EnumFacing byIndex()
     {
-        IBlockState state = this.world.getBlockState(getPos()); 
+        IBlockState state = this.world.getBlockState(getPos());
         if (state.getBlock() instanceof BlockOxygenDistributor)
         {
             return state.getValue(BlockOxygenDistributor.FACING);

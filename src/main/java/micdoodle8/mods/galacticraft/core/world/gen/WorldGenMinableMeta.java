@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class WorldGenMinableMeta extends WorldGenMinable
 {
+
     private final Block minableBlockId;
 
     private final int numberOfBlocks;
@@ -53,7 +54,7 @@ public class WorldGenMinableMeta extends WorldGenMinable
         final IBlockState oreState = this.minableBlockId.getStateFromMeta(this.usingMetadata ? this.metadata : 0);
         float concentricRadius = this.numberOfBlocks;
         double size = (rand.nextDouble() * (double) this.numberOfBlocks + 1D) / 16.0D;
-        
+
         for (int i = 0; i < this.numberOfBlocks; ++i)
         {
             float f1 = (float) i / concentricRadius;
@@ -81,7 +82,7 @@ public class WorldGenMinableMeta extends WorldGenMinable
                     for (int y = ymin; y <= ymax; ++y)
                     {
                         double dy = ((double) y - centreY) / sizeY;
-                        double xySquared = dx * dx + dy * dy; 
+                        double xySquared = dx * dx + dy * dy;
 
                         if (xySquared < 1.0D)
                         {

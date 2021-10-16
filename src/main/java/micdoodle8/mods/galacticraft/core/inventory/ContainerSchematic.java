@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.inventory;
 
 import micdoodle8.mods.galacticraft.api.recipe.ISchematicItem;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -13,6 +14,7 @@ import net.minecraft.world.World;
 
 public class ContainerSchematic extends Container
 {
+
     public InventorySchematic craftMatrix = new InventorySchematic(this);
     public IInventory craftResult = new InventoryCraftResult();
     private final World world;
@@ -84,8 +86,7 @@ public class ContainerSchematic extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 0, 1, false))
+            } else if (!this.mergeItemStack(var5, 0, 1, false))
             {
                 return ItemStack.EMPTY;
             }
@@ -93,8 +94,7 @@ public class ContainerSchematic extends Container
             if (var5.getCount() == 0)
             {
                 var4.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var4.onSlotChanged();
             }

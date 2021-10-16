@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.entities;
 
+import java.util.List;
+import java.util.Objects;
+
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.api.world.IZeroGDimension;
 import micdoodle8.mods.galacticraft.core.Constants;
@@ -23,18 +26,20 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-import java.util.Objects;
-
 public class EntityGrapple extends Entity implements IProjectile
 {
+
     private static final DataParameter<Integer> PULLING_ENTITY_ID = EntityDataManager.createKey(EntityGrapple.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> IS_PULLING = EntityDataManager.createKey(EntityGrapple.class, DataSerializers.BOOLEAN);
     private static final DataParameter<ItemStack> STRING_ITEM_STACK = EntityDataManager.createKey(EntityGrapple.class, DataSerializers.ITEM_STACK);
@@ -198,8 +203,7 @@ public class EntityGrapple extends Entity implements IProjectile
                     this.pullingPlayer = true;
                 }
             }
-        }
-        else
+        } else
         {
             if (this.getPullingEntity())
             {
@@ -262,7 +266,7 @@ public class EntityGrapple extends Entity implements IProjectile
                         this.shootingEntity.motionY = (this.posY - this.shootingEntity.posY) / 16.0F;
                         this.shootingEntity.motionZ = (this.posZ - this.shootingEntity.posZ) / 16.0F;
                         if (this.shootingEntity instanceof EntityPlayerMP)
-                        	GalacticraftCore.handler.preventFlyingKicks((EntityPlayerMP) this.shootingEntity);
+                            GalacticraftCore.handler.preventFlyingKicks((EntityPlayerMP) this.shootingEntity);
                     }
 
                     if (!this.world.isRemote && this.ticksInGround < 5)
@@ -276,8 +280,7 @@ public class EntityGrapple extends Entity implements IProjectile
                     {
                         this.setDead();
                     }
-                }
-                else
+                } else
                 {
                     this.inGround = false;
                     this.motionX *= this.rand.nextFloat() * 0.2F;
@@ -287,8 +290,7 @@ public class EntityGrapple extends Entity implements IProjectile
                     this.ticksInAir = 0;
                 }
             }
-        }
-        else
+        } else
         {
             this.rotationRoll += 5;
             ++this.ticksInAir;
@@ -420,7 +422,8 @@ public class EntityGrapple extends Entity implements IProjectile
                 float f4 = 0.25F;
                 for (int l = 0; l < 4; ++l)
                 {
-                    this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * f4, this.posY - this.motionY * f4, this.posZ - this.motionZ * f4, this.motionX, this.motionY, this.motionZ);
+                    this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * f4, this.posY - this.motionY * f4, this.posZ - this.motionZ * f4, this.motionX, this.motionY,
+                        this.motionZ);
                 }
 
             }
@@ -436,7 +439,9 @@ public class EntityGrapple extends Entity implements IProjectile
 
         if (!this.world.isRemote && (this.ticksInGround - 1) % 10 == 0)
         {
-            GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimpleAsteroids(PacketSimpleAsteroids.EnumSimplePacketAsteroids.C_UPDATE_GRAPPLE_POS, GCCoreUtil.getDimensionID(this.world), new Object[] { this.getEntityId(), new Vector3(this) }), new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID(this.world), this.posX, this.posY, this.posZ, 150));
+            GalacticraftCore.packetPipeline
+                .sendToAllAround(new PacketSimpleAsteroids(PacketSimpleAsteroids.EnumSimplePacketAsteroids.C_UPDATE_GRAPPLE_POS, GCCoreUtil.getDimensionID(this.world), new Object[]
+                {this.getEntityId(), new Vector3(this)}), new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID(this.world), this.posX, this.posY, this.posZ, 150));
         }
     }
 
@@ -475,15 +480,16 @@ public class EntityGrapple extends Entity implements IProjectile
         if (par1NBTTagCompound.hasKey("pickup", 99))
         {
             this.canBePickedUp = par1NBTTagCompound.getByte("pickup");
-        }
-        else if (par1NBTTagCompound.hasKey("player", 99))
+        } else if (par1NBTTagCompound.hasKey("player", 99))
         {
             this.canBePickedUp = par1NBTTagCompound.getBoolean("player") ? 1 : 0;
         }
 
-        if (par1NBTTagCompound.hasKey("stringStack")) {
+        if (par1NBTTagCompound.hasKey("stringStack"))
+        {
             this.updateStringStack(new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(par1NBTTagCompound.getString("stringStack"))))));
-        } else {
+        } else
+        {
             this.updateStringStack(new ItemStack(Items.STRING));
         }
     }
@@ -521,7 +527,6 @@ public class EntityGrapple extends Entity implements IProjectile
 //    {
 //        return 0.0F;
 //    }
-
 
     @Override
     public boolean canBeAttackedWithItem()
@@ -564,7 +569,8 @@ public class EntityGrapple extends Entity implements IProjectile
         return this.dataManager.get(IS_PULLING);
     }
 
-    public ItemStack getStringItemStack() {
+    public ItemStack getStringItemStack()
+    {
         return this.dataManager.get(STRING_ITEM_STACK);
     }
 }

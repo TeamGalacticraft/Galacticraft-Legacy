@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.client.render.item;
 
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.wrappers.ModelTransformWrapper;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -12,6 +13,7 @@ import javax.vecmath.Vector3f;
 
 public class ItemModelFlag extends ModelTransformWrapper
 {
+
     public ItemModelFlag(IBakedModel modelToWrap)
     {
         super(modelToWrap);

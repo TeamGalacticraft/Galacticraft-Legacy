@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 
 public interface IClickableItem
 {
+
     /**
      * Use to replicate ItemStack version of onItemRightClick as in MC1.10
      */

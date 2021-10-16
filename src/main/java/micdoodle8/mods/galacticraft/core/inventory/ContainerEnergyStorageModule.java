@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.inventory;
 import micdoodle8.mods.galacticraft.api.item.IItemElectric;
 import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityEnergyStorageModule;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerEnergyStorageModule extends Container
 {
+
     private TileEntityEnergyStorageModule tileEntity;
 
     public ContainerEnergyStorageModule(InventoryPlayer par1InventoryPlayer, TileEntityEnergyStorageModule batteryBox)
@@ -82,8 +84,7 @@ public class ContainerEnergyStorageModule extends Container
                             }
                         }
                         movedToMachineSlot = true;
-                    }
-                    else
+                    } else
                     {
                         if (!this.mergeItemStack(itemStack, 0, 1, false))
                         {
@@ -91,8 +92,7 @@ public class ContainerEnergyStorageModule extends Container
                         }
                         movedToMachineSlot = true;
                     }
-                }
-                else
+                } else
                 {
                     if (slotID < b - 9)
                     {
@@ -100,14 +100,12 @@ public class ContainerEnergyStorageModule extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(itemStack, b - 36, b - 9, false))
+                    } else if (!this.mergeItemStack(itemStack, b - 36, b - 9, false))
                     {
                         return ItemStack.EMPTY;
                     }
                 }
-            }
-            else if (!this.mergeItemStack(itemStack, 2, 38, false))
+            } else if (!this.mergeItemStack(itemStack, 2, 38, false))
             {
                 return ItemStack.EMPTY;
             }
@@ -120,13 +118,11 @@ public class ContainerEnergyStorageModule extends Container
                     ItemStack remainder = returnStack.copy();
                     remainder.shrink(1);
                     slot.putStack(remainder);
-                }
-                else
+                } else
                 {
                     slot.putStack(ItemStack.EMPTY);
                 }
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

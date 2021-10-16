@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.FlagData;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.SoundType;
@@ -26,6 +27,7 @@ import net.minecraft.world.World;
 
 public class EntityFlag extends Entity
 {
+
     private static final DataParameter<String> OWNER = EntityDataManager.createKey(EntityFlag.class, DataSerializers.STRING);
     private static final DataParameter<Float> DAMAGE = EntityDataManager.createKey(EntityFlag.class, DataSerializers.FLOAT);
     private static final DataParameter<Integer> TYPE = EntityDataManager.createKey(EntityFlag.class, DataSerializers.VARINT);
@@ -64,8 +66,7 @@ public class EntityFlag extends Entity
             if (this.isEntityInvulnerable(par1DamageSource))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.markVelocityChanged();
                 this.setDamage(this.getDamage() + par2 * 10);
@@ -86,8 +87,7 @@ public class EntityFlag extends Entity
                     if (flag)
                     {
                         this.setDead();
-                    }
-                    else
+                    } else
                     {
                         this.setDead();
                         this.dropItemStack();
@@ -96,8 +96,7 @@ public class EntityFlag extends Entity
 
                 return true;
             }
-        }
-        else
+        } else
         {
             return true;
         }
@@ -202,8 +201,7 @@ public class EntityFlag extends Entity
             if (blockAt instanceof BlockFence)
             {
 
-            }
-            else if (blockAt.isAir(this.world.getBlockState(pos), this.world, pos))
+            } else if (blockAt.isAir(this.world.getBlockState(pos), this.world, pos))
             {
                 this.motionY -= 0.02F;
             }

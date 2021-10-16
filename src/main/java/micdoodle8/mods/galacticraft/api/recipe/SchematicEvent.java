@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
  */
 public abstract class SchematicEvent extends Event
 {
+
     public ISchematicPage page;
 
     public SchematicEvent(ISchematicPage page)
@@ -20,6 +21,7 @@ public abstract class SchematicEvent extends Event
 
     public static class Unlock extends SchematicEvent
     {
+
         public EntityPlayerMP player;
 
         public Unlock(EntityPlayerMP player, ISchematicPage page)
@@ -31,6 +33,7 @@ public abstract class SchematicEvent extends Event
 
     public static class FlipPage extends SchematicEvent
     {
+
         public int index;
         public int direction;
         public GuiScreen currentGui;

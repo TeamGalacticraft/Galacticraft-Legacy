@@ -9,6 +9,7 @@ import micdoodle8.mods.galacticraft.api.transmission.tile.INetworkProvider;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.core.energy.grid.EnergyNetwork;
 import micdoodle8.mods.galacticraft.core.tick.TickHandlerServer;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -23,9 +24,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *
  * @author Calclavia
  */
-@SuppressWarnings({ "rawtypes" })
+@SuppressWarnings(
+{"rawtypes"})
 public abstract class TileBaseConductor extends TileEntity implements IConductor
 {
+
     protected IGridNetwork network;
 
     public TileEntity[] adjacentConnections = null;
@@ -89,19 +92,19 @@ public abstract class TileBaseConductor extends TileEntity implements IConductor
             BlockVec3 thisVec = new BlockVec3(this);
             for (EnumFacing side : EnumFacing.VALUES)
             {
-            	TileEntity tileEntity = thisVec.getTileEntityOnSide(this.world, side);
+                TileEntity tileEntity = thisVec.getTileEntityOnSide(this.world, side);
 
-            	if (tileEntity instanceof TileBaseConductor && ((TileBaseConductor)tileEntity).canConnect(side.getOpposite(), NetworkType.POWER))
-            	{
-            		IGridNetwork otherNet = ((INetworkProvider) tileEntity).getNetwork();
-            		if (!this.getNetwork().equals(otherNet))
-            		{
-            			if (!otherNet.getTransmitters().isEmpty())
-            			{
-            				otherNet.merge(this.getNetwork());
-            			}
-            		}
-            	}
+                if (tileEntity instanceof TileBaseConductor && ((TileBaseConductor) tileEntity).canConnect(side.getOpposite(), NetworkType.POWER))
+                {
+                    IGridNetwork otherNet = ((INetworkProvider) tileEntity).getNetwork();
+                    if (!this.getNetwork().equals(otherNet))
+                    {
+                        if (!otherNet.getTransmitters().isEmpty())
+                        {
+                            otherNet.merge(this.getNetwork());
+                        }
+                    }
+                }
             }
         }
     }
@@ -124,10 +127,10 @@ public abstract class TileBaseConductor extends TileEntity implements IConductor
 
                 if (tileEntity instanceof IConnector)
                 {
-                	if (((IConnector) tileEntity).canConnect(side.getOpposite(), NetworkType.POWER))
-                	{
-                		this.adjacentConnections[i] = tileEntity;
-                	}
+                    if (((IConnector) tileEntity).canConnect(side.getOpposite(), NetworkType.POWER))
+                    {
+                        this.adjacentConnections[i] = tileEntity;
+                    }
                 }
             }
         }

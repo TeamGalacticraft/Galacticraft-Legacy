@@ -1,13 +1,15 @@
-//package micdoodle8.mods.galacticraft.planets.mars.client.nei;
+package micdoodle8.mods.galacticraft.planets.mars.client.nei;
+
+//package galacticraft.planets.mars.client.nei;
 //
 //import codechicken.nei.api.API;
 //import codechicken.nei.api.IConfigureNEI;
 //import codechicken.nei.api.stack.PositionedStack;
-//import micdoodle8.mods.galacticraft.core.Constants;
-//import micdoodle8.mods.galacticraft.core.GCItems;
-//import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
-//import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
-//import micdoodle8.mods.galacticraft.planets.mars.items.MarsItems;
+//import galacticraft.core.Constants;
+//import galacticraft.core.GCItems;
+//import galacticraft.planets.asteroids.items.AsteroidsItems;
+//import galacticraft.planets.mars.blocks.MarsBlocks;
+//import galacticraft.planets.mars.items.MarsItems;
 //import net.minecraft.init.Blocks;
 //import net.minecraft.item.ItemStack;
 //

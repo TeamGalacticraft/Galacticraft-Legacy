@@ -12,6 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ParticleAcidExhaust extends Particle
 {
+
     float smokeParticleScale;
 
     public ParticleAcidExhaust(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double motionX, double motionY, double motionZ, float p_i46348_14_)
@@ -23,14 +24,14 @@ public class ParticleAcidExhaust extends Particle
         this.motionX += motionX / 10.0F;
         this.motionY += motionY;
         this.motionZ += motionZ / 10.0F;
-        this.particleRed = (float)(Math.random() * 0.10000001192092896D + 0.8);
+        this.particleRed = (float) (Math.random() * 0.10000001192092896D + 0.8);
         this.particleGreen = particleRed;
-        this.particleBlue = (float)(Math.random() * 0.10000001192092896D);
+        this.particleBlue = (float) (Math.random() * 0.10000001192092896D);
         this.particleAlpha = 1.0F;
         this.particleScale *= p_i46348_14_;
         this.smokeParticleScale = this.particleScale;
-        this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
-        this.particleMaxAge = (int)((float)this.particleMaxAge * p_i46348_14_ * 5.0F);
+        this.particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
+        this.particleMaxAge = (int) ((float) this.particleMaxAge * p_i46348_14_ * 5.0F);
         this.canCollide = true;
     }
 
@@ -38,7 +39,7 @@ public class ParticleAcidExhaust extends Particle
     public void renderParticle(BufferBuilder worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
     {
         GlStateManager.disableLighting();
-        float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 32.0F;
+        float f = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge * 32.0F;
         f = MathHelper.clamp(f, 0.0F, 1.0F);
         this.particleScale = this.smokeParticleScale * f;
         super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);

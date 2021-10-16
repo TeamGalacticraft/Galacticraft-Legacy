@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.api.recipe.ISchematicPage;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.inventory.InventoryExtended;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public abstract class GCPlayerStats
 {
+
     public static GCPlayerStats get(Entity entity)
     {
         return entity.getCapability(GCCapabilities.GC_STATS_CAPABILITY, null);
@@ -320,7 +322,7 @@ public abstract class GCPlayerStats
     public abstract int getGlassColor3();
 
     public abstract IBlockState[] getPanelLightingBases();
-    
+
     public abstract int getPanelLightingColor();
 
     public abstract void setPanelLightingColor(int color);

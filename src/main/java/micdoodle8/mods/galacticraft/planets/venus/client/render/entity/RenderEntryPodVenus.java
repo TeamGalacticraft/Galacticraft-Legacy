@@ -28,6 +28,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderEntryPodVenus extends Render<EntityEntryPodVenus>
 {
+
     private OBJModel.OBJBakedModel modelEntryPod;
     private OBJModel.OBJBakedModel modelFlame;
     protected ModelBalloonParachute parachuteModel = new ModelBalloonParachute();
@@ -48,8 +49,7 @@ public class RenderEntryPodVenus extends Render<EntityEntryPodVenus>
 
                 modelEntryPod = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("PodBody"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 modelFlame = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Flame_Sphere"), false), DefaultVertexFormats.ITEM, spriteFunction);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -120,7 +120,7 @@ public class RenderEntryPodVenus extends Render<EntityEntryPodVenus>
     {
         return new ResourceLocation("missing");
     }
-    
+
     @Override
     public boolean shouldRender(EntityEntryPodVenus lander, ICamera camera, double camX, double camY, double camZ)
     {

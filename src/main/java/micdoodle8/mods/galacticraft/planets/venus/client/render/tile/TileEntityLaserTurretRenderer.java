@@ -27,6 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TileEntityLaserTurretRenderer extends TileEntitySpecialRenderer<TileEntityLaserTurret>
 {
+
     public static OBJModel.OBJBakedModel laserBase;
     public static OBJModel.OBJBakedModel laserPhalange;
     public static OBJModel.OBJBakedModel laserPhalangeAxle;
@@ -52,8 +53,7 @@ public class TileEntityLaserTurretRenderer extends TileEntitySpecialRenderer<Til
                 laserTurretsOff = (OBJModel.OBJBakedModel) model0.bake(new OBJModel.OBJState(ImmutableList.of("turretLeft_off", "turretRight_off"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 orb1 = (OBJModel.OBJBakedModel) model1.bake(new OBJModel.OBJState(ImmutableList.of("inner_Icosphere"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 orb2 = (OBJModel.OBJBakedModel) model1.bake(new OBJModel.OBJState(ImmutableList.of("outer_Icosphere.001"), false), DefaultVertexFormats.ITEM, spriteFunction);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -74,8 +74,7 @@ public class TileEntityLaserTurretRenderer extends TileEntitySpecialRenderer<Til
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }

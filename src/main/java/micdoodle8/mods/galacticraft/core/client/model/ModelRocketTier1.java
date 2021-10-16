@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 
 public class ModelRocketTier1 extends ModelBase
 {
+
     ModelRenderer insideRoof;
     ModelRenderer rocketBase1;
     ModelRenderer rocketBase2;

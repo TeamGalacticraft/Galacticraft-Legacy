@@ -1,5 +1,14 @@
 package micdoodle8.mods.galacticraft.core.client.jei.tier1rocket;
 
+import micdoodle8.mods.galacticraft.core.Constants;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.client.jei.RecipeCategories;
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
+import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nonnull;
+
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
@@ -7,22 +16,14 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import micdoodle8.mods.galacticraft.core.Constants;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.client.jei.RecipeCategories;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
-import net.minecraft.util.ResourceLocation;
-
-import javax.annotation.Nonnull;
 
 public class Tier1RocketRecipeCategory implements IRecipeCategory
 {
+
     private static final ResourceLocation rocketGuiTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/rocketbench.png");
 
-    @Nonnull
-    private final IDrawable background;
-    @Nonnull
-    private final String localizedName;
+    @Nonnull private final IDrawable background;
+    @Nonnull private final String localizedName;
 
     public Tier1RocketRecipeCategory(IGuiHelper guiHelper)
     {

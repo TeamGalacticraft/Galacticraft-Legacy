@@ -1,11 +1,13 @@
 package micdoodle8.mods.galacticraft.core.energy.tile;
 
 import micdoodle8.mods.galacticraft.core.inventory.IInventoryDefaults;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 public abstract class TileBaseElectricBlockWithInventory extends TileBaseElectricBlock implements IInventoryDefaults
 {
+
     public TileBaseElectricBlockWithInventory(String tileName)
     {
         super(tileName);

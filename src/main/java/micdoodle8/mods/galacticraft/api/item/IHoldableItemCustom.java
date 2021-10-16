@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public interface IHoldableItemCustom extends IHoldableItem
 {
+
     Vector3 getLeftHandRotation(EntityPlayer player);
 
     Vector3 getRightHandRotation(EntityPlayer player);

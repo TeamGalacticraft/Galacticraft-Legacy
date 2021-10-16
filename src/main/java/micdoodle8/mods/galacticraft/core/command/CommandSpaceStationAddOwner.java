@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.dimension.SpaceStationWorldData;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 public class CommandSpaceStationAddOwner extends CommandBase
 {
+
     @Override
     public String getUsage(ICommandSender var1)
     {
@@ -63,8 +65,7 @@ public class CommandSpaceStationAddOwner extends CommandBase
                     if (stats.getSpaceStationDimensionData().isEmpty())
                     {
                         throw new WrongUsageException(GCCoreUtil.translate("commands.ssinvite.not_found"), new Object[0]);
-                    }
-                    else
+                    } else
                     {
                         for (Map.Entry<Integer, Integer> ownedStations : stats.getSpaceStationDimensionData().entrySet())
                         {
@@ -98,14 +99,12 @@ public class CommandSpaceStationAddOwner extends CommandBase
                         playerToAdd.sendMessage(new TextComponentString(GCCoreUtil.translateWithFormat("gui.spacestation.added", PlayerUtil.getName(playerBase))));
                     }
                 }
-            }
-            catch (final Exception var6)
+            } catch (final Exception var6)
             {
                 throw new CommandException(var6.getMessage(), new Object[0]);
             }
 
-        }
-        else
+        } else
         {
             throw new WrongUsageException(GCCoreUtil.translateWithFormat("commands.ssinvite.wrong_usage", this.getUsage(sender)), new Object[0]);
         }

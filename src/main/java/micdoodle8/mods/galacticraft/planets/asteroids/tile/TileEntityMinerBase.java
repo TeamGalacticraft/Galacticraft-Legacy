@@ -1,5 +1,17 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.tile;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
+import com.google.common.collect.Lists;
+
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
@@ -29,31 +41,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
-import com.google.common.collect.Lists;
-
 public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory implements ISidedInventory, IMultiBlock, IMachineSides
 {
+
     public static final int HOLDSIZE = 72;
     private int[] slotArray;
     public boolean isMaster = false;
@@ -66,16 +67,11 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
     public int linkCountDown = 0;
     public static Map<Integer, List<BlockPos>> newMinerBases = new HashMap<Integer, List<BlockPos>>();
     private AxisAlignedBB renderAABB;
-    @NetworkedField(targetSide=Side.CLIENT)
-    public int linkedMinerDataAIState;
-    @NetworkedField(targetSide=Side.CLIENT)
-    public int linkedMinerDataDX;
-    @NetworkedField(targetSide=Side.CLIENT)
-    public int linkedMinerDataDY;
-    @NetworkedField(targetSide=Side.CLIENT)
-    public int linkedMinerDataDZ;
-    @NetworkedField(targetSide=Side.CLIENT)
-    public int linkedMinerDataCount;
+    @NetworkedField(targetSide = Side.CLIENT) public int linkedMinerDataAIState;
+    @NetworkedField(targetSide = Side.CLIENT) public int linkedMinerDataDX;
+    @NetworkedField(targetSide = Side.CLIENT) public int linkedMinerDataDY;
+    @NetworkedField(targetSide = Side.CLIENT) public int linkedMinerDataDZ;
+    @NetworkedField(targetSide = Side.CLIENT) public int linkedMinerDataCount;
 
     public void setMainBlockPosition(BlockPos mainBlockPosition)
     {
@@ -116,12 +112,13 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
         while (entries.hasNext())
         {
             Entry<Integer, List<BlockPos>> entry = entries.next();
-            if (entry.getValue().isEmpty()) continue;
+            if (entry.getValue().isEmpty())
+                continue;
 
             World w = WorldUtil.getWorldForDimensionServer(entry.getKey());
             if (w == null)
             {
-                GCLog.severe("Astro Miner Base placement: Unable to find server world for dim " + entry.getKey());
+                GCLog.error("Astro Miner Base placement: Unable to find server world for dim " + entry.getKey());
                 entries.remove();
                 continue;
             }
@@ -158,8 +155,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
         if (newMinerBases.containsKey(dimID))
         {
             newMinerBases.get(dimID).add(blockPos);
-        }
-        else
+        } else
         {
             List<BlockPos> blockPositions = Lists.newArrayList();
             newMinerBases.put(dimID, blockPositions);
@@ -186,9 +182,11 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
 
         if (this.updateClientFlag)
         {
-            assert(!this.world.isRemote);  //Just checking: updateClientFlag should not be capable of being set on clients
+            assert (!this.world.isRemote); // Just checking: updateClientFlag
+                                           // should not be capable of being set
+                                           // on clients
             this.updateAllInDimension();
-        	this.updateClientFlag = false;
+            this.updateClientFlag = false;
         }
 
         if (this.findTargetPointsFlag)
@@ -200,7 +198,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
             this.findTargetPointsFlag = false;
         }
 
-        //TODO: Find linkedminer by UUID and update it if not chunkloaded?
+        // TODO: Find linkedminer by UUID and update it if not chunkloaded?
 
         if (!this.isMaster)
         {
@@ -224,16 +222,17 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
             }
         }
 
-        //Used for refreshing client with linked miner position data
+        // Used for refreshing client with linked miner position data
         if (this.linkCountDown > 0)
         {
             this.linkCountDown--;
         }
-        
+
         if (this.isMaster && !this.world.isRemote)
         {
             this.updateGUIstate();
-            //System.out.println("Miner base state " + this.linkedMinerDataAIState);
+            // System.out.println("Miner base state " +
+            // this.linkedMinerDataAIState);
         }
     }
 
@@ -263,7 +262,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
         this.linkedMinerDataCount = miner.mineCount;
     }
 
-    //TODO - currently unused, the master position replaces this?
+    // TODO - currently unused, the master position replaces this?
     protected void initialiseMultiTiles(BlockPos pos, World world)
     {
         List<BlockPos> positions = new ArrayList<>();
@@ -350,9 +349,9 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
             this.isMaster = nbt.getBoolean("isMaster");
             if (this.isMaster)
             {
-                    this.updateClientFlag = true;
-            }
-            else {
+                this.updateClientFlag = true;
+            } else
+            {
                 NBTTagCompound tagCompound = nbt.getCompoundTag("masterpos");
                 if (tagCompound.getKeySet().isEmpty())
                     this.setMainBlockPosition(null);
@@ -365,8 +364,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
             if (nbt.hasKey("LinkedUUIDMost", 4) && nbt.hasKey("LinkedUUIDLeast", 4))
             {
                 this.linkedMinerID = new UUID(nbt.getLong("LinkedUUIDMost"), nbt.getLong("LinkedUUIDLeast"));
-            }
-            else
+            } else
             {
                 this.linkedMinerID = null;
             }
@@ -379,8 +377,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
                     NBTTagCompound bvTag = mpList.getCompoundTagAt(j);
                     this.targetPoints.add(BlockVec3.readFromNBT(bvTag));
                 }
-            }
-            else
+            } else
             {
                 this.findTargetPointsFlag = this.isMaster;
             }
@@ -435,7 +432,8 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
 
     public boolean addToInventory(ItemStack itemstack)
     {
-        //TODO - add test for is container open and if so use Container.mergeItemStack
+        // TODO - add test for is container open and if so use
+        // Container.mergeItemStack
 
         boolean flag1 = false;
         int k = 1;
@@ -458,8 +456,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
                         itemstack.setCount(0);
                         existingStack.setCount(combined);
                         flag1 = true;
-                    }
-                    else if (existingStack.getCount() < itemstack.getMaxStackSize())
+                    } else if (existingStack.getCount() < itemstack.getMaxStackSize())
                     {
                         itemstack.shrink(itemstack.getMaxStackSize() - existingStack.getCount());
                         existingStack.setCount(itemstack.getMaxStackSize());
@@ -595,8 +592,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
 
             entityPlayer.openGui(GalacticraftPlanets.instance, GuiIdsPlanets.MACHINE_ASTEROIDS, this.world, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
             return true;
-        }
-        else
+        } else
         {
             TileEntityMinerBase master = this.getMaster();
             return master != null && master.onActivated(entityPlayer);
@@ -619,12 +615,14 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
     {
         for (int y = 0; y < 2; y++)
         {
-            if (placedPosition.getY() + y >= this.world.getHeight()) break;
+            if (placedPosition.getY() + y >= this.world.getHeight())
+                break;
             for (int x = 0; x < 2; x++)
             {
                 for (int z = 0; z < 2; z++)
                 {
-                    if (x + y + z == 0) continue;
+                    if (x + y + z == 0)
+                        continue;
                     positions.add(new BlockPos(placedPosition.getX() + x, placedPosition.getY() + y, placedPosition.getZ() + z));
                 }
             }
@@ -642,7 +640,12 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
         {
             IBlockState stateAt = this.world.getBlockState(pos);
 
-            if (stateAt.getBlock() == AsteroidBlocks.minerBaseFull) //GCBlocks.fakeBlock && (EnumBlockMultiType) stateAt.getValue(BlockMulti.MULTI_TYPE) == EnumBlockMultiType.MINER_BASE)
+            if (stateAt.getBlock() == AsteroidBlocks.minerBaseFull) // GCBlocks.fakeBlock
+                                                                    // &&
+                                                                    // (EnumBlockMultiType)
+                                                                    // stateAt.getValue(BlockMulti.MULTI_TYPE)
+                                                                    // ==
+                                                                    // EnumBlockMultiType.MINER_BASE)
             {
                 if (this.world.isRemote && this.world.rand.nextDouble() < 0.1D)
                 {
@@ -654,9 +657,9 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
         this.world.destroyBlock(thisBlock, true);
     }
 
-    //TODO
-    //maybe 2 electrical inputs are needed?
-    //chest goes above (could be 2 chests or other mods storage)
+    // TODO
+    // maybe 2 electrical inputs are needed?
+    // chest goes above (could be 2 chests or other mods storage)
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -668,7 +671,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
         }
         return this.renderAABB;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public double getMaxRenderDistanceSquared()
@@ -684,23 +687,22 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
             // Re-orient the block
             switch (this.facing)
             {
-            case SOUTH:
-                this.facing = EnumFacing.WEST;
-                break;
-            case EAST:
-                this.facing = EnumFacing.SOUTH;
-                break;
-            case WEST:
-                this.facing = EnumFacing.NORTH;
-                break;
-            case NORTH:
-                this.facing = EnumFacing.EAST;
-                break;
+                case SOUTH:
+                    this.facing = EnumFacing.WEST;
+                    break;
+                case EAST:
+                    this.facing = EnumFacing.SOUTH;
+                    break;
+                case WEST:
+                    this.facing = EnumFacing.NORTH;
+                    break;
+                case NORTH:
+                    this.facing = EnumFacing.EAST;
+                    break;
             }
 
             super.updateFacing();
-        }
-        else
+        } else
         {
             TileEntityMinerBase master = this.getMaster();
             if (master != null)
@@ -738,8 +740,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
             x = this.mainBlockPosition.getX();
             y = this.mainBlockPosition.getY();
             z = this.mainBlockPosition.getZ();
-        }
-        else
+        } else
         {
             x = this.getPos().getX();
             y = this.getPos().getY();
@@ -802,7 +803,8 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
     {
         if (this.isMaster)
         {
-            return side != this.facing ? slotArray : new int[] {};
+            return side != this.facing ? slotArray : new int[]
+            {};
         }
 
         TileEntityMinerBase master = this.getMaster();
@@ -811,7 +813,8 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
             return master.getSlotsForFace(side);
         }
 
-        return new int[] {};
+        return new int[]
+        {};
     }
 
     @Override
@@ -956,7 +959,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
             }
         }
 
-        //No more mining targets, the whole area is mined
+        // No more mining targets, the whole area is mined
         return null;
     }
 
@@ -998,8 +1001,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
         {
             this.targetPoints.add(posnTarget.clone().modifyPositionFromSide(lateral, 7).modifyPositionFromSide(EnumFacing.DOWN, 11));
             this.targetPoints.add(posnTarget.clone().modifyPositionFromSide(lateral, -7).modifyPositionFromSide(EnumFacing.DOWN, 11));
-        }
-        else
+        } else
         {
             this.targetPoints.add(posnTarget.clone().modifyPositionFromSide(lateral, 26));
             this.targetPoints.add(posnTarget.clone().modifyPositionFromSide(lateral, -26));
@@ -1026,7 +1028,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
     @Override
     public void setDisabled(int index, boolean disabled)
     {
-        //Used to recall miner
+        // Used to recall miner
         TileEntityMinerBase master;
         if (!this.isMaster)
         {
@@ -1035,8 +1037,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
             {
                 return;
             }
-        }
-        else
+        } else
         {
             master = this;
         }
@@ -1053,12 +1054,12 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
     }
 
     /**
-     * This would normally be used by IMachineSides
-     * but here it's overridden to get at the same facing packet for the MinerBase's own purposes
-     * (IMachineSides won't be using it because as implemented
-     * here, extending TileEntityElectricBlock, sides are not configurable)
+     * This would normally be used by IMachineSides but here it's overridden to
+     * get at the same facing packet for the MinerBase's own purposes
+     * (IMachineSides won't be using it because as implemented here, extending
+     * TileEntityElectricBlock, sides are not configurable)
      */
-    
+
     @Override
     public void updateClient(List<Object> data)
     {
@@ -1068,8 +1069,7 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
         if (data1 > 7)
         {
             this.linkedMinerID = UUID.randomUUID();
-        }
-        else
+        } else
         {
             this.linkedMinerID = null;
         }

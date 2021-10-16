@@ -7,6 +7,7 @@ import net.minecraft.util.DamageSource;
 
 public interface IPlayerServer
 {
+
     void updateRiddenPre(EntityPlayerMP player);
 
     void updateRiddenPost(EntityPlayerMP player);

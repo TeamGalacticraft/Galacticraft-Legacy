@@ -10,6 +10,7 @@ import java.lang.ref.WeakReference;
 
 public class CapabilityProviderStats implements ICapabilitySerializable<NBTTagCompound>
 {
+
     private EntityPlayerMP owner;
     private GCPlayerStats statsCapability;
 

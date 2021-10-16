@@ -1,10 +1,9 @@
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import java.util.Random;
-
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
+
 import net.minecraft.block.BlockRedstoneRepeater;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -19,8 +18,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Random;
+
 public class BlockConcealedRepeater extends BlockRedstoneRepeater implements ISortableBlock
 {
+
     protected static final AxisAlignedBB CUBE_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
 
     public BlockConcealedRepeater(String assetName, boolean powered)
@@ -42,7 +44,7 @@ public class BlockConcealedRepeater extends BlockRedstoneRepeater implements ISo
     @Override
     public EnumSortCategoryBlock getCategory(int meta)
     {
-         return EnumSortCategoryBlock.DECORATION;
+        return EnumSortCategoryBlock.DECORATION;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class BlockConcealedRepeater extends BlockRedstoneRepeater implements ISo
     {
         return 0;
     }
-    
+
     @Override
     public boolean isOpaqueCube(IBlockState state)
     {
@@ -68,14 +70,14 @@ public class BlockConcealedRepeater extends BlockRedstoneRepeater implements ISo
     {
         return true;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState state, IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
         return true;
     }
-  
+
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
@@ -87,25 +89,25 @@ public class BlockConcealedRepeater extends BlockRedstoneRepeater implements ISo
     {
         return true;
     }
-    
+
     @Override
     protected IBlockState getPoweredState(IBlockState unpoweredState)
     {
-        Integer integer = (Integer)unpoweredState.getValue(DELAY);
-        Boolean obool = (Boolean)unpoweredState.getValue(LOCKED);
-        EnumFacing enumfacing = (EnumFacing)unpoweredState.getValue(FACING);
+        Integer integer = (Integer) unpoweredState.getValue(DELAY);
+        Boolean obool = (Boolean) unpoweredState.getValue(LOCKED);
+        EnumFacing enumfacing = (EnumFacing) unpoweredState.getValue(FACING);
         return GCBlocks.concealedRepeater_Powered.getDefaultState().withProperty(FACING, enumfacing).withProperty(DELAY, integer).withProperty(LOCKED, obool);
     }
 
     @Override
     protected IBlockState getUnpoweredState(IBlockState poweredState)
     {
-        Integer integer = (Integer)poweredState.getValue(DELAY);
-        Boolean obool = (Boolean)poweredState.getValue(LOCKED);
-        EnumFacing enumfacing = (EnumFacing)poweredState.getValue(FACING);
+        Integer integer = (Integer) poweredState.getValue(DELAY);
+        Boolean obool = (Boolean) poweredState.getValue(LOCKED);
+        EnumFacing enumfacing = (EnumFacing) poweredState.getValue(FACING);
         return GCBlocks.concealedRepeater_Unpowered.getDefaultState().withProperty(FACING, enumfacing).withProperty(DELAY, integer).withProperty(LOCKED, obool);
     }
-    
+
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
@@ -118,7 +120,7 @@ public class BlockConcealedRepeater extends BlockRedstoneRepeater implements ISo
     {
         return new ItemStack(GCBlocks.concealedRepeater_Unpowered);
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)

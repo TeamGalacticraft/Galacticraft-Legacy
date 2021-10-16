@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.items;
 
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockAirLock extends ItemBlockDesc
 {
+
     public ItemBlockAirLock(Block block)
     {
         super(block);
@@ -36,18 +38,18 @@ public class ItemBlockAirLock extends ItemBlockDesc
 
         switch (itemstack.getItemDamage())
         {
-        case 0:
-        {
-            name = "air_lock_frame";
-            break;
-        }
-        case 1:
-        {
-            name = "air_lock_controller";
-            break;
-        }
-        default:
-            name = "null";
+            case 0:
+            {
+                name = "air_lock_frame";
+                break;
+            }
+            case 1:
+            {
+                name = "air_lock_controller";
+                break;
+            }
+            default:
+                name = "null";
         }
 
         return "tile" + "." + name;

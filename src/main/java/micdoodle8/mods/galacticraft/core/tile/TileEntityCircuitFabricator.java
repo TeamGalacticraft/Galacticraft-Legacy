@@ -11,6 +11,7 @@ import micdoodle8.mods.galacticraft.core.items.ItemBasic;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -24,9 +25,9 @@ import java.util.ArrayList;
 
 public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInventory implements ISidedInventory, IMachineSides
 {
+
     public static final int PROCESS_TIME_REQUIRED = 300;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int processTicks = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public int processTicks = 0;
     private ItemStack producingStack = ItemStack.EMPTY;
     private long ticks;
 
@@ -61,13 +62,11 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
                         this.compressItems();
                         updateInv = true;
                     }
-                }
-                else
+                } else
                 {
                     this.processTicks = 0;
                 }
-            }
-            else
+            } else
             {
                 this.processTicks = 0;
             }
@@ -121,12 +120,11 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
                     if (resultItemStack.getItemDamage() == ItemBasic.WAFER_BASIC)
                     {
                         resultItemStack.setCount(5);
-                    }
-                    else if (resultItemStack.getItemDamage() == 12)  //Solar panels
+                    } else if (resultItemStack.getItemDamage() == 12) // Solar
+                                                                      // panels
                     {
                         resultItemStack.setCount(15);
-                    }
-                    else
+                    } else
                     {
                         resultItemStack.setCount(resultItemStack.getCount() * 2);
                     }
@@ -136,16 +134,14 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
             if (this.getInventory().get(6).isEmpty())
             {
                 this.getInventory().set(6, resultItemStack);
-            }
-            else if (this.getInventory().get(6).isItemEqual(resultItemStack))
+            } else if (this.getInventory().get(6).isItemEqual(resultItemStack))
             {
                 if (this.getInventory().get(6).getCount() + resultItemStack.getCount() > 64)
                 {
                     resultItemStack.setCount(this.getInventory().get(6).getCount() + resultItemStack.getCount() - 64);
                     GCCoreUtil.spawnItem(this.world, this.getPos(), resultItemStack);
                     this.getInventory().get(6).setCount(64);
-                }
-                else
+                } else
                 {
                     this.getInventory().get(6).grow(resultItemStack.getCount());
                 }
@@ -163,7 +159,7 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
     {
         super.readFromNBT(nbt);
         this.processTicks = nbt.getInteger("smeltingTicks");
-        this.readMachineSidesFromNBT(nbt);  //Needed by IMachineSides
+        this.readMachineSidesFromNBT(nbt); // Needed by IMachineSides
     }
 
     @Override
@@ -171,7 +167,7 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
     {
         super.writeToNBT(nbt);
         nbt.setInteger("smeltingTicks", this.processTicks);
-        this.addMachineSidesToNBT(nbt);  //Needed by IMachineSides
+        this.addMachineSidesToNBT(nbt); // Needed by IMachineSides
         return nbt;
     }
 
@@ -212,12 +208,15 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
     {
         if (side == EnumFacing.DOWN)
         {
-            return new int[] { 6 };
+            return new int[]
+            {6};
         }
 
-        //Offer whichever silicon slot has less silicon
+        // Offer whichever silicon slot has less silicon
         boolean siliconFlag = !this.getInventory().get(2).isEmpty() && (this.getInventory().get(3).isEmpty() || this.getInventory().get(3).getCount() < this.getInventory().get(2).getCount());
-        return siliconFlag ? new int[] { 0, 1, 3, 4, 5 } : new int[] { 0, 1, 2, 4, 5 };
+        return siliconFlag ? new int[]
+        {0, 1, 3, 4, 5} : new int[]
+        {0, 1, 2, 4, 5};
     }
 
     @Override
@@ -241,7 +240,7 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
     @Override
     public EnumFacing byIndex()
     {
-        return BlockMachineBase.byIndex(this.world.getBlockState(getPos())); 
+        return BlockMachineBase.byIndex(this.world.getBlockState(getPos()));
     }
 
     @Override
@@ -249,35 +248,37 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
     {
         switch (this.getSide(MachineSide.ELECTRIC_IN))
         {
-        case RIGHT:
-            return byIndex().rotateYCCW();
-        case REAR:
-            return byIndex().getOpposite();
-        case TOP:
-            return EnumFacing.UP;
-        case BOTTOM:
-            return EnumFacing.DOWN;
-        case LEFT:
-        default:
-            return byIndex().rotateY();
+            case RIGHT:
+                return byIndex().rotateYCCW();
+            case REAR:
+                return byIndex().getOpposite();
+            case TOP:
+                return EnumFacing.UP;
+            case BOTTOM:
+                return EnumFacing.DOWN;
+            case LEFT:
+            default:
+                return byIndex().rotateY();
         }
     }
 
-    //------------------
-    //Added these methods and field to implement IMachineSides properly 
-    //------------------
+    // ------------------
+    // Added these methods and field to implement IMachineSides properly
+    // ------------------
     @Override
     public MachineSide[] listConfigurableSides()
     {
-        return new MachineSide[] { MachineSide.ELECTRIC_IN };
+        return new MachineSide[]
+        {MachineSide.ELECTRIC_IN};
     }
 
     @Override
     public Face[] listDefaultFaces()
     {
-        return new Face[] { Face.LEFT };
+        return new Face[]
+        {Face.LEFT};
     }
-    
+
     private MachineSidePack[] machineSides;
 
     @Override
@@ -296,17 +297,17 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
     {
         this.machineSides = new MachineSidePack[length];
     }
-    
+
     @Override
     public void onLoad()
     {
         this.clientOnLoad();
     }
-    
+
     @Override
     public IMachineSidesProperties getConfigurationType()
     {
         return BlockMachine2.MACHINESIDES_RENDERTYPE;
     }
-    //------------------END OF IMachineSides implementation
+    // ------------------END OF IMachineSides implementation
 }

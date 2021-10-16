@@ -21,14 +21,13 @@ public class ItemHeavyNoseCone extends Item implements ISortableItem
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setTranslationKey(assetName);
-        //this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
+        // this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
     }
 
-    /*@SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int par1, int par2)
-    {
-        return par2 == 0 ? this.icons[0] : this.icons[1];
-    }*/
+    /*
+     * @SideOnly(Side.CLIENT) public IIcon getIconFromDamageForRenderPass(int
+     * par1, int par2) { return par2 == 0 ? this.icons[0] : this.icons[1]; }
+     */
 
     @Override
     public CreativeTabs getCreativeTab()
@@ -43,25 +42,18 @@ public class ItemHeavyNoseCone extends Item implements ISortableItem
         return ClientProxyCore.galacticraftItem;
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        this.icons = new IIcon[2];
-        this.icons[0] = iconRegister.registerIcon(GalacticraftPlanets.TEXTURE_PREFIX + "heavyNoseCone");
-        this.icons[1] = iconRegister.registerIcon(GalacticraftPlanets.TEXTURE_PREFIX + "heavyNoseCone.0");
-    }
-
-    @Override
-    public IIcon getIconFromDamage(int damage)
-    {
-        if (this.icons.length > damage)
-        {
-            return this.icons[damage];
-        }
-
-        return super.getIconFromDamage(damage);
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister
+     * iconRegister) { this.icons = new IIcon[2]; this.icons[0] =
+     * iconRegister.registerIcon(GalacticraftPlanets.TEXTURE_PREFIX +
+     * "heavyNoseCone"); this.icons[1] =
+     * iconRegister.registerIcon(GalacticraftPlanets.TEXTURE_PREFIX +
+     * "heavyNoseCone.0"); }
+     * @Override public IIcon getIconFromDamage(int damage) { if
+     * (this.icons.length > damage) { return this.icons[damage]; } return
+     * super.getIconFromDamage(damage); }
+     */
 
     @Override
     public int getMetadata(int par1)

@@ -1,0 +1,36 @@
+[
+  {
+    "modid": "galacticraftcore",
+    "name": "Galacticraft Core",
+    "description": "An advanced space travel mod for Minecraft!",
+    "version": "${version}",
+    "mcversion": "${mc_version}",
+    "logoFile": "assets/galacticraftcore/logo.png",
+    "authorList": [
+      "micdoodle8",
+      "radfast",
+      "EzerArch",
+      "fishtaco",
+      "SpaceViking",
+      "SteveKunG"
+    ],
+    "useDependencyInformation": true,
+    "dependencies": [
+      "forge",
+      "redstoneflux",
+      "biomesoplenty",
+      "jei",
+      "buildcraftcore",
+      "ic2",
+      "appliedenergistics2",
+      "actuallyadditions",
+      "playerapi",
+      "mekanism",
+      "micdoodlecore"
+    ],
+    "requiredMods": [
+      "forge@[14.23.5.2847,)",
+      "micdoodlecore@[${version}]"
+    ]
+  }
+]

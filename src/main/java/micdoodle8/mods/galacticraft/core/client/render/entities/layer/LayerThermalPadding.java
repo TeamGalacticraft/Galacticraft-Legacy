@@ -10,6 +10,7 @@ import micdoodle8.mods.galacticraft.core.wrappers.PlayerGearData;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
 import micdoodle8.mods.galacticraft.planets.venus.VenusItems;
 import micdoodle8.mods.galacticraft.planets.venus.items.ItemThermalPaddingTier2;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
@@ -24,6 +25,7 @@ import org.lwjgl.opengl.GL11;
 
 public class LayerThermalPadding extends LayerArmorBase<ModelBiped>
 {
+
     private final RenderPlayer renderer;
 
     public LayerThermalPadding(RenderPlayer playerRendererIn)
@@ -45,22 +47,22 @@ public class LayerThermalPadding extends LayerArmorBase<ModelBiped>
 
         switch (slotIn)
         {
-        case HEAD:
-            model.bipedRightLeg.showModel = true;
-            model.bipedLeftLeg.showModel = true;
-            break;
-        case CHEST:
-            model.bipedRightLeg.showModel = true;
-            model.bipedLeftLeg.showModel = true;
-            break;
-        case LEGS:
-            model.bipedBody.showModel = true;
-            model.bipedRightArm.showModel = true;
-            model.bipedLeftArm.showModel = true;
-            break;
-        case FEET:
-            model.bipedHead.showModel = true;
-            model.bipedHeadwear.showModel = true;
+            case HEAD:
+                model.bipedRightLeg.showModel = true;
+                model.bipedLeftLeg.showModel = true;
+                break;
+            case CHEST:
+                model.bipedRightLeg.showModel = true;
+                model.bipedLeftLeg.showModel = true;
+                break;
+            case LEGS:
+                model.bipedBody.showModel = true;
+                model.bipedRightArm.showModel = true;
+                model.bipedLeftArm.showModel = true;
+                break;
+            case FEET:
+                model.bipedHead.showModel = true;
+                model.bipedHeadwear.showModel = true;
         }
     }
 
@@ -75,23 +77,24 @@ public class LayerThermalPadding extends LayerArmorBase<ModelBiped>
             {
                 switch (padding)
                 {
-                case Constants.GEAR_ID_THERMAL_PADDING_T1_HELMET:
-                case Constants.GEAR_ID_THERMAL_PADDING_T1_CHESTPLATE:
-                case Constants.GEAR_ID_THERMAL_PADDING_T1_LEGGINGS:
-                case Constants.GEAR_ID_THERMAL_PADDING_T1_BOOTS:
-                    return new ItemStack(AsteroidsItems.thermalPadding, 1, slotIn.getSlotIndex() - 1);
-                case Constants.GEAR_ID_THERMAL_PADDING_T2_HELMET:
-                case Constants.GEAR_ID_THERMAL_PADDING_T2_CHESTPLATE:
-                case Constants.GEAR_ID_THERMAL_PADDING_T2_LEGGINGS:
-                case Constants.GEAR_ID_THERMAL_PADDING_T2_BOOTS:
-                    return new ItemStack(VenusItems.thermalPaddingTier2, 1, slotIn.getSlotIndex() - 1);
-                default:
-                    break;
+                    case Constants.GEAR_ID_THERMAL_PADDING_T1_HELMET:
+                    case Constants.GEAR_ID_THERMAL_PADDING_T1_CHESTPLATE:
+                    case Constants.GEAR_ID_THERMAL_PADDING_T1_LEGGINGS:
+                    case Constants.GEAR_ID_THERMAL_PADDING_T1_BOOTS:
+                        return new ItemStack(AsteroidsItems.thermalPadding, 1, slotIn.getSlotIndex() - 1);
+                    case Constants.GEAR_ID_THERMAL_PADDING_T2_HELMET:
+                    case Constants.GEAR_ID_THERMAL_PADDING_T2_CHESTPLATE:
+                    case Constants.GEAR_ID_THERMAL_PADDING_T2_LEGGINGS:
+                    case Constants.GEAR_ID_THERMAL_PADDING_T2_BOOTS:
+                        return new ItemStack(VenusItems.thermalPaddingTier2, 1, slotIn.getSlotIndex() - 1);
+                    default:
+                        break;
                 }
             }
         }
 
-        return null;   //This null is OK, it's used only as flag by calling code in this same class
+        return null; // This null is OK, it's used only as flag by calling code
+                     // in this same class
     }
 
     @Override
@@ -137,8 +140,7 @@ public class LayerThermalPadding extends LayerArmorBase<ModelBiped>
                 {
                     b = g;
                     g = r;
-                }
-                else if (modifier < 0)
+                } else if (modifier < 0)
                 {
                     r = g;
                     g = b;
@@ -157,13 +159,25 @@ public class LayerThermalPadding extends LayerArmorBase<ModelBiped>
     @Override
     protected void initArmor()
     {
-        this.modelLeggings = new ModelPlayerGC(0.55F, false);  //Head inside Oxygen Mask
-        this.modelArmor = new ModelPlayerGC(0.05F, false);  //Chest and limbs close to skin
+        this.modelLeggings = new ModelPlayerGC(0.55F, false); // Head inside
+                                                              // Oxygen Mask
+        this.modelArmor = new ModelPlayerGC(0.05F, false); // Chest and limbs
+                                                           // close to skin
     }
 
     @Override
     public ModelBiped getModelFromSlot(EntityEquipmentSlot slotIn)
     {
-        return slotIn == EntityEquipmentSlot.FEET ? this.modelLeggings : this.modelArmor;  //FEET is intended here, actually picks up the helmet (yes really)
+        return slotIn == EntityEquipmentSlot.FEET ? this.modelLeggings : this.modelArmor; // FEET
+                                                                                          // is
+                                                                                          // intended
+                                                                                          // here,
+                                                                                          // actually
+                                                                                          // picks
+                                                                                          // up
+                                                                                          // the
+                                                                                          // helmet
+                                                                                          // (yes
+                                                                                          // really)
     }
 }

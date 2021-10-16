@@ -1,4 +1,6 @@
-//package micdoodle8.mods.galacticraft.planets.asteroids.recipe.craftguide;
+package micdoodle8.mods.galacticraft.planets.asteroids.recipe.craftguide;
+
+//package galacticraft.planets.asteroids.recipe.craftguide;
 //
 //import java.lang.reflect.Method;
 //

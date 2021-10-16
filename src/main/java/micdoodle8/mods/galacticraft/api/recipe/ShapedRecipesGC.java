@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 
 public class ShapedRecipesGC extends net.minecraftforge.registries.IForgeRegistryEntry.Impl<IRecipe> implements IRecipe
 {
+
     public final int recipeWidth;
     public final int recipeHeight;
     public final ItemStack[] recipeItems;
@@ -78,8 +79,7 @@ public class ShapedRecipesGC extends net.minecraftforge.registries.IForgeRegistr
                     if (p_77573_4_)
                     {
                         itemstack = this.recipeItems[this.recipeWidth - k - 1 + l * this.recipeWidth];
-                    }
-                    else
+                    } else
                     {
                         itemstack = this.recipeItems[k + l * this.recipeWidth];
                     }

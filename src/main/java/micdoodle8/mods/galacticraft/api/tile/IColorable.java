@@ -8,6 +8,7 @@ import net.minecraft.util.EnumFacing;
  */
 public interface IColorable
 {
+
     /**
      * Called when the color is changed
      */
@@ -17,7 +18,7 @@ public interface IColorable
      * Gets the color of this tile from the Block State
      *
      * @return the color of the tile, equivalent to the dye colors in vanilla
-     * minecraft
+     *         minecraft
      */
     byte getColor(IBlockState state);
 

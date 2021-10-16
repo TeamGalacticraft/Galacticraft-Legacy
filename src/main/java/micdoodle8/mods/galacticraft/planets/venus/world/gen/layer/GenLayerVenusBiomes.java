@@ -7,6 +7,7 @@ import net.minecraft.world.gen.layer.GenLayer;
 
 public class GenLayerVenusBiomes extends GenLayer
 {
+
     private static final Biome[] biomes = VenusModule.planetVenus.biomesToGenerate.toArray(new Biome[0]);
 
     public GenLayerVenusBiomes(long l, GenLayer parent)

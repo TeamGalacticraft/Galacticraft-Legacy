@@ -1,9 +1,27 @@
 package micdoodle8.mods.galacticraft.core.items;
 
+import static net.minecraft.item.EnumDyeColor.BLACK;
+import static net.minecraft.item.EnumDyeColor.BLUE;
+import static net.minecraft.item.EnumDyeColor.BROWN;
+import static net.minecraft.item.EnumDyeColor.CYAN;
+import static net.minecraft.item.EnumDyeColor.GRAY;
+import static net.minecraft.item.EnumDyeColor.GREEN;
+import static net.minecraft.item.EnumDyeColor.LIGHT_BLUE;
+import static net.minecraft.item.EnumDyeColor.LIME;
+import static net.minecraft.item.EnumDyeColor.MAGENTA;
+import static net.minecraft.item.EnumDyeColor.ORANGE;
+import static net.minecraft.item.EnumDyeColor.PINK;
+import static net.minecraft.item.EnumDyeColor.PURPLE;
+import static net.minecraft.item.EnumDyeColor.RED;
+import static net.minecraft.item.EnumDyeColor.SILVER;
+import static net.minecraft.item.EnumDyeColor.WHITE;
+import static net.minecraft.item.EnumDyeColor.YELLOW;
+
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,11 +36,12 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import static net.minecraft.item.EnumDyeColor.*;
 
 public class ItemParaChute extends Item implements ISortableItem, IClickableItem
 {
-    public static final String[] names = { "plain", // 0
+
+    public static final String[] names =
+    {"plain", // 0
             "black", // 1
             "blue", // 2
             "lime", // 3
@@ -37,7 +56,7 @@ public class ItemParaChute extends Item implements ISortableItem, IClickableItem
             "purple", // 12
             "red", // 13
             "teal", // 14
-            "yellow" }; // 15
+            "yellow"}; // 15
 
 //    protected IIcon[] icons;
 
@@ -48,7 +67,7 @@ public class ItemParaChute extends Item implements ISortableItem, IClickableItem
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
         this.setTranslationKey(assetName);
-        //this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
+        // this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
     }
 
     @Override
@@ -81,18 +100,14 @@ public class ItemParaChute extends Item implements ISortableItem, IClickableItem
         return par1;
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        int i = 0;
-        this.icons = new IIcon[ItemParaChute.names.length];
-
-        for (String name : ItemParaChute.names)
-        {
-            this.icons[i++] = iconRegister.registerIcon(this.getIconString() + "_" + name);
-        }
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister
+     * iconRegister) { int i = 0; this.icons = new
+     * IIcon[ItemParaChute.names.length]; for (String name :
+     * ItemParaChute.names) { this.icons[i++] =
+     * iconRegister.registerIcon(this.getIconString() + "_" + name); } }
+     */
 
     @Override
     public String getTranslationKey(ItemStack itemStack)
@@ -100,16 +115,11 @@ public class ItemParaChute extends Item implements ISortableItem, IClickableItem
         return this.getTranslationKey() + "_" + ItemParaChute.names[itemStack.getItemDamage()];
     }
 
-    /*@Override
-    public IIcon getIconFromDamage(int damage)
-    {
-        if (this.icons.length > damage)
-        {
-            return this.icons[damage];
-        }
-
-        return super.getIconFromDamage(damage);
-    }*/
+    /*
+     * @Override public IIcon getIconFromDamage(int damage) { if
+     * (this.icons.length > damage) { return this.icons[damage]; } return
+     * super.getIconFromDamage(damage); }
+     */
 
     // @Override
     // @SideOnly(Side.CLIENT)
@@ -158,38 +168,38 @@ public class ItemParaChute extends Item implements ISortableItem, IClickableItem
     {
         switch (damage)
         {
-        case 1:
-            return BLACK;
-        case 13:
-            return RED;
-        case 7:
-            return GREEN;
-        case 4:
-            return BROWN;
-        case 5:
-            return BLUE;
-        case 12:
-            return PURPLE;
-        case 14:
-            return CYAN;
-        case 8:
-            return SILVER;
-        case 6:
-            return GRAY;
-        case 11:
-            return PINK;
-        case 3:
-            return LIME;
-        case 15:
-            return YELLOW;
-        case 2:
-            return LIGHT_BLUE;
-        case 9:
-            return MAGENTA;
-        case 10:
-            return ORANGE;
-        case 0:
-            return WHITE;
+            case 1:
+                return BLACK;
+            case 13:
+                return RED;
+            case 7:
+                return GREEN;
+            case 4:
+                return BROWN;
+            case 5:
+                return BLUE;
+            case 12:
+                return PURPLE;
+            case 14:
+                return CYAN;
+            case 8:
+                return SILVER;
+            case 6:
+                return GRAY;
+            case 11:
+                return PINK;
+            case 3:
+                return LIME;
+            case 15:
+                return YELLOW;
+            case 2:
+                return LIGHT_BLUE;
+            case 9:
+                return MAGENTA;
+            case 10:
+                return ORANGE;
+            case 0:
+                return WHITE;
         }
 
         return WHITE;
@@ -199,38 +209,38 @@ public class ItemParaChute extends Item implements ISortableItem, IClickableItem
     {
         switch (color)
         {
-        case BLACK:
-            return 1;
-        case RED:
-            return 13;
-        case GREEN:
-            return 7;
-        case BROWN:
-            return 4;
-        case BLUE:
-            return 5;
-        case PURPLE:
-            return 12;
-        case CYAN:
-            return 14;
-        case SILVER:
-            return 8;
-        case GRAY:
-            return 6;
-        case PINK:
-            return 11;
-        case LIME:
-            return 3;
-        case YELLOW:
-            return 15;
-        case LIGHT_BLUE:
-            return 2;
-        case MAGENTA:
-            return 9;
-        case ORANGE:
-            return 10;
-        case WHITE:
-            return 0;
+            case BLACK:
+                return 1;
+            case RED:
+                return 13;
+            case GREEN:
+                return 7;
+            case BROWN:
+                return 4;
+            case BLUE:
+                return 5;
+            case PURPLE:
+                return 12;
+            case CYAN:
+                return 14;
+            case SILVER:
+                return 8;
+            case GRAY:
+                return 6;
+            case PINK:
+                return 11;
+            case LIME:
+                return 3;
+            case YELLOW:
+                return 15;
+            case LIGHT_BLUE:
+                return 2;
+            case MAGENTA:
+                return 9;
+            case ORANGE:
+                return 10;
+            case WHITE:
+                return 0;
         }
 
         return -1;
@@ -263,7 +273,7 @@ public class ItemParaChute extends Item implements ISortableItem, IClickableItem
         {
             if (itemStack.getItem() instanceof IClickableItem)
             {
-                itemStack = ((IClickableItem)itemStack.getItem()).onItemRightClick(itemStack, worldIn, player);
+                itemStack = ((IClickableItem) itemStack.getItem()).onItemRightClick(itemStack, worldIn, player);
             }
 
             if (itemStack.isEmpty())
@@ -273,7 +283,7 @@ public class ItemParaChute extends Item implements ISortableItem, IClickableItem
         }
         return new ActionResult<>(EnumActionResult.PASS, itemStack);
     }
-    
+
     public ItemStack onItemRightClick(ItemStack itemStack, World worldIn, EntityPlayer player)
     {
         GCPlayerStats stats = GCPlayerStats.get(player);
@@ -284,7 +294,7 @@ public class ItemParaChute extends Item implements ISortableItem, IClickableItem
             stats.getExtendedInventory().setInventorySlotContents(4, itemStack.copy());
             itemStack = ItemStack.EMPTY;
         }
-        
+
         return itemStack;
     }
 }

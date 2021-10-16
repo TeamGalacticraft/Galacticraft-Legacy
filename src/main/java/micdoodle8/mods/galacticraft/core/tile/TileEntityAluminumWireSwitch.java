@@ -1,7 +1,5 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
-import ic2.api.energy.tile.IEnergyAcceptor;
-import ic2.api.energy.tile.IEnergyEmitter;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.grid.IElectricityNetwork;
 import micdoodle8.mods.galacticraft.api.transmission.grid.IGridNetwork;
@@ -12,12 +10,17 @@ import micdoodle8.mods.galacticraft.core.energy.grid.EnergyNetwork;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseConductor;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseUniversalConductor;
 import micdoodle8.mods.galacticraft.core.util.RedstoneUtil;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
+import ic2.api.energy.tile.IEnergyAcceptor;
+import ic2.api.energy.tile.IEnergyEmitter;
+
 public class TileEntityAluminumWireSwitch extends TileBaseUniversalConductor
 {
+
     public int tier;
     private boolean disableConnections;
 
@@ -36,7 +39,7 @@ public class TileEntityAluminumWireSwitch extends TileBaseUniversalConductor
     {
         super.readFromNBT(nbt);
         this.tier = nbt.getInteger("tier");
-        //For legacy worlds (e.g. converted from 1.6.4)
+        // For legacy worlds (e.g. converted from 1.6.4)
         if (this.tier == 0)
         {
             this.tier = 1;
@@ -63,86 +66,87 @@ public class TileEntityAluminumWireSwitch extends TileBaseUniversalConductor
     {
         return this.tier;
     }
-    
+
     @Override
     public void refresh()
     {
-    	boolean newDisableConnections = this.disableConnections();
-    	if (newDisableConnections && !this.disableConnections)
-    	{
-    		this.disableConnections = newDisableConnections;
-        	if (!this.world.isRemote)
+        boolean newDisableConnections = this.disableConnections();
+        if (newDisableConnections && !this.disableConnections)
+        {
+            this.disableConnections = newDisableConnections;
+            if (!this.world.isRemote)
             {
-        		this.disConnect();
+                this.disConnect();
             }
-    	}
-    	else if (!newDisableConnections && this.disableConnections)
-    	{
-    		this.disableConnections = newDisableConnections;
-        	if (!this.world.isRemote)
+        } else if (!newDisableConnections && this.disableConnections)
+        {
+            this.disableConnections = newDisableConnections;
+            if (!this.world.isRemote)
             {
-        		this.setNetwork(null);  //Force a full network refresh of this and conductors either side
+                this.setNetwork(null); // Force a full network refresh of this
+                                       // and conductors either side
             }
-    	}
+        }
 
-    	if (!this.world.isRemote)
+        if (!this.world.isRemote)
         {
             this.adjacentConnections = null;
             if (!this.disableConnections)
             {
-            	this.getNetwork().refresh();
+                this.getNetwork().refresh();
 
-            	BlockVec3 thisVec = new BlockVec3(this);
-            	for (EnumFacing side : EnumFacing.VALUES)
-            	{
-            		if (this.canConnect(side, NetworkType.POWER))
-            		{
-            			TileEntity tileEntity = thisVec.getTileEntityOnSide(this.world, side);
+                BlockVec3 thisVec = new BlockVec3(this);
+                for (EnumFacing side : EnumFacing.VALUES)
+                {
+                    if (this.canConnect(side, NetworkType.POWER))
+                    {
+                        TileEntity tileEntity = thisVec.getTileEntityOnSide(this.world, side);
 
-            			if (tileEntity instanceof TileBaseConductor && ((TileBaseConductor)tileEntity).canConnect(side.getOpposite(), NetworkType.POWER))
-            			{
-                    		IGridNetwork otherNet = ((INetworkProvider) tileEntity).getNetwork();
-                    		if (!this.getNetwork().equals(otherNet))
-                    		{
-                    			if (!otherNet.getTransmitters().isEmpty())
-                    			{
-                    				otherNet.merge(this.getNetwork());
-                    			}
-                    		}
-            			}
-            		}
-            	}
+                        if (tileEntity instanceof TileBaseConductor && ((TileBaseConductor) tileEntity).canConnect(side.getOpposite(), NetworkType.POWER))
+                        {
+                            IGridNetwork otherNet = ((INetworkProvider) tileEntity).getNetwork();
+                            if (!this.getNetwork().equals(otherNet))
+                            {
+                                if (!otherNet.getTransmitters().isEmpty())
+                                {
+                                    otherNet.merge(this.getNetwork());
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
-    
+
     private void disConnect()
     {
-    	EnergyNetwork net = (EnergyNetwork) this.getNetwork(); 
-    	if (net != null)
-    	{
-    		net.split(this);
-    	}
-	}
+        EnergyNetwork net = (EnergyNetwork) this.getNetwork();
+        if (net != null)
+        {
+            net.split(this);
+        }
+    }
 
     private boolean disableConnections()
     {
-    	return RedstoneUtil.isBlockReceivingRedstone(this.world, this.pos);
+        return RedstoneUtil.isBlockReceivingRedstone(this.world, this.pos);
     }
-    
-	@Override
+
+    @Override
     public boolean canConnect(EnumFacing direction, NetworkType type)
     {
         return type == NetworkType.POWER && !this.disableConnections();
     }
-    
+
     @Override
     public IElectricityNetwork getNetwork()
     {
         if (this.network == null)
         {
             EnergyNetwork network = new EnergyNetwork();
-            if (!this.disableConnections) network.getTransmitters().add(this);
+            if (!this.disableConnections)
+                network.getTransmitters().add(this);
             this.setNetwork(network);
         }
 
@@ -155,71 +159,71 @@ public class TileEntityAluminumWireSwitch extends TileBaseUniversalConductor
         if (this.adjacentConnections == null)
         {
             this.adjacentConnections = new TileEntity[6];
-            
+
             if (!this.disableConnections)
             {
-            	BlockVec3 thisVec = new BlockVec3(this);
-            	for (int i = 0; i < 6; i++)
-            	{
-            		EnumFacing side = EnumFacing.byIndex(i);
-            		if (this.canConnect(side, NetworkType.POWER))
-            		{
-            			TileEntity tileEntity = thisVec.getTileEntityOnSide(this.world, side);
+                BlockVec3 thisVec = new BlockVec3(this);
+                for (int i = 0; i < 6; i++)
+                {
+                    EnumFacing side = EnumFacing.byIndex(i);
+                    if (this.canConnect(side, NetworkType.POWER))
+                    {
+                        TileEntity tileEntity = thisVec.getTileEntityOnSide(this.world, side);
 
-            			if (tileEntity instanceof IConnector)
-            			{
-            				if (((IConnector) tileEntity).canConnect(side.getOpposite(), NetworkType.POWER))
-            				{
-            					this.adjacentConnections[i] = tileEntity;
-            				}
-            			}
-            		}
-            	}
+                        if (tileEntity instanceof IConnector)
+                        {
+                            if (((IConnector) tileEntity).canConnect(side.getOpposite(), NetworkType.POWER))
+                            {
+                                this.adjacentConnections[i] = tileEntity;
+                            }
+                        }
+                    }
+                }
             }
         }
 
         return this.adjacentConnections;
     }
 
-    //IC2
+    // IC2
     @Override
     public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side)
     {
-    	return this.disableConnections() ? false : super.acceptsEnergyFrom(emitter, side);   	
+        return this.disableConnections() ? false : super.acceptsEnergyFrom(emitter, side);
     }
 
-    //IC2
+    // IC2
     @Override
     public double injectEnergy(EnumFacing directionFrom, double amount, double voltage)
     {
-    	return this.disableConnections ? amount : super.injectEnergy(directionFrom, amount, voltage);   	   	
+        return this.disableConnections ? amount : super.injectEnergy(directionFrom, amount, voltage);
     }
-    
-    //IC2
+
+    // IC2
     @Override
     public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side)
     {
-    	return this.disableConnections() ? false : super.emitsEnergyTo(receiver, side);
+        return this.disableConnections() ? false : super.emitsEnergyTo(receiver, side);
     }
 
-    //RF
+    // RF
     @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate)
     {
-    	return this.disableConnections ? 0 : super.receiveEnergy(from, maxReceive, simulate);
+        return this.disableConnections ? 0 : super.receiveEnergy(from, maxReceive, simulate);
     }
 
-    //RF
+    // RF
     @Override
     public boolean canConnectEnergy(EnumFacing from)
     {
-    	return this.disableConnections() ? false : super.canConnectEnergy(from);
+        return this.disableConnections() ? false : super.canConnectEnergy(from);
     }
 
-    //Mekanism
+    // Mekanism
     @Override
     public boolean canReceiveEnergy(EnumFacing side)
     {
-    	return this.disableConnections() ? false : super.canReceiveEnergy(side);
+        return this.disableConnections() ? false : super.canReceiveEnergy(side);
     }
 }

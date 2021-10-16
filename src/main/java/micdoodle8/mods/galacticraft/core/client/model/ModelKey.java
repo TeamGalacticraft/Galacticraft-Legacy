@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class ModelKey extends ModelBase
 {
+
     public ModelRenderer keyParts[] = new ModelRenderer[5];
 
     public ModelKey()

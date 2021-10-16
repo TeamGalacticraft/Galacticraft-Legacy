@@ -1,7 +1,12 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
-import micdoodle8.mods.galacticraft.core.entities.*;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedCreeper;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedSkeleton;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedSpider;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedZombie;
+import micdoodle8.mods.galacticraft.core.entities.IBoss;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityMob;
@@ -19,6 +24,7 @@ import java.util.List;
 
 public class TileEntityDungeonSpawner<E extends Entity> extends TileEntityAdvanced
 {
+
     public Class<E> bossClass;
     public IBoss boss;
     public boolean spawned;
@@ -67,15 +73,17 @@ public class TileEntityDungeonSpawner<E extends Entity> extends TileEntityAdvanc
             {
                 final Vector3 thisVec = new Vector3(this);
                 this.range15 = new AxisAlignedBB(thisVec.x - 15, thisVec.y - 15, thisVec.z - 15, thisVec.x + 15, thisVec.y + 15, thisVec.z + 15);
-                this.rangeBounds = new AxisAlignedBB(this.roomCoords.intX(), this.roomCoords.intY(), this.roomCoords.intZ(), this.roomCoords.intX() + this.roomSize.intX(), this.roomCoords.intY() + this.roomSize.intY(), this.roomCoords.intZ() + this.roomSize.intZ());
+                this.rangeBounds = new AxisAlignedBB(this.roomCoords.intX(), this.roomCoords.intY(), this.roomCoords.intZ(), this.roomCoords.intX() + this.roomSize.intX(),
+                    this.roomCoords.intY() + this.roomSize.intY(), this.roomCoords.intZ() + this.roomSize.intZ());
                 this.rangeBoundsPlus3 = this.rangeBounds.grow(3, 3, 3);
             }
 
-            if (this.lastKillTime > 0 && MinecraftServer.getCurrentTimeMillis() - lastKillTime > 900000) // 15 minutes
+            if (this.lastKillTime > 0 && MinecraftServer.getCurrentTimeMillis() - lastKillTime > 900000) // 15
+                                                                                                         // minutes
             {
                 this.lastKillTime = 0;
                 this.isBossDefeated = false;
-                //After 15 minutes a new boss is able to be spawned 
+                // After 15 minutes a new boss is able to be spawned
             }
 
             final List<E> l = this.world.getEntitiesWithinAABB(bossClass, this.range15);
@@ -109,7 +117,7 @@ public class TileEntityDungeonSpawner<E extends Entity> extends TileEntityAdvanc
             {
                 if (!this.lastPlayerInRange && !this.spawned)
                 {
-                    //Try to create a boss entity
+                    // Try to create a boss entity
                     if (this.boss == null && !this.isBossDefeated)
                     {
                         try
@@ -117,14 +125,13 @@ public class TileEntityDungeonSpawner<E extends Entity> extends TileEntityAdvanc
                             Constructor<?> c = this.bossClass.getConstructor(World.class);
                             this.boss = (IBoss) c.newInstance(this.world);
                             ((Entity) this.boss).setPosition(this.getPos().getX() + 0.5, this.getPos().getY() + 1.0, this.getPos().getZ() + 0.5);
-                        }
-                        catch (Exception e)
+                        } catch (Exception e)
                         {
                             e.printStackTrace();
                         }
                     }
 
-                    //Now spawn the boss
+                    // Now spawn the boss
                     if (this.boss != null)
                     {
                         if (this.boss instanceof EntityLiving)
@@ -175,10 +182,10 @@ public class TileEntityDungeonSpawner<E extends Entity> extends TileEntityAdvanc
         try
         {
             this.bossClass = (Class<E>) Class.forName(nbt.getString("bossClass"));
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
-            // This exception will be thrown when read is called from TileEntity.handleUpdateTag
+            // This exception will be thrown when read is called from
+            // TileEntity.handleUpdateTag
             // but we only care if an exception is thrown on server side read
             if (!this.world.isRemote)
             {
@@ -198,13 +205,11 @@ public class TileEntityDungeonSpawner<E extends Entity> extends TileEntityAdvanc
         if (nbt.hasKey("lastKillTime"))
         {
             this.lastKillTime = nbt.getLong("lastKillTime");
-        }
-        else if (nbt.hasKey("lastKillTimeNew"))
+        } else if (nbt.hasKey("lastKillTimeNew"))
         {
             long savedTime = nbt.getLong("lastKillTimeNew");
             this.lastKillTime = savedTime == 0 ? 0 : savedTime + MinecraftServer.getCurrentTimeMillis();
         }
-
 
         if (nbt.hasKey("chestPosNull") && !nbt.getBoolean("chestPosNull"))
         {
@@ -276,11 +281,12 @@ public class TileEntityDungeonSpawner<E extends Entity> extends TileEntityAdvanc
     {
         this.chestPos = chestPos;
     }
-    
+
     public AxisAlignedBB getRangeBounds()
     {
         if (this.rangeBounds == null)
-            this.rangeBounds = new AxisAlignedBB(this.roomCoords.intX(), this.roomCoords.intY(), this.roomCoords.intZ(), this.roomCoords.intX() + this.roomSize.intX(), this.roomCoords.intY() + this.roomSize.intY(), this.roomCoords.intZ() + this.roomSize.intZ());
+            this.rangeBounds = new AxisAlignedBB(this.roomCoords.intX(), this.roomCoords.intY(), this.roomCoords.intZ(), this.roomCoords.intX() + this.roomSize.intX(),
+                this.roomCoords.intY() + this.roomSize.intY(), this.roomCoords.intZ() + this.roomSize.intZ());
 
         return this.rangeBounds;
     }

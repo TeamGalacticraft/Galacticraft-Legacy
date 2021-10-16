@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.items;
 
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
+
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
@@ -11,6 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockCheese extends ItemBlockDesc
 {
+
     public ItemBlockCheese(Block par2Block)
     {
         super(par2Block);

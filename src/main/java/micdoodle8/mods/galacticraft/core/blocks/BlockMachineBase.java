@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.IMachineSides;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +27,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BlockMachineBase extends BlockTileGC implements IShiftDescription, ISortableBlock
 {
-    public static final int METADATA_MASK = 0x0c; //Used to select the machine type from metadata
+
+    public static final int METADATA_MASK = 0x0c; // Used to select the machine
+                                                  // type from metadata
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     protected EnumMachineBase[] types;
     protected EnumMachineBase typeBase;
@@ -73,19 +76,19 @@ public abstract class BlockMachineBase extends BlockTileGC implements IShiftDesc
 
         return true;
     }
-    
+
     @Override
     public boolean onSneakUseWrench(World world, BlockPos pos, EntityPlayer entityPlayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof IMachineSides)
         {
-            ((IMachineSides)tile).nextSideConfiguration(tile);
+            ((IMachineSides) tile).nextSideConfiguration(tile);
             return true;
         }
         return false;
     }
-   
+
     @Override
     public TileEntity createTileEntity(World world, IBlockState state)
     {
@@ -93,7 +96,7 @@ public abstract class BlockMachineBase extends BlockTileGC implements IShiftDesc
         EnumMachineBase type = typeBase.fromMetadata(meta);
         return type.tileConstructor();
     }
-   
+
     @Override
     public int damageDropped(IBlockState state)
     {
@@ -143,6 +146,7 @@ public abstract class BlockMachineBase extends BlockTileGC implements IShiftDesc
 
     public interface EnumMachineBase<T extends Enum<T> & IStringSerializable>
     {
+
         int getMetadata();
 
         EnumMachineBase fromMetadata(int meta);

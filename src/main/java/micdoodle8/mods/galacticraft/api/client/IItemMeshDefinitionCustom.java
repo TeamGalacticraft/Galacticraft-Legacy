@@ -6,8 +6,9 @@ import net.minecraft.item.ItemStack;
 
 public interface IItemMeshDefinitionCustom extends ItemMeshDefinition
 {
+
     static ItemMeshDefinition create(IItemMeshDefinitionCustom lambda)
-    { 
+    {
         return lambda;
     }
 

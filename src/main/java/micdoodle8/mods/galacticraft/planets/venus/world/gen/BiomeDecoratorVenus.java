@@ -15,6 +15,7 @@ import java.util.Random;
 
 public class BiomeDecoratorVenus extends BiomeDecorator
 {
+
     private WorldGenerator aluminumGen;
     private WorldGenerator copperGen;
     private WorldGenerator galenaGen;
@@ -41,8 +42,7 @@ public class BiomeDecoratorVenus extends BiomeDecorator
         if (this.world != null)
         {
             throw new RuntimeException("Already decorating!!");
-        }
-        else
+        } else
         {
             this.world = worldIn;
             this.chunkPos = blockPos;
@@ -63,13 +63,20 @@ public class BiomeDecoratorVenus extends BiomeDecorator
     private void generateVenus(Random random)
     {
         MinecraftForge.EVENT_BUS.post(new GCCoreEventPopulate.Pre(this.world, random, chunkPos));
-        if (!ConfigManagerVenus.disableAluminumGen) this.genStandardOre(18, this.aluminumGen, 0, 60, random);
-        if (!ConfigManagerVenus.disableCopperGen) this.genStandardOre(24, this.copperGen, 0, 60, random);
-        if (!ConfigManagerVenus.disableGalenaGen) this.genStandardOre(18, this.galenaGen, 0, 60, random);
-        if (!ConfigManagerVenus.disableQuartzGen) this.genStandardOre(26, this.quartzGen, 0, 60, random);
-        if (!ConfigManagerVenus.disableSiliconGen) this.genStandardOre(4, this.siliconGen, 0, 60, random);
-        if (!ConfigManagerVenus.disableTinGen) this.genStandardOre(22, this.tinGen, 0, 60, random);
-        if (!ConfigManagerVenus.disableSolarGen) this.genStandardOre(6, this.solarGen, 0, 50, random);
+        if (!ConfigManagerVenus.disableAluminumGen)
+            this.genStandardOre(18, this.aluminumGen, 0, 60, random);
+        if (!ConfigManagerVenus.disableCopperGen)
+            this.genStandardOre(24, this.copperGen, 0, 60, random);
+        if (!ConfigManagerVenus.disableGalenaGen)
+            this.genStandardOre(18, this.galenaGen, 0, 60, random);
+        if (!ConfigManagerVenus.disableQuartzGen)
+            this.genStandardOre(26, this.quartzGen, 0, 60, random);
+        if (!ConfigManagerVenus.disableSiliconGen)
+            this.genStandardOre(4, this.siliconGen, 0, 60, random);
+        if (!ConfigManagerVenus.disableTinGen)
+            this.genStandardOre(22, this.tinGen, 0, 60, random);
+        if (!ConfigManagerVenus.disableSolarGen)
+            this.genStandardOre(6, this.solarGen, 0, 50, random);
         MinecraftForge.EVENT_BUS.post(new GCCoreEventPopulate.Post(this.world, random, chunkPos));
     }
 }

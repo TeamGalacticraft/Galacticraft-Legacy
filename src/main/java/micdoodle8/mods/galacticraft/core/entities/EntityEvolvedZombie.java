@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
+
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.monster.EntityZombie;
@@ -12,17 +13,18 @@ import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
 public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathable, ITumblable
 {
+
     private static final DataParameter<Float> SPIN_PITCH = EntityDataManager.createKey(EntityEvolvedZombie.class, DataSerializers.FLOAT);
     private int conversionTime = 0;
     private float tumbling = 0F;
@@ -42,10 +44,12 @@ public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathab
         double difficulty = 0;
         switch (this.world.getDifficulty())
         {
-        case HARD : difficulty = 2D;
-            break;
-        case NORMAL : difficulty = 1D;
-            break;
+            case HARD:
+                difficulty = 2D;
+                break;
+            case NORMAL:
+                difficulty = 1D;
+                break;
         }
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.26D + 0.04D * difficulty);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3D + difficulty);
@@ -92,41 +96,42 @@ public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathab
     {
         switch (this.rand.nextInt(16))
         {
-        case 0:
-        case 1:
-        case 2:
-            //Dehydrated carrot
-            this.entityDropItem(new ItemStack(GCItems.foodItem, 1, 1), 0.0F);
-            break;
-        case 3:
-        case 4:
-            this.dropItem(GCItems.meteoricIronRaw, 1);
-            break;
-        case 5:
-        case 6:
-            //Dehydrated potato
-            this.entityDropItem(new ItemStack(GCItems.foodItem, 1, 3), 0.0F);
-            break;
-        case 7:
-        case 8:
-            //Oxygen tank half empty or less
-            this.entityDropItem(new ItemStack(GCItems.oxTankMedium, 1, 901 + this.rand.nextInt(900)), 0.0F);
-            break;
-        case 9:
-            this.dropItem(GCItems.oxMask, 1);
-            break;
-        case 10:
-            this.dropItem(GCItems.oxygenVent, 1);
-            break;
-        case 11:
-        case 12:
-            this.dropItem(Items.CARROT, 1);
-            break;
-        case 13:
-        case 14:
-        case 15:
-            if (ConfigManagerCore.challengeMobDropsAndSpawning) this.dropItem(Items.MELON_SEEDS, 1);
-            break;
+            case 0:
+            case 1:
+            case 2:
+                // Dehydrated carrot
+                this.entityDropItem(new ItemStack(GCItems.foodItem, 1, 1), 0.0F);
+                break;
+            case 3:
+            case 4:
+                this.dropItem(GCItems.meteoricIronRaw, 1);
+                break;
+            case 5:
+            case 6:
+                // Dehydrated potato
+                this.entityDropItem(new ItemStack(GCItems.foodItem, 1, 3), 0.0F);
+                break;
+            case 7:
+            case 8:
+                // Oxygen tank half empty or less
+                this.entityDropItem(new ItemStack(GCItems.oxTankMedium, 1, 901 + this.rand.nextInt(900)), 0.0F);
+                break;
+            case 9:
+                this.dropItem(GCItems.oxMask, 1);
+                break;
+            case 10:
+                this.dropItem(GCItems.oxygenVent, 1);
+                break;
+            case 11:
+            case 12:
+                this.dropItem(Items.CARROT, 1);
+                break;
+            case 13:
+            case 14:
+            case 15:
+                if (ConfigManagerCore.challengeMobDropsAndSpawning)
+                    this.dropItem(Items.MELON_SEEDS, 1);
+                break;
         }
     }
 
@@ -143,7 +148,7 @@ public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathab
     {
         Item item = Items.ROTTEN_FLESH;
 
-        //Less rotten flesh than vanilla
+        // Less rotten flesh than vanilla
         int j = this.rand.nextInt(2);
 
         if (item != null)
@@ -159,11 +164,12 @@ public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathab
             }
         }
 
-        //Drop copper ingot as semi-rare drop if player hit and if dropping rotten flesh (50% chance)
+        // Drop copper ingot as semi-rare drop if player hit and if dropping
+        // rotten flesh (50% chance)
         if (wasRecentlyHit && (ConfigManagerCore.challengeMobDropsAndSpawning) && j > 0 && this.rand.nextInt(6) <= (lootingModifier + 1) / 2)
             this.entityDropItem(new ItemStack(GCItems.basicItem, 1, 3), 0.0F);
 
-        if (wasRecentlyHit && this.rand.nextFloat() < 0.025F + (float)lootingModifier * 0.02F)
+        if (wasRecentlyHit && this.rand.nextFloat() < 0.025F + (float) lootingModifier * 0.02F)
         {
             this.addRandomDrop();
         }
@@ -172,15 +178,14 @@ public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathab
     @Override
     public void setTumbling(float value)
     {
-        if (value !=0F)
+        if (value != 0F)
         {
             if (this.tumbling == 0F)
                 this.tumbling = (this.world.rand.nextFloat() + 0.5F) * value;
-        }
-        else
+        } else
             this.tumbling = 0F;
     }
-    
+
     @Override
     public void onEntityUpdate()
     {
@@ -198,8 +203,7 @@ public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathab
             if (!this.world.isRemote)
             {
                 this.setSpinPitch(this.tumbling);
-            }
-            else
+            } else
             {
                 this.tumbling = this.getSpinPitch();
                 this.tumbleAngle -= this.tumbling;
@@ -249,7 +253,7 @@ public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathab
     {
         float angle = this.tumbleAngle - partial * this.tumbling;
         if (angle > 360F)
-        {   
+        {
             this.tumbleAngle -= 360F;
             angle -= 360F;
         }
@@ -265,7 +269,8 @@ public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathab
     public float getTumbleAxisX()
     {
         double velocity2 = this.motionX * this.motionX + this.motionZ * this.motionZ;
-        if (velocity2 == 0D) return 1F;
+        if (velocity2 == 0D)
+            return 1F;
         return (float) (this.motionZ / MathHelper.sqrt(velocity2));
     }
 
@@ -273,7 +278,8 @@ public class EntityEvolvedZombie extends EntityZombie implements IEntityBreathab
     public float getTumbleAxisZ()
     {
         double velocity2 = this.motionX * this.motionX + this.motionZ * this.motionZ;
-        if (velocity2 == 0D) return 0F;
+        if (velocity2 == 0D)
+            return 0F;
         return (float) (this.motionX / MathHelper.sqrt(velocity2));
     }
 }

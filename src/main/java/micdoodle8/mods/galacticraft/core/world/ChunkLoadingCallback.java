@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.world;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -16,7 +17,13 @@ import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.config.Configuration;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +31,7 @@ import java.util.Map.Entry;
 
 public class ChunkLoadingCallback implements LoadingCallback
 {
+
     private static boolean loaded;
     private static HashMap<String, HashMap<Integer, HashSet<BlockPos>>> chunkLoaderList = new HashMap<String, HashMap<Integer, HashSet<BlockPos>>>();
     // private static HashMap<Integer, HashSet<IChunkLoader>> loadedChunks = new
@@ -68,14 +76,14 @@ public class ChunkLoadingCallback implements LoadingCallback
         {
             // keepLoadedOffline = config.get("CHUNKLOADING",
             // "OfflineKeepLoaded", true,
-            // "Set to false if you want each player's chunk loaders to unload when they log out.").getBoolean(true);
-            ChunkLoadingCallback.loadOnLogin = ChunkLoadingCallback.config.get("CHUNKLOADING", "LoadOnLogin", true, "If you don't want each player's chunks to load when they log in, set to false.").getBoolean(true);
-        }
-        catch (final Exception e)
+            // "Set to false if you want each player's chunk loaders to unload
+            // when they log out.").getBoolean(true);
+            ChunkLoadingCallback.loadOnLogin =
+                ChunkLoadingCallback.config.get("CHUNKLOADING", "LoadOnLogin", true, "If you don't want each player's chunks to load when they log in, set to false.").getBoolean(true);
+        } catch (final Exception e)
         {
-            GCLog.severe("Problem loading chunkloading config (\"core.conf\")");
-        }
-        finally
+            GCLog.error("Problem loading chunkloading config (\"core.conf\")");
+        } finally
         {
             if (ChunkLoadingCallback.config.hasChanged())
             {
@@ -154,12 +162,11 @@ public class ChunkLoadingCallback implements LoadingCallback
                 {
                     if (!saveFile.createNewFile())
                     {
-                        GCLog.severe("Could not create chunk loader data file: " + saveFile.getAbsolutePath());
+                        GCLog.error("Could not create chunk loader data file: " + saveFile.getAbsolutePath());
                     }
-                }
-                catch (IOException e)
+                } catch (IOException e)
                 {
-                    GCLog.severe("Could not create chunk loader data file: " + saveFile.getAbsolutePath());
+                    GCLog.error("Could not create chunk loader data file: " + saveFile.getAbsolutePath());
                     e.printStackTrace();
                 }
             }
@@ -168,8 +175,7 @@ public class ChunkLoadingCallback implements LoadingCallback
             try
             {
                 fos = new FileOutputStream(saveFile);
-            }
-            catch (FileNotFoundException e)
+            } catch (FileNotFoundException e)
             {
                 e.printStackTrace();
             }
@@ -198,8 +204,7 @@ public class ChunkLoadingCallback implements LoadingCallback
                             }
                         }
                     }
-                }
-                catch (IOException e)
+                } catch (IOException e)
                 {
                     e.printStackTrace();
                 }
@@ -207,8 +212,7 @@ public class ChunkLoadingCallback implements LoadingCallback
                 {
                     dataStream.close();
                     fos.close();
-                }
-                catch (IOException e)
+                } catch (IOException e)
                 {
                     e.printStackTrace();
                 }
@@ -227,7 +231,7 @@ public class ChunkLoadingCallback implements LoadingCallback
             {
                 if (!saveDir.mkdirs())
                 {
-                    GCLog.severe("Could not create chunk loader save data folder: " + saveDir.getAbsolutePath());
+                    GCLog.error("Could not create chunk loader save data folder: " + saveDir.getAbsolutePath());
                 }
             }
 
@@ -256,7 +260,7 @@ public class ChunkLoadingCallback implements LoadingCallback
                 {
                     if (!saveDir.mkdirs())
                     {
-                        GCLog.severe("Could not create chunk loader save data folder: " + saveDir.getAbsolutePath());
+                        GCLog.error("Could not create chunk loader save data folder: " + saveDir.getAbsolutePath());
                     }
                 }
 
@@ -294,8 +298,7 @@ public class ChunkLoadingCallback implements LoadingCallback
                     dataStream.close();
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
 
@@ -304,8 +307,7 @@ public class ChunkLoadingCallback implements LoadingCallback
                 try
                 {
                     dataStream.close();
-                }
-                catch (IOException e1)
+                } catch (IOException e1)
                 {
                     e1.printStackTrace();
                 }

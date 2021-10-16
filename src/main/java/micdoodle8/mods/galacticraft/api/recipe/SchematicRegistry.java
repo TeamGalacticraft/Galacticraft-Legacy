@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.api.recipe;
 
+import java.util.ArrayList;
+
 import micdoodle8.mods.galacticraft.api.recipe.SchematicEvent.FlipPage;
 import micdoodle8.mods.galacticraft.api.recipe.SchematicEvent.Unlock;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
@@ -12,10 +14,9 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-
 public class SchematicRegistry
 {
+
     public static ArrayList<ISchematicPage> schematicRecipes = new ArrayList<ISchematicPage>();
     public static ArrayList<ItemStack> schematicItems = new ArrayList<>();
     public static ArrayList<ResourceLocation> textures = new ArrayList<>();
@@ -75,20 +76,21 @@ public class SchematicRegistry
      * Called when a player unlocks a page. Used internally.
      *
      * @param player the player that unlocked the schematic
-     * @param page   the schematic page to be unlocked
+     * @param page the schematic page to be unlocked
      */
     public static void addUnlockedPage(EntityPlayerMP player, ISchematicPage page)
     {
         // Used internally to add page to player's list of unlocked schematics.
         // No need to subscribe to this event
-        if (page != null) MinecraftForge.EVENT_BUS.post(new Unlock(player, page));
+        if (page != null)
+            MinecraftForge.EVENT_BUS.post(new Unlock(player, page));
     }
 
     /**
      * Called when a player unlocks a page. Used internally.
      *
      * @param player the player that unlocked the schematic
-     * @param stack  the itemstack the player has provided
+     * @param stack the itemstack the player has provided
      * @return the schematic page that was unlocked
      */
     public static ISchematicPage unlockNewPage(EntityPlayerMP player, ItemStack stack)
@@ -100,7 +102,7 @@ public class SchematicRegistry
             if (schematic != null)
             {
                 SchematicRegistry.addUnlockedPage(player, schematic);
-                
+
                 return schematic;
             }
         }
@@ -111,7 +113,8 @@ public class SchematicRegistry
     /**
      * Finds the correct schematic when player presses NEXT
      *
-     * @param currentIndex the current index of unlocked schematics the player is viewing
+     * @param currentIndex the current index of unlocked schematics the player
+     *        is viewing
      * @return the schematic page that will be shown when the player clicks NEXT
      */
     @SideOnly(Side.CLIENT)
@@ -127,7 +130,8 @@ public class SchematicRegistry
     /**
      * Finds the correct schematic when player presses BACK
      *
-     * @param currentIndex the current index of unlocked schematics the player is viewing
+     * @param currentIndex the current index of unlocked schematics the player
+     *        is viewing
      * @return the schematic page that will be shown when the player clicks BACK
      */
     @SideOnly(Side.CLIENT)
@@ -139,33 +143,33 @@ public class SchematicRegistry
         // to subscribe to this event.
         MinecraftForge.EVENT_BUS.post(new FlipPage(cs, null, currentIndex, -1));
     }
-    
+
     public static void registerTexture(ResourceLocation loc)
     {
         textures.add(loc);
     }
-    
+
     public static ResourceLocation getSchematicTexture(int index)
     {
         if (index < textures.size())
             return textures.get(index);
-        
+
         GCLog.debug("couldn't find render texture for " + index);
         return textures.get(0);
     }
-    
+
     public static int registerSchematicItem(ItemStack item)
     {
         int index = schematicItems.size();
         schematicItems.add(item);
         return index;
     }
-    
+
     public static ItemStack getSchematicItem(int index)
     {
         if (index < schematicItems.size())
             return schematicItems.get(index).copy();
-        
+
         GCLog.debug("couldn't find schematic item for " + index);
         return schematicItems.get(0).copy();
     }

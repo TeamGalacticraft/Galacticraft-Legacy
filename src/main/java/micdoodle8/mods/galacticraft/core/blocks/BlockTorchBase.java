@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 
 public class BlockTorchBase extends Block
 {
+
     public static final PropertyDirection FACING = PropertyDirection.create("facing", facing -> facing != EnumFacing.DOWN);
     protected static final AxisAlignedBB STANDING_AABB = new AxisAlignedBB(0.4000000059604645D, 0.0D, 0.4000000059604645D, 0.6000000238418579D, 0.6000000238418579D, 0.6000000238418579D);
     protected static final AxisAlignedBB TORCH_NORTH_AABB = new AxisAlignedBB(0.3499999940395355D, 0.20000000298023224D, 0.699999988079071D, 0.6499999761581421D, 0.800000011920929D, 1.0D);
@@ -32,16 +33,16 @@ public class BlockTorchBase extends Block
     {
         switch (state.getValue(FACING))
         {
-        case EAST:
-            return TORCH_EAST_AABB;
-        case WEST:
-            return TORCH_WEST_AABB;
-        case SOUTH:
-            return TORCH_SOUTH_AABB;
-        case NORTH:
-            return TORCH_NORTH_AABB;
-        default:
-            return STANDING_AABB;
+            case EAST:
+                return TORCH_EAST_AABB;
+            case WEST:
+                return TORCH_WEST_AABB;
+            case SOUTH:
+                return TORCH_SOUTH_AABB;
+            case NORTH:
+                return TORCH_NORTH_AABB;
+            default:
+                return STANDING_AABB;
         }
     }
 
@@ -57,8 +58,7 @@ public class BlockTorchBase extends Block
         if (this.canPlaceAt(worldIn, pos, facing))
         {
             return this.getDefaultState().withProperty(FACING, facing);
-        }
-        else
+        } else
         {
             for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
             {
@@ -86,8 +86,7 @@ public class BlockTorchBase extends Block
         if (block.isSideSolid(state, worldIn, pos, EnumFacing.UP))
         {
             return true;
-        }
-        else
+        } else
         {
             return block.canPlaceTorchOnTop(state, worldIn, pos);
         }
@@ -98,8 +97,7 @@ public class BlockTorchBase extends Block
         if (state.getBlock() == this && this.canPlaceAt(worldIn, pos, (EnumFacing) state.getValue(FACING)))
         {
             return true;
-        }
-        else
+        } else
         {
             if (worldIn.getBlockState(pos).getBlock() == this)
             {
@@ -118,21 +116,21 @@ public class BlockTorchBase extends Block
 
         switch (meta)
         {
-        case 1:
-            iblockstate = iblockstate.withProperty(FACING, EnumFacing.EAST);
-            break;
-        case 2:
-            iblockstate = iblockstate.withProperty(FACING, EnumFacing.WEST);
-            break;
-        case 3:
-            iblockstate = iblockstate.withProperty(FACING, EnumFacing.SOUTH);
-            break;
-        case 4:
-            iblockstate = iblockstate.withProperty(FACING, EnumFacing.NORTH);
-            break;
-        case 5:
-        default:
-            iblockstate = iblockstate.withProperty(FACING, EnumFacing.UP);
+            case 1:
+                iblockstate = iblockstate.withProperty(FACING, EnumFacing.EAST);
+                break;
+            case 2:
+                iblockstate = iblockstate.withProperty(FACING, EnumFacing.WEST);
+                break;
+            case 3:
+                iblockstate = iblockstate.withProperty(FACING, EnumFacing.SOUTH);
+                break;
+            case 4:
+                iblockstate = iblockstate.withProperty(FACING, EnumFacing.NORTH);
+                break;
+            case 5:
+            default:
+                iblockstate = iblockstate.withProperty(FACING, EnumFacing.UP);
         }
 
         return iblockstate;
@@ -145,22 +143,22 @@ public class BlockTorchBase extends Block
 
         switch ((EnumFacing) state.getValue(FACING))
         {
-        case EAST:
-            i = i | 1;
-            break;
-        case WEST:
-            i = i | 2;
-            break;
-        case SOUTH:
-            i = i | 3;
-            break;
-        case NORTH:
-            i = i | 4;
-            break;
-        case DOWN:
-        case UP:
-        default:
-            i = i | 5;
+            case EAST:
+                i = i | 1;
+                break;
+            case WEST:
+                i = i | 2;
+                break;
+            case SOUTH:
+                i = i | 3;
+                break;
+            case NORTH:
+                i = i | 4;
+                break;
+            case DOWN:
+            case UP:
+            default:
+                i = i | 5;
         }
 
         return i;

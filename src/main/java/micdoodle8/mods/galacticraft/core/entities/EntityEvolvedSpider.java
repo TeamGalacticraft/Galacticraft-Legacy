@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -25,6 +26,7 @@ import net.minecraftforge.common.ForgeHooks;
 
 public class EntityEvolvedSpider extends EntitySpider implements IEntityBreathable
 {
+
     public EntityEvolvedSpider(World par1World)
     {
         super(par1World);
@@ -39,12 +41,14 @@ public class EntityEvolvedSpider extends EntitySpider implements IEntityBreathab
         double difficulty = 0;
         switch (this.world.getDifficulty())
         {
-        case HARD : difficulty = 2D;
-        break;
-        case NORMAL : difficulty = 1D;
-        break;
-        default:
-            break;
+            case HARD:
+                difficulty = 2D;
+                break;
+            case NORMAL:
+                difficulty = 1D;
+                break;
+            default:
+                break;
         }
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3 + 0.05 * difficulty);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2D + difficulty);
@@ -61,15 +65,15 @@ public class EntityEvolvedSpider extends EntitySpider implements IEntityBreathab
     {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
-        // onInitialSpawn is called for EntitySpider, which has a chance of adding a vanilla skeleton, remove these
+        // onInitialSpawn is called for EntitySpider, which has a chance of
+        // adding a vanilla skeleton, remove these
         for (Entity entity : getPassengers())
         {
             entity.dismountRidingEntity();
             if (!(entity instanceof EntitySkeleton))
             {
-                GCLog.severe("Removed unexpected passenger from spider: " + entity);
-            }
-            else
+                GCLog.error("Removed unexpected passenger from spider: " + entity);
+            } else
             {
                 entity.setDead();
             }
@@ -79,7 +83,7 @@ public class EntityEvolvedSpider extends EntitySpider implements IEntityBreathab
         {
             EntityEvolvedSkeleton entityskeleton = new EntityEvolvedSkeleton(this.world);
             entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-            entityskeleton.onInitialSpawn(difficulty, (IEntityLivingData)null);
+            entityskeleton.onInitialSpawn(difficulty, (IEntityLivingData) null);
             this.world.spawnEntity(entityskeleton);
             entityskeleton.startRiding(this);
         }
@@ -90,13 +94,13 @@ public class EntityEvolvedSpider extends EntitySpider implements IEntityBreathab
 
             if (this.world.getDifficulty() == EnumDifficulty.HARD && this.world.rand.nextFloat() < 0.1F * difficulty.getClampedAdditionalDifficulty())
             {
-                ((EntitySpider.GroupData)livingdata).setRandomEffect(this.world.rand);
+                ((EntitySpider.GroupData) livingdata).setRandomEffect(this.world.rand);
             }
         }
 
         if (livingdata instanceof EntitySpider.GroupData)
         {
-            Potion potion = ((EntitySpider.GroupData)livingdata).effect;
+            Potion potion = ((EntitySpider.GroupData) livingdata).effect;
 
             if (potion != null)
             {
@@ -137,33 +141,33 @@ public class EntityEvolvedSpider extends EntitySpider implements IEntityBreathab
     {
         switch (this.rand.nextInt(14))
         {
-        case 0:
-        case 1:
-        case 2:
-            this.dropItem(GCItems.cheeseCurd, 1);
-            break;
-        case 3:
-        case 4:
-        case 5:
-            this.dropItem(Items.FERMENTED_SPIDER_EYE, 1);
-            break;
-        case 6:
-        case 7:
-            //Oxygen tank half empty or less
-            this.entityDropItem(new ItemStack(GCItems.oxTankMedium, 1, 901 + this.rand.nextInt(900)), 0.0F);
-            break;
-        case 8:
-            this.dropItem(GCItems.oxygenGear, 1);
-            break;
-        case 9:
-            this.dropItem(GCItems.oxygenConcentrator, 1);
-            break;
-        default:
-            if (ConfigManagerCore.challengeMobDropsAndSpawning)
-            {
-                this.dropItem(Items.NETHER_WART, 1);
-            }
-            break;
+            case 0:
+            case 1:
+            case 2:
+                this.dropItem(GCItems.cheeseCurd, 1);
+                break;
+            case 3:
+            case 4:
+            case 5:
+                this.dropItem(Items.FERMENTED_SPIDER_EYE, 1);
+                break;
+            case 6:
+            case 7:
+                // Oxygen tank half empty or less
+                this.entityDropItem(new ItemStack(GCItems.oxTankMedium, 1, 901 + this.rand.nextInt(900)), 0.0F);
+                break;
+            case 8:
+                this.dropItem(GCItems.oxygenGear, 1);
+                break;
+            case 9:
+                this.dropItem(GCItems.oxygenConcentrator, 1);
+                break;
+            default:
+                if (ConfigManagerCore.challengeMobDropsAndSpawning)
+                {
+                    this.dropItem(Items.NETHER_WART, 1);
+                }
+                break;
         }
     }
 
@@ -171,7 +175,7 @@ public class EntityEvolvedSpider extends EntitySpider implements IEntityBreathab
     protected void dropLoot(boolean wasRecentlyHit, int lootingModifier, DamageSource source)
     {
         super.dropLoot(wasRecentlyHit, lootingModifier > 1 ? lootingModifier - 1 : 0, source);
-        if (wasRecentlyHit && this.rand.nextFloat() < 0.025F + (float)lootingModifier * 0.02F)
+        if (wasRecentlyHit && this.rand.nextFloat() < 0.025F + (float) lootingModifier * 0.02F)
         {
             this.addRandomDrop();
         }

@@ -11,6 +11,7 @@ import java.util.Random;
 
 public class BaseStart extends BaseDeck
 {
+
     public List<StructureComponent> attachedComponents = Lists.newArrayList();
     public List<StructureBoundingBox> componentBounds = Lists.newArrayList();
 
@@ -32,14 +33,14 @@ public class BaseStart extends BaseDeck
         listIn.clear();
         listIn.add(this);
         List<Piece> rooms = getRooms(0, this, rand);
-        for(Piece next : rooms)
+        for (Piece next : rooms)
         {
             listIn.add(next);
             attachedComponents.add(next);
             componentBounds.add(next.getBoundingBox());
         }
 
-        //TODO  applyAsteroidDamage();
+        // TODO applyAsteroidDamage();
 
         super.buildComponent(componentIn, listIn, rand);
     }

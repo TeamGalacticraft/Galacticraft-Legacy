@@ -11,6 +11,7 @@ import java.util.Comparator;
 
 public class CreativeTabGC extends CreativeTabs
 {
+
     private ItemStack itemForTab;
     private Comparator<ItemStack> tabSorter;
 
@@ -46,7 +47,8 @@ public class CreativeTabGC extends CreativeTabs
         super.displayAllRelevantItems(list);
         if (this.tabSorter != null)
         {
-            try {
+            try
+            {
                 Collections.sort(list, tabSorter);
             } catch (Exception e)
             {

@@ -3,14 +3,16 @@ package micdoodle8.mods.galacticraft.core.client.fx;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class ParticleLanderFlame extends Particle
 {
+
     private float smokeParticleScale;
     private EntityLivingBase ridingEntity;
 
@@ -105,7 +108,8 @@ public class ParticleLanderFlame extends Particle
                     if (var5 instanceof EntityLivingBase && !var5.isDead && !var5.isBurning() && !var5.equals(this.ridingEntity))
                     {
                         var5.setFire(3);
-                        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_SET_ENTITY_FIRE, GCCoreUtil.getDimensionID(var5.world), new Object[] { var5.getEntityId() }));
+                        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_SET_ENTITY_FIRE, GCCoreUtil.getDimensionID(var5.world), new Object[]
+                        {var5.getEntityId()}));
                     }
                 }
             }

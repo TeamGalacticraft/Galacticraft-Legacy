@@ -12,6 +12,7 @@ import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.FlagData;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,6 +26,7 @@ import java.util.Map.Entry;
 
 public class SpaceRace
 {
+
     public static final String DEFAULT_NAME = "gui.space_race.unnamed";
     private static int lastSpaceRaceID = 0;
     private int spaceRaceID;
@@ -58,7 +60,8 @@ public class SpaceRace
             GCLog.info("Loading spacerace data for team " + this.teamName);
         }
         this.spaceRaceID = nbt.getInteger("SpaceRaceID");
-        this.ticksSpent = (int) nbt.getLong("TicksSpent");  //Deal with legacy error
+        this.ticksSpent = (int) nbt.getLong("TicksSpent"); // Deal with legacy
+                                                           // error
         this.flagData = FlagData.readFlagData(nbt);
         this.teamColor = new Vector3(nbt.getDouble("teamColorR"), nbt.getDouble("teamColorG"), nbt.getDouble("teamColorB"));
 

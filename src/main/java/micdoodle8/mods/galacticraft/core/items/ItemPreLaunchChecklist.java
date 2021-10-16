@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.client.gui.GuiIdsCore;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,12 +26,13 @@ import javax.annotation.Nullable;
 
 public class ItemPreLaunchChecklist extends Item implements ISortableItem
 {
+
     public ItemPreLaunchChecklist(String assetName)
     {
         super();
         this.setTranslationKey(assetName);
         this.setMaxStackSize(1);
-        //this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
+        // this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
     }
 
     @Override

@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
  */
 public interface IOxygenNetwork extends IGridNetwork<IOxygenNetwork, ITransmitter, TileEntity>
 {
+
     /**
      * Produces oxygen in this oxygen network.
      *
@@ -21,7 +22,8 @@ public interface IOxygenNetwork extends IGridNetwork<IOxygenNetwork, ITransmitte
      * Gets the total amount of oxygen requested/needed in the electricity
      * network.
      *
-     * @param ignoreTiles The TileEntities to ignore during this calculation (optional).
+     * @param ignoreTiles The TileEntities to ignore during this calculation
+     *        (optional).
      */
     float getRequest(TileEntity... ignoreTiles);
 }

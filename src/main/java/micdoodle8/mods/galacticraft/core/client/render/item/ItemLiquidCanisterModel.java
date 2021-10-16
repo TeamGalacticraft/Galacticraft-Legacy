@@ -1,8 +1,12 @@
 package micdoodle8.mods.galacticraft.core.client.render.item;
 
 import com.google.common.collect.ImmutableList;
+
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -15,6 +19,7 @@ import java.util.List;
 
 public class ItemLiquidCanisterModel implements IBakedModel
 {
+
     private final IBakedModel iBakedModel;
 
     public ItemLiquidCanisterModel(IBakedModel i_modelToWrap)
@@ -66,6 +71,7 @@ public class ItemLiquidCanisterModel implements IBakedModel
 
     private static final class BakedLiquidCanisterOverrideHandler extends ItemOverrideList
     {
+
         public static final BakedLiquidCanisterOverrideHandler INSTANCE = new BakedLiquidCanisterOverrideHandler();
 
         private BakedLiquidCanisterOverrideHandler()

@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.model.ModelEvolvedSkeletonBoss;
 import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerHeldItemEvolvedSkeletonBoss;
 import micdoodle8.mods.galacticraft.core.entities.EntitySkeletonBoss;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderEvolvedSkeletonBoss extends RenderLiving<EntitySkeletonBoss>
 {
+
     private static final ResourceLocation skeletonBossTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/skeletonboss.png");
 
     public RenderEvolvedSkeletonBoss(RenderManager manager)

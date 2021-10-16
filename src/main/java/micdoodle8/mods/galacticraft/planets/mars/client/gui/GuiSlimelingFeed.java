@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class GuiSlimelingFeed extends GuiScreen
 {
+
     private final int xSize;
     private final int ySize;
     private static final ResourceLocation slimelingPanelGui = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/slimeling_panel1.png");
@@ -65,7 +66,7 @@ public class GuiSlimelingFeed extends GuiScreen
     protected void keyTyped(char keyChar, int keyID) throws IOException
     {
         if (!this.buttonGrowSlimeling.enabled && !this.buttonBreedSlimeling.enabled && !this.buttonStrengthenSlimeling.enabled && !this.buttonHealSlimeling.enabled)
-    {
+        {
             super.keyTyped(keyChar, keyID);
         }
         return;
@@ -78,23 +79,27 @@ public class GuiSlimelingFeed extends GuiScreen
         {
             switch (par1GuiButton.id)
             {
-            case 0:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(mc.world), new Object[] { this.slimeling.getEntityId(), 2, "" }));
-                break;
-            case 1:
-                if (!this.slimeling.isInLove() && this.slimeling.isOwner(this.mc.player) && this.slimeling.world.isRemote)
-                {
-                    this.slimeling.setInLove(this.mc.player);
-                }
+                case 0:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                    {this.slimeling.getEntityId(), 2, ""}));
+                    break;
+                case 1:
+                    if (!this.slimeling.isInLove() && this.slimeling.isOwner(this.mc.player) && this.slimeling.world.isRemote)
+                    {
+                        this.slimeling.setInLove(this.mc.player);
+                    }
 
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(mc.world), new Object[] { this.slimeling.getEntityId(), 3, "" }));
-                break;
-            case 2:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(mc.world), new Object[] { this.slimeling.getEntityId(), 4, "" }));
-                break;
-            case 3:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(mc.world), new Object[] { this.slimeling.getEntityId(), 5, "" }));
-                break;
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                    {this.slimeling.getEntityId(), 3, ""}));
+                    break;
+                case 2:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                    {this.slimeling.getEntityId(), 4, ""}));
+                    break;
+                case 3:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_SLIMELING_DATA, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                    {this.slimeling.getEntityId(), 5, ""}));
+                    break;
             }
 
             FMLClientHandler.instance().getClient().displayGuiScreen(null);

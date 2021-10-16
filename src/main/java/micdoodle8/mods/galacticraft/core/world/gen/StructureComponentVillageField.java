@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class StructureComponentVillageField extends StructureComponentVillage
 {
+
     private int averageGroundLevel = -1;
 
     public StructureComponentVillageField()

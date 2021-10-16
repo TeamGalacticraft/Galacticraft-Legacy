@@ -19,6 +19,7 @@ import net.minecraft.world.gen.structure.StructureStart;
 
 public class MapGenAbandonedBase extends MapGenStructure
 {
+
     private static boolean initialized;
 
     static
@@ -26,8 +27,7 @@ public class MapGenAbandonedBase extends MapGenStructure
         try
         {
             MapGenAbandonedBase.initiateStructures();
-        }
-        catch (Throwable e)
+        } catch (Throwable e)
         {
 
         }
@@ -41,15 +41,15 @@ public class MapGenAbandonedBase extends MapGenStructure
     {
         if (!MapGenAbandonedBase.initialized)
         {
-              MapGenStructureIO.registerStructure(MapGenAbandonedBase.Start.class, "AbandonedBase");
-              MapGenStructureIO.registerStructureComponent(BaseStart.class, "AbandonedBaseStart");
-              MapGenStructureIO.registerStructureComponent(BaseRoom.class, "AbandonedBaseRoom");
-              MapGenStructureIO.registerStructureComponent(BaseDeck.class, "AbandonedBaseDeck");
-              MapGenStructureIO.registerStructureComponent(BasePlate.class, "AbandonedBasePlate");
-              MapGenStructureIO.registerStructureComponent(BaseHangar.class, "AbandonedBaseHangar");
+            MapGenStructureIO.registerStructure(MapGenAbandonedBase.Start.class, "AbandonedBase");
+            MapGenStructureIO.registerStructureComponent(BaseStart.class, "AbandonedBaseStart");
+            MapGenStructureIO.registerStructureComponent(BaseRoom.class, "AbandonedBaseRoom");
+            MapGenStructureIO.registerStructureComponent(BaseDeck.class, "AbandonedBaseDeck");
+            MapGenStructureIO.registerStructureComponent(BasePlate.class, "AbandonedBasePlate");
+            MapGenStructureIO.registerStructureComponent(BaseHangar.class, "AbandonedBaseHangar");
 
-              //Currently in fact unused, but just in case...
-              MapGenStructureIO.registerStructureComponent(BaseLinking.class, "AbandonedBaseCorridor");
+            // Currently in fact unused, but just in case...
+            MapGenStructureIO.registerStructureComponent(BaseLinking.class, "AbandonedBaseCorridor");
         }
 
         MapGenAbandonedBase.initialized = true;
@@ -66,7 +66,7 @@ public class MapGenAbandonedBase extends MapGenStructure
     {
         return "GC_AbandonedBase";
     }
-   
+
     @Override
     protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ)
     {
@@ -89,14 +89,14 @@ public class MapGenAbandonedBase extends MapGenStructure
         {
             for (int i1 = z - i; i1 <= z + i; ++i1)
             {
-                long j1 = (long)l * j;
-                long k1 = (long)i1 * k;
+                long j1 = (long) l * j;
+                long k1 = (long) i1 * k;
                 this.rand.setSeed(j1 ^ k1 ^ worldIn.getSeed());
                 this.recursiveGenerate(worldIn, l, i1, x, z, chunkPrimerIn);
             }
         }
     }
-    
+
     public void reset()
     {
         this.structureMap.clear();
@@ -115,6 +115,7 @@ public class MapGenAbandonedBase extends MapGenStructure
 
     public static class Start extends StructureStart
     {
+
         private BaseConfiguration configuration;
 
         public Start()
@@ -125,26 +126,28 @@ public class MapGenAbandonedBase extends MapGenStructure
         {
             super(posX >> 4, posZ >> 4);
             this.configuration = configuration;
-            if (size < 1) size = 1;
+            if (size < 1)
+                size = 1;
             size = size * (int) MathHelper.sqrt(size) / 4;
-            if (configuration.isHangarDeck()) size -= 6;
+            if (configuration.isHangarDeck())
+                size -= 6;
             int xoffset = 0;
             int zoffset = 0;
             EnumFacing direction = EnumFacing.Plane.HORIZONTAL.random(rand);
             switch (direction)
             {
-            case NORTH:
-                zoffset = -size;
-                break;
-            case SOUTH:
-                zoffset = size;
-                break;
-            case WEST:
-                xoffset = -size;
-                break;
-            case EAST:
-                xoffset = size;
-                break;
+                case NORTH:
+                    zoffset = -size;
+                    break;
+                case SOUTH:
+                    zoffset = size;
+                    break;
+                case WEST:
+                    xoffset = -size;
+                    break;
+                case EAST:
+                    xoffset = size;
+                    break;
             }
             BaseStart startPiece = new BaseStart(configuration, rand, posX + xoffset, posZ + zoffset, direction);
             startPiece.buildComponent(startPiece, this.components, rand);
@@ -160,4 +163,4 @@ public class MapGenAbandonedBase extends MapGenStructure
             this.updateBoundingBox();
         }
     }
- }
+}

@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 
 public class ContainerSchematicCargoRocket extends Container
 {
+
     public InventorySchematicCargoRocket craftMatrix = new InventorySchematicCargoRocket(this);
     public IInventory craftResult = new InventoryCraftResult();
     private final World world;
@@ -136,8 +137,7 @@ public class ContainerSchematicCargoRocket extends Container
                 {
                     var3.onSlotChange(var4, var2);
                 }
-            }
-            else
+            } else
             {
                 for (int i = 1; i < 14; i++)
                 {
@@ -161,36 +161,31 @@ public class ContainerSchematicCargoRocket extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (var2.getItem() == Item.getItemFromBlock(Blocks.CHEST) && !((Slot) this.inventorySlots.get(15)).getHasStack())
+                    } else if (var2.getItem() == Item.getItemFromBlock(Blocks.CHEST) && !((Slot) this.inventorySlots.get(15)).getHasStack())
                     {
                         if (!this.mergeOneItem(var4, 15, 16, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (var2.getItem() == Item.getItemFromBlock(Blocks.CHEST) && !((Slot) this.inventorySlots.get(16)).getHasStack())
+                    } else if (var2.getItem() == Item.getItemFromBlock(Blocks.CHEST) && !((Slot) this.inventorySlots.get(16)).getHasStack())
                     {
                         if (!this.mergeOneItem(var4, 16, 17, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (par1 >= 17 && par1 < 44)
+                    } else if (par1 >= 17 && par1 < 44)
                     {
                         if (!this.mergeItemStack(var4, 44, 53, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (par1 >= 44 && par1 < 53)
+                    } else if (par1 >= 44 && par1 < 53)
                     {
                         if (!this.mergeItemStack(var4, 17, 44, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(var4, 17, 53, false))
+                    } else if (!this.mergeItemStack(var4, 17, 53, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -200,8 +195,7 @@ public class ContainerSchematicCargoRocket extends Container
             if (var4.isEmpty())
             {
                 var3.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var3.onSlotChanged();
             }

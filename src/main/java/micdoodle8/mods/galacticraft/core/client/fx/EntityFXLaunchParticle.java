@@ -1,9 +1,7 @@
 package micdoodle8.mods.galacticraft.core.client.fx;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import micdoodle8.mods.galacticraft.core.blocks.BlockGrating;
+
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.Particle;
@@ -14,14 +12,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public abstract class EntityFXLaunchParticle extends Particle
 {
+
     public EntityFXLaunchParticle(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
     }
-    
+
     @Override
     public void move(double x, double y, double z)
     {
@@ -65,7 +67,8 @@ public abstract class EntityFXLaunchParticle extends Particle
     }
 
     /**
-     * Simplified for performance: no colliding boxes for entities (most/all of the entities will be other launch particles)
+     * Simplified for performance: no colliding boxes for entities (most/all of
+     * the entities will be other launch particles)
      */
     public List<AxisAlignedBB> getCollidingBoundingBoxes(AxisAlignedBB bb)
     {
@@ -83,7 +86,7 @@ public abstract class EntityFXLaunchParticle extends Particle
 
         for (int x = xs; x <= xe; ++x)
         {
-            xends = (x == xs || x == xe); 
+            xends = (x == xs || x == xe);
             for (int z = zs; z <= ze; ++z)
             {
                 if (xends)
@@ -91,13 +94,12 @@ public abstract class EntityFXLaunchParticle extends Particle
                     if (z == zs || z == ze)
                         continue;
 
-                    xzmiddle = false; 
-                }
-                else
+                    xzmiddle = false;
+                } else
                 {
                     xzmiddle = z > zs && z < ze;
                 }
-                
+
                 if (w.isBlockLoaded(mutablePos.setPos(x, 64, z)))
                 {
                     for (int y = ys; y <= ye; ++y)
@@ -113,7 +115,7 @@ public abstract class EntityFXLaunchParticle extends Particle
                 }
             }
         }
-        
+
         return list;
     }
 }

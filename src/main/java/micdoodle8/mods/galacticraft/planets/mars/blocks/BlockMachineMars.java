@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.mars.blocks;
 
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
@@ -44,10 +46,9 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Random;
-
 public class BlockMachineMars extends BlockTileGC implements IShiftDescription, ISortableBlock, IPartialSealableBlock
 {
+
     public static final int TERRAFORMER_METADATA = 0;
     public static final int CRYOGENIC_CHAMBER_METADATA = 4;
     public static final int LAUNCH_CONTROLLER_METADATA = 8;
@@ -57,9 +58,8 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
 
     public enum EnumMachineType implements IStringSerializable
     {
-        TERRAFORMER(0, "terraformer"),
-        CRYOGENIC_CHAMBER(1, "cryogenic_chamber"),
-        LAUNCH_CONTROLLER(2, "launch_controller");
+
+        TERRAFORMER(0, "terraformer"), CRYOGENIC_CHAMBER(1, "cryogenic_chamber"), LAUNCH_CONTROLLER(2, "launch_controller");
 
         private final int meta;
         private final String name;
@@ -126,24 +126,23 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
 
         switch (metadata & 12)
         {
-        
-        case BlockMachineMars.CRYOGENIC_CHAMBER_METADATA:
-            BlockMulti.onPlacement(worldIn, pos, placer, this);
-            break;
-            
-        case BlockMachineMars.LAUNCH_CONTROLLER_METADATA:
-            WorldUtil.markAdjacentPadForUpdate(worldIn, pos);
-            TileEntity var8 = worldIn.getTileEntity(pos);
-            if (var8 instanceof IChunkLoader && !worldIn.isRemote && ConfigManagerMars.launchControllerChunkLoad && placer instanceof EntityPlayer)
-            {
-                ((IChunkLoader) var8).setOwnerName(placer.getName());
-                ((IChunkLoader) var8).onTicketLoaded(ForgeChunkManager.requestTicket(GalacticraftCore.instance, var8.getWorld(), Type.NORMAL), true);
-            }
-            else if (var8 instanceof TileEntityLaunchController && placer instanceof EntityPlayer)
-            {
-                ((TileEntityLaunchController) var8).setOwnerName(placer.getName());
-            }
-            break;
+
+            case BlockMachineMars.CRYOGENIC_CHAMBER_METADATA:
+                BlockMulti.onPlacement(worldIn, pos, placer, this);
+                break;
+
+            case BlockMachineMars.LAUNCH_CONTROLLER_METADATA:
+                WorldUtil.markAdjacentPadForUpdate(worldIn, pos);
+                TileEntity var8 = worldIn.getTileEntity(pos);
+                if (var8 instanceof IChunkLoader && !worldIn.isRemote && ConfigManagerMars.launchControllerChunkLoad && placer instanceof EntityPlayer)
+                {
+                    ((IChunkLoader) var8).setOwnerName(placer.getName());
+                    ((IChunkLoader) var8).onTicketLoaded(ForgeChunkManager.requestTicket(GalacticraftCore.instance, var8.getWorld(), Type.NORMAL), true);
+                } else if (var8 instanceof TileEntityLaunchController && placer instanceof EntityPlayer)
+                {
+                    ((TileEntityLaunchController) var8).setOwnerName(placer.getName());
+                }
+                break;
         }
     }
 
@@ -155,13 +154,11 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
         {
             playerIn.openGui(GalacticraftPlanets.instance, GuiIdsPlanets.MACHINE_MARS, worldIn, pos.getX(), pos.getY(), pos.getZ());
             return true;
-        }
-        else if (type == EnumMachineType.CRYOGENIC_CHAMBER)
+        } else if (type == EnumMachineType.CRYOGENIC_CHAMBER)
         {
             ((IMultiBlock) worldIn.getTileEntity(pos)).onActivated(playerIn);
             return true;
-        }
-        else
+        } else
         {
             playerIn.openGui(GalacticraftPlanets.instance, GuiIdsPlanets.MACHINE_MARS, worldIn, pos.getX(), pos.getY(), pos.getZ());
             return true;
@@ -198,8 +195,7 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
         if (type == EnumMachineType.CRYOGENIC_CHAMBER)
         {
             return new TileEntityCryogenicChamber();
-        }
-        else
+        } else
         {
             return new TileEntityTerraformer();
         }
@@ -246,12 +242,10 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
         if (type == EnumMachineType.LAUNCH_CONTROLLER)
         {
             return BlockMachineMars.LAUNCH_CONTROLLER_METADATA;
-        }
-        else if (type == EnumMachineType.CRYOGENIC_CHAMBER)
+        } else if (type == EnumMachineType.CRYOGENIC_CHAMBER)
         {
             return BlockMachineMars.CRYOGENIC_CHAMBER_METADATA;
-        }
-        else
+        } else
         {
             return BlockMachineMars.TERRAFORMER_METADATA;
         }
@@ -291,12 +285,12 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
     {
         switch (meta)
         {
-        case CRYOGENIC_CHAMBER_METADATA:
-            return GCCoreUtil.translate("tile.cryo_chamber.description");
-        case LAUNCH_CONTROLLER_METADATA:
-            return GCCoreUtil.translate("tile.launch_controller.description");
-        case TERRAFORMER_METADATA:
-            return GCCoreUtil.translate("tile.terraformer.description");
+            case CRYOGENIC_CHAMBER_METADATA:
+                return GCCoreUtil.translate("tile.cryo_chamber.description");
+            case LAUNCH_CONTROLLER_METADATA:
+                return GCCoreUtil.translate("tile.launch_controller.description");
+            case TERRAFORMER_METADATA:
+                return GCCoreUtil.translate("tile.terraformer.description");
         }
         return "";
     }
@@ -340,13 +334,19 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
     {
         if (state.getValue(TYPE) == EnumMachineType.CRYOGENIC_CHAMBER)
         {
-            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY(), pos.getZ() + 0.3 + rand.nextDouble() * 0.4), new Vector3(0.0, 0.05 + rand.nextDouble() * 0.01, 0.0));
-            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY(), pos.getZ() + 0.3 + rand.nextDouble() * 0.4), new Vector3(0.0, 0.05 + rand.nextDouble() * 0.01, 0.0));
-            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY(), pos.getZ() + 0.3 + rand.nextDouble() * 0.4), new Vector3(0.0, 0.05 + rand.nextDouble() * 0.01, 0.0));
+            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY(), pos.getZ() + 0.3 + rand.nextDouble() * 0.4),
+                new Vector3(0.0, 0.05 + rand.nextDouble() * 0.01, 0.0));
+            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY(), pos.getZ() + 0.3 + rand.nextDouble() * 0.4),
+                new Vector3(0.0, 0.05 + rand.nextDouble() * 0.01, 0.0));
+            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY(), pos.getZ() + 0.3 + rand.nextDouble() * 0.4),
+                new Vector3(0.0, 0.05 + rand.nextDouble() * 0.01, 0.0));
 
-            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY() + 2.9F, pos.getZ() + 0.3 + rand.nextDouble() * 0.4), new Vector3(0.0, -0.05 - rand.nextDouble() * 0.01, 0.0));
-            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY() + 2.9F, pos.getZ() + 0.3 + rand.nextDouble() * 0.4), new Vector3(0.0, -0.05 - rand.nextDouble() * 0.01, 0.0));
-            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY() + 2.9F, pos.getZ() + 0.3 + rand.nextDouble() * 0.4), new Vector3(0.0, -0.05 - rand.nextDouble() * 0.01, 0.0));
+            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY() + 2.9F, pos.getZ() + 0.3 + rand.nextDouble() * 0.4),
+                new Vector3(0.0, -0.05 - rand.nextDouble() * 0.01, 0.0));
+            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY() + 2.9F, pos.getZ() + 0.3 + rand.nextDouble() * 0.4),
+                new Vector3(0.0, -0.05 - rand.nextDouble() * 0.01, 0.0));
+            GalacticraftPlanets.spawnParticle("cryoFreeze", new Vector3(pos.getX() + 0.3 + rand.nextDouble() * 0.4, pos.getY() + 2.9F, pos.getZ() + 0.3 + rand.nextDouble() * 0.4),
+                new Vector3(0.0, -0.05 - rand.nextDouble() * 0.01, 0.0));
         }
     }
 
@@ -359,6 +359,6 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
     @Override
     public boolean isSealed(World world, BlockPos pos, EnumFacing direction)
     {
-	    return world.getBlockState(pos).getValue(TYPE) != EnumMachineType.CRYOGENIC_CHAMBER;
+        return world.getBlockState(pos).getValue(TYPE) != EnumMachineType.CRYOGENIC_CHAMBER;
     }
 }

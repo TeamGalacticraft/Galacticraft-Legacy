@@ -23,6 +23,7 @@ import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.PlayerGearData;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -40,9 +41,10 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class PlayerClient implements IPlayerClient
 {
+
     private boolean saveSneak;
-	private double downMot2;
-	public static boolean startup;
+    private double downMot2;
+    public static boolean startup;
 
     @Override
     public void move(EntityPlayerSP player, MoverType type, double x, double y, double z)
@@ -124,7 +126,7 @@ public class PlayerClient implements IPlayerClient
 //            GCLog.debug("Changed player BB to " + player.boundingBox.minY);
 //        }
     }
-    
+
     public void cancelLimbSwing(EntityPlayerSP player)
     {
         player.limbSwing -= player.limbSwingAmount;
@@ -133,8 +135,7 @@ public class PlayerClient implements IPlayerClient
         if (player.limbSwing < 0)
         {
             player.limbSwing += adjust;
-        }
-        else if (player.limbSwing > 0)
+        } else if (player.limbSwing > 0)
         {
             player.limbSwing -= adjust;
         }
@@ -154,38 +155,36 @@ public class PlayerClient implements IPlayerClient
             if (stats.isInFreefall() || ridingThirdPersonEntity)
             {
                 this.cancelLimbSwing(player);
-            }
-            else
+            } else
             {
-		    	if (stats.isInFreefallLast() && this.downMot2 < -0.008D)
+                if (stats.isInFreefallLast() && this.downMot2 < -0.008D)
                 {
-		    		stats.setLandingTicks(5 - (int)(Math.min(this.downMot2, stats.getDownMotionLast()) * 40));
-		    		if (stats.getLandingTicks() > stats.getMaxLandingticks())
-		    		{
-	                    if (stats.getLandingTicks() > stats.getMaxLandingticks() + 4)
-	                    {
-	                        stats.getFreefallHandler().pjumpticks = stats.getLandingTicks() - stats.getMaxLandingticks() - 5;
+                    stats.setLandingTicks(5 - (int) (Math.min(this.downMot2, stats.getDownMotionLast()) * 40));
+                    if (stats.getLandingTicks() > stats.getMaxLandingticks())
+                    {
+                        if (stats.getLandingTicks() > stats.getMaxLandingticks() + 4)
+                        {
+                            stats.getFreefallHandler().pjumpticks = stats.getLandingTicks() - stats.getMaxLandingticks() - 5;
                         }
-		    		    stats.setLandingTicks(stats.getMaxLandingticks());
-		    		}
-		    		float dYmax = 0.3F * stats.getLandingTicks() / stats.getMaxLandingticks();
-		    		float factor = 1F;
-		    		for (int i = 0; i <= stats.getLandingTicks(); i++)
-		    		{
-    	                stats.getLandingYOffset()[i] = dYmax * MathHelper.sin(i * 3.1415926F / stats.getLandingTicks()) * factor;
-    	                factor *= 0.97F;
+                        stats.setLandingTicks(stats.getMaxLandingticks());
                     }
-		    	}
-	        }
+                    float dYmax = 0.3F * stats.getLandingTicks() / stats.getMaxLandingticks();
+                    float factor = 1F;
+                    for (int i = 0; i <= stats.getLandingTicks(); i++)
+                    {
+                        stats.getLandingYOffset()[i] = dYmax * MathHelper.sin(i * 3.1415926F / stats.getLandingTicks()) * factor;
+                        factor *= 0.97F;
+                    }
+                }
+            }
 
-	        if (stats.getLandingTicks() > 0)
-	        {
-	            stats.setLandingTicks(stats.getLandingTicks() - 1);
+            if (stats.getLandingTicks() > 0)
+            {
+                stats.setLandingTicks(stats.getLandingTicks() - 1);
                 player.limbSwing *= 0.8F;
                 player.limbSwingAmount = 0F;
             }
-        }
-        else
+        } else
         {
             stats.setInFreefall(false);
             if (ridingThirdPersonEntity)
@@ -196,24 +195,23 @@ public class PlayerClient implements IPlayerClient
 
         if (ridingThirdPersonEntity && !stats.isLastRidingCameraZoomEntity())
         {
-            if(!ConfigManagerCore.disableVehicleCameraChanges)
+            if (!ConfigManagerCore.disableVehicleCameraChanges)
                 FMLClientHandler.instance().getClient().gameSettings.thirdPersonView = 1;
         }
 
         if (player.getRidingEntity() instanceof ICameraZoomEntity)
         {
-            if(!ConfigManagerCore.disableVehicleCameraChanges)
+            if (!ConfigManagerCore.disableVehicleCameraChanges)
             {
                 stats.setLastZoomed(true);
                 TickHandlerClient.zoom(((ICameraZoomEntity) player.getRidingEntity()).getCameraZoom());
             }
-        }
-        else if (stats.isLastZoomed())
+        } else if (stats.isLastZoomed())
         {
-        	if(!ConfigManagerCore.disableVehicleCameraChanges)
+            if (!ConfigManagerCore.disableVehicleCameraChanges)
             {
-	            stats.setLastZoomed(false);
-	            TickHandlerClient.zoom(4.0F);
+                stats.setLastZoomed(false);
+                TickHandlerClient.zoom(4.0F);
             }
         }
 
@@ -231,15 +229,14 @@ public class PlayerClient implements IPlayerClient
         if (gearData != null)
         {
             stats.setUsingParachute(gearData.getParachute() != null);
-            if(!GalacticraftCore.isHeightConflictingModInstalled)
+            if (!GalacticraftCore.isHeightConflictingModInstalled)
             {
                 if (gearData.getMask() != GCPlayerHandler.GEAR_NOT_PRESENT)
                 {
-                	player.height = 1.9375F;
-                }
-                else
+                    player.height = 1.9375F;
+                } else
                 {
-                	player.height = 1.8F;
+                    player.height = 1.8F;
                 }
                 AxisAlignedBB bounds = player.getEntityBoundingBox();
                 player.setEntityBoundingBox(new AxisAlignedBB(bounds.minX, bounds.minY, bounds.minZ, bounds.maxX, bounds.minY + (double) player.height, bounds.maxZ));
@@ -255,7 +252,8 @@ public class PlayerClient implements IPlayerClient
 
         if (!stats.isLastUsingParachute() && stats.isUsingParachute())
         {
-            FMLClientHandler.instance().getClient().getSoundHandler().playSound(new PositionedSoundRecord(GCSounds.parachute, SoundCategory.PLAYERS, 0.95F + player.getRNG().nextFloat() * 0.1F, 1.0F, (float) player.posX, (float) player.posY, (float) player.posZ));
+            FMLClientHandler.instance().getClient().getSoundHandler().playSound(
+                new PositionedSoundRecord(GCSounds.parachute, SoundCategory.PLAYERS, 0.95F + player.getRNG().nextFloat() * 0.1F, 1.0F, (float) player.posX, (float) player.posY, (float) player.posZ));
         }
 
         stats.setLastUsingParachute(stats.isUsingParachute());
@@ -273,17 +271,16 @@ public class PlayerClient implements IPlayerClient
                 IBlockState state = player.world.getBlockState(player.bedLocation);
                 switch (state.getBlock().getMetaFromState(state) - 4)
                 {
-                case 0:
-                    return 90.0F;
-                case 1:
-                    return 270.0F;
-                case 2:
-                    return 180.0F;
-                case 3:
-                    return 0.0F;
+                    case 0:
+                        return 90.0F;
+                    case 1:
+                        return 270.0F;
+                    case 2:
+                        return 180.0F;
+                    case 3:
+                        return 0.0F;
                 }
-            }
-            else
+            } else
             {
                 return vanillaDegrees;
             }
@@ -316,18 +313,20 @@ public class PlayerClient implements IPlayerClient
                     if (stats.getDistanceSinceLastStep() > 0.35)
                     {
                         Vector3 pos = new Vector3(player);
-                        // Set the footprint position to the block below and add random number to stop z-fighting
+                        // Set the footprint position to the block below and add
+                        // random number to stop z-fighting
                         pos.y = MathHelper.floor(player.posY) + player.getRNG().nextFloat() / 100.0F;
 
-                        // Adjust footprint to left or right depending on step count
+                        // Adjust footprint to left or right depending on step
+                        // count
                         switch (stats.getLastStep())
                         {
-                        case 0:
-                            pos.translate(new Vector3(Math.sin(Math.toRadians(-player.rotationYaw + 90)) * 0.25, 0, Math.cos(Math.toRadians(-player.rotationYaw + 90)) * 0.25));
-                            break;
-                        case 1:
-                            pos.translate(new Vector3(Math.sin(Math.toRadians(-player.rotationYaw - 90)) * 0.25, 0, Math.cos(Math.toRadians(-player.rotationYaw - 90)) * 0.25));
-                            break;
+                            case 0:
+                                pos.translate(new Vector3(Math.sin(Math.toRadians(-player.rotationYaw + 90)) * 0.25, 0, Math.cos(Math.toRadians(-player.rotationYaw + 90)) * 0.25));
+                                break;
+                            case 1:
+                                pos.translate(new Vector3(Math.sin(Math.toRadians(-player.rotationYaw - 90)) * 0.25, 0, Math.cos(Math.toRadians(-player.rotationYaw - 90)) * 0.25));
+                                break;
                         }
 
                         pos = WorldUtil.getFootprintPosition(player.world, player.rotationYaw - 180, pos, new BlockVec3(player));
@@ -339,8 +338,7 @@ public class PlayerClient implements IPlayerClient
                         // Increment and cap step counter at 1
                         stats.setLastStep((stats.getLastStep() + 1) % 2);
                         stats.setDistanceSinceLastStep(0);
-                    }
-                    else
+                    } else
                     {
                         stats.setDistanceSinceLastStep(stats.getDistanceSinceLastStep() + motionSqrd);
                     }
@@ -392,27 +390,40 @@ public class PlayerClient implements IPlayerClient
         }
         flag |= 1 << i;
         stats.setBuildFlags((flag & 511) + (repeatCount << 9));
-        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_BUILDFLAGS_UPDATE, GCCoreUtil.getDimensionID(player.world), new Object[] { stats.getBuildFlags() }));
+        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_BUILDFLAGS_UPDATE, GCCoreUtil.getDimensionID(player.world), new Object[]
+        {stats.getBuildFlags()}));
         switch (i)
         {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-            player.sendMessage(ITextComponent.Serializer.jsonToComponent("[{\"text\":\"" + GCCoreUtil.translate("gui.message.help1") + ": \",\"color\":\"white\"}," + "{\"text\":\" " + EnumColor.BRIGHT_GREEN + "wiki." + Constants.PREFIX + "com/wiki/1" + "\"," + "\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":" + "{\"text\":\"" + GCCoreUtil.translate("gui.message.clicklink") + "\",\"color\":\"yellow\"}}," + "\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + "http://wiki." + Constants.PREFIX + "com/wiki/1" + "\"}}]"));
-            player.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.message.help1a") + EnumColor.AQUA + " /gchelp"));
-            break;
-        case 4:
-        case 5:
-        case 6:
-            player.sendMessage(ITextComponent.Serializer.jsonToComponent("[{\"text\":\"" + GCCoreUtil.translate("gui.message.help2") + ": \",\"color\":\"white\"}," + "{\"text\":\" " + EnumColor.BRIGHT_GREEN + "wiki." + Constants.PREFIX + "com/wiki/2" + "\"," + "\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":" + "{\"text\":\"" + GCCoreUtil.translate("gui.message.clicklink") + "\",\"color\":\"yellow\"}}," + "\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + "http://wiki." + Constants.PREFIX + "com/wiki/2" + "\"}}]"));
-            break;
-        case 7:
-            player.sendMessage(ITextComponent.Serializer.jsonToComponent("[{\"text\":\"" + GCCoreUtil.translate("gui.message.help3") + ": \",\"color\":\"white\"}," + "{\"text\":\" " + EnumColor.BRIGHT_GREEN + "wiki." + Constants.PREFIX + "com/wiki/oil" + "\"," + "\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":" + "{\"text\":\"" + GCCoreUtil.translate("gui.message.clicklink") + "\",\"color\":\"yellow\"}}," + "\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + "http://wiki." + Constants.PREFIX + "com/wiki/oil" + "\"}}]"));
-            break;
-        case 8:
-            player.sendMessage(ITextComponent.Serializer.jsonToComponent("[{\"text\":\"" + GCCoreUtil.translate("gui.message.prelaunch") + ": \",\"color\":\"white\"}," + "{\"text\":\" " + EnumColor.BRIGHT_GREEN + "wiki." + Constants.PREFIX + "com/wiki/pre" + "\"," + "\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":" + "{\"text\":\"" + GCCoreUtil.translate("gui.message.clicklink") + "\",\"color\":\"yellow\"}}," + "\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + "http://wiki." + Constants.PREFIX + "com/wiki/pre" + "\"}}]"));
-            break;
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                player.sendMessage(ITextComponent.Serializer
+                    .jsonToComponent("[{\"text\":\"" + GCCoreUtil.translate("gui.message.help1") + ": \",\"color\":\"white\"}," + "{\"text\":\" " + EnumColor.BRIGHT_GREEN + "wiki." + Constants.PREFIX
+                        + "com/wiki/1" + "\"," + "\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":" + "{\"text\":\"" + GCCoreUtil.translate("gui.message.clicklink")
+                        + "\",\"color\":\"yellow\"}}," + "\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + "http://wiki." + Constants.PREFIX + "com/wiki/1" + "\"}}]"));
+                player.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.message.help1a") + EnumColor.AQUA + " /gchelp"));
+                break;
+            case 4:
+            case 5:
+            case 6:
+                player.sendMessage(ITextComponent.Serializer
+                    .jsonToComponent("[{\"text\":\"" + GCCoreUtil.translate("gui.message.help2") + ": \",\"color\":\"white\"}," + "{\"text\":\" " + EnumColor.BRIGHT_GREEN + "wiki." + Constants.PREFIX
+                        + "com/wiki/2" + "\"," + "\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":" + "{\"text\":\"" + GCCoreUtil.translate("gui.message.clicklink")
+                        + "\",\"color\":\"yellow\"}}," + "\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + "http://wiki." + Constants.PREFIX + "com/wiki/2" + "\"}}]"));
+                break;
+            case 7:
+                player.sendMessage(ITextComponent.Serializer
+                    .jsonToComponent("[{\"text\":\"" + GCCoreUtil.translate("gui.message.help3") + ": \",\"color\":\"white\"}," + "{\"text\":\" " + EnumColor.BRIGHT_GREEN + "wiki." + Constants.PREFIX
+                        + "com/wiki/oil" + "\"," + "\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":" + "{\"text\":\"" + GCCoreUtil.translate("gui.message.clicklink")
+                        + "\",\"color\":\"yellow\"}}," + "\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + "http://wiki." + Constants.PREFIX + "com/wiki/oil" + "\"}}]"));
+                break;
+            case 8:
+                player.sendMessage(ITextComponent.Serializer.jsonToComponent(
+                    "[{\"text\":\"" + GCCoreUtil.translate("gui.message.prelaunch") + ": \",\"color\":\"white\"}," + "{\"text\":\" " + EnumColor.BRIGHT_GREEN + "wiki." + Constants.PREFIX
+                        + "com/wiki/pre" + "\"," + "\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":" + "{\"text\":\"" + GCCoreUtil.translate("gui.message.clicklink")
+                        + "\",\"color\":\"yellow\"}}," + "\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + "http://wiki." + Constants.PREFIX + "com/wiki/pre" + "\"}}]"));
+                break;
         }
     }
 }

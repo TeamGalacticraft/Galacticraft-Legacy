@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityDish;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -25,6 +26,7 @@ import net.minecraft.world.World;
 
 public class BlockDish extends BlockTileGC implements IShiftDescription, IPartialSealableBlock, ISortableBlock
 {
+
     public BlockDish(String assetName)
     {
         super(Material.IRON);
@@ -73,18 +75,18 @@ public class BlockDish extends BlockTileGC implements IShiftDescription, IPartia
 
         switch (angle)
         {
-        case 0:
-            change = 1;
-            break;
-        case 1:
-            change = 2;
-            break;
-        case 2:
-            change = 0;
-            break;
-        case 3:
-            change = 3;
-            break;
+            case 0:
+                change = 1;
+                break;
+            case 1:
+                change = 2;
+                break;
+            case 2:
+                change = 0;
+                break;
+            case 3:
+                change = 3;
+                break;
         }
 
         worldIn.setBlockState(pos, state.getBlock().getStateFromMeta(change), 3);
@@ -125,7 +127,7 @@ public class BlockDish extends BlockTileGC implements IShiftDescription, IPartia
     @Override
     public boolean onSneakMachineActivated(World world, BlockPos pos, EntityPlayer entityPlayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        //entityPlayer.openGui(GalacticraftCore.instance, -1, world, x, y, z);
+        // entityPlayer.openGui(GalacticraftCore.instance, -1, world, x, y, z);
         return true;
     }
 

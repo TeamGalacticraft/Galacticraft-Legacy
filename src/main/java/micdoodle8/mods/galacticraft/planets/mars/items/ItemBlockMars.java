@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockMars extends ItemBlock
 {
+
     public ItemBlockMars(Block block)
     {
         super(block);
@@ -37,58 +38,58 @@ public class ItemBlockMars extends ItemBlock
 
         switch (itemstack.getItemDamage())
         {
-        case 0:
-        {
-            name = "coppermars";
-            break;
-        }
-        case 1:
-        {
-            name = "tinmars";
-            break;
-        }
-        case 3:
-        {
-            name = "ironmars";
-            break;
-        }
-        case 2:
-        {
-            name = "deshmars";
-            break;
-        }
-        case 4:
-        {
-            name = "marscobblestone";
-            break;
-        }
-        case 5:
-        {
-            name = "marsgrass";
-            break;
-        }
-        case 6:
-        {
-            name = "marsdirt";
-            break;
-        }
-        case 7:
-        {
-            name = "marsdungeon";
-            break;
-        }
-        case 8:
-        {
-            name = "marsdeco";
-            break;
-        }
-        case 9:
-        {
-            name = "marsstone";
-            break;
-        }
-        default:
-            name = "null";
+            case 0:
+            {
+                name = "coppermars";
+                break;
+            }
+            case 1:
+            {
+                name = "tinmars";
+                break;
+            }
+            case 3:
+            {
+                name = "ironmars";
+                break;
+            }
+            case 2:
+            {
+                name = "deshmars";
+                break;
+            }
+            case 4:
+            {
+                name = "marscobblestone";
+                break;
+            }
+            case 5:
+            {
+                name = "marsgrass";
+                break;
+            }
+            case 6:
+            {
+                name = "marsdirt";
+                break;
+            }
+            case 7:
+            {
+                name = "marsdungeon";
+                break;
+            }
+            case 8:
+            {
+                name = "marsdeco";
+                break;
+            }
+            case 9:
+            {
+                name = "marsstone";
+                break;
+            }
+            default:
+                name = "null";
         }
 
         return this.getBlock().getTranslationKey() + "." + name;

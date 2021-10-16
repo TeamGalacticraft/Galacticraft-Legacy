@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.venus.tile;
 
 import com.google.common.collect.Lists;
+
 import micdoodle8.mods.galacticraft.api.transmission.grid.IGridNetwork;
 import micdoodle8.mods.galacticraft.api.transmission.tile.ITransmitter;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
@@ -17,6 +18,7 @@ import java.util.*;
  */
 public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITransmitter, TileEntity>
 {
+
     private final Set<ITransmitter> transmitters = new HashSet<>();
 
     public SolarModuleNetwork()
@@ -41,7 +43,6 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
         this.register();
     }
 
-
     /**
      * Refresh validity of each conductor in the network
      */
@@ -60,7 +61,7 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
 
             TileEntity tile = (TileEntity) transmitter;
             World world = tile.getWorld();
-            //Remove any transmitters in unloaded chunks
+            // Remove any transmitters in unloaded chunks
             if (tile.isInvalid() || world == null || !world.isBlockLoaded(tile.getPos()))
             {
                 it.remove();
@@ -97,7 +98,7 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
 
             TileEntity tile = (TileEntity) conductor;
             World world = tile.getWorld();
-            //Remove any transmitters in unloaded chunks
+            // Remove any transmitters in unloaded chunks
             if (tile.isInvalid() || world == null)
             {
                 it.remove();
@@ -163,7 +164,8 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
             this.getTransmitters().remove(splitPoint);
             splitPoint.setNetwork(null);
 
-            //If the size of the residual network is 1, it should simply be preserved
+            // If the size of the residual network is 1, it should simply be
+            // preserved
             if (this.getTransmitters().size() > 1)
             {
                 World world = ((TileEntity) splitPoint).getWorld();
@@ -171,7 +173,8 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
                 if (this.getTransmitters().size() > 0)
                 {
                     ITransmitter[] nextToSplit = new ITransmitter[6];
-                    boolean[] toDo = { true, true, true, true, true, true };
+                    boolean[] toDo =
+                    {true, true, true, true, true, true};
                     TileEntity tileEntity;
 
                     for (int j = 0; j < 6; j++)
@@ -197,7 +200,8 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
                                 tileEntity = world.getTileEntity(((TileEntity) splitPoint).getPos().east());
                                 break;
                             default:
-                                //Not reachable, only to prevent uninitiated compile errors
+                                // Not reachable, only to prevent uninitiated
+                                // compile errors
                                 tileEntity = null;
                                 break;
                         }
@@ -205,8 +209,7 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
                         if (tileEntity instanceof ITransmitter)
                         {
                             nextToSplit[j] = (ITransmitter) tileEntity;
-                        }
-                        else
+                        } else
                         {
                             toDo[j] = false;
                         }
@@ -220,7 +223,8 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
                             NetworkFinderSolar finder = new NetworkFinderSolar(world, new BlockVec3((TileEntity) connectedBlockA), new BlockVec3((TileEntity) splitPoint));
                             List<ITransmitter> partNetwork = finder.exploreNetwork();
 
-                            //Mark any others still to do in the nextToSplit array which are connected to this, as dealt with
+                            // Mark any others still to do in the nextToSplit
+                            // array which are connected to this, as dealt with
                             for (int i2 = i1 + 1; i2 < 6; i2++)
                             {
                                 ITransmitter connectedBlockB = nextToSplit[i2];
@@ -234,7 +238,7 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
                                 }
                             }
 
-                            //Now make the new network from partNetwork
+                            // Now make the new network from partNetwork
                             SolarModuleNetwork newNetwork = new SolarModuleNetwork();
                             newNetwork.getTransmitters().addAll(partNetwork);
                             newNetwork.refreshWithChecks();
@@ -245,7 +249,7 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
                     this.destroy();
                 }
             }
-            //Splitting a 1-block network leaves nothing
+            // Splitting a 1-block network leaves nothing
             else if (this.getTransmitters().size() == 0)
             {
                 this.destroy();

@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerCrashedProbe extends Container
 {
+
     private TileEntityCrashedProbe tileEntity;
 
     public ContainerCrashedProbe(InventoryPlayer par1InventoryPlayer, TileEntityCrashedProbe tileEntityCrashedProbe)
@@ -64,8 +65,7 @@ public class ContainerCrashedProbe extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(stack.getItem()))
                 {
@@ -73,8 +73,7 @@ public class ContainerCrashedProbe extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     if (par1 < b - 9)
                     {
@@ -82,8 +81,7 @@ public class ContainerCrashedProbe extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(stack, b - 36, b - 9, false))
+                    } else if (!this.mergeItemStack(stack, b - 36, b - 9, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -93,8 +91,7 @@ public class ContainerCrashedProbe extends Container
             if (stack.isEmpty())
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

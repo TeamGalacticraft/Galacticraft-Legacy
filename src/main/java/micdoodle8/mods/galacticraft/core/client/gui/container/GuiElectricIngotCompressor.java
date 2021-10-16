@@ -7,10 +7,12 @@ import micdoodle8.mods.galacticraft.core.inventory.ContainerElectricIngotCompres
 import micdoodle8.mods.galacticraft.core.tile.TileEntityElectricIngotCompressor;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiElectricIngotCompressor extends GuiContainerGC
 {
+
     private static final ResourceLocation electricFurnaceTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/electric_ingot_compressor.png");
     private TileEntityElectricIngotCompressor tileEntity;
     private GuiElementInfoRegion electricInfoRegion = new GuiElementInfoRegion(0, 0, 56, 9, null, 0, 0, this);
@@ -62,8 +65,7 @@ public class GuiElectricIngotCompressor extends GuiContainerGC
         if (this.tileEntity.processTicks > 0)
         {
             displayText = EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.status.running.name");
-        }
-        else
+        } else
         {
             displayText = EnumColor.ORANGE + GCCoreUtil.translate("gui.status.idle.name");
         }
@@ -100,8 +102,7 @@ public class GuiElectricIngotCompressor extends GuiContainerGC
         if (this.tileEntity.processTicks > 0)
         {
             scale = (int) ((double) this.tileEntity.processTicks / (double) this.tileEntity.processTimeRequired * 100);
-        }
-        else
+        } else
         {
             scale = 0;
         }

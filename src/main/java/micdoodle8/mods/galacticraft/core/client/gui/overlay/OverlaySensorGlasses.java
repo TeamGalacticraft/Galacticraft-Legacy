@@ -8,12 +8,13 @@ import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,6 +31,7 @@ import java.util.Iterator;
 @SideOnly(Side.CLIENT)
 public class OverlaySensorGlasses extends Overlay
 {
+
     private static final ResourceLocation hudTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/hud.png");
     private static final ResourceLocation indicatorTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/indicator.png");
     public static final ResourceLocation altTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/blocks/sensor_mobs.png");
@@ -108,7 +110,9 @@ public class OverlaySensorGlasses extends Overlay
                 var2 = stats.isUsingAdvancedGoggles();
             }
 
-            OverlaySensorGlasses.minecraft.fontRenderer.drawString(GCCoreUtil.translate("gui.sensor.advanced") + ": " + (var2 ? GCCoreUtil.translate("gui.sensor.advancedon") : GCCoreUtil.translate("gui.sensor.advancedoff")), var6 / 2 - 50, 4, 0x03b88f);
+            OverlaySensorGlasses.minecraft.fontRenderer.drawString(
+                GCCoreUtil.translate("gui.sensor.advanced") + ": " + (var2 ? GCCoreUtil.translate("gui.sensor.advancedon") : GCCoreUtil.translate("gui.sensor.advancedoff")), var6 / 2 - 50, 4,
+                0x03b88f);
 
             try
             {
@@ -123,14 +127,13 @@ public class OverlaySensorGlasses extends Overlay
                     GL11.glRotatef(-(-var60 - ClientProxyCore.playerRotationYaw + 180.0F), 0.0F, 0.0F, 1.0F);
                     Overlay.drawCenteringRectangle(var6 / 2, var7 / 2, 1.0D, 8.0D, 8.0D);
                 }
-            }
-            finally
+            } finally
             {
                 GL11.glPopMatrix();
             }
         }
     }
-    
+
     public static void preRenderMobs()
     {
         GL11.glEnable(GL11.GL_BLEND);
@@ -143,7 +146,7 @@ public class OverlaySensorGlasses extends Overlay
         int i = 15728880;
         int j = i % 65536;
         int k = i / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
         GL11.glTranslatef(0.0F, 0.045F, 0.0F);
         GL11.glScalef(1.07F, 1.035F, 1.07F);
     }
@@ -154,7 +157,7 @@ public class OverlaySensorGlasses extends Overlay
 //        GL11.glEnable(GL11.GL_DEPTH_TEST);
 //        GL11.glDepthMask(true);
     }
-    
+
     public static boolean overrideMobTexture()
     {
         EntityPlayer player = Minecraft.getMinecraft().player;

@@ -8,6 +8,7 @@ import micdoodle8.mods.galacticraft.core.inventory.PersistantInventoryCrafting;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -22,17 +23,21 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class TileEntityIngotCompressor extends TileEntityAdvanced implements IInventoryDefaults, ISidedInventory
 {
+
     public static final int PROCESS_TIME_REQUIRED = 200;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int processTicks = 0;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int furnaceBurnTime = 0;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int currentItemBurnTime = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public int processTicks = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public int furnaceBurnTime = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public int currentItemBurnTime = 0;
     private long ticks;
 
     private ItemStack producingStack = ItemStack.EMPTY;
@@ -97,8 +102,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
                     this.smeltItem();
                     updateInv = true;
                 }
-            }
-            else
+            } else
             {
                 this.processTicks = 0;
             }
@@ -154,8 +158,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
                         return true;
                     }
                 }
-            }
-            else if (recipe instanceof ShapelessOreRecipeGC)
+            } else if (recipe instanceof ShapelessOreRecipeGC)
             {
                 ArrayList<Object> required = new ArrayList<Object>(((ShapelessOreRecipeGC) recipe).getInput());
 
@@ -173,8 +176,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
                         {
                             match++;
                         }
-                    }
-                    else if (next instanceof List)
+                    } else if (next instanceof List)
                     {
                         for (ItemStack itemStack : ((List<ItemStack>) next))
                         {
@@ -220,16 +222,14 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
             if (this.getInventory().get(1).isEmpty())
             {
                 this.getInventory().set(1, resultItemStack.copy());
-            }
-            else if (this.getInventory().get(1).isItemEqual(resultItemStack))
+            } else if (this.getInventory().get(1).isItemEqual(resultItemStack))
             {
                 if (this.getInventory().get(1).getCount() + resultItemStack.getCount() > 64)
                 {
                     resultItemStack.grow(this.getInventory().get(1).getCount() - 64);
                     GCCoreUtil.spawnItem(this.world, this.getPos(), resultItemStack);
                     this.getInventory().get(1).setCount(64);
-                }
-                else
+                } else
                 {
                     this.getInventory().get(1).grow(resultItemStack.getCount());
                 }
@@ -240,8 +240,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
                 if (!this.compressingCraftMatrix.getStackInSlot(i).isEmpty() && this.compressingCraftMatrix.getStackInSlot(i).getItem() == Items.WATER_BUCKET)
                 {
                     this.compressingCraftMatrix.setInventorySlotContentsNoUpdate(i, new ItemStack(Items.BUCKET));
-                }
-                else
+                } else
                 {
                     this.compressingCraftMatrix.decrStackSize(i, 1);
                 }
@@ -269,8 +268,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
             if (j >= 0 && j < this.getInventory().size())
             {
                 this.getInventory().set(j, new ItemStack(nbttagcompound));
-            }
-            else if (j < this.getInventory().size() + this.compressingCraftMatrix.getSizeInventory())
+            } else if (j < this.getInventory().size() + this.compressingCraftMatrix.getSizeInventory())
             {
                 this.compressingCraftMatrix.setInventorySlotContents(j - this.getInventory().size(), new ItemStack(nbttagcompound));
             }
@@ -360,8 +358,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
                 this.getInventory().set(par1, ItemStack.EMPTY);
                 this.markDirty();
                 return var3;
-            }
-            else
+            } else
             {
                 var3 = this.getInventory().get(par1).splitStack(par2);
 
@@ -373,8 +370,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
                 this.markDirty();
                 return var3;
             }
-        }
-        else
+        } else
         {
             return ItemStack.EMPTY;
         }
@@ -385,7 +381,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
     {
         if (par1 >= this.getInventory().size())
         {
-        	this.markDirty();
+            this.markDirty();
             return this.compressingCraftMatrix.removeStackFromSlot(par1 - this.getInventory().size());
         }
 
@@ -395,10 +391,9 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
             this.getInventory().set(par1, ItemStack.EMPTY);
             this.markDirty();
             return var2;
-        }
-        else
+        } else
         {
-        	return ItemStack.EMPTY;
+            return ItemStack.EMPTY;
         }
     }
 
@@ -409,8 +404,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
         {
             this.compressingCraftMatrix.setInventorySlotContents(par1 - this.getInventory().size(), stack);
             this.updateInput();
-        }
-        else
+        } else
         {
             this.getInventory().set(par1, stack);
 
@@ -460,8 +454,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
         if (slotID == 0)
         {
             return TileEntityFurnace.getItemBurnTime(itemStack) > 0;
-        }
-        else if (slotID >= 2)
+        } else if (slotID >= 2)
         {
             if (!this.producingStack.isEmpty())
             {
@@ -479,9 +472,11 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
     {
         if (side == EnumFacing.DOWN)
         {
-            return new int[] { 1 };
+            return new int[]
+            {1};
         }
-        int[] slots = new int[] { 0, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        int[] slots = new int[]
+        {0, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         ArrayList<Integer> removeSlots = new ArrayList<>();
 
         for (int i = 2; i < 11; i++)
@@ -513,8 +508,7 @@ public class TileEntityIngotCompressor extends TileEntityAdvanced implements IIn
                     if (stack2.getCount() >= stack1.getCount())
                     {
                         removeSlots.add(j);
-                    }
-                    else
+                    } else
                     {
                         removeSlots.add(i);
                     }

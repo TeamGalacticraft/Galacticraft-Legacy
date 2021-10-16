@@ -7,14 +7,16 @@ import net.minecraft.block.state.IBlockState;
  */
 public interface IPlantableBlock
 {
+
     /**
      * @return amount of water blocks required for sapling to be growable. 4 is
-     * default.
+     *         default.
      */
     int requiredLiquidBlocksNearby();
 
     /**
-     * @return is sapling can be placed on the provided metadata value, return true
+     * @return is sapling can be placed on the provided metadata value, return
+     *         true
      */
     boolean isPlantable(IBlockState state);
 }

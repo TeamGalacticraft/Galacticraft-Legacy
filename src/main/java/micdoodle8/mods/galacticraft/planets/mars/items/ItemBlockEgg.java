@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockEgg extends ItemBlockDesc
 {
+
     public ItemBlockEgg(Block block)
     {
         super(block);

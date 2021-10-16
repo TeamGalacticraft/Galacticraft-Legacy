@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 
 public class BlockTier3TreasureChest extends BlockTier1TreasureChest
 {
+
     public BlockTier3TreasureChest(String assetName)
     {
         super(assetName);

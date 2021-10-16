@@ -8,6 +8,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.entities.IBubbleProviderColored;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -18,10 +19,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+
 import java.util.List;
 
 public class BubbleRenderer
 {
+
     private static IBakedModel sphere;
     private static List<IBubbleProviderColored> bubbleProviders = Lists.newArrayList();
 
@@ -40,8 +43,7 @@ public class BubbleRenderer
         try
         {
             sphere = ClientUtil.modelFromOBJ(new ResourceLocation(Constants.ASSET_PREFIX, "sphere.obj"), ImmutableList.of("Sphere"));
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             throw new RuntimeException(e);
         }
@@ -66,7 +68,7 @@ public class BubbleRenderer
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();
-        
+
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableBlend();
         GlStateManager.disableLighting();
@@ -100,7 +102,7 @@ public class BubbleRenderer
             GL11.glScalef(provider.getBubbleSize(), provider.getBubbleSize(), provider.getBubbleSize());
 
             Vector3 colorVec = provider.getColor();
-            int color = ColorUtil.to32BitColor(30, (int)(colorVec.z * 255), (int)(colorVec.y * 255), (int)(colorVec.x * 255));
+            int color = ColorUtil.to32BitColor(30, (int) (colorVec.z * 255), (int) (colorVec.y * 255), (int) (colorVec.x * 255));
             ClientUtil.drawBakedModelColored(sphere, color);
 
             GL11.glPopMatrix();

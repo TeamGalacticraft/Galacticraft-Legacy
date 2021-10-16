@@ -4,7 +4,17 @@ import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockDesc;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockGC;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.ItemBlockLaser;
-import micdoodle8.mods.galacticraft.planets.venus.blocks.*;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockBasicVenus;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockBossSpawnerVenus;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockCrashedProbe;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockGeothermalGenerator;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockLaserTurret;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockScorchedRock;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockSolarArrayController;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockSolarArrayModule;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockSpout;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockTier3TreasureChest;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockTorchWeb;
 import micdoodle8.mods.galacticraft.planets.venus.items.ItemBlockBasicVenus;
 import micdoodle8.mods.galacticraft.planets.venus.items.ItemBlockTorchWeb;
 import net.minecraft.block.Block;
@@ -13,6 +23,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class VenusBlocks
 {
+
     public static Block venusBlock;
     public static Block spout;
     public static Block bossSpawner;

@@ -1,11 +1,19 @@
 package micdoodle8.mods.galacticraft.api.galaxies;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.BiomeAdaptive;
 import micdoodle8.mods.galacticraft.api.world.AtmosphereInfo;
 import micdoodle8.mods.galacticraft.api.world.BiomeGenBaseGC;
+import micdoodle8.mods.galacticraft.api.world.EnumAtmosphericGas;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.api.world.IMobSpawnBiome;
-import micdoodle8.mods.galacticraft.api.world.EnumAtmosphericGas;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
@@ -13,16 +21,9 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-
 public abstract class CelestialBody implements Comparable<CelestialBody>
 {
+
     protected final String bodyName;
     protected String translationKey;
 
@@ -66,13 +67,14 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
     {
         return this.bodyName;
     }
-    
+
     /**
      * Use {@link CelestialBody#getTranslationKey()}
      */
     @Deprecated
-    public String getUnlocalizedName() {
-    	return getTranslationKey();
+    public String getUnlocalizedName()
+    {
+        return getTranslationKey();
     }
 
     public String getTranslationKey()
@@ -89,10 +91,8 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
     }
 
     /**
-     * Used for rendering planet's location on the map.
-     * <p/>
-     * Value of 2.0F would result in the planet being rendered twice as large as
-     * earth.
+     * Used for rendering planet's location on the map. <p/> Value of 2.0F would
+     * result in the planet being rendered twice as large as earth.
      *
      * @return Size of the planet/moon relative to earth.
      */
@@ -102,10 +102,8 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
     }
 
     /**
-     * Used for rendering planet's location on the map.
-     * <p/>
-     * Value of 2.0F would result in an ellipse with twice the radius of the
-     * overworld.
+     * Used for rendering planet's location on the map. <p/> Value of 2.0F would
+     * result in an ellipse with twice the radius of the overworld.
      *
      * @return Distance from the center of the map relative to earth.
      */
@@ -115,13 +113,10 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
     }
 
     /**
-     * Used for rendering planet's location on the map.
-     * <p/>
-     * Value of 1π would result in the planet being rendered directly
-     * accross from the original position
-     * <p/>
-     * Value of 2π is a full rotation and therefore would be rendered at
-     * the same spot as the original position
+     * Used for rendering planet's location on the map. <p/> Value of 1π would
+     * result in the planet being rendered directly accross from the original
+     * position <p/> Value of 2π is a full rotation and therefore would be
+     * rendered at the same spot as the original position
      *
      * @return Phase shift of planet for planet's revolution around the sun.
      */
@@ -132,11 +127,9 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
 
     /**
      * Multiplier for length of time relative to earth that this planet takes to
-     * orbit fully.
-     * <p/>
-     * Value of 2.0F would result in the planet rotating twice as slow (and
-     * therefore take twice as long) as the earth takes to revolve around the
-     * sun.
+     * orbit fully. <p/> Value of 2.0F would result in the planet rotating twice
+     * as slow (and therefore take twice as long) as the earth takes to revolve
+     * around the sun.
      *
      * @return Multiple value for planet's revolution around the sun.
      */
@@ -204,7 +197,7 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
     {
         return this.autoRegisterDimension;
     }
-    
+
     public int getDimensionID()
     {
         return this.dimensionID;
@@ -221,9 +214,9 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
     }
 
     /*
-     * Use this to list the atmospheric gases on the celestial body, starting with the most abundant
-     * Do not include trace gases (anything less than 0.25%)
-     * (Do not use for stars!)
+     * Use this to list the atmospheric gases on the celestial body, starting
+     * with the most abundant Do not include trace gases (anything less than
+     * 0.25%) (Do not use for stars!)
      */
     public CelestialBody atmosphereComponent(EnumAtmosphericGas gas)
     {
@@ -313,6 +306,7 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
 
     public static class ScalableDistance
     {
+
         public final float unScaledDistance;
         public final float scaledDistance;
 
@@ -323,10 +317,10 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
         }
     }
 
-	public void setUnreachable()
-	{
-		this.isReachable = false;
-	}
+    public void setUnreachable()
+    {
+        this.isReachable = false;
+    }
 
     public String getDimensionSuffix()
     {
@@ -338,7 +332,7 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
         this.dimensionSuffix = dimensionSuffix;
     }
 
-    public void setBiomeInfo(Biome ...  biomes)
+    public void setBiomeInfo(Biome... biomes)
     {
         this.biomeInfo = new LinkedList<Biome>();
         this.biomesToGenerate = new LinkedList<Biome>();
@@ -347,12 +341,11 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
         for (Biome b : biomes)
         {
             this.biomeInfo.add(b);
-            if (b instanceof BiomeGenBaseGC && ((BiomeGenBaseGC)b).isAdaptiveBiome)
+            if (b instanceof BiomeGenBaseGC && ((BiomeGenBaseGC) b).isAdaptiveBiome)
             {
                 this.biomesToGenerate.add(BiomeAdaptive.register(index++, (BiomeGenBaseGC) b));
                 adaptiveBiomes.add((BiomeGenBaseGC) b);
-            }
-            else
+            } else
             {
                 this.biomesToGenerate.add(b);
             }
@@ -382,7 +375,7 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
             {
                 if (biome instanceof IMobSpawnBiome)
                 {
-                    ((IMobSpawnBiome)biome).initialiseMobLists(this.mobInfo);
+                    ((IMobSpawnBiome) biome).initialiseMobLists(this.mobInfo);
                 }
             }
         }
@@ -394,7 +387,7 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
         {
             try
             {
-                return ((IGalacticraftWorldProvider)this.providerClass.newInstance()).getSurfaceBlocks();
+                return ((IGalacticraftWorldProvider) this.providerClass.newInstance()).getSurfaceBlocks();
             } catch (Exception e)
             {
                 e.printStackTrace();

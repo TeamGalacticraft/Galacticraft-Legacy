@@ -16,12 +16,11 @@ import javax.annotation.Nonnull;
 
 public class Tier3RocketRecipeCategory implements IRecipeCategory
 {
+
     private static final ResourceLocation rocketGuiTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/schematic_rocket_t3_recipe.png");
 
-    @Nonnull
-    private final IDrawable background;
-    @Nonnull
-    private final String localizedName;
+    @Nonnull private final IDrawable background;
+    @Nonnull private final String localizedName;
 
     public Tier3RocketRecipeCategory(IGuiHelper guiHelper)
     {
@@ -50,7 +49,6 @@ public class Tier3RocketRecipeCategory implements IRecipeCategory
     {
         return this.background;
     }
-
 
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients)

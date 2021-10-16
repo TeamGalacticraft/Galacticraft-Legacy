@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.core.client.render;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -8,11 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +20,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.imageio.ImageIO;
+
 @SideOnly(Side.CLIENT)
 public class ThreadDownloadImageDataGC extends SimpleTexture
 {
+
     private static final Logger logger = LogManager.getLogger();
     private static final AtomicInteger threadDownloadCounter = new AtomicInteger(0);
     private final File field_152434_e;
@@ -78,8 +81,7 @@ public class ThreadDownloadImageDataGC extends SimpleTexture
             {
                 super.loadTexture(p_110551_1_);
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -98,14 +100,12 @@ public class ThreadDownloadImageDataGC extends SimpleTexture
                     {
                         this.setBufferedImage(this.imageBuffer.parseUserSkin(this.bufferedImage));
                     }
-                }
-                catch (IOException ioexception)
+                } catch (IOException ioexception)
                 {
                     logger.error("Couldn\'t load skin " + this.field_152434_e, ioexception);
                     this.func_152433_a();
                 }
-            }
-            else
+            } else
             {
                 this.func_152433_a();
             }
@@ -116,6 +116,7 @@ public class ThreadDownloadImageDataGC extends SimpleTexture
     {
         this.imageThread = new Thread("Texture Downloader #" + threadDownloadCounter.incrementAndGet())
         {
+
             @Override
             public void run()
             {
@@ -137,8 +138,7 @@ public class ThreadDownloadImageDataGC extends SimpleTexture
                         {
                             FileUtils.copyInputStreamToFile(httpurlconnection.getInputStream(), ThreadDownloadImageDataGC.this.field_152434_e);
                             bufferedimage = ImageIO.read(ThreadDownloadImageDataGC.this.field_152434_e);
-                        }
-                        else
+                        } else
                         {
                             bufferedimage = ImageIO.read(httpurlconnection.getInputStream());
                         }
@@ -151,13 +151,11 @@ public class ThreadDownloadImageDataGC extends SimpleTexture
                         ThreadDownloadImageDataGC.this.setBufferedImage(bufferedimage);
                         return;
                     }
-                }
-                catch (Exception exception)
+                } catch (Exception exception)
                 {
                     ThreadDownloadImageDataGC.logger.error("Couldn\'t download http texture", exception);
                     return;
-                }
-                finally
+                } finally
                 {
                     if (httpurlconnection != null)
                     {

@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.items;
 
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemBlock;
@@ -10,14 +11,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockWallGC extends ItemBlock
 {
-    private static final String[] types = new String[] {
-            "tin",
-            "tin",
-            "moon",
-            "moon_bricks",
-            "mars",
-            "mars_bricks"
-    };
+
+    private static final String[] types = new String[]
+    {"tin", "tin", "moon", "moon_bricks", "mars", "mars_bricks"};
 
     public ItemBlockWallGC(Block block)
     {

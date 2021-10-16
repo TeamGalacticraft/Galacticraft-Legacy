@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 
 public class ItemBlockTorchWeb extends ItemBlockDesc
 {
+
     public ItemBlockTorchWeb(Block block)
     {
         super(block);

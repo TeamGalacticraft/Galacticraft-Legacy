@@ -13,9 +13,10 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class AsteroidBlocks
 {
+
     public static Block blockWalkway;
     public static Block blockBasic;
-    //	public static Block machineFrame;
+    // public static Block machineFrame;
     public static Block beamReflector;
     public static Block beamReceiver;
     public static Block shortRangeTelepad;
@@ -70,12 +71,12 @@ public class AsteroidBlocks
 
     public static void setHarvestLevels()
     {
-        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 0, 0);   //Rock
-        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 0, 1);   //Rock
-        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 0, 2);   //Rock
-        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 2, 3);   //Aluminium
-        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 3, 4);   //Ilmenite
-        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 2, 5);   //Iron
+        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 0, 0); // Rock
+        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 0, 1); // Rock
+        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 0, 2); // Rock
+        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 2, 3); // Aluminium
+        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 3, 4); // Ilmenite
+        setHarvestLevel(AsteroidBlocks.blockBasic, "pickaxe", 2, 5); // Iron
     }
 
     public static void oreDictRegistration()

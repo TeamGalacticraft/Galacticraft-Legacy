@@ -28,6 +28,7 @@ import java.util.Random;
 
 public class ChunkProviderMoon extends ChunkProviderBase
 {
+
     public static final IBlockState BLOCK_TOP = GCBlocks.blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_TURF);
     public static final IBlockState BLOCK_FILL = GCBlocks.blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_DIRT);
     public static final IBlockState BLOCK_LOWER = GCBlocks.blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_STONE);
@@ -42,9 +43,12 @@ public class ChunkProviderMoon extends ChunkProviderBase
     private final World world;
     private final MapGenVillageMoon villageGenerator = new MapGenVillageMoon();
 
-    private final MapGenDungeon dungeonGeneratorMoon = new MapGenDungeon(new DungeonConfiguration(GCBlocks.blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_DUNGEON_BRICK), 25, 8, 16, 5, 6, RoomBoss.class, RoomTreasure.class));
+    private final MapGenDungeon dungeonGeneratorMoon =
+        new MapGenDungeon(new DungeonConfiguration(GCBlocks.blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_DUNGEON_BRICK), 25, 8, 16,
+            5, 6, RoomBoss.class, RoomTreasure.class));
 
-    private Biome[] biomesForGeneration = { BiomeAdaptive.biomeDefault };
+    private Biome[] biomesForGeneration =
+    {BiomeAdaptive.biomeDefault};
 
     private final MapGenBaseMeta caveGenerator = new MapGenCavesMoon();
 
@@ -87,12 +91,10 @@ public class ChunkProviderMoon extends ChunkProviderBase
                 if (d3 < 0.0D)
                 {
                     yDev = d;
-                }
-                else if (d3 > 1.0D)
+                } else if (d3 > 1.0D)
                 {
                     yDev = d2;
-                }
-                else
+                } else
                 {
                     yDev = d + (d2 - d) * d3;
                 }
@@ -127,15 +129,13 @@ public class ChunkProviderMoon extends ChunkProviderBase
                     if (var16 <= this.rand.nextInt(5))
                     {
                         primer.setBlockState(var8, var16, var9, Blocks.BEDROCK.getDefaultState());
-                    }
-                    else
+                    } else
                     {
                         IBlockState var18 = primer.getBlockState(var8, var16, var9);
                         if (Blocks.AIR == var18.getBlock())
                         {
                             var13 = -1;
-                        }
-                        else if (var18 == BLOCK_LOWER)
+                        } else if (var18 == BLOCK_LOWER)
                         {
                             if (var13 == -1)
                             {
@@ -143,8 +143,7 @@ public class ChunkProviderMoon extends ChunkProviderBase
                                 {
                                     state0 = Blocks.AIR.getDefaultState();
                                     state1 = BLOCK_LOWER;
-                                }
-                                else if (var16 >= var5 - -16 && var16 <= var5 + 1)
+                                } else if (var16 >= var5 - -16 && var16 <= var5 + 1)
                                 {
                                     state0 = BLOCK_FILL;
                                 }
@@ -154,13 +153,11 @@ public class ChunkProviderMoon extends ChunkProviderBase
                                 if (var16 >= var5 - 1)
                                 {
                                     primer.setBlockState(var8, var16, var9, state0);
-                                }
-                                else if (var16 < var5 - 1 && var16 >= var5 - 2)
+                                } else if (var16 < var5 - 1 && var16 >= var5 - 2)
                                 {
                                     primer.setBlockState(var8, var16, var9, state1);
                                 }
-                            }
-                            else if (var13 > 0)
+                            } else if (var13 > 0)
                             {
                                 --var13;
                                 primer.setBlockState(var8, var16, var9, state1);
@@ -188,7 +185,7 @@ public class ChunkProviderMoon extends ChunkProviderBase
 
         Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
         byte[] abyte = chunk.getBiomeArray();
-        final byte b = (byte) Biome.getIdForBiome( BiomeAdaptive.biomeDefault );
+        final byte b = (byte) Biome.getIdForBiome(BiomeAdaptive.biomeDefault);
         for (int i = 0; i < abyte.length; ++i)
         {
             abyte[i] = b;
@@ -208,7 +205,8 @@ public class ChunkProviderMoon extends ChunkProviderBase
                 {
                     for (int z = 0; z < ChunkProviderMoon.CHUNK_SIZE_Z; z++)
                     {
-                        if (Math.abs(this.randFromPoint(cx * 16 + x, (cz * 16 + z) * 1000)) < this.noiseGen4.getNoise(x * ChunkProviderMoon.CHUNK_SIZE_X + x, cz * ChunkProviderMoon.CHUNK_SIZE_Z + z) / ChunkProviderMoon.CRATER_PROB)
+                        if (Math.abs(this.randFromPoint(cx * 16 + x, (cz * 16 + z) * 1000)) < this.noiseGen4.getNoise(x * ChunkProviderMoon.CHUNK_SIZE_X + x, cz * ChunkProviderMoon.CHUNK_SIZE_Z + z)
+                            / ChunkProviderMoon.CRATER_PROB)
                         {
                             final Random random = new Random(cx * 16 + x + (cz * 16 + z) * 5000);
                             final EnumCraterSize cSize = EnumCraterSize.sizeArray[random.nextInt(EnumCraterSize.sizeArray.length)];

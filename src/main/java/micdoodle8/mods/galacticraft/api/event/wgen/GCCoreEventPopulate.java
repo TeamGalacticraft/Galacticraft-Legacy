@@ -7,13 +7,13 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import java.util.Random;
 
 /**
- * Event is thrown when a chunk is populated on planets.
- * <p/>
- * If you're adding your own dimensions, make sure you post these two events to
- * the forge event bus when decorating your planet/moon
+ * Event is thrown when a chunk is populated on planets. <p/> If you're adding
+ * your own dimensions, make sure you post these two events to the forge event
+ * bus when decorating your planet/moon
  */
 public class GCCoreEventPopulate extends Event
 {
+
     public final World world;
     public final Random rand;
     public final BlockPos pos;
@@ -27,6 +27,7 @@ public class GCCoreEventPopulate extends Event
 
     public static class Pre extends GCCoreEventPopulate
     {
+
         public Pre(World world, Random rand, BlockPos pos)
         {
             super(world, rand, pos);
@@ -35,6 +36,7 @@ public class GCCoreEventPopulate extends Event
 
     public static class Post extends GCCoreEventPopulate
     {
+
         public Post(World world, Random rand, BlockPos pos)
         {
             super(world, rand, pos);

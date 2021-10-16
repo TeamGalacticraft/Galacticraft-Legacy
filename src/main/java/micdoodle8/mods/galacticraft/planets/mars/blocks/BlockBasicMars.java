@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.mars.blocks;
 
+import java.util.Random;
+
 import com.google.common.base.Predicate;
 
 import micdoodle8.mods.galacticraft.api.block.IDetectableResource;
@@ -37,14 +39,14 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Random;
-
 public class BlockBasicMars extends Block implements IDetectableResource, IPlantableBlock, ITerraformableBlock, ISortableBlock
 {
+
     public static final PropertyEnum<EnumBlockBasic> BASIC_TYPE = PropertyEnum.create("basictypemars", EnumBlockBasic.class);
 
     public enum EnumBlockBasic implements IStringSerializable
     {
+
         ORE_COPPER(0, "ore_copper_mars"),
         ORE_TIN(1, "ore_tin_mars"),
         ORE_DESH(2, "ore_desh_mars"),
@@ -71,6 +73,7 @@ public class BlockBasicMars extends Block implements IDetectableResource, IPlant
         }
 
         private final static EnumBlockBasic[] values = values();
+
         public static EnumBlockBasic byMetadata(int meta)
         {
             return values[meta % values.length];
@@ -95,8 +98,7 @@ public class BlockBasicMars extends Block implements IDetectableResource, IPlant
         if (state.getValue(BASIC_TYPE) == EnumBlockBasic.DUNGEON_BRICK)
         {
             return MapColor.GREEN;
-        }
-        else if (state.getValue(BASIC_TYPE) == EnumBlockBasic.SURFACE)
+        } else if (state.getValue(BASIC_TYPE) == EnumBlockBasic.SURFACE)
         {
             return MapColor.DIRT;
         }
@@ -112,8 +114,7 @@ public class BlockBasicMars extends Block implements IDetectableResource, IPlant
         if (type == EnumBlockBasic.DUNGEON_BRICK)
         {
             return 40.0F;
-        }
-        else if (type == EnumBlockBasic.DESH_BLOCK)
+        } else if (type == EnumBlockBasic.DESH_BLOCK)
         {
             return 60.0F;
         }
@@ -159,12 +160,10 @@ public class BlockBasicMars extends Block implements IDetectableResource, IPlant
         if (state.getValue(BASIC_TYPE) == EnumBlockBasic.MARS_STONE)
         {
             return 4;
-        }
-        else if (state.getValue(BASIC_TYPE) == EnumBlockBasic.ORE_DESH)
+        } else if (state.getValue(BASIC_TYPE) == EnumBlockBasic.ORE_DESH)
         {
             return 0;
-        }
-        else
+        } else
         {
             return meta;
         }
@@ -196,13 +195,13 @@ public class BlockBasicMars extends Block implements IDetectableResource, IPlant
     {
         switch (this.getMetaFromState(state))
         {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-            return true;
-        default:
-            return false;
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -291,15 +290,15 @@ public class BlockBasicMars extends Block implements IDetectableResource, IPlant
     {
         switch (meta)
         {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-            return EnumSortCategoryBlock.ORE;
-        case 7:
-            return EnumSortCategoryBlock.BRICKS;
-        case 8:
-            return EnumSortCategoryBlock.INGOT_BLOCK;
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                return EnumSortCategoryBlock.ORE;
+            case 7:
+                return EnumSortCategoryBlock.BRICKS;
+            case 8:
+                return EnumSortCategoryBlock.INGOT_BLOCK;
         }
         return EnumSortCategoryBlock.GENERAL;
     }
@@ -307,12 +306,13 @@ public class BlockBasicMars extends Block implements IDetectableResource, IPlant
     @Override
     public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
     {
-        if (state.getBlock() != this) return 0;
-        
+        if (state.getBlock() != this)
+            return 0;
+
         int meta = this.getMetaFromState(state);
         if (meta == 2)
         {
-            Random rand = world instanceof World ? ((World)world).rand : new Random();
+            Random rand = world instanceof World ? ((World) world).rand : new Random();
             return MathHelper.getInt(rand, 2, 5);
         }
         return 0;

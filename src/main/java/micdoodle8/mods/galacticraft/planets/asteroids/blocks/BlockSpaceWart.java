@@ -4,6 +4,7 @@ import net.minecraft.block.BlockNetherWart;
 
 public class BlockSpaceWart extends BlockNetherWart
 {
+
     public BlockSpaceWart(String assetName)
     {
         super();

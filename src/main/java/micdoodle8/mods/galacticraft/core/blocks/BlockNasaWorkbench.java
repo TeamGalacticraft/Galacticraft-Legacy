@@ -9,6 +9,7 @@ import micdoodle8.mods.galacticraft.core.tile.IMultiBlock;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityNasaWorkbench;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
@@ -30,6 +31,7 @@ import net.minecraft.world.World;
 
 public class BlockNasaWorkbench extends BlockContainer implements ITileEntityProvider, IShiftDescription, IPartialSealableBlock, ISortableBlock
 {
+
     public BlockNasaWorkbench(String assetName)
     {
         super(Material.IRON);
@@ -60,7 +62,8 @@ public class BlockNasaWorkbench extends BlockContainer implements ITileEntityPro
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-        return new AxisAlignedBB((double) pos.getX() + -0.0F, (double) pos.getY() + 0.0F, (double) pos.getZ() + -0.0F, (double) pos.getX() + 1.0F, (double) pos.getY() + 1.4F, (double) pos.getZ() + 1.0F);
+        return new AxisAlignedBB((double) pos.getX() + -0.0F, (double) pos.getY() + 0.0F, (double) pos.getZ() + -0.0F, (double) pos.getX() + 1.0F, (double) pos.getY() + 1.4F,
+            (double) pos.getZ() + 1.0F);
     }
 
 //    @SideOnly(Side.CLIENT)
@@ -127,8 +130,7 @@ public class BlockNasaWorkbench extends BlockContainer implements ITileEntityPro
                                 {
                                     fakeBlockCount++;
                                 }
-                            }
-                            else if (y != 0 && y != 3)
+                            } else if (y != 0 && y != 3)
                             {
                                 if (block == GCBlocks.fakeBlock)
                                 {

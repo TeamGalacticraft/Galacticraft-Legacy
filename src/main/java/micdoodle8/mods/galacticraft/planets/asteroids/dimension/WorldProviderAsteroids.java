@@ -1,5 +1,10 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.dimension;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.TreeMap;
+
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
@@ -22,20 +27,16 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.TreeMap;
-
 public class WorldProviderAsteroids extends WorldProviderSpace implements ISolarLevel
 {
-    //Used to list asteroid centres to external code that needs to know them
+
+    // Used to list asteroid centres to external code that needs to know them
     private HashSet<AsteroidData> asteroids = new HashSet<>();
     private boolean dataNotLoaded = true;
     private AsteroidSaveData datafile;
     private double solarMultiplier = -1D;
 
-    //	@Override
+    // @Override
 //	public void registerWorldChunkManager()
 //	{
 //		this.worldChunkMgr = new WorldChunkManagerAsteroids(this.world, 0F);
@@ -120,7 +121,7 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
         return true;
     }
 
-    //Overriding so that beds do not explode on Asteroids
+    // Overriding so that beds do not explode on Asteroids
     @Override
     public boolean canRespawnHere()
     {
@@ -203,8 +204,7 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
             this.datafile = new AsteroidSaveData("");
             this.world.setData(AsteroidSaveData.saveDataID, this.datafile);
             this.writeToNBT(this.datafile.datacompound);
-        }
-        else
+        } else
         {
             this.readFromNBT(this.datafile.datacompound);
         }
@@ -252,7 +252,6 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
         this.datafile.markDirty();
     }
 
-
     public boolean checkHasAsteroids()
     {
         if (this.dataNotLoaded)
@@ -264,7 +263,7 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -326,30 +325,30 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
             BlockVec3 test = roid.centre;
             switch (facing)
             {
-            case 2:
-                if (z - 16 < test.z)
-                {
-                    continue;
-                }
-                break;
-            case 3:
-                if (z + 16 > test.z)
-                {
-                    continue;
-                }
-                break;
-            case 4:
-                if (x - 16 < test.x)
-                {
-                    continue;
-                }
-                break;
-            case 5:
-                if (x + 16 > test.x)
-                {
-                    continue;
-                }
-                break;
+                case 2:
+                    if (z - 16 < test.z)
+                    {
+                        continue;
+                    }
+                    break;
+                case 3:
+                    if (z + 16 > test.z)
+                    {
+                        continue;
+                    }
+                    break;
+                case 4:
+                    if (x - 16 < test.x)
+                    {
+                        continue;
+                    }
+                    break;
+                case 5:
+                    if (x + 16 > test.x)
+                    {
+                        continue;
+                    }
+                    break;
             }
             int dx = x - test.x;
             int dz = z - test.z;
@@ -375,18 +374,18 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
             GCLog.debug("Found nearby asteroid at " + target.toString());
             switch (facing)
             {
-            case 2:
-                coords.z += offset;
-                break;
-            case 3:
-                coords.z -= offset;
-                break;
-            case 4:
-                coords.x += offset;
-                break;
-            case 5:
-                coords.x -= offset;
-                break;
+                case 2:
+                    coords.z += offset;
+                    break;
+                case 3:
+                    coords.z -= offset;
+                    break;
+                case 4:
+                    coords.x += offset;
+                    break;
+                case 5:
+                    coords.x -= offset;
+                    break;
             }
             returnValues.add(coords);
             if (++i >= count)
@@ -424,6 +423,7 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
 
     private static class AsteroidData
     {
+
         protected BlockVec3 centre;
         protected int sizeAndLandedFlag = 15;
         protected int coreAndSpawnedFlag = -2;
@@ -451,8 +451,7 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
             if (this.centre != null)
             {
                 return this.centre.hashCode();
-            }
-            else
+            } else
             {
                 return 0;
             }
@@ -511,7 +510,7 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
     public int getDungeonSpacing()
     {
         return 576;
-        //Used for generating Abandoned Base 
+        // Used for generating Abandoned Base
     }
 
     @Override
@@ -531,7 +530,7 @@ public class WorldProviderAsteroids extends WorldProviderSpace implements ISolar
     {
         return RoomTreasure.MOONCHEST;
     }
-    
+
     @Override
     public boolean hasSkyLight()
     {

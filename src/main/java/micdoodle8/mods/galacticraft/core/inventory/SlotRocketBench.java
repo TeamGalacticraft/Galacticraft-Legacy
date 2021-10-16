@@ -1,12 +1,11 @@
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import java.util.List;
-
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
@@ -14,8 +13,11 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.List;
+
 public class SlotRocketBench extends Slot
 {
+
     private final int index;
     private final BlockPos pos;
     private final EntityPlayer player;
@@ -34,7 +36,8 @@ public class SlotRocketBench extends Slot
         if (this.player instanceof EntityPlayerMP)
         {
             int dimID = GCCoreUtil.getDimensionID(this.player.world);
-            GCCoreUtil.sendToAllAround(new PacketSimple(EnumSimplePacket.C_SPAWN_SPARK_PARTICLES, dimID, new Object[] { this.pos }), this.player.world, dimID, this.pos, 20);
+            GCCoreUtil.sendToAllAround(new PacketSimple(EnumSimplePacket.C_SPAWN_SPARK_PARTICLES, dimID, new Object[]
+            {this.pos}), this.player.world, dimID, this.pos, 20);
         }
     }
 

@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityTelemetry;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -27,7 +28,8 @@ import java.util.UUID;
 
 public class BlockTelemetry extends BlockAdvancedTile implements IShiftDescription, ISortableBlock
 {
-    //Metadata: 0-3 = orientation;  bits 2,3 = reserved for future use
+
+    // Metadata: 0-3 = orientation; bits 2,3 = reserved for future use
     public BlockTelemetry(String assetName)
     {
         super(Material.IRON);
@@ -44,18 +46,18 @@ public class BlockTelemetry extends BlockAdvancedTile implements IShiftDescripti
 
         switch (angle)
         {
-        case 0:
-            change = 3;
-            break;
-        case 1:
-            change = 4;
-            break;
-        case 2:
-            change = 2;
-            break;
-        case 3:
-            change = 5;
-            break;
+            case 0:
+                change = 3;
+                break;
+            case 1:
+                change = 4;
+                break;
+            case 2:
+                change = 2;
+                break;
+            case 3:
+                change = 5;
+                break;
         }
 
         worldIn.setBlockState(pos, getStateFromMeta(change), 3);
@@ -70,23 +72,23 @@ public class BlockTelemetry extends BlockAdvancedTile implements IShiftDescripti
 
         switch (facing)
         {
-        case 0:
-            change = 1;
-            break;
-        case 1:
-            change = 3;
-            break;
-        case 2:
-            change = 5;
-            break;
-        case 3:
-            change = 4;
-            break;
-        case 4:
-            change = 2;
-            break;
-        case 5:
-            change = 0;
+            case 0:
+                change = 1;
+                break;
+            case 1:
+                change = 3;
+                break;
+            case 2:
+                change = 5;
+                break;
+            case 3:
+                change = 4;
+                break;
+            case 4:
+                change = 2;
+                break;
+            case 5:
+                change = 0;
         }
         change += (12 & metadata);
         world.setBlockState(pos, getStateFromMeta(change), 2);
@@ -115,7 +117,7 @@ public class BlockTelemetry extends BlockAdvancedTile implements IShiftDescripti
             if (tile instanceof TileEntityTelemetry)
             {
                 ItemStack held = entityPlayer.inventory.getCurrentItem();
-                //Look for Frequency Module
+                // Look for Frequency Module
                 if (!held.isEmpty() && held.getItem() == GCItems.basicItem && held.getItemDamage() == 19)
                 {
                     NBTTagCompound fmData = held.getTagCompound();
@@ -124,8 +126,7 @@ public class BlockTelemetry extends BlockAdvancedTile implements IShiftDescripti
                         UUID uuid = new UUID(fmData.getLong("linkedUUIDMost"), fmData.getLong("linkedUUIDLeast"));
                         ((TileEntityTelemetry) tile).addTrackedEntity(uuid);
                         entityPlayer.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.telemetry_succeed.message")));
-                    }
-                    else
+                    } else
                     {
                         entityPlayer.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.telemetry_fail.message")));
 
@@ -150,8 +151,7 @@ public class BlockTelemetry extends BlockAdvancedTile implements IShiftDescripti
                         return false;
                     }
                     entityPlayer.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.telemetry_fail_wearing_it.message")));
-                }
-                else
+                } else
                 {
                     entityPlayer.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.telemetry_fail_no_frequency_module.message")));
                 }

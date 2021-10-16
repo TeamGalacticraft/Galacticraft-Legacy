@@ -1,9 +1,8 @@
 package micdoodle8.mods.galacticraft.core.network;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -14,13 +13,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**  PacketDynamic is used for updating data for regularly updating Entities and TileEntities 
- * Two types of PacketDynamic:
- *  Type 0: the identifier is an Entity ID
- *  Type 1: the identifier is a TileEntity's BlockPos
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+
+/**
+ * PacketDynamic is used for updating data for regularly updating Entities and
+ * TileEntities Two types of PacketDynamic: Type 0: the identifier is an Entity
+ * ID Type 1: the identifier is a TileEntity's BlockPos
  */
 public class PacketDynamic extends PacketBase
 {
+
     private int type;
     private Object identifier;
     private ArrayList<Object> sendData;
@@ -64,15 +67,15 @@ public class PacketDynamic extends PacketBase
 
         switch (this.type)
         {
-        case 0:
-            buffer.writeInt((Integer) this.identifier);
-            break;
-        case 1:
-            BlockPos bp = (BlockPos) this.identifier;
-            buffer.writeInt(bp.getX());
-            buffer.writeInt(bp.getY());
-            buffer.writeInt(bp.getZ());
-            break;
+            case 0:
+                buffer.writeInt((Integer) this.identifier);
+                break;
+            case 1:
+                BlockPos bp = (BlockPos) this.identifier;
+                buffer.writeInt(bp.getX());
+                buffer.writeInt(bp.getY());
+                buffer.writeInt(bp.getZ());
+                break;
         }
 
         ByteBuf payloadData = Unpooled.buffer();
@@ -80,8 +83,7 @@ public class PacketDynamic extends PacketBase
         try
         {
             NetworkUtil.encodeData(payloadData, this.sendData);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -105,20 +107,20 @@ public class PacketDynamic extends PacketBase
 //
         switch (this.type)
         {
-        case 0:
-            this.identifier = new Integer(buffer.readInt());
+            case 0:
+                this.identifier = new Integer(buffer.readInt());
 
-            int length = buffer.readInt();
-            payloadData = Unpooled.copiedBuffer(buffer.readBytes(length));
+                int length = buffer.readInt();
+                payloadData = Unpooled.copiedBuffer(buffer.readBytes(length));
 //                if (entity instanceof IPacketReceiver && buffer.readableBytes() > 0)
-            break;
-        case 1:
-            this.identifier = new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt());
+                break;
+            case 1:
+                this.identifier = new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt());
 
-            length = buffer.readInt();
-            payloadData = Unpooled.copiedBuffer(buffer.readBytes(length));
+                length = buffer.readInt();
+                payloadData = Unpooled.copiedBuffer(buffer.readBytes(length));
 
-            break;
+                break;
         }
     }
 
@@ -138,45 +140,47 @@ public class PacketDynamic extends PacketBase
     {
         switch (this.type)
         {
-        case 0:
-            Entity entity = player.world.getEntityByID((Integer) this.identifier);
+            case 0:
+                Entity entity = player.world.getEntityByID((Integer) this.identifier);
 
-            if (entity instanceof IPacketReceiver)
-            {
-                if (this.payloadData.readableBytes() > 0)
-                {
-                    ((IPacketReceiver) entity).decodePacketdata(payloadData);
-                }
-
-                //Treat any packet received by a server from a client as an update request specifically to that client
-                if (side == Side.SERVER && player instanceof EntityPlayerMP && entity != null)
-                {
-                    GalacticraftCore.packetPipeline.sendTo(new PacketDynamic(entity), (EntityPlayerMP) player);
-                }
-            }
-            break;
-
-        case 1:
-            BlockPos bp = (BlockPos) this.identifier;
-            if (player.world.isBlockLoaded(bp, false))
-            {
-                TileEntity tile = player.world.getTileEntity(bp);
-
-                if (tile instanceof IPacketReceiver)
+                if (entity instanceof IPacketReceiver)
                 {
                     if (this.payloadData.readableBytes() > 0)
                     {
-                        ((IPacketReceiver) tile).decodePacketdata(payloadData);
+                        ((IPacketReceiver) entity).decodePacketdata(payloadData);
                     }
 
-                    //Treat any packet received by a server from a client as an update request specifically to that client
-                    if (side == Side.SERVER && player instanceof EntityPlayerMP && tile != null)
+                    // Treat any packet received by a server from a client as an
+                    // update request specifically to that client
+                    if (side == Side.SERVER && player instanceof EntityPlayerMP && entity != null)
                     {
-                        GalacticraftCore.packetPipeline.sendTo(new PacketDynamic(tile), (EntityPlayerMP) player);
+                        GalacticraftCore.packetPipeline.sendTo(new PacketDynamic(entity), (EntityPlayerMP) player);
                     }
                 }
-            }
-            break;
+                break;
+
+            case 1:
+                BlockPos bp = (BlockPos) this.identifier;
+                if (player.world.isBlockLoaded(bp, false))
+                {
+                    TileEntity tile = player.world.getTileEntity(bp);
+
+                    if (tile instanceof IPacketReceiver)
+                    {
+                        if (this.payloadData.readableBytes() > 0)
+                        {
+                            ((IPacketReceiver) tile).decodePacketdata(payloadData);
+                        }
+
+                        // Treat any packet received by a server from a client
+                        // as an update request specifically to that client
+                        if (side == Side.SERVER && player instanceof EntityPlayerMP && tile != null)
+                        {
+                            GalacticraftCore.packetPipeline.sendTo(new PacketDynamic(tile), (EntityPlayerMP) player);
+                        }
+                    }
+                }
+                break;
         }
     }
 }

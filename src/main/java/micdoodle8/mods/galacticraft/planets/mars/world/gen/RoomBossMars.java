@@ -15,6 +15,7 @@ import java.util.Random;
 
 public class RoomBossMars extends RoomBoss
 {
+
     public RoomBossMars()
     {
     }
@@ -50,14 +51,12 @@ public class RoomBossMars extends RoomBoss
                                 if (getDirection() == EnumFacing.SOUTH && k == 0)
                                 {
                                     placeBlock = false;
-                                }
-                                else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
+                                } else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
                                 {
                                     placeBlock = false;
                                 }
                             }
-                        }
-                        else
+                        } else
                         {
                             int start = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 - 1;
                             int end = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 + 1;
@@ -66,8 +65,7 @@ public class RoomBossMars extends RoomBoss
                                 if (getDirection() == EnumFacing.EAST && i == 0)
                                 {
                                     placeBlock = false;
-                                }
-                                else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
+                                } else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
                                 {
                                     placeBlock = false;
                                 }
@@ -76,28 +74,23 @@ public class RoomBossMars extends RoomBoss
                         if (placeBlock)
                         {
                             this.setBlockState(worldIn, this.configuration.getBrickBlock(), i, j, k, chunkBox);
-                        }
-                        else
+                        } else
                         {
                             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, chunkBox);
                         }
-                    }
-                    else if (j == this.sizeY)
+                    } else if (j == this.sizeY)
                     {
                         if ((i <= 2 || k <= 2 || i >= this.sizeX - 2 || k >= this.sizeZ - 2) && random.nextInt(4) == 0)
                         {
                             this.setBlockState(worldIn, Blocks.GLOWSTONE.getDefaultState(), i, j, k, chunkBox);
-                        }
-                        else
+                        } else
                         {
                             this.setBlockState(worldIn, this.configuration.getBrickBlock(), i, j, k, chunkBox);
                         }
-                    }
-                    else if (j == 1 && (i <= 2 || k <= 2 || i >= this.sizeX - 2 || k >= this.sizeZ - 2) && random.nextInt(6) == 0)
+                    } else if (j == 1 && (i <= 2 || k <= 2 || i >= this.sizeX - 2 || k >= this.sizeZ - 2) && random.nextInt(6) == 0)
                     {
                         this.setBlockState(worldIn, MarsBlocks.creeperEgg.getDefaultState(), i, j, k, chunkBox);
-                    }
-                    else
+                    } else
                     {
                         this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, chunkBox);
                     }
@@ -109,7 +102,7 @@ public class RoomBossMars extends RoomBoss
         int spawnerY = 1;
         int spawnerZ = this.sizeZ / 2;
         BlockPos blockpos = new BlockPos(this.getXWithOffset(spawnerX, spawnerZ), this.getYWithOffset(spawnerY), this.getZWithOffset(spawnerX, spawnerZ));
-        //Is this position inside the chunk currently being generated?
+        // Is this position inside the chunk currently being generated?
         if (chunkBox.isVecInside(blockpos))
         {
             worldIn.setBlockState(blockpos, MarsBlocks.bossSpawner.getDefaultState(), 2);

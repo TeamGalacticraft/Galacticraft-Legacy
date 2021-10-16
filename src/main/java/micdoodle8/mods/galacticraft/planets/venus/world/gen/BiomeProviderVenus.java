@@ -23,12 +23,13 @@ import java.util.Random;
 
 public class BiomeProviderVenus extends BiomeProvider
 {
+
     private GenLayer unzoomedBiomes;
     private GenLayer zoomedBiomes;
     private BiomeCache biomeCache;
     private List<Biome> biomesToSpawnIn;
-    private CelestialBody body; 
-    
+    private CelestialBody body;
+
     protected BiomeProviderVenus()
     {
         body = VenusModule.planetVenus;
@@ -88,8 +89,7 @@ public class BiomeProviderVenus extends BiomeProvider
             if (intArray[i] >= 0)
             {
                 biomes[i] = Biome.getBiome(intArray[i]);
-            }
-            else
+            } else
             {
                 biomes[i] = BiomeAdaptive.biomeDefault;
             }
@@ -129,8 +129,7 @@ public class BiomeProviderVenus extends BiomeProvider
             if (zoomed[i] >= 0)
             {
                 listToReuse[i] = Biome.getBiome(zoomed[i]);
-            }
-            else
+            } else
             {
                 listToReuse[i] = BiomeAdaptive.biomeDefault;
             }

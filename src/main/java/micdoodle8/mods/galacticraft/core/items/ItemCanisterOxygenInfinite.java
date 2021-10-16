@@ -8,6 +8,7 @@ import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +29,7 @@ import javax.annotation.Nullable;
 
 public class ItemCanisterOxygenInfinite extends Item implements IItemOxygenSupply, ISortableItem
 {
+
     public ItemCanisterOxygenInfinite(String assetName)
     {
         super();
@@ -57,12 +59,13 @@ public class ItemCanisterOxygenInfinite extends Item implements IItemOxygenSuppl
         tooltip.add(EnumColor.RED + GCCoreUtil.translate("gui.creative_only.desc"));
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        this.itemIcon = iconRegister.registerIcon(Constants.TEXTURE_PREFIX + "oxygenCanisterInfinite");
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister
+     * iconRegister) { this.itemIcon =
+     * iconRegister.registerIcon(Constants.TEXTURE_PREFIX +
+     * "oxygenCanisterInfinite"); }
+     */
 
     @Override
     public CreativeTabs getCreativeTab()
@@ -119,8 +122,7 @@ public class ItemCanisterOxygenInfinite extends Item implements IItemOxygenSuppl
             {
                 stats.getExtendedInventory().setInventorySlotContents(2, itemStack.copy());
                 itemStack = ItemStack.EMPTY;
-            }
-            else if (gear1.isEmpty())
+            } else if (gear1.isEmpty())
             {
                 stats.getExtendedInventory().setInventorySlotContents(3, itemStack.copy());
                 itemStack = ItemStack.EMPTY;

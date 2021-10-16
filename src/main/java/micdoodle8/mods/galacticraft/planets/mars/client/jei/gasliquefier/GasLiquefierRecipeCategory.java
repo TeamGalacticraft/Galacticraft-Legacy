@@ -21,25 +21,18 @@ import java.util.List;
 
 public class GasLiquefierRecipeCategory implements IRecipeCategory
 {
+
     private static final ResourceLocation refineryGuiTex = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/gas_liquefier_recipe.png");
     private static final ResourceLocation gasesTex = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/gases_methane_oxygen_nitrogen.png");
 
-    @Nonnull
-    private final IDrawable background;
-    @Nonnull
-    private final String localizedName;
-    @Nonnull
-    private final IDrawableAnimated methaneBarInput;
-    @Nonnull
-    private final IDrawableAnimated oxygenBarInput;
-    @Nonnull
-    private final IDrawableAnimated nitrogenBarInput;
-    @Nonnull
-    private final IDrawableAnimated fuelBarOutput;
-    @Nonnull
-    private final IDrawableAnimated oxygenBarOutput;
-    @Nonnull
-    private final IDrawableAnimated nitrogenBarOutput;
+    @Nonnull private final IDrawable background;
+    @Nonnull private final String localizedName;
+    @Nonnull private final IDrawableAnimated methaneBarInput;
+    @Nonnull private final IDrawableAnimated oxygenBarInput;
+    @Nonnull private final IDrawableAnimated nitrogenBarInput;
+    @Nonnull private final IDrawableAnimated fuelBarOutput;
+    @Nonnull private final IDrawableAnimated oxygenBarOutput;
+    @Nonnull private final IDrawableAnimated nitrogenBarOutput;
 
     private int inputGas = 2;
     private int outputGas = 2;
@@ -91,28 +84,28 @@ public class GasLiquefierRecipeCategory implements IRecipeCategory
 
         switch (this.inputGas)
         {
-        case 0:
-            input = this.methaneBarInput;
-            break;
-        case 1:
-            input = this.oxygenBarInput;
-            break;
-        default:
-            input = this.nitrogenBarInput;
-            break;
+            case 0:
+                input = this.methaneBarInput;
+                break;
+            case 1:
+                input = this.oxygenBarInput;
+                break;
+            default:
+                input = this.nitrogenBarInput;
+                break;
         }
 
         switch (this.outputGas)
         {
-        case 0:
-            output = this.fuelBarOutput;
-            break;
-        case 3:
-            output = this.oxygenBarOutput;
-            break;
-        default:
-            output = this.nitrogenBarOutput;
-            break;
+            case 0:
+                output = this.fuelBarOutput;
+                break;
+            case 3:
+                output = this.oxygenBarOutput;
+                break;
+            default:
+                output = this.nitrogenBarOutput;
+                break;
         }
 
         input.draw(minecraft, 40, 24);
@@ -139,8 +132,7 @@ public class GasLiquefierRecipeCategory implements IRecipeCategory
             if (inputItem == AsteroidsItems.methaneCanister)
             {
                 this.inputGas = 0;
-            }
-            else if (inputItem == AsteroidsItems.canisterLOX)
+            } else if (inputItem == AsteroidsItems.canisterLOX)
             {
                 this.inputGas = 1;
             }
@@ -149,12 +141,10 @@ public class GasLiquefierRecipeCategory implements IRecipeCategory
             if (outputItem == GCItems.fuelCanister)
             {
                 this.outputGas = 0;
-            }
-            else if (outputItem == AsteroidsItems.canisterLOX)
+            } else if (outputItem == AsteroidsItems.canisterLOX)
             {
                 this.outputGas = 3;
-            }
-            else
+            } else
             {
                 this.outputGas = 4;
             }

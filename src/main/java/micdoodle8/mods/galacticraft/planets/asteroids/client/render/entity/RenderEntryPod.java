@@ -20,6 +20,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderEntryPod extends Render<EntityEntryPod>
 {
+
     private IBakedModel modelEntryPod;
 
     public RenderEntryPod(RenderManager manager)
@@ -34,8 +35,7 @@ public class RenderEntryPod extends Render<EntityEntryPod>
             try
             {
                 this.modelEntryPod = ClientUtil.modelFromOBJ(new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "pod.obj"), ImmutableList.of("PodBody"));
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -60,8 +60,7 @@ public class RenderEntryPod extends Render<EntityEntryPod>
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }
@@ -78,7 +77,7 @@ public class RenderEntryPod extends Render<EntityEntryPod>
     {
         return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }
-    
+
     @Override
     public boolean shouldRender(EntityEntryPod lander, ICamera camera, double camX, double camY, double camZ)
     {

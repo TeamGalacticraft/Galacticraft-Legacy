@@ -6,6 +6,7 @@ import net.minecraft.world.gen.layer.GenLayerZoom;
 
 public abstract class GenLayerVenus extends GenLayer
 {
+
     public GenLayerVenus(long l)
     {
         super(l);
@@ -23,6 +24,7 @@ public abstract class GenLayerVenus extends GenLayer
         biomes.initWorldGenSeed(l);
         genLayerVeronoiZoom.initWorldGenSeed(l);
 
-        return new GenLayer[] { biomes, genLayerVeronoiZoom };
+        return new GenLayer[]
+        {biomes, genLayerVeronoiZoom};
     }
 }

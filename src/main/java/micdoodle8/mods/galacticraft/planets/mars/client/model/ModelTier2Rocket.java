@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 
 public class ModelTier2Rocket extends ModelBase
 {
+
     // Roof, Floor, Bottom
     ModelRenderer[] inside = new ModelRenderer[3];
     // 4 sets of 5 fin parts

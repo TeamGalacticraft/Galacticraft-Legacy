@@ -4,10 +4,11 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -16,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiElementCheckboxPreLaunch extends GuiButton
 {
+
     protected static final ResourceLocation texture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/checklist_book.png");
     public Boolean isSelected;
     private ICheckBoxCallback parentGui;
@@ -90,8 +92,7 @@ public class GuiElementCheckboxPreLaunch extends GuiButton
                 this.isSelected = !this.isSelected;
                 this.parentGui.onSelectionChanged(this, this.isSelected);
                 return true;
-            }
-            else
+            } else
             {
                 this.parentGui.onIntruderInteraction();
             }
@@ -113,6 +114,7 @@ public class GuiElementCheckboxPreLaunch extends GuiButton
 
     public interface ICheckBoxCallback
     {
+
         void onSelectionChanged(GuiElementCheckboxPreLaunch checkbox, boolean newSelected);
 
         boolean canPlayerEdit(GuiElementCheckboxPreLaunch checkbox, EntityPlayer player);

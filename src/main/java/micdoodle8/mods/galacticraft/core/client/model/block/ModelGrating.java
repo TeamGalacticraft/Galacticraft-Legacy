@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.TransformerHooks;
 import micdoodle8.mods.galacticraft.core.blocks.BlockGrating;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -26,9 +27,10 @@ import java.util.List;
 
 public class ModelGrating implements IBakedModel
 {
+
     private final IBakedModel gratingMetal;
 
-    public ModelGrating (ModelResourceLocation blockLoc, ModelManager modelManager)
+    public ModelGrating(ModelResourceLocation blockLoc, ModelManager modelManager)
     {
         this.gratingMetal = modelManager.getModel(blockLoc);
     }
@@ -47,9 +49,13 @@ public class ModelGrating implements IBakedModel
                 if (buffer != null)
                 {
                     if (baseState.getBlock().canRenderInLayer(baseState, MinecraftForgeClient.getRenderLayer()))
-                    try {
-                        Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(baseState, pos, blockAccess, buffer);
-                    } catch (Exception ignore) { ignore.printStackTrace(); }
+                        try
+                        {
+                            Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(baseState, pos, blockAccess, buffer);
+                        } catch (Exception ignore)
+                        {
+                            ignore.printStackTrace();
+                        }
                 }
             }
         }
@@ -57,7 +63,7 @@ public class ModelGrating implements IBakedModel
         {
             return this.gratingMetal.getQuads(state, side, rand);
         }
-        
+
         return ImmutableList.of();
     }
 

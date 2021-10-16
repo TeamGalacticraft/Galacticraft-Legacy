@@ -6,6 +6,7 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 
 public abstract class SizedPiece extends DirectionalPiece
 {
+
     protected int sizeX;
     protected int sizeY;
     protected int sizeZ;

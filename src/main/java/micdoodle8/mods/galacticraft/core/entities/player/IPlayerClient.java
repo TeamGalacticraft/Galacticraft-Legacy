@@ -5,6 +5,7 @@ import net.minecraft.entity.MoverType;
 
 public interface IPlayerClient
 {
+
     void move(EntityPlayerSP player, MoverType type, double x, double y, double z);
 
     void onUpdate(EntityPlayerSP player);

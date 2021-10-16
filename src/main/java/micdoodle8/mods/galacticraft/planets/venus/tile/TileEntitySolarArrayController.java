@@ -1,6 +1,11 @@
 package micdoodle8.mods.galacticraft.planets.venus.tile;
 
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Set;
+
 import com.google.common.collect.Sets;
+
 import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IConnector;
@@ -26,23 +31,16 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.Set;
-
 public class TileEntitySolarArrayController extends TileBaseUniversalElectricalSource implements IDisableableMachine, IInventoryDefaults, ISidedInventory, IConnector
 {
+
     private int solarStrength = 0;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean disabled = false;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int disableCooldown = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean disabled = false;
+    @NetworkedField(targetSide = Side.CLIENT) public int disableCooldown = 0;
     public static final int MAX_GENERATE_WATTS = 1000;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int generateWatts = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public int generateWatts = 0;
     private Set<ITransmitter> solarArray = Sets.newHashSet();
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int connectedInfo = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public int connectedInfo = 0;
 
     private boolean initialised = false;
 
@@ -92,8 +90,7 @@ public class TileEntitySolarArrayController extends TileBaseUniversalElectricalS
                                     solarArray.addAll(((SolarModuleNetwork) ((INetworkProvider) tileAdj).getNetwork()).getTransmitters());
                                 }
                             }
-                        }
-                        else
+                        } else
                         {
                             if (((INetworkProvider) tileAdj).getNetwork() instanceof SolarModuleNetwork)
                             {
@@ -159,8 +156,10 @@ public class TileEntitySolarArrayController extends TileBaseUniversalElectricalS
 
         float angle = this.world.getCelestialAngle(1.0F) - 0.7845194F < 0 ? 1.0F - 0.7845194F : -0.7845194F;
         float celestialAngle = (this.world.getCelestialAngle(1.0F) + angle) * 360.0F;
-        if (!(this.world.provider instanceof WorldProviderSpaceStation)) celestialAngle += 12.5F;
-        if (this.world.provider instanceof WorldProviderVenus) celestialAngle = 180F - celestialAngle;
+        if (!(this.world.provider instanceof WorldProviderSpaceStation))
+            celestialAngle += 12.5F;
+        if (this.world.provider instanceof WorldProviderVenus)
+            celestialAngle = 180F - celestialAngle;
         celestialAngle %= 360;
         boolean isDaytime = this.world.isDaytime() && (celestialAngle < 180.5F || celestialAngle > 359.5F) || this.world.provider instanceof WorldProviderSpaceStation;
 
@@ -170,8 +169,7 @@ public class TileEntitySolarArrayController extends TileBaseUniversalElectricalS
             if (generated > 0)
             {
                 this.generateWatts = Math.min(Math.max(generated, 0), TileEntitySolarArrayController.MAX_GENERATE_WATTS);
-            }
-            else
+            } else
             {
                 this.generateWatts = 0;
             }
@@ -202,7 +200,9 @@ public class TileEntitySolarArrayController extends TileBaseUniversalElectricalS
         {
             if (this.pos.getY() > 90)
             {
-                result += (this.pos.getY() - 90) / 1000F;   //Small improvement on Venus at higher altitudes
+                result += (this.pos.getY() - 90) / 1000F; // Small improvement
+                                                          // on Venus at higher
+                                                          // altitudes
             }
         }
         return result;
@@ -236,12 +236,9 @@ public class TileEntitySolarArrayController extends TileBaseUniversalElectricalS
         return nbt;
     }
 
-	/*@Override
-    public float getRequest(EnumFacing direction)
-	{
-		return 0;
-	}
-	*/
+    /*
+     * @Override public float getRequest(EnumFacing direction) { return 0; }
+     */
 
     @Override
     public EnumSet<EnumFacing> getElectricalInputDirections()
@@ -251,7 +248,7 @@ public class TileEntitySolarArrayController extends TileBaseUniversalElectricalS
 
     public EnumFacing byIndex()
     {
-        IBlockState state = this.world.getBlockState(getPos()); 
+        IBlockState state = this.world.getBlockState(getPos());
         if (state.getBlock() instanceof BlockSolarArrayController)
         {
             return state.getValue(BlockSolarArrayController.FACING);
@@ -307,7 +304,8 @@ public class TileEntitySolarArrayController extends TileBaseUniversalElectricalS
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[] { 0 };
+        return new int[]
+        {0};
     }
 
     @Override
@@ -325,8 +323,8 @@ public class TileEntitySolarArrayController extends TileBaseUniversalElectricalS
     @Override
     public boolean canConnect(EnumFacing direction, NetworkType type)
     {
-        return type == NetworkType.POWER && direction == this.getElectricOutputDirection() ||
-                type == NetworkType.SOLAR_MODULE && direction != this.getElectricOutputDirection() && direction.getAxis() != EnumFacing.Axis.Y;
+        return type == NetworkType.POWER && direction == this.getElectricOutputDirection()
+            || type == NetworkType.SOLAR_MODULE && direction != this.getElectricOutputDirection() && direction.getAxis() != EnumFacing.Axis.Y;
     }
 
     public int getPossibleArraySize()

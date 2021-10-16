@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiSchematicAstroMiner extends GuiPositionedContainer implements ISchematicResultPage
 {
+
     public static final ResourceLocation schematicTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/schematic_astro_miner.png");
 
     private int pageIndex;
@@ -43,12 +44,12 @@ public class GuiSchematicAstroMiner extends GuiPositionedContainer implements IS
         {
             switch (par1GuiButton.id)
             {
-            case 0:
-                SchematicRegistry.flipToLastPage(this, this.pageIndex);
-                break;
-            case 1:
-                SchematicRegistry.flipToNextPage(this, this.pageIndex);
-                break;
+                case 0:
+                    SchematicRegistry.flipToLastPage(this, this.pageIndex);
+                    break;
+                case 1:
+                    SchematicRegistry.flipToNextPage(this, this.pageIndex);
+                    break;
             }
         }
     }

@@ -1,25 +1,28 @@
 package micdoodle8.mods.galacticraft.api.prefab.world.gen;
 
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.event.wgen.GCCoreEventPopulate;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 
-import java.util.Random;
-
 /**
  * Do not include this prefab class in your released mod download.
  */
 public abstract class BiomeDecoratorSpace
 {
+
     protected Random rand;
 
     protected int posX;
     protected int posZ;
 
     /**
-     * Note: the passed X,Z co-ordinates are now block co-ordinates, not chunk co-ordinates
+     * Note: the passed X,Z co-ordinates are now block co-ordinates, not chunk
+     * co-ordinates
+     * 
      * @param world
      * @param random
      * @param posX
@@ -30,8 +33,7 @@ public abstract class BiomeDecoratorSpace
         if (this.getCurrentWorld() != null)
         {
             throw new RuntimeException("Already decorating!!");
-        }
-        else
+        } else
         {
             this.setCurrentWorld(world);
             this.rand = random;
@@ -48,12 +50,12 @@ public abstract class BiomeDecoratorSpace
 
     protected abstract void setCurrentWorld(World world);
 
-	protected abstract World getCurrentWorld();
+    protected abstract World getCurrentWorld();
 
-	protected void generateOre(int amountPerChunk, WorldGenerator worldGenerator, int minY, int maxY)
+    protected void generateOre(int amountPerChunk, WorldGenerator worldGenerator, int minY, int maxY)
     {
         World currentWorld = this.getCurrentWorld();
-		for (int var5 = 0; var5 < amountPerChunk; ++var5)
+        for (int var5 = 0; var5 < amountPerChunk; ++var5)
         {
             final int var6 = this.posX + this.rand.nextInt(16);
             final int var7 = this.rand.nextInt(maxY - minY) + minY;

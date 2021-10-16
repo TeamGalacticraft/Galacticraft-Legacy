@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerElectrolyzer extends Container
 {
+
     private final TileEntityElectrolyzer tileEntity;
 
     public ContainerElectrolyzer(InventoryPlayer par1InventoryPlayer, TileEntityElectrolyzer tileEntity, EntityPlayer player)
@@ -85,8 +86,7 @@ public class ContainerElectrolyzer extends Container
                 {
                     slot.onSlotChange(var4, var2);
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(var4.getItem()))
                 {
@@ -94,8 +94,7 @@ public class ContainerElectrolyzer extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     if (FluidUtil.isWaterContainer(var4))
                     {
@@ -103,22 +102,19 @@ public class ContainerElectrolyzer extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (FluidUtil.isEmptyGasContainer(var4))
+                    } else if (FluidUtil.isEmptyGasContainer(var4))
                     {
                         if (!this.mergeItemStack(var4, 2, 4, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (par1 < 31)
+                    } else if (par1 < 31)
                     {
                         if (!this.mergeItemStack(var4, 31, 40, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(var4, 4, 31, false))
+                    } else if (!this.mergeItemStack(var4, 4, 31, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -128,8 +124,7 @@ public class ContainerElectrolyzer extends Container
             if (var4.isEmpty())
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

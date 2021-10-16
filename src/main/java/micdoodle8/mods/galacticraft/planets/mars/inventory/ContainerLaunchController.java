@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerLaunchController extends Container
 {
+
     private final TileEntityLaunchController tileEntity;
 
     public ContainerLaunchController(InventoryPlayer par1InventoryPlayer, TileEntityLaunchController tileEntity, EntityPlayer player)
@@ -71,8 +72,7 @@ public class ContainerLaunchController extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(stack.getItem()))
                 {
@@ -80,8 +80,7 @@ public class ContainerLaunchController extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     if (par1 < b - 9)
                     {
@@ -89,8 +88,7 @@ public class ContainerLaunchController extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(stack, b - 36, b - 9, false))
+                    } else if (!this.mergeItemStack(stack, b - 36, b - 9, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -100,8 +98,7 @@ public class ContainerLaunchController extends Container
             if (stack.isEmpty())
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

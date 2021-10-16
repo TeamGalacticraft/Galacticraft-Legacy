@@ -18,6 +18,7 @@ import java.util.Random;
 
 public class ChunkProviderOrbit extends ChunkProviderBase
 {
+
     private final Random rand;
 
     private final World world;
@@ -36,7 +37,7 @@ public class ChunkProviderOrbit extends ChunkProviderBase
 
         final Chunk var4 = new Chunk(this.world, chunkprimer, par1, par2);
 
-        final byte b = (byte) Biome.getIdForBiome( BiomeAdaptive.biomeDefault );
+        final byte b = (byte) Biome.getIdForBiome(BiomeAdaptive.biomeDefault);
         final byte[] biomesArray = var4.getBiomeArray();
         for (int i = 0; i < biomesArray.length; ++i)
         {

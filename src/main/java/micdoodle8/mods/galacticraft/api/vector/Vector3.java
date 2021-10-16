@@ -1,5 +1,11 @@
 package micdoodle8.mods.galacticraft.api.vector;
 
+import java.util.List;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.lwjgl.util.vector.Vector3f;
+
 import micdoodle8.mods.galacticraft.core.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -14,12 +20,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.lwjgl.util.vector.Vector3f;
-
-import java.util.List;
 
 /**
  * Vector3 Class is used for defining objects in a 3D space.
@@ -580,8 +580,10 @@ public class Vector3 implements Cloneable
         double y = this.y;
         double z = this.z;
 
-        this.x = x * Math.cos(yawRadians) * Math.cos(pitchRadians) + z * (Math.cos(yawRadians) * Math.sin(pitchRadians) * Math.sin(rollRadians) - Math.sin(yawRadians) * Math.cos(rollRadians)) + y * (Math.cos(yawRadians) * Math.sin(pitchRadians) * Math.cos(rollRadians) + Math.sin(yawRadians) * Math.sin(rollRadians));
-        this.z = x * Math.sin(yawRadians) * Math.cos(pitchRadians) + z * (Math.sin(yawRadians) * Math.sin(pitchRadians) * Math.sin(rollRadians) + Math.cos(yawRadians) * Math.cos(rollRadians)) + y * (Math.sin(yawRadians) * Math.sin(pitchRadians) * Math.cos(rollRadians) - Math.cos(yawRadians) * Math.sin(rollRadians));
+        this.x = x * Math.cos(yawRadians) * Math.cos(pitchRadians) + z * (Math.cos(yawRadians) * Math.sin(pitchRadians) * Math.sin(rollRadians) - Math.sin(yawRadians) * Math.cos(rollRadians))
+            + y * (Math.cos(yawRadians) * Math.sin(pitchRadians) * Math.cos(rollRadians) + Math.sin(yawRadians) * Math.sin(rollRadians));
+        this.z = x * Math.sin(yawRadians) * Math.cos(pitchRadians) + z * (Math.sin(yawRadians) * Math.sin(pitchRadians) * Math.sin(rollRadians) + Math.cos(yawRadians) * Math.cos(rollRadians))
+            + y * (Math.sin(yawRadians) * Math.sin(pitchRadians) * Math.cos(rollRadians) - Math.cos(yawRadians) * Math.sin(rollRadians));
         this.y = -x * Math.sin(pitchRadians) + z * Math.cos(pitchRadians) * Math.sin(rollRadians) + y * Math.cos(pitchRadians) * Math.cos(rollRadians);
     }
 
@@ -710,9 +712,9 @@ public class Vector3 implements Cloneable
     /**
      * Does an entity raytrace.
      *
-     * @param world  - The world object.
+     * @param world - The world object.
      * @param target - The rotation in terms of Vector3. Convert using
-     *               getDeltaPositionFromRotation()
+     *        getDeltaPositionFromRotation()
      * @return The target hit.
      */
     public RayTraceResult rayTraceEntities(World world, Vector3 target)
@@ -754,8 +756,7 @@ public class Vector3 implements Cloneable
                                 closestEntity = 0.0D;
                             }
                         }
-                    }
-                    else
+                    } else
                     {
                         double distance = startingPosition.distanceTo(hitMOP.hitVec);
 
@@ -798,6 +799,6 @@ public class Vector3 implements Cloneable
 
     public Vector3f toVector3f()
     {
-        return new Vector3f((float)this.x, (float)this.y, (float)this.z);
+        return new Vector3f((float) this.x, (float) this.y, (float) this.z);
     }
 }

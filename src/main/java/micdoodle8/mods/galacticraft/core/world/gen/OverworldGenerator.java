@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.core.world.gen;
 
-import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
@@ -14,8 +13,11 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.Random;
 
+import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
+
 public class OverworldGenerator implements IWorldGenerator
 {
+
     private final int amountPerChunk;
     private final int maxGenerateLevel;
     private final int minGenerateLevel;

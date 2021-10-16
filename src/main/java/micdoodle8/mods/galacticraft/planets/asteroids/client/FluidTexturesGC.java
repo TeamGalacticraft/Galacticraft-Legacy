@@ -7,6 +7,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class FluidTexturesGC
 {
+
     public static void init()
     {
         MinecraftForge.EVENT_BUS.register(new FluidTexturesGC());

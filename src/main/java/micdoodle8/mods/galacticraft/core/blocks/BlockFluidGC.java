@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.GCFluids;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
+
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -30,6 +31,7 @@ import javax.annotation.Nullable;
 
 public class BlockFluidGC extends BlockFluidClassic
 {
+
     private final String fluidName;
     private final Fluid fluid;
 
@@ -72,7 +74,8 @@ public class BlockFluidGC extends BlockFluidClassic
 
         if (this.fluidName.startsWith("oil") && rand.nextInt(1200) == 0)
         {
-            worldIn.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, rand.nextFloat() * 0.25F + 0.75F, 0.00001F + rand.nextFloat() * 0.5F);
+            worldIn.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, rand.nextFloat() * 0.25F + 0.75F,
+                0.00001F + rand.nextFloat() * 0.5F);
         }
         if (this.fluidName.equals("oil") && rand.nextInt(10) == 0)
         {
@@ -80,7 +83,8 @@ public class BlockFluidGC extends BlockFluidClassic
             IBlockState state = worldIn.getBlockState(below);
             if (state.getBlock().isSideSolid(state, worldIn, below, EnumFacing.UP) && !worldIn.getBlockState(pos.down(2)).getMaterial().blocksMovement())
             {
-                GalacticraftCore.proxy.spawnParticle("oilDrip", new Vector3(pos.getX() + rand.nextFloat(), pos.getY() - 1.05D, pos.getZ() + rand.nextFloat()), new Vector3(0, 0, 0), new Object[] {});
+                GalacticraftCore.proxy.spawnParticle("oilDrip", new Vector3(pos.getX() + rand.nextFloat(), pos.getY() - 1.05D, pos.getZ() + rand.nextFloat()), new Vector3(0, 0, 0), new Object[]
+                {});
             }
         }
     }
@@ -117,12 +121,12 @@ public class BlockFluidGC extends BlockFluidClassic
         }
         return (this.fluidName.startsWith("oil"));
     }
-    
+
     @Override
     public IBlockState getExtendedState(IBlockState oldState, IBlockAccess world, BlockPos pos)
     {
-        IExtendedBlockState state = (IExtendedBlockState)oldState;
-        state = state.withProperty(FLOW_DIRECTION, (float)getFlowDirection(state, world, pos));
+        IExtendedBlockState state = (IExtendedBlockState) oldState;
+        state = state.withProperty(FLOW_DIRECTION, (float) getFlowDirection(state, world, pos));
         IBlockState[][] upBlockState = new IBlockState[3][3];
         float[][] height = new float[3][3];
         float[][] corner = new float[2][2];
@@ -138,8 +142,7 @@ public class BlockFluidGC extends BlockFluidClassic
                     corner[i][j] = 1;
                 }
             }
-        }
-        else
+        } else
         {
             for (int i = 0; i < 3; i++)
             {
@@ -159,11 +162,11 @@ public class BlockFluidGC extends BlockFluidClassic
                     corner[i][j] = this.getFluidHeightAverage(height[i][j], height[i][j + 1], height[i + 1][j], height[i + 1][j + 1]);
                 }
             }
-            //check for downflow above corners
-            boolean n =  this.isFluid(upBlockState[0][1]);
-            boolean s =  this.isFluid(upBlockState[2][1]);
-            boolean w =  this.isFluid(upBlockState[1][0]);
-            boolean e =  this.isFluid(upBlockState[1][2]);
+            // check for downflow above corners
+            boolean n = this.isFluid(upBlockState[0][1]);
+            boolean s = this.isFluid(upBlockState[2][1]);
+            boolean w = this.isFluid(upBlockState[1][0]);
+            boolean e = this.isFluid(upBlockState[1][2]);
             boolean nw = this.isFluid(upBlockState[0][0]);
             boolean ne = this.isFluid(upBlockState[0][2]);
             boolean sw = this.isFluid(upBlockState[2][0]);
@@ -199,10 +202,10 @@ public class BlockFluidGC extends BlockFluidClassic
         {
             return -1000.0;
         }
-        Vec3d vec = ((BlockFluidBase)state.getBlock()).getFlowVector(world, pos);
+        Vec3d vec = ((BlockFluidBase) state.getBlock()).getFlowVector(world, pos);
         return vec.x == 0.0D && vec.z == 0.0D ? -1000.0D : Math.atan2(vec.z, vec.x) - Math.PI / 2D;
     }
-    
+
     private boolean isFluid(IBlockState state)
     {
         return state.getMaterial().isLiquid() || state.getBlock() instanceof IFluidBlock;

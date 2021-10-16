@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.entities.EntityMeteorChunk;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -14,7 +15,11 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,7 +30,9 @@ import javax.annotation.Nullable;
 
 public class ItemMeteorChunk extends Item implements ISortableItem
 {
-    public static final String[] names = { "meteor_chunk", "meteor_chunk_hot" };
+
+    public static final String[] names =
+    {"meteor_chunk", "meteor_chunk_hot"};
 
     public static final int METEOR_BURN_TIME = 45 * 20;
 
@@ -37,7 +44,7 @@ public class ItemMeteorChunk extends Item implements ISortableItem
         this.maxStackSize = 16;
         this.setCreativeTab(CreativeTabs.MATERIALS);
         this.setTranslationKey(assetName);
-        //this.setTextureName("arrow");
+        // this.setTextureName("arrow");
     }
 
     @Override
@@ -59,14 +66,12 @@ public class ItemMeteorChunk extends Item implements ISortableItem
                 {
                     meteorBurnTime -= 0.5F;
                     itemstack.getTagCompound().setFloat("MeteorBurnTimeF", meteorBurnTime);
-                }
-                else
+                } else
                 {
                     itemstack.setItemDamage(0);
                     itemstack.setTagCompound(null);
                 }
-            }
-            else
+            } else
             {
                 itemstack.setTagCompound(new NBTTagCompound());
                 itemstack.getTagCompound().setFloat("MeteorBurnTimeF", ItemMeteorChunk.METEOR_BURN_TIME);
@@ -113,8 +118,7 @@ public class ItemMeteorChunk extends Item implements ISortableItem
             {
                 float meteorBurnTime = itemstack.getTagCompound().getFloat("MeteorBurnTimeF");
                 burnTime = Math.round(meteorBurnTime / 10.0F) / 2.0F;
-            }
-            else
+            } else
             {
                 burnTime = 45.0F;
             }

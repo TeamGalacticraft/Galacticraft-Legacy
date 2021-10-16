@@ -5,6 +5,7 @@ import net.minecraft.world.biome.Biome;
 
 public class BiomeProviderMoon extends BiomeProviderSpace
 {
+
     @Override
     public Biome getBiome()
     {

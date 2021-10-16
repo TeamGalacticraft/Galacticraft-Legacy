@@ -22,6 +22,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderSpiderQueen extends RenderLiving<EntitySpiderQueen>
 {
+
     private static final ResourceLocation spiderTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/model/spider_queen.png");
     public static IBakedModel webModel;
 
@@ -37,8 +38,7 @@ public class RenderSpiderQueen extends RenderLiving<EntitySpiderQueen>
             try
             {
                 webModel = ClientUtil.modelFromOBJ(new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "web.obj"), ImmutableList.of("Sphere"));
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -77,8 +77,7 @@ public class RenderSpiderQueen extends RenderLiving<EntitySpiderQueen>
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }

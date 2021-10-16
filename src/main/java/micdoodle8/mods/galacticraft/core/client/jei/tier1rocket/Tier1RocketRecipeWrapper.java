@@ -1,17 +1,20 @@
 package micdoodle8.mods.galacticraft.core.client.jei.tier1rocket;
 
+import com.google.common.collect.Lists;
+
+import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
+
+import net.minecraft.item.ItemStack;
+
 import javax.annotation.Nonnull;
 
-import com.google.common.collect.Lists;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
-import net.minecraft.item.ItemStack;
 
 public class Tier1RocketRecipeWrapper implements IRecipeWrapper
 {
-    @Nonnull
-    private final INasaWorkbenchRecipe recipe;
+
+    @Nonnull private final INasaWorkbenchRecipe recipe;
 
     public Tier1RocketRecipeWrapper(@Nonnull INasaWorkbenchRecipe recipe)
     {

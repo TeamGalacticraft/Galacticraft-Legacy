@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
+
 import micdoodle8.mods.galacticraft.api.block.IDetectableResource;
 import micdoodle8.mods.galacticraft.api.entity.IEntityNoisy;
 import micdoodle8.mods.galacticraft.api.entity.IIgnoreShift;
@@ -18,9 +19,18 @@ import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.client.*;
+import micdoodle8.mods.galacticraft.core.client.BubbleRenderer;
+import micdoodle8.mods.galacticraft.core.client.CloudRenderer;
+import micdoodle8.mods.galacticraft.core.client.FootprintRenderer;
+import micdoodle8.mods.galacticraft.core.client.SkyProviderMoon;
+import micdoodle8.mods.galacticraft.core.client.SkyProviderOverworld;
 import micdoodle8.mods.galacticraft.core.client.gui.GuiIdsCore;
-import micdoodle8.mods.galacticraft.core.client.gui.overlay.*;
+import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlayDockingRocket;
+import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlayLander;
+import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlayLaunchCountdown;
+import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlayOxygenTanks;
+import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlayOxygenWarning;
+import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlayRocket;
 import micdoodle8.mods.galacticraft.core.client.gui.screen.GuiCelestialSelection;
 import micdoodle8.mods.galacticraft.core.client.gui.screen.GuiNewSpaceRace;
 import micdoodle8.mods.galacticraft.core.client.gui.screen.GuiTeleporting;
@@ -38,9 +48,15 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenSealer;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityScreen;
-import micdoodle8.mods.galacticraft.core.util.*;
+import micdoodle8.mods.galacticraft.core.util.ColorUtil;
+import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+import micdoodle8.mods.galacticraft.core.util.MapUtil;
+import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
+import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.BlockMetaList;
 import micdoodle8.mods.galacticraft.core.wrappers.Footprint;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -50,18 +66,18 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -72,16 +88,22 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 public class TickHandlerClient
 {
+
     public static int airRemaining;
     public static int airRemaining2;
-    public static boolean checkedVersion = true;
     private static boolean lastInvKeyPressed;
     private static long tickCount;
     public static boolean spaceRaceGuiScheduled = false;
@@ -90,7 +112,7 @@ public class TickHandlerClient
     public static GuiTeleporting teleportingGui;
     public static volatile boolean menuReset = true;
     public static volatile boolean updateJEIhiding = false;
-    
+
     public static void resetClient()
     {
         ClientProxyCore.playerItemData.clear();
@@ -100,12 +122,6 @@ public class TickHandlerClient
         ClientProxyCore.clientSpaceStationID.clear();
         ConfigManagerCore.challengeModeUpdate();
 
-        if (TickHandlerClient.missingRequirementThread == null)
-        {
-            TickHandlerClient.missingRequirementThread = new ThreadRequirementMissing(Side.CLIENT);
-            TickHandlerClient.missingRequirementThread.start();
-        }
-        
         MapUtil.resetClient();
         GCBlocks.spaceGlassVanilla.resetColor();
         GCBlocks.spaceGlassClear.resetColor();
@@ -143,8 +159,6 @@ public class TickHandlerClient
             packetHandler.unload(event.getWorld());
         }
     }
-
-    private static ThreadRequirementMissing missingRequirementThread;
 
     public static HashSet<TileEntityScreen> screenConnectionsUpdateList = new HashSet<TileEntityScreen>();
 
@@ -231,11 +245,18 @@ public class TickHandlerClient
                     }
                 }
 
-                this.drawGradientRect(minecraft.currentScreen.width - 100, minecraft.currentScreen.height - 35, minecraft.currentScreen.width, minecraft.currentScreen.height, ColorUtil.to32BitColor(150, 10 + deltaColor, 10 + deltaColor, 10 + deltaColor), ColorUtil.to32BitColor(250, 10 + deltaColor, 10 + deltaColor, 10 + deltaColor));
-                minecraft.fontRenderer.drawString(GCCoreUtil.translate("gui.space_race.create.title.name.0"), minecraft.currentScreen.width - 50 - minecraft.fontRenderer.getStringWidth(GCCoreUtil.translate("gui.space_race.create.title.name.0")) / 2, minecraft.currentScreen.height - 26, ColorUtil.to32BitColor(255, 240, 240, 240));
-                minecraft.fontRenderer.drawString(GCCoreUtil.translate("gui.space_race.create.title.name.1"), minecraft.currentScreen.width - 50 - minecraft.fontRenderer.getStringWidth(GCCoreUtil.translate("gui.space_race.create.title.name.1")) / 2, minecraft.currentScreen.height - 16, ColorUtil.to32BitColor(255, 240, 240, 240));
-                Gui.drawRect(minecraft.currentScreen.width - 100, minecraft.currentScreen.height - 35, minecraft.currentScreen.width - 99, minecraft.currentScreen.height, ColorUtil.to32BitColor(255, 0, 0, 0));
-                Gui.drawRect(minecraft.currentScreen.width - 100, minecraft.currentScreen.height - 35, minecraft.currentScreen.width, minecraft.currentScreen.height - 34, ColorUtil.to32BitColor(255, 0, 0, 0));
+                this.drawGradientRect(minecraft.currentScreen.width - 100, minecraft.currentScreen.height - 35, minecraft.currentScreen.width, minecraft.currentScreen.height,
+                    ColorUtil.to32BitColor(150, 10 + deltaColor, 10 + deltaColor, 10 + deltaColor), ColorUtil.to32BitColor(250, 10 + deltaColor, 10 + deltaColor, 10 + deltaColor));
+                minecraft.fontRenderer.drawString(GCCoreUtil.translate("gui.space_race.create.title.name.0"),
+                    minecraft.currentScreen.width - 50 - minecraft.fontRenderer.getStringWidth(GCCoreUtil.translate("gui.space_race.create.title.name.0")) / 2, minecraft.currentScreen.height - 26,
+                    ColorUtil.to32BitColor(255, 240, 240, 240));
+                minecraft.fontRenderer.drawString(GCCoreUtil.translate("gui.space_race.create.title.name.1"),
+                    minecraft.currentScreen.width - 50 - minecraft.fontRenderer.getStringWidth(GCCoreUtil.translate("gui.space_race.create.title.name.1")) / 2, minecraft.currentScreen.height - 16,
+                    ColorUtil.to32BitColor(255, 240, 240, 240));
+                Gui.drawRect(minecraft.currentScreen.width - 100, minecraft.currentScreen.height - 35, minecraft.currentScreen.width - 99, minecraft.currentScreen.height,
+                    ColorUtil.to32BitColor(255, 0, 0, 0));
+                Gui.drawRect(minecraft.currentScreen.width - 100, minecraft.currentScreen.height - 35, minecraft.currentScreen.width, minecraft.currentScreen.height - 34,
+                    ColorUtil.to32BitColor(255, 0, 0, 0));
             }
 
             ClientProxyCore.playerPosX = player.prevPosX + (player.posX - player.prevPosX) * event.renderTickTime;
@@ -267,7 +288,8 @@ public class TickHandlerClient
                 }
             }
 
-            if (player.world.provider instanceof IGalacticraftWorldProvider && OxygenUtil.shouldDisplayTankGui(minecraft.currentScreen) && OxygenUtil.noAtmosphericCombustion(player.world.provider) && !(playerBaseClient.isCreative() || playerBaseClient.isSpectator()) && !minecraft.gameSettings.showDebugInfo)
+            if (player.world.provider instanceof IGalacticraftWorldProvider && OxygenUtil.shouldDisplayTankGui(minecraft.currentScreen) && OxygenUtil.noAtmosphericCombustion(player.world.provider)
+                && !(playerBaseClient.isCreative() || playerBaseClient.isSpectator()) && !minecraft.gameSettings.showDebugInfo)
             {
                 int var6 = (TickHandlerClient.airRemaining - 90) * -1;
 
@@ -284,10 +306,12 @@ public class TickHandlerClient
                 }
 
                 int thermalLevel = stats.getThermalLevel() + 22;
-                OverlayOxygenTanks.renderOxygenTankIndicator(minecraft, thermalLevel, var6, var7, !ConfigManagerCore.oxygenIndicatorLeft, !ConfigManagerCore.oxygenIndicatorBottom, Math.abs(thermalLevel - 22) >= 10 && !stats.isThermalLevelNormalising());
+                OverlayOxygenTanks.renderOxygenTankIndicator(minecraft, thermalLevel, var6, var7, !ConfigManagerCore.oxygenIndicatorLeft, !ConfigManagerCore.oxygenIndicatorBottom,
+                    Math.abs(thermalLevel - 22) >= 10 && !stats.isThermalLevelNormalising());
             }
 
-            if (playerBaseClient != null && player.world.provider instanceof IGalacticraftWorldProvider && !stats.isOxygenSetupValid() && OxygenUtil.noAtmosphericCombustion(player.world.provider) && minecraft.currentScreen == null && !minecraft.gameSettings.hideGUI && !(playerBaseClient.isCreative() || playerBaseClient.isSpectator()))
+            if (playerBaseClient != null && player.world.provider instanceof IGalacticraftWorldProvider && !stats.isOxygenSetupValid() && OxygenUtil.noAtmosphericCombustion(player.world.provider)
+                && minecraft.currentScreen == null && !minecraft.gameSettings.hideGUI && !(playerBaseClient.isCreative() || playerBaseClient.isSpectator()))
             {
                 OverlayOxygenWarning.renderOxygenWarningOverlay(minecraft, TickHandlerClient.tickCount);
             }
@@ -304,8 +328,10 @@ public class TickHandlerClient
         {
             if (player != null && player.getRidingEntity() != null && player.getRidingEntity() instanceof IIgnoreShift && ((IIgnoreShift) player.getRidingEntity()).shouldIgnoreShiftExit())
             {
-                // Remove "Press shift to dismount" message when shift-exiting is disabled (not ideal, but the only option)
-                String str = I18n.format("mount.onboard", new Object[] { GameSettings.getKeyDisplayString(minecraft.gameSettings.keyBindSneak.getKeyCode()) });
+                // Remove "Press shift to dismount" message when shift-exiting
+                // is disabled (not ideal, but the only option)
+                String str = I18n.format("mount.onboard", new Object[]
+                {GameSettings.getKeyDisplayString(minecraft.gameSettings.keyBindSneak.getKeyCode())});
                 if (minecraft.ingameGUI.overlayMessage.equals(str))
                 {
                     minecraft.ingameGUI.overlayMessage = "";
@@ -344,16 +370,15 @@ public class TickHandlerClient
 
                 if (map.containsKey(Type.SKIN))
                 {
-                    ClientProxyCore.playerHead = minecraft.getSkinManager().loadSkin((MinecraftProfileTexture)map.get(Type.SKIN), Type.SKIN);
-                }
-                else
+                    ClientProxyCore.playerHead = minecraft.getSkinManager().loadSkin((MinecraftProfileTexture) map.get(Type.SKIN), Type.SKIN);
+                } else
                 {
                     ClientProxyCore.playerHead = DefaultPlayerSkin.getDefaultSkin(EntityPlayer.getUUID(player.getGameProfile()));
                 }
             }
 
             TickHandlerClient.tickCount++;
-            
+
             if (!GalacticraftCore.proxy.isPaused())
             {
                 Iterator<FluidNetwork> it = TickHandlerClient.fluidNetworks.iterator();
@@ -364,8 +389,7 @@ public class TickHandlerClient
                     if (network.getTransmitters().size() == 0)
                     {
                         it.remove();
-                    }
-                    else
+                    } else
                     {
                         network.clientTick();
                     }
@@ -380,18 +404,20 @@ public class TickHandlerClient
                 {
                     if (tile instanceof IBubbleProviderColored)
                     {
-                        BubbleRenderer.addBubble((IBubbleProviderColored)tile);
+                        BubbleRenderer.addBubble((IBubbleProviderColored) tile);
                     }
                 }
 
                 if (updateJEIhiding)
                 {
                     updateJEIhiding = false;
-                    // Update JEI to hide the ingot compressor recipe for GC steel in hard mode
-                    // Update JEI to hide adventure mode recipes when not in adventure mode
+                    // Update JEI to hide the ingot compressor recipe for GC
+                    // steel in hard mode
+                    // Update JEI to hide adventure mode recipes when not in
+                    // adventure mode
                     GalacticraftJEI.updateHidden(CompressorRecipes.steelIngotsPresent && ConfigManagerCore.hardMode && !ConfigManagerCore.challengeRecipes, !ConfigManagerCore.challengeRecipes);
                 }
-                
+
                 for (List<Footprint> fpList : FootprintRenderer.footprints.values())
                 {
                     Iterator<Footprint> fpIt = fpList.iterator();
@@ -448,18 +474,16 @@ public class TickHandlerClient
                             }
                         }
                     }
-                    
+
                     TileEntityOxygenSealer nearestSealer = TileEntityOxygenSealer.getNearestSealer(world, MathHelper.floor(player.posX), MathHelper.floor(player.posY), MathHelper.floor(player.posZ));
                     if (nearestSealer != null && !nearestSealer.sealed)
                     {
                         ClientProxyCore.leakTrace = nearestSealer.getLeakTraceClient();
-                    }
-                    else
+                    } else
                     {
                         ClientProxyCore.leakTrace = null;
                     }
-                }
-                else
+                } else
                 {
                     ClientProxyCore.leakTrace = null;
                 }
@@ -473,18 +497,13 @@ public class TickHandlerClient
                 }
             }
 
-            if (ClientProxyCore.leakTrace != null) this.spawnLeakParticles();
-            
+            if (ClientProxyCore.leakTrace != null)
+                this.spawnLeakParticles();
+
             if (world != null && TickHandlerClient.spaceRaceGuiScheduled && minecraft.currentScreen == null && ConfigManagerCore.enableSpaceRaceManagerPopup)
             {
                 player.openGui(GalacticraftCore.instance, GuiIdsCore.SPACE_RACE_START, player.world, (int) player.posX, (int) player.posY, (int) player.posZ);
                 TickHandlerClient.spaceRaceGuiScheduled = false;
-            }
-
-            if (world != null && TickHandlerClient.checkedVersion)
-            {
-                ThreadVersionCheck.startCheck();
-                TickHandlerClient.checkedVersion = false;
             }
 
             boolean inSpaceShip = false;
@@ -502,24 +521,20 @@ public class TickHandlerClient
             {
                 if (world.provider instanceof WorldProviderSurface)
                 {
-                    if (world.provider.getSkyRenderer() == null && inSpaceShip &&
-                            player.getRidingEntity().posY > Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT)
+                    if (world.provider.getSkyRenderer() == null && inSpaceShip && player.getRidingEntity().posY > Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT)
                     {
                         world.provider.setSkyRenderer(new SkyProviderOverworld());
-                    }
-                    else if (world.provider.getSkyRenderer() instanceof SkyProviderOverworld && player.posY <= Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT)
+                    } else if (world.provider.getSkyRenderer() instanceof SkyProviderOverworld && player.posY <= Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT)
                     {
                         world.provider.setSkyRenderer(null);
                     }
-                }
-                else if (world.provider instanceof WorldProviderSpaceStation)
+                } else if (world.provider instanceof WorldProviderSpaceStation)
                 {
                     if (world.provider.getSkyRenderer() == null)
                     {
                         ((WorldProviderSpaceStation) world.provider).createSkyProvider();
                     }
-                }
-                else if (world.provider instanceof WorldProviderMoon)
+                } else if (world.provider instanceof WorldProviderMoon)
                 {
                     if (world.provider.getSkyRenderer() == null)
                     {
@@ -599,7 +614,8 @@ public class TickHandlerClient
                 player.motionY = 0;
             }
 
-            if (world != null && world.provider instanceof IGalacticraftWorldProvider && OxygenUtil.noAtmosphericCombustion(world.provider) && ((IGalacticraftWorldProvider) world.provider).shouldDisablePrecipitation())
+            if (world != null && world.provider instanceof IGalacticraftWorldProvider && OxygenUtil.noAtmosphericCombustion(world.provider)
+                && ((IGalacticraftWorldProvider) world.provider).shouldDisablePrecipitation())
             {
                 world.setRainStrength(0.0F);
             }
@@ -613,7 +629,8 @@ public class TickHandlerClient
 
             if (player.getRidingEntity() != null && isPressed && !ClientProxyCore.lastSpacebarDown)
             {
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_IGNITE_ROCKET, GCCoreUtil.getDimensionID(player.world), new Object[] {}));
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_IGNITE_ROCKET, GCCoreUtil.getDimensionID(player.world), new Object[]
+                {}));
                 ClientProxyCore.lastSpacebarDown = true;
             }
 
@@ -633,8 +650,7 @@ public class TickHandlerClient
                     }
                 }
             }
-        }
-        else if (event.phase == Phase.END)
+        } else if (event.phase == Phase.END)
         {
             if (world != null)
             {
@@ -651,19 +667,23 @@ public class TickHandlerClient
         Random rand = new Random();
         for (int i = ClientProxyCore.leakTrace.size() - 1; i >= 0; i--)
         {
-            if (i == 1) continue;
+            if (i == 1)
+                continue;
             BlockVec3 curr = ClientProxyCore.leakTrace.get(i);
             int nx = i - 2;
-            if (i > 2 && rand.nextInt(3) == 0) nx --;
+            if (i > 2 && rand.nextInt(3) == 0)
+                nx--;
             BlockVec3 vec;
-            if (i > 1) vec = ClientProxyCore.leakTrace.get(nx).clone();
+            if (i > 1)
+                vec = ClientProxyCore.leakTrace.get(nx).clone();
             else
             {
                 vec = curr.clone().translate(0, -2, 0);
             }
             Vector3 mot = new Vector3(vec.subtract(curr));
             Vector3 rnd = new Vector3(rand.nextDouble() / 2 - 0.25, rand.nextDouble() / 2 - 0.25, rand.nextDouble() / 2 - 0.25);
-            GalacticraftCore.proxy.spawnParticle("oxygen", curr.midPoint().add(rnd), mot, new Object[] { new Vector3(0.7D, 0.7D, 1.0D) });
+            GalacticraftCore.proxy.spawnParticle("oxygen", curr.midPoint().add(rnd), mot, new Object[]
+            {new Vector3(0.7D, 0.7D, 1.0D)});
         }
     }
 

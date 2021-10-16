@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.client.gui.element;
 
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -9,10 +10,12 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiElementDropdown extends GuiButton
 {
+
     protected static final ResourceLocation texture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/gui.png");
 
     public boolean dropdownClicked;
@@ -60,7 +63,8 @@ public class GuiElementDropdown extends GuiButton
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
             Gui.drawRect(this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.optionStrings.length : this.height), ColorUtil.to32BitColor(255, 0, 0, 0));
-            Gui.drawRect(this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.optionStrings.length : this.height) - 1, ColorUtil.to32BitColor(255, 150, 150, 150));
+            Gui.drawRect(this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.optionStrings.length : this.height) - 1,
+                ColorUtil.to32BitColor(255, 150, 150, 150));
             Gui.drawRect(this.x + this.width - 15, this.y, this.x + this.width - 1, this.y + this.height, ColorUtil.to32BitColor(255, 0, 0, 0));
             Gui.drawRect(this.x + this.width - 15, this.y + 1, this.x + this.width - 2, this.y + this.height - 1, ColorUtil.to32BitColor(255, 150, 150, 150));
 
@@ -76,12 +80,13 @@ public class GuiElementDropdown extends GuiButton
             {
                 for (int i = 0; i < this.optionStrings.length; i++)
                 {
-                    this.font.drawStringWithShadow(this.optionStrings[i], this.x + this.width / 2 - 7 - this.font.getStringWidth(this.optionStrings[i]) / 2, this.y + (this.height - 6) / 2 + this.height * i, ColorUtil.to32BitColor(255, 255, 255, 255));
+                    this.font.drawStringWithShadow(this.optionStrings[i], this.x + this.width / 2 - 7 - this.font.getStringWidth(this.optionStrings[i]) / 2,
+                        this.y + (this.height - 6) / 2 + this.height * i, ColorUtil.to32BitColor(255, 255, 255, 255));
                 }
-            }
-            else
+            } else
             {
-                this.font.drawStringWithShadow(this.optionStrings[this.selectedOption], this.x + this.width / 2 - 7 - this.font.getStringWidth(this.optionStrings[this.selectedOption]) / 2, this.y + (this.height - 6) / 2, ColorUtil.to32BitColor(255, 255, 255, 255));
+                this.font.drawStringWithShadow(this.optionStrings[this.selectedOption], this.x + this.width / 2 - 7 - this.font.getStringWidth(this.optionStrings[this.selectedOption]) / 2,
+                    this.y + (this.height - 6) / 2, ColorUtil.to32BitColor(255, 255, 255, 255));
             }
 
             par1Minecraft.renderEngine.bindTexture(this.texture);
@@ -107,14 +112,12 @@ public class GuiElementDropdown extends GuiButton
                 {
                     this.dropdownClicked = true;
                     return true;
-                }
-                else
+                } else
                 {
                     this.parentClass.onIntruderInteraction();
                 }
             }
-        }
-        else
+        } else
         {
             if (this.enabled && this.visible && par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height * this.optionStrings.length)
             {
@@ -125,13 +128,11 @@ public class GuiElementDropdown extends GuiButton
                     this.dropdownClicked = false;
                     this.parentClass.onSelectionChanged(this, this.selectedOption);
                     return true;
-                }
-                else
+                } else
                 {
                     this.parentClass.onIntruderInteraction();
                 }
-            }
-            else
+            } else
             {
                 this.dropdownClicked = false;
             }
@@ -142,6 +143,7 @@ public class GuiElementDropdown extends GuiButton
 
     public interface IDropboxCallback
     {
+
         boolean canBeClickedBy(GuiElementDropdown dropdown, EntityPlayer player);
 
         void onSelectionChanged(GuiElementDropdown dropdown, int selection);

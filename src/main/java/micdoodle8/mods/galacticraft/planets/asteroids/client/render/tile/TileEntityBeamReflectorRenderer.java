@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.planets.asteroids.client.render.tile;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
+
 import micdoodle8.mods.galacticraft.core.client.model.OBJLoaderGC;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
@@ -24,6 +25,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class TileEntityBeamReflectorRenderer extends TileEntitySpecialRenderer<TileEntityBeamReflector>
 {
+
     private static OBJModel.OBJBakedModel reflectorModelBase;
     private static OBJModel.OBJBakedModel reflectorModelAxle;
     private static OBJModel.OBJBakedModel reflectorModelEnergyBlaster;
@@ -42,8 +44,7 @@ public class TileEntityBeamReflectorRenderer extends TileEntitySpecialRenderer<T
                 reflectorModelAxle = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Axle"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 reflectorModelEnergyBlaster = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("EnergyBlaster"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 reflectorModelRing = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Ring"), false), DefaultVertexFormats.ITEM, spriteFunction);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -62,8 +63,7 @@ public class TileEntityBeamReflectorRenderer extends TileEntitySpecialRenderer<T
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }

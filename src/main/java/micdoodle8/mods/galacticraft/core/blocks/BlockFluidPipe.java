@@ -9,6 +9,7 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityFluidPipe;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -42,6 +43,7 @@ import java.util.Random;
 
 public class BlockFluidPipe extends BlockTransmitter implements ITileEntityProvider, IShiftDescription, ISortableBlock
 {
+
     public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
 
     public static boolean ignoreDrop = false;
@@ -50,75 +52,153 @@ public class BlockFluidPipe extends BlockTransmitter implements ITileEntityProvi
 
     private static final float MIN = 0.35F;
     private static final float MAX = 0.65F;
-    protected static final AxisAlignedBB[] BOUNDING_BOXES = new AxisAlignedBB[] {
+    protected static final AxisAlignedBB[] BOUNDING_BOXES = new AxisAlignedBB[]
+    {
 
-            new AxisAlignedBB(MIN, MIN, MIN, MAX, MAX, MAX),  // No connection                                  000000
-            new AxisAlignedBB(MIN, MIN, MIN, MAX, MAX, 1.0D), // South                                          000001
-            new AxisAlignedBB(0.0D, MIN, MIN, MAX, MAX, MAX), // West                                           000010
-            new AxisAlignedBB(0.0D, MIN, MIN, MAX, MAX, 1.0D), // South West                                    000011
-            new AxisAlignedBB(MIN, MIN, 0.0D, MAX, MAX, MAX), // North                                          000100
-            new AxisAlignedBB(MIN, MIN, 0.0D, MAX, MAX, 1.0D), // North South                                   000101
-            new AxisAlignedBB(0.0D, MIN, 0.0D, MAX, MAX, MAX), // North West                                    000110
-            new AxisAlignedBB(0.0D, MIN, 0.0D, MAX, MAX, 1.0D), // North South West                             000111
-            new AxisAlignedBB(MIN, MIN, MIN, 1.0D, MAX, MAX), // East                                           001000
-            new AxisAlignedBB(MIN, MIN, MIN, 1.0D, MAX, 1.0D), // East South                                    001001
-            new AxisAlignedBB(0.0D, MIN, MIN, 1.0D, MAX, MAX), // West East                                     001010
-            new AxisAlignedBB(0.0D, MIN, MIN, 1.0D, MAX, 1.0D), // South West East                              001011
-            new AxisAlignedBB(MIN, MIN, 0.0D, 1.0D, MAX, MAX), // North East                                    001100
-            new AxisAlignedBB(MIN, MIN, 0.0D, 1.0D, MAX, 1.0D), // North South East                             001101
-            new AxisAlignedBB(0.0D, MIN, 0.0D, 1.0D, MAX, MAX), // North East West                              001110
-            new AxisAlignedBB(0.0D, MIN, 0.0D, 1.0D, MAX, 1.0D), // North South East West                       001111
+            new AxisAlignedBB(MIN, MIN, MIN, MAX, MAX, MAX), // No connection
+                                                             // 000000
+            new AxisAlignedBB(MIN, MIN, MIN, MAX, MAX, 1.0D), // South 000001
+            new AxisAlignedBB(0.0D, MIN, MIN, MAX, MAX, MAX), // West 000010
+            new AxisAlignedBB(0.0D, MIN, MIN, MAX, MAX, 1.0D), // South West
+                                                               // 000011
+            new AxisAlignedBB(MIN, MIN, 0.0D, MAX, MAX, MAX), // North 000100
+            new AxisAlignedBB(MIN, MIN, 0.0D, MAX, MAX, 1.0D), // North South
+                                                               // 000101
+            new AxisAlignedBB(0.0D, MIN, 0.0D, MAX, MAX, MAX), // North West
+                                                               // 000110
+            new AxisAlignedBB(0.0D, MIN, 0.0D, MAX, MAX, 1.0D), // North South
+                                                                // West 000111
+            new AxisAlignedBB(MIN, MIN, MIN, 1.0D, MAX, MAX), // East 001000
+            new AxisAlignedBB(MIN, MIN, MIN, 1.0D, MAX, 1.0D), // East South
+                                                               // 001001
+            new AxisAlignedBB(0.0D, MIN, MIN, 1.0D, MAX, MAX), // West East
+                                                               // 001010
+            new AxisAlignedBB(0.0D, MIN, MIN, 1.0D, MAX, 1.0D), // South West
+                                                                // East 001011
+            new AxisAlignedBB(MIN, MIN, 0.0D, 1.0D, MAX, MAX), // North East
+                                                               // 001100
+            new AxisAlignedBB(MIN, MIN, 0.0D, 1.0D, MAX, 1.0D), // North South
+                                                                // East 001101
+            new AxisAlignedBB(0.0D, MIN, 0.0D, 1.0D, MAX, MAX), // North East
+                                                                // West 001110
+            new AxisAlignedBB(0.0D, MIN, 0.0D, 1.0D, MAX, 1.0D), // North South
+                                                                 // East West
+                                                                 // 001111
 
-            new AxisAlignedBB(MIN, 0.0D, MIN, MAX, MAX, MAX),  // Down                                          010000
-            new AxisAlignedBB(MIN, 0.0D, MIN, MAX, MAX, 1.0D), // Down South                                    010001
-            new AxisAlignedBB(0.0D, 0.0D, MIN, MAX, MAX, MAX), // Down West                                     010010
-            new AxisAlignedBB(0.0D, 0.0D, MIN, MAX, MAX, 1.0D), // Down South West                              010011
-            new AxisAlignedBB(MIN, 0.0D, 0.0D, MAX, MAX, MAX), // Down North                                    010100
-            new AxisAlignedBB(MIN, 0.0D, 0.0D, MAX, MAX, 1.0D), // Down North South                             010101
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, MAX, MAX, MAX), // Down North West                              010110
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, MAX, MAX, 1.0D), // Down North South West                       010111
-            new AxisAlignedBB(MIN, 0.0D, MIN, 1.0D, MAX, MAX), // Down East                                     011000
-            new AxisAlignedBB(MIN, 0.0D, MIN, 1.0D, MAX, 1.0D), // Down East South                              011001
-            new AxisAlignedBB(0.0D, 0.0D, MIN, 1.0D, MAX, MAX), // Down West East                               011010
-            new AxisAlignedBB(0.0D, 0.0D, MIN, 1.0D, MAX, 1.0D), // Down South West East                        011011
-            new AxisAlignedBB(MIN, 0.0D, 0.0D, 1.0D, MAX, MAX), // Down North East                              011100
-            new AxisAlignedBB(MIN, 0.0D, 0.0D, 1.0D, MAX, 1.0D), // Down North South East                       011101
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, MAX, MAX), // Down North East West                        011110
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, MAX, 1.0D), // Down North South East West                 011111
+            new AxisAlignedBB(MIN, 0.0D, MIN, MAX, MAX, MAX), // Down 010000
+            new AxisAlignedBB(MIN, 0.0D, MIN, MAX, MAX, 1.0D), // Down South
+                                                               // 010001
+            new AxisAlignedBB(0.0D, 0.0D, MIN, MAX, MAX, MAX), // Down West
+                                                               // 010010
+            new AxisAlignedBB(0.0D, 0.0D, MIN, MAX, MAX, 1.0D), // Down South
+                                                                // West 010011
+            new AxisAlignedBB(MIN, 0.0D, 0.0D, MAX, MAX, MAX), // Down North
+                                                               // 010100
+            new AxisAlignedBB(MIN, 0.0D, 0.0D, MAX, MAX, 1.0D), // Down North
+                                                                // South 010101
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, MAX, MAX, MAX), // Down North
+                                                                // West 010110
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, MAX, MAX, 1.0D), // Down North
+                                                                 // South West
+                                                                 // 010111
+            new AxisAlignedBB(MIN, 0.0D, MIN, 1.0D, MAX, MAX), // Down East
+                                                               // 011000
+            new AxisAlignedBB(MIN, 0.0D, MIN, 1.0D, MAX, 1.0D), // Down East
+                                                                // South 011001
+            new AxisAlignedBB(0.0D, 0.0D, MIN, 1.0D, MAX, MAX), // Down West
+                                                                // East 011010
+            new AxisAlignedBB(0.0D, 0.0D, MIN, 1.0D, MAX, 1.0D), // Down South
+                                                                 // West East
+                                                                 // 011011
+            new AxisAlignedBB(MIN, 0.0D, 0.0D, 1.0D, MAX, MAX), // Down North
+                                                                // East 011100
+            new AxisAlignedBB(MIN, 0.0D, 0.0D, 1.0D, MAX, 1.0D), // Down North
+                                                                 // South East
+                                                                 // 011101
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, MAX, MAX), // Down North
+                                                                 // East West
+                                                                 // 011110
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, MAX, 1.0D), // Down North
+                                                                  // South East
+                                                                  // West 011111
 
-            new AxisAlignedBB(MIN, MIN, MIN, MAX, 1.0D, MAX),  // Up                                            100000
-            new AxisAlignedBB(MIN, MIN, MIN, MAX, 1.0D, 1.0D), // Up South                                      100001
-            new AxisAlignedBB(0.0D, MIN, MIN, MAX, 1.0D, MAX), // Up West                                       100010
-            new AxisAlignedBB(0.0D, MIN, MIN, MAX, 1.0D, 1.0D), // Up South West                                100011
-            new AxisAlignedBB(MIN, MIN, 0.0D, MAX, 1.0D, MAX), // Up North                                      100100
-            new AxisAlignedBB(MIN, MIN, 0.0D, MAX, 1.0D, 1.0D), // Up North South                               100101
-            new AxisAlignedBB(0.0D, MIN, 0.0D, MAX, 1.0D, MAX), // Up North West                                100110
-            new AxisAlignedBB(0.0D, MIN, 0.0D, MAX, 1.0D, 1.0D), // Up North South West                         100111
-            new AxisAlignedBB(MIN, MIN, MIN, 1.0D, 1.0D, MAX), // Up East                                       101000
-            new AxisAlignedBB(MIN, MIN, MIN, 1.0D, 1.0D, 1.0D), // Up East South                                101001
-            new AxisAlignedBB(0.0D, MIN, MIN, 1.0D, 1.0D, MAX), // Up West East                                 101010
-            new AxisAlignedBB(0.0D, MIN, MIN, 1.0D, 1.0D, 1.0D), // Up South West East                          101011
-            new AxisAlignedBB(MIN, MIN, 0.0D, 1.0D, 1.0D, MAX), // Up North East                                101100
-            new AxisAlignedBB(MIN, MIN, 0.0D, 1.0D, 1.0D, 1.0D), // Up North South East                         101101
-            new AxisAlignedBB(0.0D, MIN, 0.0D, 1.0D, 1.0D, MAX), // Up North East West                          101110
-            new AxisAlignedBB(0.0D, MIN, 0.0D, 1.0D, 1.0D, 1.0D), // Up North South East West                   101111
+            new AxisAlignedBB(MIN, MIN, MIN, MAX, 1.0D, MAX), // Up 100000
+            new AxisAlignedBB(MIN, MIN, MIN, MAX, 1.0D, 1.0D), // Up South
+                                                               // 100001
+            new AxisAlignedBB(0.0D, MIN, MIN, MAX, 1.0D, MAX), // Up West 100010
+            new AxisAlignedBB(0.0D, MIN, MIN, MAX, 1.0D, 1.0D), // Up South West
+                                                                // 100011
+            new AxisAlignedBB(MIN, MIN, 0.0D, MAX, 1.0D, MAX), // Up North
+                                                               // 100100
+            new AxisAlignedBB(MIN, MIN, 0.0D, MAX, 1.0D, 1.0D), // Up North
+                                                                // South 100101
+            new AxisAlignedBB(0.0D, MIN, 0.0D, MAX, 1.0D, MAX), // Up North West
+                                                                // 100110
+            new AxisAlignedBB(0.0D, MIN, 0.0D, MAX, 1.0D, 1.0D), // Up North
+                                                                 // South West
+                                                                 // 100111
+            new AxisAlignedBB(MIN, MIN, MIN, 1.0D, 1.0D, MAX), // Up East 101000
+            new AxisAlignedBB(MIN, MIN, MIN, 1.0D, 1.0D, 1.0D), // Up East South
+                                                                // 101001
+            new AxisAlignedBB(0.0D, MIN, MIN, 1.0D, 1.0D, MAX), // Up West East
+                                                                // 101010
+            new AxisAlignedBB(0.0D, MIN, MIN, 1.0D, 1.0D, 1.0D), // Up South
+                                                                 // West East
+                                                                 // 101011
+            new AxisAlignedBB(MIN, MIN, 0.0D, 1.0D, 1.0D, MAX), // Up North East
+                                                                // 101100
+            new AxisAlignedBB(MIN, MIN, 0.0D, 1.0D, 1.0D, 1.0D), // Up North
+                                                                 // South East
+                                                                 // 101101
+            new AxisAlignedBB(0.0D, MIN, 0.0D, 1.0D, 1.0D, MAX), // Up North
+                                                                 // East West
+                                                                 // 101110
+            new AxisAlignedBB(0.0D, MIN, 0.0D, 1.0D, 1.0D, 1.0D), // Up North
+                                                                  // South East
+                                                                  // West 101111
 
-            new AxisAlignedBB(MIN, 0.0D, MIN, MAX, 1.0D, MAX),  // Up Down                                      110000
-            new AxisAlignedBB(MIN, 0.0D, MIN, MAX, 1.0D, 1.0D), // Up Down South                                110001
-            new AxisAlignedBB(0.0D, 0.0D, MIN, MAX, 1.0D, MAX), // Up Down West                                 110010
-            new AxisAlignedBB(0.0D, 0.0D, MIN, MAX, 1.0D, 1.0D), // Up Down South West                          110011
-            new AxisAlignedBB(MIN, 0.0D, 0.0D, MAX, 1.0D, MAX), // Up Down North                                110100
-            new AxisAlignedBB(MIN, 0.0D, 0.0D, MAX, 1.0D, 1.0D), // Up Down North South                         110101
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, MAX, 1.0D, MAX), // Up Down North West                          110110
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, MAX, 1.0D, 1.0D), // Up Down North South West                   110111
-            new AxisAlignedBB(MIN, 0.0D, MIN, 1.0D, 1.0D, MAX), // Up Down East                                 111000
-            new AxisAlignedBB(MIN, 0.0D, MIN, 1.0D, 1.0D, 1.0D), // Up Down East South                          111001
-            new AxisAlignedBB(0.0D, 0.0D, MIN, 1.0D, 1.0D, MAX), // Up Down West East                           111010
-            new AxisAlignedBB(0.0D, 0.0D, MIN, 1.0D, 1.0D, 1.0D), // Up Down South West East                    111011
-            new AxisAlignedBB(MIN, 0.0D, 0.0D, 1.0D, 1.0D, MAX), // Up Down North East                          111100
-            new AxisAlignedBB(MIN, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), // Up Down North South East                   111101
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, MAX), // Up Down North East West                    111110
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)}; // Up Down North South East West            111111
+            new AxisAlignedBB(MIN, 0.0D, MIN, MAX, 1.0D, MAX), // Up Down 110000
+            new AxisAlignedBB(MIN, 0.0D, MIN, MAX, 1.0D, 1.0D), // Up Down South
+                                                                // 110001
+            new AxisAlignedBB(0.0D, 0.0D, MIN, MAX, 1.0D, MAX), // Up Down West
+                                                                // 110010
+            new AxisAlignedBB(0.0D, 0.0D, MIN, MAX, 1.0D, 1.0D), // Up Down
+                                                                 // South West
+                                                                 // 110011
+            new AxisAlignedBB(MIN, 0.0D, 0.0D, MAX, 1.0D, MAX), // Up Down North
+                                                                // 110100
+            new AxisAlignedBB(MIN, 0.0D, 0.0D, MAX, 1.0D, 1.0D), // Up Down
+                                                                 // North South
+                                                                 // 110101
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, MAX, 1.0D, MAX), // Up Down
+                                                                 // North West
+                                                                 // 110110
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, MAX, 1.0D, 1.0D), // Up Down
+                                                                  // North South
+                                                                  // West 110111
+            new AxisAlignedBB(MIN, 0.0D, MIN, 1.0D, 1.0D, MAX), // Up Down East
+                                                                // 111000
+            new AxisAlignedBB(MIN, 0.0D, MIN, 1.0D, 1.0D, 1.0D), // Up Down East
+                                                                 // South 111001
+            new AxisAlignedBB(0.0D, 0.0D, MIN, 1.0D, 1.0D, MAX), // Up Down West
+                                                                 // East 111010
+            new AxisAlignedBB(0.0D, 0.0D, MIN, 1.0D, 1.0D, 1.0D), // Up Down
+                                                                  // South West
+                                                                  // East 111011
+            new AxisAlignedBB(MIN, 0.0D, 0.0D, 1.0D, 1.0D, MAX), // Up Down
+                                                                 // North East
+                                                                 // 111100
+            new AxisAlignedBB(MIN, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), // Up Down
+                                                                  // North South
+                                                                  // East 111101
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, MAX), // Up Down
+                                                                  // North East
+                                                                  // West 111110
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)}; // Up Down
+                                                                    // North
+                                                                    // South
+                                                                    // East West
+                                                                    // 111111
 
     public BlockFluidPipe(String assetName, EnumPipeMode mode)
     {
@@ -187,12 +267,12 @@ public class BlockFluidPipe extends BlockTransmitter implements ITileEntityProvi
 
         super.breakBlock(worldIn, pos, state);
     }
-    
+
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
         return Item.getItemFromBlock(GCBlocks.oxygenPipe);
-        //Never drop the 'pull' variety of pipe
+        // Never drop the 'pull' variety of pipe
     }
 
     @Override
@@ -251,7 +331,8 @@ public class BlockFluidPipe extends BlockTransmitter implements ITileEntityProvi
 
                     worldIn.setBlockState(pos, state.withProperty(COLOR, EnumDyeColor.byDyeDamage(dyeColor)));
 
-                    GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(PacketSimple.EnumSimplePacket.C_RECOLOR_PIPE, GCCoreUtil.getDimensionID(worldIn), new Object[] { pos }), new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID(worldIn), pos.getX(), pos.getY(), pos.getZ(), 40.0));
+                    GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(PacketSimple.EnumSimplePacket.C_RECOLOR_PIPE, GCCoreUtil.getDimensionID(worldIn), new Object[]
+                    {pos}), new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID(worldIn), pos.getX(), pos.getY(), pos.getZ(), 40.0));
 
                     if (colorBefore != (byte) dyeColor && !playerIn.capabilities.isCreativeMode)
                     {
@@ -263,7 +344,9 @@ public class BlockFluidPipe extends BlockTransmitter implements ITileEntityProvi
                         spawnItem(worldIn, pos, colorBefore);
                     }
 
-                    //					GCCorePacketManager.sendPacketToClients(GCCorePacketManager.getPacket(GalacticraftCore.CHANNELENTITIES, tileEntity, tileEntity.getColor(), (byte) -1)); TODO Fix pipe color
+                    // GCCorePacketManager.sendPacketToClients(GCCorePacketManager.getPacket(GalacticraftCore.CHANNELENTITIES,
+                    // tileEntity, tileEntity.getColor(), (byte) -1)); TODO Fix
+                    // pipe color
 
                     BlockPos tileVec = tileEntity.getPos();
                     for (final EnumFacing dir : EnumFacing.VALUES)
@@ -390,8 +473,8 @@ public class BlockFluidPipe extends BlockTransmitter implements ITileEntityProvi
 
     public enum EnumPipeMode implements IStringSerializable
     {
-        NORMAL(0, "normal"),
-        PULL(1, "pull");
+
+        NORMAL(0, "normal"), PULL(1, "pull");
 
         private final int meta;
         private final String name;

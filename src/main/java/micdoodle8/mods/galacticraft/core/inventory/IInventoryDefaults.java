@@ -17,13 +17,14 @@ import net.minecraft.util.text.TextComponentTranslation;
  */
 public interface IInventoryDefaults extends ISidedInventory
 {
-    //We don't use these because we use forge containers
+
+    // We don't use these because we use forge containers
     @Override
     public default void openInventory(EntityPlayer player)
     {
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public default void closeInventory(EntityPlayer player)
     {
@@ -53,8 +54,8 @@ public interface IInventoryDefaults extends ISidedInventory
     }
 
     /**
-     * Override this and return true IF the inventory .getName() is
-     * ALREADY a localized name e.g. by GCCoreUtil.translate()
+     * Override this and return true IF the inventory .getName() is ALREADY a
+     * localized name e.g. by GCCoreUtil.translate()
      *
      **/
     @Override

@@ -1,11 +1,13 @@
 package micdoodle8.mods.galacticraft.core.energy.item;
 
-import ic2.api.item.IElectricItem;
-import ic2.api.item.IElectricItemManager;
 import micdoodle8.mods.galacticraft.api.item.IItemElectricBase;
 import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+
+import ic2.api.item.IElectricItem;
+import ic2.api.item.IElectricItemManager;
 
 /*
  * Interface between Galacticraft electric items (batteries) and IC2.
@@ -15,15 +17,16 @@ import net.minecraft.item.ItemStack;
  */
 public class ElectricItemManagerIC2 implements IElectricItemManager
 {
+
     @Override
     public double charge(ItemStack itemStack, double amount, int tier, boolean ignoreTransferLimit, boolean simulate)
     {
         if (itemStack.getItem() instanceof IItemElectricBase)
         {
             IItemElectricBase item = (IItemElectricBase) itemStack.getItem();
-            if (amount > ((IElectricItem)item).getMaxCharge(itemStack))
+            if (amount > ((IElectricItem) item).getMaxCharge(itemStack))
             {
-                amount = ((IElectricItem)item).getMaxCharge(itemStack);
+                amount = ((IElectricItem) item).getMaxCharge(itemStack);
             }
             float energy = (float) amount * EnergyConfigHandler.IC2_RATIO;
             float rejectedElectricity = Math.max(item.getElectricityStored(itemStack) + energy - item.getMaxElectricityStored(itemStack), 0);

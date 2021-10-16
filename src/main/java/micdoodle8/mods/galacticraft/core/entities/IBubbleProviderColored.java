@@ -7,5 +7,6 @@ import micdoodle8.mods.galacticraft.api.vector.Vector3;
  */
 public interface IBubbleProviderColored extends IBubbleProvider
 {
+
     Vector3 getColor();
 }

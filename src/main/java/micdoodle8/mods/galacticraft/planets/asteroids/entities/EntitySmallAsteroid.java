@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 
 public class EntitySmallAsteroid extends Entity
 {
+
     private static final DataParameter<Float> SPIN_PITCH = EntityDataManager.createKey(EntitySmallAsteroid.class, DataSerializers.FLOAT);
     private static final DataParameter<Float> SPIN_YAW = EntityDataManager.createKey(EntitySmallAsteroid.class, DataSerializers.FLOAT);
     private static final DataParameter<Integer> ASTEROID_TYPE = EntityDataManager.createKey(EntitySmallAsteroid.class, DataSerializers.VARINT);
@@ -36,7 +37,8 @@ public class EntitySmallAsteroid extends Entity
                 this.setDead();
             }
 
-            // Remove entities far outside the build range, or too old (to stop accumulations)
+            // Remove entities far outside the build range, or too old (to stop
+            // accumulations)
             else if (this.posY > 288D || this.posY < -32D || this.ticksExisted > 3000)
             {
                 this.setDead();
@@ -52,8 +54,7 @@ public class EntitySmallAsteroid extends Entity
             this.setAsteroidType(this.type);
             this.rotationPitch += this.spinPitch;
             this.rotationYaw += this.spinYaw;
-        }
-        else
+        } else
         {
             this.rotationPitch += this.getSpinPitch();
             this.rotationYaw += this.getSpinYaw();
@@ -63,7 +64,8 @@ public class EntitySmallAsteroid extends Entity
 
         if (sqrdMotion < 0.05)
         {
-            // If the motion is too low (for some odd reason), speed it back up slowly.
+            // If the motion is too low (for some odd reason), speed it back up
+            // slowly.
             this.motionX *= 1.001D;
             this.motionY *= 1.001D;
             this.motionZ *= 1.001D;

@@ -1,9 +1,8 @@
 package micdoodle8.mods.galacticraft.core.network;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.FMLLog;
@@ -15,8 +14,12 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumMap;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+
 public class GalacticraftChannelHandler extends FMLIndexedMessageToMessageCodec<IPacket>
 {
+
     private EnumMap<Side, FMLEmbeddedChannel> channels;
 
     private GalacticraftChannelHandler()
@@ -45,17 +48,17 @@ public class GalacticraftChannelHandler extends FMLIndexedMessageToMessageCodec<
     @Override
     public void decodeInto(ChannelHandlerContext ctx, ByteBuf source, IPacket msg)
     {
-        try {
+        try
+        {
             msg.decodeInto(source);
-        } catch (IndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException ex)
+        {
             FMLLog.severe("Incomplete Galacticraft entity packet: dimension " + msg.getDimensionID());
         }
     }
 
     /**
-     * Send this message to everyone.
-     * <p/>
-     * Adapted from CPW's code in
+     * Send this message to everyone. <p/> Adapted from CPW's code in
      * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
      *
      * @param message The message to send
@@ -67,13 +70,11 @@ public class GalacticraftChannelHandler extends FMLIndexedMessageToMessageCodec<
     }
 
     /**
-     * Send this message to the specified player.
-     * <p/>
-     * Adapted from CPW's code in
-     * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
+     * Send this message to the specified player. <p/> Adapted from CPW's code
+     * in cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
      *
      * @param message The message to send
-     * @param player  The player to send it to
+     * @param player The player to send it to
      */
     public void sendTo(IPacket message, EntityPlayerMP player)
     {
@@ -83,15 +84,14 @@ public class GalacticraftChannelHandler extends FMLIndexedMessageToMessageCodec<
     }
 
     /**
-     * Send this message to everyone within a certain range of a point.
-     * <p/>
+     * Send this message to everyone within a certain range of a point. <p/>
      * Adapted from CPW's code in
      * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
      *
      * @param message The message to send
-     * @param point   The
-     *                {@link net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint}
-     *                around which to send
+     * @param point The
+     *        {@link net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint}
+     *        around which to send
      */
     public void sendToAllAround(IPacket message, NetworkRegistry.TargetPoint point)
     {
@@ -100,21 +100,19 @@ public class GalacticraftChannelHandler extends FMLIndexedMessageToMessageCodec<
             this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
             this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
             this.channels.get(Side.SERVER).writeOutbound(message);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
-            GCLog.severe("Forge error when sending network packet to nearby players - this is not a Galacticraft bug, does another mod make fake players?");
+            GCLog.error("Forge error when sending network packet to nearby players - this is not a Galacticraft bug, does another mod make fake players?");
             e.printStackTrace();
         }
     }
 
     /**
-     * Send this message to everyone within the supplied dimension.
-     * <p/>
-     * Adapted from CPW's code in
+     * Send this message to everyone within the supplied dimension. <p/> Adapted
+     * from CPW's code in
      * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
      *
-     * @param message     The message to send
+     * @param message The message to send
      * @param dimensionID The dimension id to target
      */
     public void sendToDimension(IPacket message, int dimensionID)
@@ -124,18 +122,15 @@ public class GalacticraftChannelHandler extends FMLIndexedMessageToMessageCodec<
             this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
             this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimensionID);
             this.channels.get(Side.SERVER).writeOutbound(message);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
-            GCLog.severe("Forge error when sending network packet to all players in dimension - this is not a Galacticraft bug, does another mod make fake players?");
+            GCLog.error("Forge error when sending network packet to all players in dimension - this is not a Galacticraft bug, does another mod make fake players?");
             e.printStackTrace();
         }
     }
 
     /**
-     * Send this message to the server.
-     * <p/>
-     * Adapted from CPW's code in
+     * Send this message to the server. <p/> Adapted from CPW's code in
      * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
      *
      * @param message The message to send

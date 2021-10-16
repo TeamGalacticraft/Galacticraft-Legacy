@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -13,7 +14,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMoon extends ItemDesc implements ISortableItem
 {
-    public static String[] names = { "meteoric_iron_ingot", "compressed_meteoric_iron", "lunar_sapphire" };
+
+    public static String[] names =
+    {"meteoric_iron_ingot", "compressed_meteoric_iron", "lunar_sapphire"};
 //    protected IIcon[] icons = new IIcon[ItemMoon.names.length];
 
     public ItemMoon(String str)
@@ -24,28 +27,16 @@ public class ItemMoon extends ItemDesc implements ISortableItem
         this.setTranslationKey(str);
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        int i = 0;
-
-        for (String name : ItemMoon.names)
-        {
-            this.icons[i++] = iconRegister.registerIcon("galacticraftmoon:" + name);
-        }
-    }
-
-    @Override
-    public IIcon getIconFromDamage(int damage)
-    {
-        if (this.icons.length > damage)
-        {
-            return this.icons[damage];
-        }
-
-        return super.getIconFromDamage(damage);
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister
+     * iconRegister) { int i = 0; for (String name : ItemMoon.names) {
+     * this.icons[i++] = iconRegister.registerIcon("galacticraftmoon:" + name);
+     * } }
+     * @Override public IIcon getIconFromDamage(int damage) { if
+     * (this.icons.length > damage) { return this.icons[damage]; } return
+     * super.getIconFromDamage(damage); }
+     */
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
@@ -94,12 +85,12 @@ public class ItemMoon extends ItemDesc implements ISortableItem
     {
         switch (meta)
         {
-        case 0:
-            return EnumSortCategoryItem.INGOT;
-        case 2:
-            return EnumSortCategoryItem.GENERAL;
-        default:
-            return EnumSortCategoryItem.PLATE;
+            case 0:
+                return EnumSortCategoryItem.INGOT;
+            case 2:
+                return EnumSortCategoryItem.GENERAL;
+            default:
+                return EnumSortCategoryItem.PLATE;
         }
     }
 
@@ -125,8 +116,8 @@ public class ItemMoon extends ItemDesc implements ISortableItem
     {
         switch (item.getItemDamage())
         {
-        case 1:
-            return 1F;
+            case 1:
+                return 1F;
         }
         return -1F;
     }

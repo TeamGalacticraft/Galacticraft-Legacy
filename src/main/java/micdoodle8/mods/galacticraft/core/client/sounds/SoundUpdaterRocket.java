@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.client.sounds;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntityAutoRocket;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntitySpaceshipBase.EnumLaunchPhase;
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -16,6 +17,7 @@ import net.minecraft.util.SoundCategory;
  */
 public class SoundUpdaterRocket extends MovingSound
 {
+
     private final EntityPlayerSP thePlayer;
     private final EntityAutoRocket theRocket;
     private boolean soundStopped;
@@ -27,10 +29,10 @@ public class SoundUpdaterRocket extends MovingSound
         this.theRocket = par2Entity;
         this.thePlayer = par1EntityPlayerSP;
         this.attenuationType = ISound.AttenuationType.NONE;
-        this.volume = 0.00001F;  //If it's zero it won't start playing
-        this.pitch = 0.0F;  //pitch
+        this.volume = 0.00001F; // If it's zero it won't start playing
+        this.pitch = 0.0F; // pitch
         this.repeat = true;
-        this.repeatDelay = 0;  //repeat delay
+        this.repeatDelay = 0; // repeat delay
         this.updateSoundLocation(par2Entity);
     }
 
@@ -61,8 +63,7 @@ public class SoundUpdaterRocket extends MovingSound
                         this.pitch = 1.0F;
                     }
                 }
-            }
-            else
+            } else
             {
                 this.pitch = 1.0F;
             }
@@ -76,20 +77,17 @@ public class SoundUpdaterRocket extends MovingSound
                     {
                         this.donePlaying = true;
                     }
-                }
-                else if (this.theRocket.posY > Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT)
+                } else if (this.theRocket.posY > Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT)
                 {
                     this.volume = 1.0F - (float) ((this.theRocket.posY - Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT) / (1000.0 - Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT));
-                }
-                else
+                } else
                 {
                     this.volume = 1.0F;
                 }
             }
 
             this.updateSoundLocation(this.theRocket);
-        }
-        else
+        } else
         {
             this.donePlaying = true;
         }

@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public class GuiLaserTurretEditPriority extends GuiScreen implements GuiElementSpinner.ISpinnerCallback
 {
+
     private static final ResourceLocation backgroundTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/laser_turret_edit.png");
 
     private final TileEntityLaserTurret laserTurret;
@@ -37,8 +38,8 @@ public class GuiLaserTurretEditPriority extends GuiScreen implements GuiElementS
     {
         switch (button.id)
         {
-        case 0:
-            break;
+            case 0:
+                break;
         }
     }
 
@@ -63,9 +64,10 @@ public class GuiLaserTurretEditPriority extends GuiScreen implements GuiElementS
     {
         if (keyID == 1)
         {
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleVenus(PacketSimpleVenus.EnumSimplePacketVenus.S_OPEN_LASER_TURRET_GUI, GCCoreUtil.getDimensionID(laserTurret.getWorld()), new Object[] { laserTurret.getPos() }));
-        }
-        else
+            GalacticraftCore.packetPipeline
+                .sendToServer(new PacketSimpleVenus(PacketSimpleVenus.EnumSimplePacketVenus.S_OPEN_LASER_TURRET_GUI, GCCoreUtil.getDimensionID(laserTurret.getWorld()), new Object[]
+                {laserTurret.getPos()}));
+        } else
         {
             super.keyTyped(keyChar, keyID);
         }
@@ -91,9 +93,12 @@ public class GuiLaserTurretEditPriority extends GuiScreen implements GuiElementS
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.priority_low.name"), var5 + 6, var6 + 8, ColorUtil.to32BitColor(255, 75, 75, 75));
-        this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.priority_closest.name"), this.priorityClosest.x + 35, this.priorityClosest.y + 10 - mc.fontRenderer.FONT_HEIGHT / 2, ColorUtil.to32BitColor(255, 75, 75, 75));
-        this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.priority_health_low.name"), this.priorityLowestHealth.x + 35, this.priorityLowestHealth.y + 10 - mc.fontRenderer.FONT_HEIGHT / 2, ColorUtil.to32BitColor(255, 75, 75, 75));
-        this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.priority_health_high.name"), this.priorityHighestHealth.x + 35, this.priorityHighestHealth.y + 10 - mc.fontRenderer.FONT_HEIGHT / 2, ColorUtil.to32BitColor(255, 75, 75, 75));
+        this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.priority_closest.name"), this.priorityClosest.x + 35, this.priorityClosest.y + 10 - mc.fontRenderer.FONT_HEIGHT / 2,
+            ColorUtil.to32BitColor(255, 75, 75, 75));
+        this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.priority_health_low.name"), this.priorityLowestHealth.x + 35, this.priorityLowestHealth.y + 10 - mc.fontRenderer.FONT_HEIGHT / 2,
+            ColorUtil.to32BitColor(255, 75, 75, 75));
+        this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.priority_health_high.name"), this.priorityHighestHealth.x + 35,
+            this.priorityHighestHealth.y + 10 - mc.fontRenderer.FONT_HEIGHT / 2, ColorUtil.to32BitColor(255, 75, 75, 75));
     }
 
     @Override
@@ -126,9 +131,12 @@ public class GuiLaserTurretEditPriority extends GuiScreen implements GuiElementS
         this.laserTurret.priorityClosest = spinner == priorityClosest ? newVal : priorityClosest.value;
         this.laserTurret.priorityLowestHealth = spinner == priorityLowestHealth ? newVal : priorityLowestHealth.value;
         this.laserTurret.priorityHighestHealth = spinner == priorityHighestHealth ? newVal : priorityHighestHealth.value;
-        GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleVenus(PacketSimpleVenus.EnumSimplePacketVenus.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[] { 3, this.laserTurret.getPos(), this.laserTurret.priorityClosest }));
-        GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleVenus(PacketSimpleVenus.EnumSimplePacketVenus.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[] { 4, this.laserTurret.getPos(), this.laserTurret.priorityLowestHealth }));
-        GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleVenus(PacketSimpleVenus.EnumSimplePacketVenus.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[] { 5, this.laserTurret.getPos(), this.laserTurret.priorityHighestHealth }));
+        GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleVenus(PacketSimpleVenus.EnumSimplePacketVenus.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[]
+        {3, this.laserTurret.getPos(), this.laserTurret.priorityClosest}));
+        GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleVenus(PacketSimpleVenus.EnumSimplePacketVenus.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[]
+        {4, this.laserTurret.getPos(), this.laserTurret.priorityLowestHealth}));
+        GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleVenus(PacketSimpleVenus.EnumSimplePacketVenus.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[]
+        {5, this.laserTurret.getPos(), this.laserTurret.priorityHighestHealth}));
     }
 
     @Override
@@ -143,12 +151,10 @@ public class GuiLaserTurretEditPriority extends GuiScreen implements GuiElementS
         if (spinner == this.priorityClosest)
         {
             return laserTurret.priorityClosest;
-        }
-        else if (spinner == this.priorityLowestHealth)
+        } else if (spinner == this.priorityLowestHealth)
         {
             return laserTurret.priorityLowestHealth;
-        }
-        else if (spinner == this.priorityHighestHealth)
+        } else if (spinner == this.priorityHighestHealth)
         {
             return laserTurret.priorityHighestHealth;
         }

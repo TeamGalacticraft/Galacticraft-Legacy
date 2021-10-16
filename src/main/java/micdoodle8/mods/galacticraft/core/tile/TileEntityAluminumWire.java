@@ -1,10 +1,12 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseUniversalConductor;
+
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityAluminumWire extends TileBaseUniversalConductor
 {
+
     public int tier;
 
     public TileEntityAluminumWire()
@@ -22,7 +24,7 @@ public class TileEntityAluminumWire extends TileBaseUniversalConductor
     {
         super.readFromNBT(nbt);
         this.tier = nbt.getInteger("tier");
-        //For legacy worlds (e.g. converted from 1.6.4)
+        // For legacy worlds (e.g. converted from 1.6.4)
         if (this.tier == 0)
         {
             this.tier = 1;

@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.client.model;
 
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
@@ -13,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 public class ModelRendererGC extends ModelRenderer
 {
+
     private boolean compiled;
     private int displayList;
 
@@ -50,8 +52,7 @@ public class ModelRendererGC extends ModelRenderer
                                 ((ModelRenderer) this.childModels.get(i)).render(par1);
                             }
                         }
-                    }
-                    else
+                    } else
                     {
                         GL11.glTranslatef(this.rotationPointX * par1, this.rotationPointY * par1, this.rotationPointZ * par1);
                         GL11.glCallList(this.displayList);
@@ -66,8 +67,7 @@ public class ModelRendererGC extends ModelRenderer
 
                         GL11.glTranslatef(-this.rotationPointX * par1, -this.rotationPointY * par1, -this.rotationPointZ * par1);
                     }
-                }
-                else
+                } else
                 {
                     GL11.glPushMatrix();
                     GL11.glTranslatef(this.rotationPointX * par1, this.rotationPointY * par1, this.rotationPointZ * par1);

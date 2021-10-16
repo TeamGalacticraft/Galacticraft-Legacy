@@ -2,14 +2,13 @@ package micdoodle8.mods.galacticraft.core.inventory;
 
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.util.RecipeUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -17,6 +16,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ContainerSchematicTier1Rocket extends Container
 {
+
     public InventoryRocketBench craftMatrix = new InventoryRocketBench(this);
     public IInventory craftResult = new InventoryCraftResult();
     private final World world;
@@ -136,36 +136,31 @@ public class ContainerSchematicTier1Rocket extends Container
                 {
                     var3.onSlotChange(var4, var2);
                 }
-            }
-            else if (var2.getItem() == GCItems.partNoseCone)
+            } else if (var2.getItem() == GCItems.partNoseCone)
             {
                 if (!this.mergeOneItem(var4, 1, 2, false))
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (var2.getItem() == GCItems.heavyPlatingTier1)
+            } else if (var2.getItem() == GCItems.heavyPlatingTier1)
             {
                 if (!this.mergeOneItem(var4, 2, 10, false))
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (var2.getItem() == GCItems.partFins)
+            } else if (var2.getItem() == GCItems.partFins)
             {
                 if (!this.mergeOneItem(var4, 10, 12, false) && !this.mergeOneItem(var4, 13, 15, false))
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (var2.getItem() == GCItems.rocketEngine)
+            } else if (var2.getItem() == GCItems.rocketEngine)
             {
                 if (!this.mergeOneItem(var4, 12, 13, false))
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 boolean foundChest = false;
                 for (ItemStack woodChest : OreDictionary.getOres("chestWood"))
@@ -182,15 +177,13 @@ public class ContainerSchematicTier1Rocket extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (par1 >= 18 && par1 < 45)
+                } else if (par1 >= 18 && par1 < 45)
                 {
                     if (!this.mergeItemStack(var4, 45, 54, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (par1 >= 45 && par1 < 54)
+                } else if (par1 >= 45 && par1 < 54)
                 {
                     if (!this.mergeItemStack(var4, 18, 45, false))
                     {

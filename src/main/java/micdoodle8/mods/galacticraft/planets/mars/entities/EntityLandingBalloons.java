@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.mars.entities;
 
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+
 import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.api.entity.ICameraZoomEntity;
 import micdoodle8.mods.galacticraft.api.entity.IIgnoreShift;
@@ -18,12 +22,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-
 public class EntityLandingBalloons extends EntityLanderBase implements IIgnoreShift, ICameraZoomEntity
 {
+
     private int groundHitCount;
     private float rotationPitchSpeed;
     private float rotationYawSpeed;
@@ -51,7 +52,7 @@ public class EntityLandingBalloons extends EntityLanderBase implements IIgnoreSh
     @Override
     public float getRotateOffset()
     {
-        //Signal no rotate
+        // Signal no rotate
         return -20.0F;
     }
 
@@ -122,13 +123,11 @@ public class EntityLandingBalloons extends EntityLanderBase implements IIgnoreSh
             this.removePassengers();
 
             return true;
-        }
-        else if (this.getPassengers().isEmpty() && this.groundHitCount >= 14 && player instanceof EntityPlayerMP)
+        } else if (this.getPassengers().isEmpty() && this.groundHitCount >= 14 && player instanceof EntityPlayerMP)
         {
             MarsUtil.openParachestInventory((EntityPlayerMP) player, this);
             return true;
-        }
-        else if (player instanceof EntityPlayerMP)
+        } else if (player instanceof EntityPlayerMP)
         {
             if (!this.onGround)
             {
@@ -137,8 +136,7 @@ public class EntityLandingBalloons extends EntityLanderBase implements IIgnoreSh
 
             this.removePassengers();
             return true;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -213,13 +211,11 @@ public class EntityLandingBalloons extends EntityLanderBase implements IIgnoreSh
             if (this.groundHitCount == 0)
             {
                 this.motionY = -this.posY / 50.0D;
-            }
-            else if (this.groundHitCount < 14 || this.shouldMove())
+            } else if (this.groundHitCount < 14 || this.shouldMove())
             {
                 this.motionY *= 0.95D;
                 this.motionY -= 0.08D;
-            }
-            else
+            } else
             {
                 if (!this.shouldMove())
                 {
@@ -306,8 +302,7 @@ public class EntityLandingBalloons extends EntityLanderBase implements IIgnoreSh
             {
                 this.groundHitCount = buffer.readInt();
             }
-        }
-        catch (final Exception e)
+        } catch (final Exception e)
         {
             e.printStackTrace();
         }

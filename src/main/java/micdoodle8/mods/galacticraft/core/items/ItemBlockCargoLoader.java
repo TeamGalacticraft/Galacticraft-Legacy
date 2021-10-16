@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 
 public class ItemBlockCargoLoader extends ItemBlockDesc
 {
+
     public ItemBlockCargoLoader(Block block)
     {
         super(block);
@@ -20,8 +21,7 @@ public class ItemBlockCargoLoader extends ItemBlockDesc
         if (par1ItemStack.getItemDamage() < 4)
         {
             name = "loader";
-        }
-        else
+        } else
         {
             name = "unloader";
         }

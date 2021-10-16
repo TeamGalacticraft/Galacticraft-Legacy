@@ -1,17 +1,5 @@
 package micdoodle8.mods.galacticraft.core.client.jei;
 
-import mezz.jei.api.BlankModPlugin;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IJeiRuntime;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.IRecipeRegistry;
-import mezz.jei.api.JEIPlugin;
-import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeCategoryRegistration;
-import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jei.api.recipe.IRecipeWrapperFactory;
-import mezz.jei.api.recipe.IStackHelper;
-import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import micdoodle8.mods.galacticraft.api.recipe.CompressorRecipes;
 import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
 import micdoodle8.mods.galacticraft.api.recipe.ShapedRecipesGC;
@@ -39,6 +27,7 @@ import micdoodle8.mods.galacticraft.core.client.jei.tier1rocket.Tier1RocketRecip
 import micdoodle8.mods.galacticraft.core.recipe.ShapedRecipeNBT;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 
@@ -47,12 +36,26 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import mezz.jei.api.BlankModPlugin;
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.IJeiRuntime;
+import mezz.jei.api.IModRegistry;
+import mezz.jei.api.IRecipeRegistry;
+import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.recipe.IRecipeCategory;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.IRecipeWrapperFactory;
+import mezz.jei.api.recipe.IStackHelper;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
+
 @JEIPlugin
 public class GalacticraftJEI extends BlankModPlugin
 {
+
     private static IModRegistry registryCached = null;
     private static IRecipeRegistry recipesCached = null;
-    
+
     private static boolean hiddenSteel = false;
     private static boolean hiddenAdventure = false;
     public static List<IRecipeWrapper> hidden = new LinkedList<>();
@@ -68,9 +71,15 @@ public class GalacticraftJEI extends BlankModPlugin
         registry.handleRecipes(INasaWorkbenchRecipe.class, BuggyRecipeWrapper::new, RecipeCategories.BUGGY_ID);
         registry.handleRecipes(CircuitFabricatorRecipeWrapper.class, recipe -> recipe, RecipeCategories.CIRCUIT_FABRICATOR_ID);
         registry.handleRecipes(ShapedRecipesGC.class, IngotCompressorShapedRecipeWrapper::new, RecipeCategories.INGOT_COMPRESSOR_ID);
-        registry.handleRecipes(ShapelessOreRecipeGC.class, new IRecipeWrapperFactory<ShapelessOreRecipeGC>() {
-        	@Override public IRecipeWrapper getRecipeWrapper(ShapelessOreRecipeGC recipe) { return new IngotCompressorShapelessRecipeWrapper(stackHelper, recipe); }
-        		}, RecipeCategories.INGOT_COMPRESSOR_ID);
+        registry.handleRecipes(ShapelessOreRecipeGC.class, new IRecipeWrapperFactory<ShapelessOreRecipeGC>()
+        {
+
+            @Override
+            public IRecipeWrapper getRecipeWrapper(ShapelessOreRecipeGC recipe)
+            {
+                return new IngotCompressorShapelessRecipeWrapper(stackHelper, recipe);
+            }
+        }, RecipeCategories.INGOT_COMPRESSOR_ID);
         registry.handleRecipes(RefineryRecipeWrapper.class, recipe -> recipe, RecipeCategories.REFINERY_ID);
         registry.handleRecipes(OxygenCompressorRecipeWrapper.class, recipe -> recipe, RecipeCategories.OXYGEN_COMPRESSOR_ID);
         registry.handleRecipes(ShapedRecipeNBT.class, NBTSensitiveShapedRecipeWrapper::new, VanillaRecipeCategoryUid.CRAFTING);
@@ -100,12 +109,8 @@ public class GalacticraftJEI extends BlankModPlugin
     {
         IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
         ingotCompressorCategory = new IngotCompressorRecipeCategory(guiHelper);
-        registry.addRecipeCategories(new Tier1RocketRecipeCategory(guiHelper),
-                new BuggyRecipeCategory(guiHelper),
-                new CircuitFabricatorRecipeCategory(guiHelper),
-                ingotCompressorCategory,
-                new OxygenCompressorRecipeCategory(guiHelper),
-                new RefineryRecipeCategory(guiHelper));
+        registry.addRecipeCategories(new Tier1RocketRecipeCategory(guiHelper), new BuggyRecipeCategory(guiHelper), new CircuitFabricatorRecipeCategory(guiHelper), ingotCompressorCategory,
+            new OxygenCompressorRecipeCategory(guiHelper), new RefineryRecipeCategory(guiHelper));
     }
 
     private void addInformationPages(IModRegistry registry)
@@ -117,9 +122,9 @@ public class GalacticraftJEI extends BlankModPlugin
         registry.addIngredientInfo(new ItemStack(GCBlocks.oxygenSealer), ItemStack.class, GCCoreUtil.translate("jei.oxygen_sealer.info"));
         if (CompatibilityManager.isAppEngLoaded())
         {
-            registry.addIngredientInfo(new ItemStack(GCBlocks.machineBase2), ItemStack.class, new String [] { GCCoreUtil.translate("jei.electric_compressor.info"), GCCoreUtil.translate("jei.electric_compressor.appeng.info") });
-        }
-        else
+            registry.addIngredientInfo(new ItemStack(GCBlocks.machineBase2), ItemStack.class, new String[]
+            {GCCoreUtil.translate("jei.electric_compressor.info"), GCCoreUtil.translate("jei.electric_compressor.appeng.info")});
+        } else
         {
             registry.addIngredientInfo(new ItemStack(GCBlocks.machineBase2), ItemStack.class, GCCoreUtil.translate("jei.electric_compressor.info"));
         }
@@ -160,7 +165,7 @@ public class GalacticraftJEI extends BlankModPlugin
             hide();
         }
     }
-    
+
     private static void hide()
     {
         for (IRecipeWrapper wrapper : hidden)

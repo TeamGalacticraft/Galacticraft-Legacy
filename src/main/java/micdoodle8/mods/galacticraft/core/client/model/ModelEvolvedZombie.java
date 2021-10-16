@@ -1,14 +1,17 @@
 package micdoodle8.mods.galacticraft.core.client.model;
 
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+
 import org.lwjgl.opengl.GL11;
 
 public class ModelEvolvedZombie extends ModelBiped
 {
+
     ModelRenderer leftOxygenTank;
     ModelRenderer rightOxygenTank;
     ModelRenderer tubeRight2;
@@ -163,7 +166,7 @@ public class ModelEvolvedZombie extends ModelBiped
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
-        //		super.render(entity, f, f1, f2, f3, f4, f5);
+        // super.render(entity, f, f1, f2, f3, f4, f5);
         this.saveGravity = WorldUtil.getGravityFactor(entity);
         this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
@@ -209,8 +212,7 @@ public class ModelEvolvedZombie extends ModelBiped
             this.bipedLeftLeg.render(f5);
             this.bipedHeadwear.render(f5);
             GL11.glPopMatrix();
-        }
-        else
+        } else
         {
             if (this.renderGear)
             {
@@ -254,14 +256,14 @@ public class ModelEvolvedZombie extends ModelBiped
     public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn)
     {
         super.setRotationAngles(p_78087_1_, p_78087_2_, p_78087_3_, p_78087_4_, p_78087_5_, p_78087_6_, entityIn);
-        float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
-        float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);
+        float f = MathHelper.sin(this.swingProgress * (float) Math.PI);
+        float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float) Math.PI);
         this.bipedRightArm.rotateAngleZ = 0.0F;
         this.bipedLeftArm.rotateAngleZ = 0.0F;
         this.bipedRightArm.rotateAngleY = -(0.1F - f * 0.6F);
         this.bipedLeftArm.rotateAngleY = 0.1F - f * 0.6F;
-        this.bipedRightArm.rotateAngleX = -((float)Math.PI / 2F);
-        this.bipedLeftArm.rotateAngleX = -((float)Math.PI / 2F);
+        this.bipedRightArm.rotateAngleX = -((float) Math.PI / 2F);
+        this.bipedLeftArm.rotateAngleX = -((float) Math.PI / 2F);
         this.bipedRightArm.rotateAngleX -= f * 1.2F - f1 * 0.4F;
         this.bipedLeftArm.rotateAngleX -= f * 1.2F - f1 * 0.4F;
         this.bipedRightArm.rotateAngleZ += MathHelper.cos(p_78087_3_ * 0.09F) * 0.05F + 0.05F;

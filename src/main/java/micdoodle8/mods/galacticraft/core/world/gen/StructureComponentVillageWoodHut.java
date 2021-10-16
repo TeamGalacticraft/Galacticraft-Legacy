@@ -1,7 +1,5 @@
 package micdoodle8.mods.galacticraft.core.world.gen;
 
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.blocks.BlockGlowstoneTorch;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -13,8 +11,12 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 import java.util.List;
 import java.util.Random;
 
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.blocks.BlockGlowstoneTorch;
+
 public class StructureComponentVillageWoodHut extends StructureComponentVillage
 {
+
     private int averageGroundLevel = -1;
 
     public StructureComponentVillageWoodHut()
@@ -205,8 +207,10 @@ public class StructureComponentVillageWoodHut extends StructureComponentVillage
         this.setBlockState(par1World, GCBlocks.basicBlock.getStateFromMeta(4), 5, yLevel, 1, par3StructureBoundingBox);
 
         this.setBlockState(par1World, GCBlocks.glowstoneTorch.getDefaultState().withProperty(BlockGlowstoneTorch.FACING, this.getCoordBaseMode()), 8, yLevel, 2, par3StructureBoundingBox);
-        this.setBlockState(par1World, GCBlocks.glowstoneTorch.getDefaultState().withProperty(BlockGlowstoneTorch.FACING, this.getCoordBaseMode().rotateYCCW()), 14, yLevel, 8, par3StructureBoundingBox);
-        this.setBlockState(par1World, GCBlocks.glowstoneTorch.getDefaultState().withProperty(BlockGlowstoneTorch.FACING, this.getCoordBaseMode().getOpposite()), 8, yLevel, 14, par3StructureBoundingBox);
+        this.setBlockState(par1World, GCBlocks.glowstoneTorch.getDefaultState().withProperty(BlockGlowstoneTorch.FACING, this.getCoordBaseMode().rotateYCCW()), 14, yLevel, 8,
+            par3StructureBoundingBox);
+        this.setBlockState(par1World, GCBlocks.glowstoneTorch.getDefaultState().withProperty(BlockGlowstoneTorch.FACING, this.getCoordBaseMode().getOpposite()), 8, yLevel, 14,
+            par3StructureBoundingBox);
         this.setBlockState(par1World, GCBlocks.glowstoneTorch.getDefaultState().withProperty(BlockGlowstoneTorch.FACING, this.getCoordBaseMode().rotateY()), 2, yLevel, 8, par3StructureBoundingBox);
 
         yLevel = 5;
@@ -450,8 +454,7 @@ public class StructureComponentVillageWoodHut extends StructureComponentVillage
                     if (i >= 7 && i <= 9 && j >= 7 && j <= 9)
                     {
                         this.setBlockState(par1World, Blocks.GLASS.getDefaultState(), i, yLevel, j, par3StructureBoundingBox);
-                    }
-                    else
+                    } else
                     {
                         this.setBlockState(par1World, GCBlocks.basicBlock.getStateFromMeta(4), i, yLevel, j, par3StructureBoundingBox);
                     }

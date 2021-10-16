@@ -10,6 +10,7 @@ import java.util.Random;
 
 public class CorridorVenus extends SizedPieceVenus
 {
+
     public CorridorVenus()
     {
     }
@@ -35,45 +36,36 @@ public class CorridorVenus extends SizedPieceVenus
                         if (i == 0 || i == this.boundingBox.getXSize() - 1)
                         {
                             this.setBlockState(worldIn, Blocks.LAVA.getDefaultState(), i, j, k, this.boundingBox);
-                        }
-                        else if (i == 1 || i == this.boundingBox.getXSize() - 2)
+                        } else if (i == 1 || i == this.boundingBox.getXSize() - 2)
                         {
                             this.setBlockState(worldIn, Blocks.IRON_BARS.getDefaultState(), i, j, k, this.boundingBox);
-                        }
-                        else
+                        } else
                         {
                             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, this.boundingBox);
                         }
-                    }
-                    else if (j == 2 && this.getDirection().getAxis() == EnumFacing.Axis.X && (i + 1) % 4 == 0 && i != this.boundingBox.getXSize() - 1)
+                    } else if (j == 2 && this.getDirection().getAxis() == EnumFacing.Axis.X && (i + 1) % 4 == 0 && i != this.boundingBox.getXSize() - 1)
                     {
                         if (k == 0 || k == this.boundingBox.getZSize() - 1)
                         {
                             this.setBlockState(worldIn, Blocks.LAVA.getDefaultState(), i, j, k, this.boundingBox);
-                        }
-                        else if (k == 1 || k == this.boundingBox.getZSize() - 2)
+                        } else if (k == 1 || k == this.boundingBox.getZSize() - 2)
                         {
                             this.setBlockState(worldIn, Blocks.IRON_BARS.getDefaultState(), i, j, k, this.boundingBox);
-                        }
-                        else
+                        } else
                         {
                             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, this.boundingBox);
                         }
-                    }
-                    else if ((this.getDirection().getAxis() == EnumFacing.Axis.Z && (i == 1 || i == this.boundingBox.getXSize() - 2)) ||
-                            j == 0 || j == this.boundingBox.getYSize() - 1 ||
-                            (this.getDirection().getAxis() == EnumFacing.Axis.X && (k == 1 || k == this.boundingBox.getZSize() - 2)))
+                    } else if ((this.getDirection().getAxis() == EnumFacing.Axis.Z && (i == 1 || i == this.boundingBox.getXSize() - 2)) || j == 0 || j == this.boundingBox.getYSize() - 1
+                        || (this.getDirection().getAxis() == EnumFacing.Axis.X && (k == 1 || k == this.boundingBox.getZSize() - 2)))
                     {
                         DungeonConfigurationVenus venusConfig = (DungeonConfigurationVenus) this.configuration;
                         this.setBlockState(worldIn, j == 0 || j == this.boundingBox.getYSize() - 1 ? venusConfig.getBrickBlockFloor() : this.configuration.getBrickBlock(), i, j, k, this.boundingBox);
-                    }
-                    else if ((this.getDirection().getAxis() == EnumFacing.Axis.Z && (i == 0 || i == this.boundingBox.getXSize() - 1)) ||
-                            (this.getDirection().getAxis() == EnumFacing.Axis.X && (k == 0 || k == this.boundingBox.getZSize() - 1)))
+                    } else if ((this.getDirection().getAxis() == EnumFacing.Axis.Z && (i == 0 || i == this.boundingBox.getXSize() - 1))
+                        || (this.getDirection().getAxis() == EnumFacing.Axis.X && (k == 0 || k == this.boundingBox.getZSize() - 1)))
                     {
                         DungeonConfigurationVenus venusConfig = (DungeonConfigurationVenus) this.configuration;
                         this.setBlockState(worldIn, j == 0 || j == this.boundingBox.getYSize() - 1 ? venusConfig.getBrickBlockFloor() : this.configuration.getBrickBlock(), i, j, k, this.boundingBox);
-                    }
-                    else
+                    } else
                     {
                         this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, this.boundingBox);
                     }
@@ -90,7 +82,8 @@ public class CorridorVenus extends SizedPieceVenus
         {
             Constructor<?> c0 = clazz.getConstructor(DungeonConfigurationVenus.class, Random.class, Integer.TYPE, Integer.TYPE, EnumFacing.class);
             T dummy = (T) c0.newInstance(this.configuration, rand, 0, 0, this.getDirection().getOpposite());
-            StructureBoundingBox extension = getExtension(this.getDirection(), getDirection().getAxis() == EnumFacing.Axis.X ? dummy.getSizeX() : dummy.getSizeZ(), getDirection().getAxis() == EnumFacing.Axis.X ? dummy.getSizeZ() : dummy.getSizeX());
+            StructureBoundingBox extension = getExtension(this.getDirection(), getDirection().getAxis() == EnumFacing.Axis.X ? dummy.getSizeX() : dummy.getSizeZ(),
+                getDirection().getAxis() == EnumFacing.Axis.X ? dummy.getSizeZ() : dummy.getSizeX());
             if (startPiece.checkIntersection(extension))
             {
                 return null;
@@ -102,8 +95,7 @@ public class CorridorVenus extends SizedPieceVenus
             int blockZ = extension.minZ;
             Constructor<?> c1 = clazz.getConstructor(DungeonConfigurationVenus.class, Random.class, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, EnumFacing.class);
             return (T) c1.newInstance(this.configuration, rand, blockX, blockZ, sizeX, sizeY, sizeZ, this.getDirection().getOpposite());
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -120,13 +112,11 @@ public class CorridorVenus extends SizedPieceVenus
             try
             {
                 return getRoom(this.configuration.getTreasureRoom(), startPiece, rand);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
             }
-        }
-        else
+        } else
         {
             int bossRoomChance = Math.max((int) (20.0 / (pieceCount - 10)), 1);
             boolean bossRoom = pieceCount > 25 || (pieceCount > 10 && rand.nextInt(bossRoomChance) == 0);
@@ -135,14 +125,12 @@ public class CorridorVenus extends SizedPieceVenus
                 try
                 {
                     return getRoom(this.configuration.getBossRoom(), startPiece, rand);
-                }
-                catch (Exception e)
+                } catch (Exception e)
                 {
                     e.printStackTrace();
                     return null;
                 }
-            }
-            else
+            } else
             {
                 StructureBoundingBox extension = getExtension(this.getDirection(), rand.nextInt(4) + 6, rand.nextInt(4) + 6);
 
@@ -172,14 +160,12 @@ public class CorridorVenus extends SizedPieceVenus
                 if (!(lastPiece instanceof RoomSpawnerVenus))
                 {
                     return new RoomSpawnerVenus(this.configuration, rand, blockX, blockZ, sizeX, sizeY, sizeZ, this.getDirection().getOpposite());
-                }
-                else
+                } else
                 {
                     if (rand.nextInt(2) == 0)
                     {
                         return new RoomEmptyVenus(this.configuration, rand, blockX, blockZ, sizeX, sizeY, sizeZ, this.getDirection().getOpposite());
-                    }
-                    else
+                    } else
                     {
                         return new RoomChestVenus(this.configuration, rand, blockX, blockZ, sizeX, sizeY, sizeZ, this.getDirection().getOpposite());
                     }

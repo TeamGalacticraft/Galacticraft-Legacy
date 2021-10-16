@@ -4,6 +4,8 @@ import java.util.Random;
 
 import micdoodle8.mods.galacticraft.api.prefab.core.BlockMetaPair;
 import micdoodle8.mods.galacticraft.api.world.BiomeGenBaseGC;
+import micdoodle8.mods.galacticraft.api.world.DataBuilder;
+import micdoodle8.mods.galacticraft.api.world.DataBuilder.BiomeData;
 import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -11,14 +13,14 @@ import net.minecraft.world.chunk.ChunkPrimer;
 
 public class BiomeMars extends BiomeGenBaseGC
 {
-    public static final Biome marsFlat = new BiomeGenFlatMars(new BiomeProperties("Mars Flat").setBaseHeight(2.5F).setHeightVariation(0.4F).setRainfall(0.0F).setRainDisabled());
+
+    public static final Biome marsFlat = new BiomeGenFlatMars(new DataBuilder("Mars Flat").baseHeight(2.5F).heightVariation(0.4F).build());
 
     public static final BlockMetaPair BLOCK_TOP = new BlockMetaPair(MarsBlocks.marsBlock, (byte) 5);
     public static final BlockMetaPair BLOCK_FILL = new BlockMetaPair(MarsBlocks.marsBlock, (byte) 6);
     public static final BlockMetaPair BLOCK_LOWER = new BlockMetaPair(MarsBlocks.marsBlock, (byte) 9);
 
-    @SuppressWarnings("unchecked")
-    BiomeMars(BiomeProperties properties)
+    BiomeMars(BiomeData properties)
     {
         super(properties, true);
     }

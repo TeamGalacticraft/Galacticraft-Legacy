@@ -31,6 +31,7 @@ import net.minecraft.world.World;
 
 public class BlockSolarArrayController extends BlockTileGC implements IShiftDescription, IPartialSealableBlock, ISortableBlock, ITileEntityProvider
 {
+
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0, 0.25, 0.0, 1.0, 0.78125, 1.0);
 

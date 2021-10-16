@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.client.model;
 
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -13,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class ModelEvolvedCreeper extends ModelBase
 {
+
     ModelRenderer leftOxygenTank;
     ModelRenderer rightOxygenTank;
     ModelRenderer tubeRight2;
@@ -235,8 +237,7 @@ public class ModelEvolvedCreeper extends ModelBase
             this.leg3.render(par7);
             this.leg4.render(par7);
             GL11.glPopMatrix();
-        }
-        else
+        } else
         {
             this.leftOxygenTank.render(par7);
             this.rightOxygenTank.render(par7);

@@ -12,6 +12,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 public class InventoryRocketBench implements IInventory
 {
+
     public NonNullList<ItemStack> stacks;
     private final int inventoryWidth;
     private final Container eventHandler;
@@ -34,8 +35,7 @@ public class InventoryRocketBench implements IInventory
                 return ItemStack.EMPTY;
             }
             return this.getStackInSlot(var3);
-        }
-        else
+        } else
         {
             return ItemStack.EMPTY;
         }
@@ -76,7 +76,7 @@ public class InventoryRocketBench implements IInventory
             this.markDirty();
             this.eventHandler.onCraftMatrixChanged(this);
         }
-    	return oldstack;
+        return oldstack;
     }
 
     @Override
@@ -134,13 +134,13 @@ public class InventoryRocketBench implements IInventory
         return false;
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void openInventory(EntityPlayer player)
     {
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void closeInventory(EntityPlayer player)
     {

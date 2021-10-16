@@ -1,31 +1,34 @@
 package micdoodle8.mods.galacticraft.core.client.jei.refinery;
 
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.*;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.jei.RecipeCategories;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IDrawableAnimated;
+import mezz.jei.api.gui.IDrawableStatic;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IRecipeCategory;
+import mezz.jei.api.recipe.IRecipeWrapper;
+
 public class RefineryRecipeCategory implements IRecipeCategory
 {
+
     private static final ResourceLocation refineryGuiTex = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/refinery_recipe.png");
 
-    @Nonnull
-    private final IDrawable background;
-    @Nonnull
-    private final String localizedName;
-    @Nonnull
-    private final IDrawableAnimated oilBar;
-    @Nonnull
-    private final IDrawableAnimated fuelBar;
+    @Nonnull private final IDrawable background;
+    @Nonnull private final String localizedName;
+    @Nonnull private final IDrawableAnimated oilBar;
+    @Nonnull private final IDrawableAnimated fuelBar;
 
     public RefineryRecipeCategory(IGuiHelper guiHelper)
     {

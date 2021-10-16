@@ -1,25 +1,27 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.blocks.BlockAdvanced;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileEntityMulti extends TileEntity
 {
-    //NOTE: No need for networking in 1.8+: see comment in initialiseMultiTiles()
-    
+    // NOTE: No need for networking in 1.8+: see comment in
+    // initialiseMultiTiles()
+
     // The the position of the main block
     public BlockPos mainBlockPosition;
 
@@ -33,7 +35,7 @@ public class TileEntityMulti extends TileEntity
         this.mainBlockPosition = mainBlockPosition;
     }
 
-    //    public void setMainBlock(BlockPos mainBlock)
+    // public void setMainBlock(BlockPos mainBlock)
 //    {
 //        this.mainBlockPosition = mainBlock;
 //
@@ -130,14 +132,15 @@ public class TileEntityMulti extends TileEntity
 
     protected boolean initialiseMultiTiles(BlockPos pos, World world)
     {
-        IMultiBlock thisTile = (IMultiBlock)this;
-        
-        //Client can create its own fake blocks and tiles - no need for networking in 1.8+
+        IMultiBlock thisTile = (IMultiBlock) this;
+
+        // Client can create its own fake blocks and tiles - no need for
+        // networking in 1.8+
         if (world.isRemote)
         {
             thisTile.onCreate(world, pos);
         }
-        
+
         List<BlockPos> positions = new ArrayList<>();
         thisTile.getPositions(pos, positions);
         boolean result = true;
@@ -147,8 +150,7 @@ public class TileEntityMulti extends TileEntity
             if (tile instanceof TileEntityMulti)
             {
                 ((TileEntityMulti) tile).mainBlockPosition = pos;
-            }
-            else if (tile == null)
+            } else if (tile == null)
             {
                 Block b = world.getBlockState(vecToAdd).getBlock();
                 if (!(b instanceof BlockMulti))
@@ -156,8 +158,7 @@ public class TileEntityMulti extends TileEntity
                     world.setBlockState(vecToAdd, GCBlocks.fakeBlock.getDefaultState().withProperty(BlockMulti.MULTI_TYPE, thisTile.getMultiType()), 2);
                 }
                 world.setTileEntity(vecToAdd, new TileEntityMulti(pos));
-            }
-            else
+            } else
             {
                 result = false;
             }

@@ -9,6 +9,7 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public abstract class BlockTransmitter extends BlockAdvanced
 {
+
     public static final PropertyBool UP = PropertyBool.create("up");
     public static final PropertyBool DOWN = PropertyBool.create("down");
     public static final PropertyBool NORTH = PropertyBool.create("north");
@@ -42,7 +44,8 @@ public abstract class BlockTransmitter extends BlockAdvanced
         TileEntity tile = worldIn.getTileEntity(pos);
 
 //        this.setBlockBoundsBasedOnState(worldIn, pos);
-        GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_UPDATE_WIRE_BOUNDS, GCCoreUtil.getDimensionID((World) worldIn), new Object[] { pos }), new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID((World) worldIn), pos.getX(), pos.getY(), pos.getZ(), 10.0D));
+        GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_UPDATE_WIRE_BOUNDS, GCCoreUtil.getDimensionID((World) worldIn), new Object[]
+        {pos}), new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID((World) worldIn), pos.getX(), pos.getY(), pos.getZ(), 10.0D));
 
         if (tile instanceof INetworkConnection)
         {
@@ -207,22 +210,19 @@ public abstract class BlockTransmitter extends BlockAdvanced
             TileEntity[] connectable = new TileEntity[6];
             switch (this.getNetworkType(state))
             {
-            case FLUID:
-                connectable = OxygenUtil.getAdjacentFluidConnections(tileEntity);
-                break;
-            case POWER:
-                connectable = EnergyUtil.getAdjacentPowerConnections(tileEntity);
-                break;
-            default:
-                break;
+                case FLUID:
+                    connectable = OxygenUtil.getAdjacentFluidConnections(tileEntity);
+                    break;
+                case POWER:
+                    connectable = EnergyUtil.getAdjacentPowerConnections(tileEntity);
+                    break;
+                default:
+                    break;
             }
 
-            return state.withProperty(DOWN, Boolean.valueOf(connectable[EnumFacing.DOWN.ordinal()] != null))
-                    .withProperty(UP, Boolean.valueOf(connectable[EnumFacing.UP.ordinal()] != null))
-                    .withProperty(NORTH, Boolean.valueOf(connectable[EnumFacing.NORTH.ordinal()] != null))
-                    .withProperty(EAST, Boolean.valueOf(connectable[EnumFacing.EAST.ordinal()] != null))
-                    .withProperty(SOUTH, Boolean.valueOf(connectable[EnumFacing.SOUTH.ordinal()] != null))
-                    .withProperty(WEST, Boolean.valueOf(connectable[EnumFacing.WEST.ordinal()] != null));
+            return state.withProperty(DOWN, Boolean.valueOf(connectable[EnumFacing.DOWN.ordinal()] != null)).withProperty(UP, Boolean.valueOf(connectable[EnumFacing.UP.ordinal()] != null))
+                .withProperty(NORTH, Boolean.valueOf(connectable[EnumFacing.NORTH.ordinal()] != null)).withProperty(EAST, Boolean.valueOf(connectable[EnumFacing.EAST.ordinal()] != null))
+                .withProperty(SOUTH, Boolean.valueOf(connectable[EnumFacing.SOUTH.ordinal()] != null)).withProperty(WEST, Boolean.valueOf(connectable[EnumFacing.WEST.ordinal()] != null));
         }
 
         return state;

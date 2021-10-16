@@ -38,6 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockBeamReceiver extends BlockTileGC implements IShiftDescription, ISortableBlock
 {
+
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
     protected static final AxisAlignedBB UP_AABB = new AxisAlignedBB(0.3F, 0.3F, 0.3F, 0.7F, 1.0F, 0.7F);
     protected static final AxisAlignedBB DOWN_AABB = new AxisAlignedBB(0.2F, 0.0F, 0.2F, 0.8F, 0.42F, 0.8F);
@@ -58,19 +59,19 @@ public class BlockBeamReceiver extends BlockTileGC implements IShiftDescription,
     {
         switch (state.getValue(FACING))
         {
-        case UP:
-            return UP_AABB;
-        case DOWN:
-            return DOWN_AABB;
-        case EAST:
-            return EAST_AABB;
-        case WEST:
-            return WEST_AABB;
-        case SOUTH:
-            return SOUTH_AABB;
-        default:
-        case NORTH:
-            return NORTH_AABB;
+            case UP:
+                return UP_AABB;
+            case DOWN:
+                return DOWN_AABB;
+            case EAST:
+                return EAST_AABB;
+            case WEST:
+                return WEST_AABB;
+            case SOUTH:
+                return SOUTH_AABB;
+            default:
+            case NORTH:
+                return NORTH_AABB;
         }
     }
 
@@ -90,8 +91,7 @@ public class BlockBeamReceiver extends BlockTileGC implements IShiftDescription,
         if (meta == -1)
         {
             worldIn.destroyBlock(pos, true);
-        }
-        else if (meta != oldMeta)
+        } else if (meta != oldMeta)
         {
             worldIn.setBlockState(pos, getStateFromMeta(meta), 3);
             TileEntity thisTile = worldIn.getTileEntity(pos);
@@ -170,8 +170,7 @@ public class BlockBeamReceiver extends BlockTileGC implements IShiftDescription,
             if (((EnergyStorageTile) tileAt).getModeFromDirection(direction.getOpposite()) != null)
             {
                 return direction.ordinal();
-            }
-            else
+            } else
             {
                 return -1;
             }

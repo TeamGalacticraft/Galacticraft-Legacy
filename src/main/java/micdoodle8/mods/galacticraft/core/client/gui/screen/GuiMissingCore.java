@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.client.gui.screen;
 
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -15,6 +16,7 @@ import java.net.URI;
 @SideOnly(Side.CLIENT)
 public class GuiMissingCore extends GuiScreen
 {
+
     private int urlX;
     private int urlY;
     private int urlWidth;
@@ -71,9 +73,10 @@ public class GuiMissingCore extends GuiScreen
             {
                 Class<?> oclass = Class.forName("java.awt.Desktop");
                 Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object) null, new Object[0]);
-                oclass.getMethod("browse", new Class[] { URI.class }).invoke(object, new Object[] { new URI("http://micdoodle8.com/mods/galacticraft/downloads") });
-            }
-            catch (Throwable throwable)
+                oclass.getMethod("browse", new Class[]
+                {URI.class}).invoke(object, new Object[]
+                {new URI("http://micdoodle8.com/mods/galacticraft/downloads")});
+            } catch (Throwable throwable)
             {
                 throwable.printStackTrace();
             }

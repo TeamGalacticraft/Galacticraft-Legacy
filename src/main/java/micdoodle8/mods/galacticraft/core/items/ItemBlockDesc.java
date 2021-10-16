@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.energy.EnergyDisplayHelper;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseElectricBlock;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.GameSettings;
@@ -28,6 +29,7 @@ import javax.annotation.Nullable;
 
 public class ItemBlockDesc extends ItemBlockGC
 {
+
     public ItemBlockDesc(Block block)
     {
         super(block);
@@ -41,14 +43,14 @@ public class ItemBlockDesc extends ItemBlockGC
             return;
         }
 
-        //The player could be a FakePlayer made by another mod e.g. LogisticsPipes
+        // The player could be a FakePlayer made by another mod e.g.
+        // LogisticsPipes
         if (player instanceof EntityPlayerSP)
         {
             if (this.getBlock() == GCBlocks.fuelLoader)
             {
                 ClientProxyCore.playerClientHandler.onBuild(4, (EntityPlayerSP) player);
-            }
-            else if (this.getBlock() == GCBlocks.fuelLoader)
+            } else if (this.getBlock() == GCBlocks.fuelLoader)
             {
                 ClientProxyCore.playerClientHandler.onBuild(6, (EntityPlayerSP) player);
             }
@@ -64,8 +66,7 @@ public class ItemBlockDesc extends ItemBlockGC
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
             {
                 info.addAll(FMLClientHandler.instance().getClient().fontRenderer.listFormattedStringToWidth(((IShiftDescription) this.getBlock()).getShiftDescription(stack.getItemDamage()), 150));
-            }
-            else
+            } else
             {
                 if (this.getBlock() instanceof BlockTileGC)
                 {
@@ -78,8 +79,7 @@ public class ItemBlockDesc extends ItemBlockGC
                             info.add(TextFormatting.GREEN + GCCoreUtil.translateWithFormat("item_desc.powerdraw.name", EnergyDisplayHelper.getEnergyDisplayS(powerDrawn * 20)));
                         }
                     }
-                }
-                else if (this.getBlock() instanceof BlockAdvancedTile)
+                } else if (this.getBlock() instanceof BlockAdvancedTile)
                 {
                     TileEntity te = ((BlockAdvancedTile) this.getBlock()).createTileEntity(worldIn, getBlock().getStateFromMeta(stack.getItemDamage() & 12));
                     if (te instanceof TileBaseElectricBlock)

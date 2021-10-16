@@ -8,13 +8,14 @@ import java.util.Set;
  *
  * @param <N> - the class/interface Type value in which you implement this
  * @param <C> - the class/interface Type which makes up the network's conductor
- *            Set
+ *        Set
  * @param <A> - the class/interface Type which makes up the network's acceptor
- *            Set
+ *        Set
  * @author aidancbrady
  */
 public interface IGridNetwork<N, C, A>
 {
+
     /**
      * Refreshes and cleans up conductor references of this network, as well as
      * updating the acceptor set.

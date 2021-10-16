@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSwordMars extends ItemSword implements ISortableItem
 {
+
     public ItemSwordMars(ToolMaterial par2EnumToolMaterial)
     {
         super(par2EnumToolMaterial);

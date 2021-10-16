@@ -1,12 +1,14 @@
+package micdoodle8.mods.galacticraft.core.client.nei;
+
 //package micdoodle8.mods.galacticraft.core.client.nei;
 //
 //import codechicken.nei.api.IHighlightHandler;
 //import codechicken.nei.api.ItemInfo;
-//import micdoodle8.mods.galacticraft.core.GCBlocks;
-//import micdoodle8.mods.galacticraft.core.blocks.BlockFluidPipe;
-//import micdoodle8.mods.galacticraft.core.fluid.FluidNetwork;
-//import micdoodle8.mods.galacticraft.core.tile.TileEntityFluidPipe;
-//import micdoodle8.mods.galacticraft.core.tile.TileEntityFluidTank;
+//import galacticraft.core.GCBlocks;
+//import galacticraft.core.blocks.BlockFluidPipe;
+//import galacticraft.core.fluid.FluidNetwork;
+//import galacticraft.core.tile.TileEntityFluidPipe;
+//import galacticraft.core.tile.TileEntityFluidTank;
 //import net.minecraft.block.Block;
 //import net.minecraft.block.state.IBlockState;
 //import net.minecraft.entity.player.EntityPlayer;

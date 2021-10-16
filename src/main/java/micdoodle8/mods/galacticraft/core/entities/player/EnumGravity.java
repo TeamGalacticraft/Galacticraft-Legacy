@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.entities.player;
 
 public enum EnumGravity
 {
+
     down(0, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F),
     up(1, 1.0F, 0.0F, 0.0F, -1.0F, 0.0F, -1.0F, 0.0F, 0.0F, -1.0F, 0.0F, 0.0F, 1.0F, 0.0F),
     west(2, 0.0F, -1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 0.0F, 0.0F, -1.0F, 1.0F, 0.0F),
@@ -23,7 +24,8 @@ public enum EnumGravity
     private final float eyeVecX;
     private final float eyeVecY;
     private final float eyeVecZ;
-    private final static EnumGravity[] GDirections = { down, up, west, east, south, north };
+    private final static EnumGravity[] GDirections =
+    {down, up, west, east, south, north};
 
     EnumGravity(int value, float pitchX, float pitchY, float yawX, float yawY, float yawZ, float thetaX, float thetaZ, float sneakX, float sneakY, float sneakZ, float eyeX, float eyeY, float eyeZ)
     {

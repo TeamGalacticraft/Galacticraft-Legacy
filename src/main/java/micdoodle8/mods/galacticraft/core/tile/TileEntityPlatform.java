@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.blocks.BlockPlatform;
 import micdoodle8.mods.galacticraft.core.blocks.BlockPlatform.EnumCorner;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStatsClient;
+
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -27,20 +28,21 @@ import java.util.List;
 
 public class TileEntityPlatform extends TileEntity implements ITickable
 {
-    private static final int MAXRANGE = 16; 
+
+    private static final int MAXRANGE = 16;
     private int corner = 0;
     private AxisAlignedBB detection = null;
     private boolean noCollide;
     private boolean moving;
     private boolean lightOn = false;
-    private int colorState = 0;   //0 = green  1 = red
+    private int colorState = 0; // 0 = green 1 = red
     private int colorTicks = 0;
     private AxisAlignedBB renderAABB;
     private int lightA;
     private int lightB;
     private int deltaY;
     private boolean firstTickCheck;
-    
+
     public TileEntityPlatform()
     {
     }
@@ -49,7 +51,7 @@ public class TileEntityPlatform extends TileEntity implements ITickable
     {
         this.corner = (meta > 4 || meta < 0) ? 0 : meta;
     }
-    
+
     @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
@@ -76,7 +78,7 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         {
             this.firstTickCheck = !this.checkIntact();
         }
-            
+
         if (this.corner == 0 && !this.world.isRemote)
         {
             final List<TileEntityPlatform> adjacentPlatforms = new LinkedList<>();
@@ -84,20 +86,20 @@ public class TileEntityPlatform extends TileEntity implements ITickable
             final int thisY = this.getPos().getY();
             final int thisZ = this.getPos().getZ();
 
-            for (int x = - 1; x < 1; x++)
+            for (int x = -1; x < 1; x++)
             {
-                for (int z = - 1; z < 1; z++)
+                for (int z = -1; z < 1; z++)
                 {
                     BlockPos pos = new BlockPos(x + thisX, thisY, z + thisZ);
                     final TileEntity tile = this.world.isBlockLoaded(pos, false) ? this.world.getTileEntity(pos) : null;
 
-                    if (tile instanceof TileEntityPlatform && !tile.isInvalid() && ((TileEntityPlatform)tile).corner == 0)
+                    if (tile instanceof TileEntityPlatform && !tile.isInvalid() && ((TileEntityPlatform) tile).corner == 0)
                     {
                         final TileEntity tileUp = this.world.getTileEntity(pos.up());
                         final TileEntity tileDown = this.world.getTileEntity(pos.down());
                         if (!(tileUp instanceof TileEntityPlatform) && !(tileDown instanceof TileEntityPlatform))
                         {
-                           adjacentPlatforms.add((TileEntityPlatform) tile);
+                            adjacentPlatforms.add((TileEntityPlatform) tile);
                         }
                     }
                 }
@@ -108,11 +110,11 @@ public class TileEntityPlatform extends TileEntity implements ITickable
                 int index = 1;
                 for (final TileEntityPlatform tile : adjacentPlatforms)
                 {
-                    tile.setWhole(index++);;
+                    tile.setWhole(index++);
+                    ;
                 }
             }
-        }
-        else if (this.world.isRemote)
+        } else if (this.world.isRemote)
         {
             this.updateClient();
         }
@@ -121,7 +123,7 @@ public class TileEntityPlatform extends TileEntity implements ITickable
     @SideOnly(Side.CLIENT)
     private void updateClient()
     {
-        this.lightOn  = false;
+        this.lightOn = false;
         if (this.colorTicks > 0)
         {
             if (--this.colorTicks == 0)
@@ -133,10 +135,11 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         IBlockState b = this.world.getBlockState(this.getPos());
         if (b.getBlock() == GCBlocks.platform && b.getValue(BlockPlatform.CORNER) == BlockPlatform.EnumCorner.NW)
         {
-            //Scan area for player entities and light up
+            // Scan area for player entities and light up
             if (this.detection == null)
             {
-                this.detection = new AxisAlignedBB(this.getPos().getX() + 0.9D, this.getPos().getY() + 0.75D, this.getPos().getZ() + 0.9D, this.getPos().getX() + 1.1D, this.getPos().getY() + 1.85D, this.getPos().getZ() + 1.1D);
+                this.detection = new AxisAlignedBB(this.getPos().getX() + 0.9D, this.getPos().getY() + 0.75D, this.getPos().getZ() + 0.9D, this.getPos().getX() + 1.1D, this.getPos().getY() + 1.85D,
+                    this.getPos().getZ() + 1.1D);
             }
             final List<Entity> list = this.world.getEntitiesWithinAABB(EntityPlayer.class, detection);
 
@@ -157,8 +160,7 @@ public class TileEntityPlatform extends TileEntity implements ITickable
                         {
                             this.colorState = 1;
                             this.colorTicks = 16;
-                        }
-                        else if (canDescend > 0)
+                        } else if (canDescend > 0)
                         {
                             TileEntity te = this.world.getTileEntity(this.pos.down(canDescend));
                             if (te instanceof TileEntityPlatform)
@@ -169,16 +171,14 @@ public class TileEntityPlatform extends TileEntity implements ITickable
                                 tep.startMove(this);
                             }
                         }
-                    }
-                    else if (p.movementInput.jump)
+                    } else if (p.movementInput.jump)
                     {
                         int canAscend = this.checkNextPlatform(1);
                         if (canAscend == -1)
                         {
                             this.colorState = 1;
                             this.colorTicks = 16;
-                        }
-                        else if (canAscend > 0)
+                        } else if (canAscend > 0)
                         {
                             TileEntity te = this.world.getTileEntity(this.pos.up(canAscend));
                             if (te instanceof TileEntityPlatform)
@@ -206,7 +206,8 @@ public class TileEntityPlatform extends TileEntity implements ITickable
     }
 
     /**
-     * @return  0 for no platform, range for good platform, -1 for blocked platform
+     * @return 0 for no platform, range for good platform, -1 for blocked
+     *         platform
      */
     private int checkNextPlatform(int dir)
     {
@@ -214,21 +215,28 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         final int thisY = this.getPos().getY();
         final int thisZ = this.getPos().getZ();
         int maxY = thisY + MAXRANGE * dir;
-        if (maxY > 255) maxY = 255;
-        if (maxY < 0) maxY = 0;
+        if (maxY > 255)
+            maxY = 255;
+        if (maxY < 0)
+            maxY = 0;
 
-        for (int y = thisY + dir; y != maxY; y+= dir)
+        for (int y = thisY + dir; y != maxY; y += dir)
         {
             int c1 = this.checkCorner(new BlockPos(thisX, y, thisZ), BlockPlatform.EnumCorner.NW);
-            if (c1 >= 2) return c1 - 3;
+            if (c1 >= 2)
+                return c1 - 3;
             c1 += this.checkCorner(new BlockPos(thisX + 1, y, thisZ), BlockPlatform.EnumCorner.NE) * 4;
-            if (c1 >= 8) return c1 - 3;
+            if (c1 >= 8)
+                return c1 - 3;
             c1 += this.checkCorner(new BlockPos(thisX, y, thisZ + 1), BlockPlatform.EnumCorner.SW) * 16;
-            if (c1 >= 32) return c1 - 3;
+            if (c1 >= 32)
+                return c1 - 3;
             c1 += this.checkCorner(new BlockPos(thisX + 1, y, thisZ + 1), BlockPlatform.EnumCorner.SE) * 64;
-            if (c1 >= 128) return c1 - 3;
+            if (c1 >= 128)
+                return c1 - 3;
             // Good platform on all four corners
-            if (c1 == 0) continue;
+            if (c1 == 0)
+                continue;
             if (this.motionObstructed(thisY + 1, y - thisY))
             {
                 return -1;
@@ -239,7 +247,8 @@ public class TileEntityPlatform extends TileEntity implements ITickable
     }
 
     /**
-     * @return  0 for air, 1 for good platform, 2 for blocked platform, 3 for block
+     * @return 0 for air, 1 for good platform, 2 for blocked platform, 3 for
+     *         block
      */
     private int checkCorner(BlockPos blockPos, EnumCorner corner)
     {
@@ -273,7 +282,7 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         }
         this.world.destroyBlock(this.pos, true);
     }
-    
+
     private void resetBlocks()
     {
         List<BlockPos> positions = new ArrayList<>();
@@ -299,35 +308,35 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         int z = blockPos.getZ();
         switch (this.corner)
         {
-        case 0:
-            break;
-        case 1:
-            positions.add(new BlockPos(x + 1, y, z));
-            positions.add(new BlockPos(x, y, z + 1));
-            positions.add(new BlockPos(x + 1, y, z + 1));
-            break;
-        case 2:
-            positions.add(new BlockPos(x + 1, y, z));
-            positions.add(new BlockPos(x, y, z - 1));
-            positions.add(new BlockPos(x + 1, y, z - 1));
-            break;
-        case 3:
-            positions.add(new BlockPos(x - 1, y, z));
-            positions.add(new BlockPos(x, y, z + 1));
-            positions.add(new BlockPos(x - 1, y, z + 1));
-            break;
-        case 4:
-            positions.add(new BlockPos(x - 1, y, z));
-            positions.add(new BlockPos(x, y, z - 1));
-            positions.add(new BlockPos(x - 1, y, z - 1));
-            break;
+            case 0:
+                break;
+            case 1:
+                positions.add(new BlockPos(x + 1, y, z));
+                positions.add(new BlockPos(x, y, z + 1));
+                positions.add(new BlockPos(x + 1, y, z + 1));
+                break;
+            case 2:
+                positions.add(new BlockPos(x + 1, y, z));
+                positions.add(new BlockPos(x, y, z - 1));
+                positions.add(new BlockPos(x + 1, y, z - 1));
+                break;
+            case 3:
+                positions.add(new BlockPos(x - 1, y, z));
+                positions.add(new BlockPos(x, y, z + 1));
+                positions.add(new BlockPos(x - 1, y, z + 1));
+                break;
+            case 4:
+                positions.add(new BlockPos(x - 1, y, z));
+                positions.add(new BlockPos(x, y, z - 1));
+                positions.add(new BlockPos(x - 1, y, z - 1));
+                break;
         }
     }
 
     private boolean checkIntact()
     {
-        IBlockState bs = this.world.getBlockState(this.pos); 
-        if (bs.getBlock() != GCBlocks.platform || ((BlockPlatform.EnumCorner)bs.getValue(BlockPlatform.CORNER)).getMeta() != this.corner)
+        IBlockState bs = this.world.getBlockState(this.pos);
+        if (bs.getBlock() != GCBlocks.platform || ((BlockPlatform.EnumCorner) bs.getValue(BlockPlatform.CORNER)).getMeta() != this.corner)
         {
             this.resetBlocks();
             return false;
@@ -338,36 +347,36 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         int count = 0;
         switch (this.corner)
         {
-        case 0:
-            count = 3;
-            break;
-        case 1:
-            count += checkState(new BlockPos(x + 1, y, z), 3);
-            count += checkState(new BlockPos(x, y, z + 1), 2);
-            count += checkState(new BlockPos(x + 1, y, z + 1), 4);
-            break;
-        case 2:
-            count += checkState(new BlockPos(x + 1, y, z), 4);
-            count += checkState(new BlockPos(x, y, z - 1), 1);
-            count += checkState(new BlockPos(x + 1, y, z - 1), 3);
-            break;
-        case 3:
-            count += checkState(new BlockPos(x - 1, y, z), 1);
-            count += checkState(new BlockPos(x, y, z + 1), 4);
-            count += checkState(new BlockPos(x - 1, y, z + 1), 2);
-            break;
-        case 4:
-            count += checkState(new BlockPos(x - 1, y, z), 2);
-            count += checkState(new BlockPos(x, y, z - 1), 3);
-            count += checkState(new BlockPos(x - 1, y, z - 1), 1);
-            break;
+            case 0:
+                count = 3;
+                break;
+            case 1:
+                count += checkState(new BlockPos(x + 1, y, z), 3);
+                count += checkState(new BlockPos(x, y, z + 1), 2);
+                count += checkState(new BlockPos(x + 1, y, z + 1), 4);
+                break;
+            case 2:
+                count += checkState(new BlockPos(x + 1, y, z), 4);
+                count += checkState(new BlockPos(x, y, z - 1), 1);
+                count += checkState(new BlockPos(x + 1, y, z - 1), 3);
+                break;
+            case 3:
+                count += checkState(new BlockPos(x - 1, y, z), 1);
+                count += checkState(new BlockPos(x, y, z + 1), 4);
+                count += checkState(new BlockPos(x - 1, y, z + 1), 2);
+                break;
+            case 4:
+                count += checkState(new BlockPos(x - 1, y, z), 2);
+                count += checkState(new BlockPos(x, y, z - 1), 3);
+                count += checkState(new BlockPos(x - 1, y, z - 1), 1);
+                break;
         }
-        
+
         if (count >= 3)
         {
             return count == 3;
         }
-        
+
         this.resetBlocks();
         return true;
     }
@@ -377,8 +386,8 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         if (!this.world.isBlockLoaded(blockPos, false))
             return 4;
 
-        IBlockState bs = this.world.getBlockState(blockPos); 
-        if (bs.getBlock() == GCBlocks.platform && ((BlockPlatform.EnumCorner)bs.getValue(BlockPlatform.CORNER)).getMeta() == meta)
+        IBlockState bs = this.world.getBlockState(blockPos);
+        if (bs.getBlock() == GCBlocks.platform && ((BlockPlatform.EnumCorner) bs.getValue(BlockPlatform.CORNER)).getMeta() == meta)
         {
             final TileEntity tile = this.world.getTileEntity(blockPos);
             if (tile instanceof TileEntityPlatform)
@@ -440,7 +449,7 @@ public class TileEntityPlatform extends TileEntity implements ITickable
     {
         return this.colorState;
     }
-    
+
     public boolean isMoving()
     {
         return this.moving;
@@ -457,10 +466,9 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         if (this.moving)
         {
             EntityPlayerSP p = FMLClientHandler.instance().getClientPlayerEntity();
-            float playerY = (float)(p.lastTickPosY + (p.posY - p.lastTickPosY) * (double)partialTicks);
+            float playerY = (float) (p.lastTickPosY + (p.posY - p.lastTickPosY) * (double) partialTicks);
             return (playerY - this.pos.getY() - BlockPlatform.HEIGHT);
-        }
-        else
+        } else
             return 0.0F;
     }
 
@@ -491,25 +499,25 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         light = this.world.getCombinedLight(this.getPos().add(1, 1, 1), 0);
         j += light % 65536;
         k += light / 65536;
-        return j / 4 + k * 16384; 
+        return j / 4 + k * 16384;
     }
 
     @SideOnly(Side.CLIENT)
     public float getMeanLightX(float yOffset)
     {
-        float a = (float)(this.lightA % 65536);
-        float b = (float)(this.lightB % 65536);
-        float f = yOffset / deltaY; 
-        return (1 - f) * a + f * b;  
+        float a = (float) (this.lightA % 65536);
+        float b = (float) (this.lightB % 65536);
+        float f = yOffset / deltaY;
+        return (1 - f) * a + f * b;
     }
 
     @SideOnly(Side.CLIENT)
     public float getMeanLightZ(float yOffset)
     {
-        float a = (float)(this.lightA / 65536);
-        float b = (float)(this.lightB / 65536);
+        float a = (float) (this.lightA / 65536);
+        float b = (float) (this.lightB / 65536);
         float f = yOffset / deltaY;
-        return (1 - f) * a + f * b;  
+        return (1 - f) * a + f * b;
     }
 
     @SideOnly(Side.CLIENT)
@@ -518,12 +526,12 @@ public class TileEntityPlatform extends TileEntity implements ITickable
         EntityPlayerSP p = FMLClientHandler.instance().getClientPlayerEntity();
         int x = this.pos.getX() + 1;
         int z = this.pos.getZ() + 1;
-        double size = 9/16D;
+        double size = 9 / 16D;
         double height = p.height + velocityY;
         double depth = velocityY < 0D ? 0.179D : 0D;
         AxisAlignedBB bb = new AxisAlignedBB(x - size, y - depth, z - size, x + size, y + height, z + size);
         BlockPlatform.ignoreCollisionTests = true;
-        boolean obstructed = !this.world.getCollisionBoxes(p, bb).isEmpty(); 
+        boolean obstructed = !this.world.getCollisionBoxes(p, bb).isEmpty();
         BlockPlatform.ignoreCollisionTests = false;
         return obstructed;
     }

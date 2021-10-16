@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -16,6 +17,7 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandJoinSpaceRace extends CommandBase
 {
+
     @Override
     public int getRequiredPermissionLevel()
     {
@@ -56,24 +58,21 @@ public class CommandJoinSpaceRace extends CommandBase
                     if (stats.getSpaceRaceInviteTeamID() > 0)
                     {
                         SpaceRaceManager.sendSpaceRaceData(server, playerBase, SpaceRaceManager.getSpaceRaceFromID(stats.getSpaceRaceInviteTeamID()));
-                        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_JOIN_RACE_GUI, GCCoreUtil.getDimensionID(playerBase.world), new Object[] { stats.getSpaceRaceInviteTeamID() }), playerBase);
-                    }
-                    else
+                        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_JOIN_RACE_GUI, GCCoreUtil.getDimensionID(playerBase.world), new Object[]
+                        {stats.getSpaceRaceInviteTeamID()}), playerBase);
+                    } else
                     {
                         throw new Exception("You haven't been invited to a space race team!");
                     }
-                }
-                else
+                } else
                 {
                     throw new Exception("Could not find player with name: " + args[0]);
                 }
-            }
-            catch (final Exception var6)
+            } catch (final Exception var6)
             {
                 throw new CommandException(var6.getMessage(), new Object[0]);
             }
-        }
-        else
+        } else
         {
             throw new WrongUsageException(GCCoreUtil.translateWithFormat("commands.joinrace.no_team", this.getUsage(sender)), new Object[0]);
         }

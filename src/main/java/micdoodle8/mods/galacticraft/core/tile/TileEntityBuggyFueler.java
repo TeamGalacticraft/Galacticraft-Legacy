@@ -10,6 +10,7 @@ import micdoodle8.mods.galacticraft.api.tile.ILandingPadAttachable;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMulti.EnumBlockMultiType;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +29,7 @@ import java.util.List;
 
 public class TileEntityBuggyFueler extends TileEntityMulti implements IMultiBlock, IFuelable, IFuelDock, ICargoEntity
 {
+
     public TileEntityBuggyFueler()
     {
         super(null);
@@ -41,7 +43,8 @@ public class TileEntityBuggyFueler extends TileEntityMulti implements IMultiBloc
     {
         if (!this.initialised)
         {
-            if (!this.world.isRemote) this.onCreate(this.world, this.getPos());
+            if (!this.world.isRemote)
+                this.onCreate(this.world, this.getPos());
             this.initialiseMultiTiles(this.getPos(), this.world);
             this.initialised = true;
         }
@@ -49,7 +52,7 @@ public class TileEntityBuggyFueler extends TileEntityMulti implements IMultiBloc
         if (!this.world.isRemote)
         {
             final List<Entity> list = this.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(this.getPos().getX() - 1.5D, this.getPos().getY() - 2.0, this.getPos().getZ() - 1.5D,
-                    this.getPos().getX() + 1.5D, this.getPos().getY() + 4.0, this.getPos().getZ() + 1.5D), (Predicate<Entity>) input -> input instanceof IFuelable);
+                this.getPos().getX() + 1.5D, this.getPos().getY() + 4.0, this.getPos().getZ() + 1.5D), (Predicate<Entity>) input -> input instanceof IFuelable);
 
             boolean changed = false;
 
@@ -104,7 +107,7 @@ public class TileEntityBuggyFueler extends TileEntityMulti implements IMultiBloc
     {
         return EnumBlockMultiType.BUGGY_FUEL_PAD;
     }
-    
+
     @Override
     public void getPositions(BlockPos placedPosition, List<BlockPos> positions)
     {
@@ -113,7 +116,8 @@ public class TileEntityBuggyFueler extends TileEntityMulti implements IMultiBloc
         {
             for (int z = -1; z < 2; z++)
             {
-                if (x == 0 && z == 0) continue;
+                if (x == 0 && z == 0)
+                    continue;
                 positions.add(new BlockPos(placedPosition.getX() + x, y, placedPosition.getZ() + z));
             }
         }

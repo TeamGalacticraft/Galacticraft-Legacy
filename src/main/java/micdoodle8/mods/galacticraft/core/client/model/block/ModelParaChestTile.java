@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class ModelParaChestTile extends ModelChest
 {
+
     public ModelRenderer keyParts[] = new ModelRenderer[3];
 
     public ModelParaChestTile()

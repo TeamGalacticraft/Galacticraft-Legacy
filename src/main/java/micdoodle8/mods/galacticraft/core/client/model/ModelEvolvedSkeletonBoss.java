@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.client.model;
 
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.entities.EntitySkeletonBoss;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -10,6 +11,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class ModelEvolvedSkeletonBoss extends ModelBase
 {
+
     private ModelRenderer upperHead;
     private ModelRenderer pelvis;
     private ModelRenderer sternum;
@@ -381,8 +383,7 @@ public class ModelEvolvedSkeletonBoss extends ModelBase
         if (type == ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND)
         {
             this.rightArm.postRender(scale);
-        }
-        else
+        } else
         {
             this.leftArm.postRender(scale);
         }

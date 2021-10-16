@@ -1,10 +1,5 @@
 package micdoodle8.mods.galacticraft.planets.mars.items;
 
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.items.ISortableItem;
-import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
-import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
@@ -19,9 +14,17 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.items.ISortableItem;
+import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
+import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 public class ItemBasicMars extends Item implements ISortableItem
 {
-    public static String[] names = { "raw_desh", "desh_stick", "ingot_desh", "reinforced_plate_t2", "slimeling_cargo", "compressed_desh", "fluid_manip" };
+
+    public static String[] names =
+    {"raw_desh", "desh_stick", "ingot_desh", "reinforced_plate_t2", "slimeling_cargo", "compressed_desh", "fluid_manip"};
 
     public ItemBasicMars(String name)
     {
@@ -89,11 +92,11 @@ public class ItemBasicMars extends Item implements ISortableItem
     {
         switch (meta)
         {
-        case 2:
-            return EnumSortCategoryItem.INGOT;
-        case 3:
-        case 5:
-            return EnumSortCategoryItem.PLATE;
+            case 2:
+                return EnumSortCategoryItem.INGOT;
+            case 3:
+            case 5:
+                return EnumSortCategoryItem.PLATE;
         }
         return EnumSortCategoryItem.GENERAL;
     }
@@ -103,10 +106,10 @@ public class ItemBasicMars extends Item implements ISortableItem
     {
         switch (item.getItemDamage())
         {
-        case 3:
-            return 1.5F;
-        case 5:
-            return 1F;
+            case 3:
+                return 1.5F;
+            case 5:
+                return 1F;
         }
         return -1F;
     }

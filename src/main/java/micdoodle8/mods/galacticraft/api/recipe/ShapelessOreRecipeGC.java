@@ -1,5 +1,10 @@
 package micdoodle8.mods.galacticraft.api.recipe;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import micdoodle8.mods.galacticraft.core.util.RecipeUtil;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
@@ -11,19 +16,21 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 public class ShapelessOreRecipeGC extends net.minecraftforge.registries.IForgeRegistryEntry.Impl<IRecipe> implements IRecipeUpdatable
 {
+
     protected ItemStack output = null;
     protected ArrayList<Object> input = new ArrayList<Object>();
 
-    public ShapelessOreRecipeGC(Block result, Object... recipe){ this(new ItemStack(result), recipe); }
+    public ShapelessOreRecipeGC(Block result, Object... recipe)
+    {
+        this(new ItemStack(result), recipe);
+    }
 
-    public ShapelessOreRecipeGC(Item  result, Object... recipe){ this(new ItemStack(result), recipe); }
+    public ShapelessOreRecipeGC(Item result, Object... recipe)
+    {
+        this(new ItemStack(result), recipe);
+    }
 
     public ShapelessOreRecipeGC(ItemStack result, Object... recipe)
     {
@@ -32,24 +39,20 @@ public class ShapelessOreRecipeGC extends net.minecraftforge.registries.IForgeRe
         {
             if (in instanceof ItemStack)
             {
-                input.add(((ItemStack)in).copy());
-            }
-            else if (in instanceof Item)
+                input.add(((ItemStack) in).copy());
+            } else if (in instanceof Item)
             {
-                input.add(new ItemStack((Item)in));
-            }
-            else if (in instanceof Block)
+                input.add(new ItemStack((Item) in));
+            } else if (in instanceof Block)
             {
-                input.add(new ItemStack((Block)in));
-            }
-            else if (in instanceof String)
+                input.add(new ItemStack((Block) in));
+            } else if (in instanceof String)
             {
-                input.add(OreDictionary.getOres((String)in));
-            }
-            else
+                input.add(OreDictionary.getOres((String) in));
+            } else
             {
                 StringBuilder ret = new StringBuilder("Invalid compressor shapeless ore recipe: ");
-                for (Object tmp :  recipe)
+                for (Object tmp : recipe)
                 {
                     ret.append(tmp).append(", ");
                 }
@@ -64,12 +67,18 @@ public class ShapelessOreRecipeGC extends net.minecraftforge.registries.IForgeRe
     {
         return width * height >= input.size();
     }
-    
-    @Override
-    public ItemStack getRecipeOutput(){ return output; }
 
     @Override
-    public ItemStack getCraftingResult(InventoryCrafting var1){ return output.copy(); }
+    public ItemStack getRecipeOutput()
+    {
+        return output;
+    }
+
+    @Override
+    public ItemStack getCraftingResult(InventoryCrafting var1)
+    {
+        return output.copy();
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -94,11 +103,10 @@ public class ShapelessOreRecipeGC extends net.minecraftforge.registries.IForgeRe
 
                     if (next instanceof ItemStack)
                     {
-                        match = OreDictionary.itemMatches((ItemStack)next, slot, false);
-                    }
-                    else if (next instanceof List)
+                        match = OreDictionary.itemMatches((ItemStack) next, slot, false);
+                    } else if (next instanceof List)
                     {
-                        Iterator<ItemStack> itr = ((List<ItemStack>)next).iterator();
+                        Iterator<ItemStack> itr = ((List<ItemStack>) next).iterator();
                         while (itr.hasNext() && !match)
                         {
                             match = OreDictionary.itemMatches(itr.next(), slot, false);
@@ -142,11 +150,10 @@ public class ShapelessOreRecipeGC extends net.minecraftforge.registries.IForgeRe
 
                     if (next instanceof ItemStack)
                     {
-                        match = OreDictionary.itemMatches((ItemStack)next, slot, false);
-                    }
-                    else if (next instanceof List)
+                        match = OreDictionary.itemMatches((ItemStack) next, slot, false);
+                    } else if (next instanceof List)
                     {
-                        Iterator<ItemStack> itr = ((List<ItemStack>)next).iterator();
+                        Iterator<ItemStack> itr = ((List<ItemStack>) next).iterator();
                         while (itr.hasNext() && !match)
                         {
                             match = OreDictionary.itemMatches(itr.next(), slot, false);
@@ -177,7 +184,7 @@ public class ShapelessOreRecipeGC extends net.minecraftforge.registries.IForgeRe
     }
 
     @Override
-    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) //getRecipeLeftovers
+    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) // getRecipeLeftovers
     {
         return ForgeHooks.defaultRecipeGetRemainingItems(inv);
     }
@@ -191,8 +198,7 @@ public class ShapelessOreRecipeGC extends net.minecraftforge.registries.IForgeRe
             if (test instanceof ItemStack && ItemStack.areItemsEqual(inputA, (ItemStack) test) && RecipeUtil.areItemStackTagsEqual(inputA, (ItemStack) test))
             {
                 this.input.set(i, inputB);
-            }
-            else if (test instanceof List<?> && itemListContains((List<?>) test, inputA))
+            } else if (test instanceof List<?> && itemListContains((List<?>) test, inputA))
             {
                 this.input.set(i, inputB);
             }

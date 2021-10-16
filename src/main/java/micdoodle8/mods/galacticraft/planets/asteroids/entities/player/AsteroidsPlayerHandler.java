@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 
 public class AsteroidsPlayerHandler
 {
+
     @SubscribeEvent
     public void onPlayerLogin(PlayerLoggedInEvent event)
     {
@@ -63,14 +64,18 @@ public class AsteroidsPlayerHandler
 
     public void onPlayerUpdate(EntityPlayerMP player)
     {
-        if (!ConfigManagerAsteroids.disableSmallAsteroids) {
-            if (!player.world.isRemote && player.world.provider instanceof WorldProviderAsteroids) {
+        if (!ConfigManagerAsteroids.disableSmallAsteroids)
+        {
+            if (!player.world.isRemote && player.world.provider instanceof WorldProviderAsteroids)
+            {
                 final int f = 50;
 
-                if (player.world.rand.nextInt(f) == 0 && player.posY < 260D) {
+                if (player.world.rand.nextInt(f) == 0 && player.posY < 260D)
+                {
                     final EntityPlayer closestPlayer = player.world.getClosestPlayerToEntity(player, 100);
 
-                    if (closestPlayer == null || closestPlayer.getEntityId() <= player.getEntityId()) {
+                    if (closestPlayer == null || closestPlayer.getEntityId() <= player.getEntityId())
+                    {
                         double x, y, z;
                         double motX, motY, motZ;
                         double r = player.world.rand.nextInt(60) + 30D;

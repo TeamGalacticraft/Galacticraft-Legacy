@@ -9,6 +9,7 @@ import java.util.List;
 
 public class GasLiquefierRecipeMaker
 {
+
     public static List<GasLiquefierRecipeWrapper> getRecipesList()
     {
         List<GasLiquefierRecipeWrapper> recipes = new ArrayList<>();

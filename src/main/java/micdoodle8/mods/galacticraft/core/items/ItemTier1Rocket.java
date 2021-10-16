@@ -11,6 +11,7 @@ import micdoodle8.mods.galacticraft.core.tile.TileEntityLandingPad;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -38,13 +39,14 @@ import javax.annotation.Nullable;
 
 public class ItemTier1Rocket extends Item implements IHoldableItem, ISortableItem
 {
+
     public ItemTier1Rocket(String assetName)
     {
         super();
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
-        //this.setTextureName("arrow");
+        // this.setTextureName("arrow");
         this.setTranslationKey(assetName);
     }
 
@@ -65,8 +67,7 @@ public class ItemTier1Rocket extends Item implements IHoldableItem, ISortableIte
         {
             ClientProxyCore.playerClientHandler.onBuild(8, (EntityPlayerSP) playerIn);
             return EnumActionResult.PASS;
-        }
-        else
+        } else
         {
             float centerX = -1;
             float centerY = -1;
@@ -112,8 +113,7 @@ public class ItemTier1Rocket extends Item implements IHoldableItem, ISortableIte
                     stack.shrink(1);
                 }
                 return EnumActionResult.SUCCESS;
-            }
-            else
+            } else
             {
                 return EnumActionResult.PASS;
             }
@@ -122,15 +122,14 @@ public class ItemTier1Rocket extends Item implements IHoldableItem, ISortableIte
 
     public static boolean placeRocketOnPad(ItemStack stack, World worldIn, TileEntity tile, float centerX, float centerY, float centerZ)
     {
-        //Check whether there is already a rocket on the pad
+        // Check whether there is already a rocket on the pad
         if (tile instanceof TileEntityLandingPad)
         {
             if (((TileEntityLandingPad) tile).getDockedEntity() != null)
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -143,8 +142,7 @@ public class ItemTier1Rocket extends Item implements IHoldableItem, ISortableIte
         if (spaceship.rocketType.getPreFueled())
         {
             spaceship.fuelTank.fill(new FluidStack(GCFluids.fluidFuel, spaceship.getMaxFuel()), true);
-        }
-        else if (stack.hasTagCompound() && stack.getTagCompound().hasKey("RocketFuel"))
+        } else if (stack.hasTagCompound() && stack.getTagCompound().hasKey("RocketFuel"))
         {
             spaceship.fuelTank.fill(new FluidStack(GCFluids.fluidFuel, stack.getTagCompound().getInteger("RocketFuel")), true);
         }

@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.model.OBJLoaderGC;
 import micdoodle8.mods.galacticraft.core.entities.EntityBuggy;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -28,6 +29,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderBuggy extends Render<EntityBuggy>
 {
+
     private OBJModel.OBJBakedModel mainModel;
     private OBJModel.OBJBakedModel radarDish;
     private OBJModel.OBJBakedModel wheelLeftCover;
@@ -56,8 +58,7 @@ public class RenderBuggy extends Render<EntityBuggy>
                 this.cargoLeft = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("CargoLeft"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 this.cargoMid = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("CargoMid"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 this.cargoRight = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("CargoRight"), false), DefaultVertexFormats.ITEM, spriteFunction);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -94,8 +95,7 @@ public class RenderBuggy extends Render<EntityBuggy>
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }
@@ -167,7 +167,7 @@ public class RenderBuggy extends Render<EntityBuggy>
         GlStateManager.popMatrix();
         RenderHelper.enableStandardItemLighting();
     }
-    
+
     @Override
     public boolean shouldRender(EntityBuggy buggy, ICamera camera, double camX, double camY, double camZ)
     {

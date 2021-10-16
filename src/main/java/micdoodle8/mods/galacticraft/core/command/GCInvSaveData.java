@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.command;
 
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -8,6 +9,7 @@ import net.minecraft.world.storage.WorldSavedData;
 
 public class GCInvSaveData extends WorldSavedData
 {
+
     public static final String SAVE_ID = Constants.GCDATAFOLDER + "GCInv_savefile";
 
     public GCInvSaveData()
@@ -28,7 +30,9 @@ public class GCInvSaveData extends WorldSavedData
             if (obj instanceof NBTTagList)
             {
                 NBTTagList entry = (NBTTagList) obj;
-                String name = entry.toString(); // TODO See if this is equivilent to 1.6's getName function
+                String name = entry.toString(); // TODO See if this is
+                                                // equivilent to 1.6's getName
+                                                // function
                 ItemStack[] saveinv = new ItemStack[6];
                 if (entry.tagCount() > 0)
                 {

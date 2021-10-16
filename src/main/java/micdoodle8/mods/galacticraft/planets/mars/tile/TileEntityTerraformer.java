@@ -1,5 +1,10 @@
 package micdoodle8.mods.galacticraft.planets.mars.tile;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.api.block.ITerraformableBlock;
 import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
@@ -29,40 +34,41 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
 public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory implements ISidedInventory, IDisableableMachine, IBubbleProviderColored, IFluidHandlerWrapper
 {
+
     private final int tankCapacity = 2000;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public FluidTank waterTank = new FluidTank(this.tankCapacity);
+    @NetworkedField(targetSide = Side.CLIENT) public FluidTank waterTank = new FluidTank(this.tankCapacity);
     public boolean active;
     public boolean lastActive;
     public static final int WATTS_PER_TICK = 1;
     private ArrayList<BlockPos> terraformableBlocksList = new ArrayList<BlockPos>();
     private ArrayList<BlockPos> grassBlockList = new ArrayList<BlockPos>();
     private ArrayList<BlockPos> grownTreesList = new ArrayList<BlockPos>();
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int terraformableBlocksListSize = 0; // used for server->client ease
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int grassBlocksListSize = 0; // used for server->client ease
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean treesDisabled;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean grassDisabled;
+    @NetworkedField(targetSide = Side.CLIENT) public int terraformableBlocksListSize = 0; // used
+                                                                                          // for
+                                                                                          // server->client
+                                                                                          // ease
+    @NetworkedField(targetSide = Side.CLIENT) public int grassBlocksListSize = 0; // used
+                                                                                  // for
+                                                                                  // server->client
+                                                                                  // ease
+    @NetworkedField(targetSide = Side.CLIENT) public boolean treesDisabled;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean grassDisabled;
     public final double MAX_SIZE = 15.0D;
     private int[] useCount = new int[2];
     private int saplingIndex = 6;
     public float bubbleSize;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean shouldRenderBubble = true;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean shouldRenderBubble = true;
 
     public TileEntityTerraformer()
     {
@@ -114,7 +120,8 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
                 FluidUtil.loadFromContainer(waterTank, FluidRegistry.WATER, this.getInventory(), 0, liquid.amount);
             }
 
-            this.active = this.bubbleSize == this.MAX_SIZE && this.hasEnoughEnergyToRun && !this.getFirstBonemealStack().isEmpty() && this.waterTank.getFluid() != null && this.waterTank.getFluid().amount > 0;
+            this.active =
+                this.bubbleSize == this.MAX_SIZE && this.hasEnoughEnergyToRun && !this.getFirstBonemealStack().isEmpty() && this.waterTank.getFluid() != null && this.waterTank.getFluid().amount > 0;
         }
 
         if (!this.world.isRemote && (this.active != this.lastActive || this.ticks % 60 == 0))
@@ -147,8 +154,7 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
                                 if (doGrass && blockID instanceof ITerraformableBlock && ((ITerraformableBlock) blockID).isTerraformable(this.world, pos))
                                 {
                                     this.terraformableBlocksList.add(new BlockPos(x, y, z));
-                                }
-                                else if (doTrees)
+                                } else if (doTrees)
                                 {
                                     Block blockIDAbove = this.world.getBlockState(pos.up()).getBlock();
                                     if (blockID == Blocks.GRASS && blockIDAbove.isAir(this.world.getBlockState(pos.up()), this.world, pos.up()))
@@ -176,19 +182,19 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
 
                 switch (this.world.rand.nextInt(40))
                 {
-                case 0:
-                    if (this.world.isBlockFullCube(new BlockPos(vec.getX() - 1, vec.getY(), vec.getZ())) && this.world.isBlockFullCube(new BlockPos(vec.getX() + 1, vec.getY(), vec.getZ())) && this.world.isBlockFullCube(new BlockPos(vec.getX(), vec.getY(), vec.getZ() - 1)) && this.world.isBlockFullCube(new BlockPos(vec.getX(), vec.getY(), vec.getZ() + 1)))
-                    {
-                        id = Blocks.FLOWING_WATER;
-                    }
-                    else
-                    {
+                    case 0:
+                        if (this.world.isBlockFullCube(new BlockPos(vec.getX() - 1, vec.getY(), vec.getZ())) && this.world.isBlockFullCube(new BlockPos(vec.getX() + 1, vec.getY(), vec.getZ()))
+                            && this.world.isBlockFullCube(new BlockPos(vec.getX(), vec.getY(), vec.getZ() - 1)) && this.world.isBlockFullCube(new BlockPos(vec.getX(), vec.getY(), vec.getZ() + 1)))
+                        {
+                            id = Blocks.FLOWING_WATER;
+                        } else
+                        {
+                            id = Blocks.GRASS;
+                        }
+                        break;
+                    default:
                         id = Blocks.GRASS;
-                    }
-                    break;
-                default:
-                    id = Blocks.GRASS;
-                    break;
+                        break;
                 }
 
                 this.world.setBlockState(vec, id.getDefaultState());
@@ -198,8 +204,7 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
                     this.useCount[0]++;
                     this.waterTank.drain(1, true);
                     this.checkUsage(1);
-                }
-                else if (id == Blocks.FLOWING_WATER)
+                } else if (id == Blocks.FLOWING_WATER)
                 {
                     this.checkUsage(2);
                 }
@@ -219,7 +224,7 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
                 ItemStack sapling = this.getFirstSaplingStack();
                 boolean flag = false;
 
-                //Attempt to prevent placement too close to other trees
+                // Attempt to prevent placement too close to other trees
                 for (BlockPos testVec : this.grownTreesList)
                 {
                     if (testVec.distanceSq(vecSapling) < 9)
@@ -240,19 +245,18 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
                             ((BlockSapling) b).grow(this.world, vecSapling, this.world.getBlockState(vecSapling), this.world.rand);
                             this.grownTreesList.add(new BlockPos(vecSapling.getX(), vecSapling.getY(), vecSapling.getZ()));
                         }
-                    }
-                    else if (b instanceof BlockBush)
+                    } else if (b instanceof BlockBush)
                     {
                         if (this.world.getLightFromNeighbors(vecSapling) >= 5)
-                        //Hammer the update tick a few times to try to get it to grow - it won't always
+                        // Hammer the update tick a few times to try to get it
+                        // to grow - it won't always
                         {
                             for (int j = 0; j < 12; j++)
                             {
                                 if (this.world.getBlockState(vecSapling).getBlock() == b)
                                 {
                                     ((BlockBush) b).updateTick(this.world, vecSapling, this.world.getBlockState(vecSapling), this.world.rand);
-                                }
-                                else
+                                } else
                                 {
                                     this.grownTreesList.add(new BlockPos(vecSapling.getX(), vecSapling.getY(), vecSapling.getZ()));
                                     break;
@@ -279,8 +283,7 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
         if (this.hasEnoughEnergyToRun && (!this.grassDisabled || !this.treesDisabled))
         {
             this.bubbleSize = (float) Math.min(Math.max(0, this.bubbleSize + 0.1F), this.MAX_SIZE);
-        }
-        else
+        } else
         {
             this.bubbleSize = (float) Math.min(Math.max(0, this.bubbleSize - 0.1F), this.MAX_SIZE);
         }
@@ -322,28 +325,28 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
 
         switch (type)
         {
-        case 0:
-            stack = this.getInventory().get(this.saplingIndex);
-
-            if (!stack.isEmpty())
-            {
-                stack.shrink(1);
-            }
-            break;
-        case 1:
-            if (this.useCount[0] % 4 == 0)
-            {
-                stack = this.getFirstSeedStack();
+            case 0:
+                stack = this.getInventory().get(this.saplingIndex);
 
                 if (!stack.isEmpty())
                 {
                     stack.shrink(1);
                 }
-            }
-            break;
-        case 2:
-            this.waterTank.drain(50, true);
-            break;
+                break;
+            case 1:
+                if (this.useCount[0] % 4 == 0)
+                {
+                    stack = this.getFirstSeedStack();
+
+                    if (!stack.isEmpty())
+                    {
+                        stack.shrink(1);
+                    }
+                }
+                break;
+            case 2:
+                this.waterTank.drain(50, true);
+                break;
         }
     }
 
@@ -476,7 +479,8 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+        return new int[]
+        {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
     }
 
     @Override
@@ -511,26 +515,26 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
     {
         switch (slotID)
         {
-        case 0:
-            FluidStack stack = net.minecraftforge.fluids.FluidUtil.getFluidContained(itemstack);
-            return stack != null && stack.getFluid() == FluidRegistry.WATER;
-        case 1:
-            return ItemElectricBase.isElectricItem(itemstack.getItem());
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            return itemstack.getItem() == Items.DYE && itemstack.getItemDamage() == 15;
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-            return ContainerTerraformer.isOnSaplingList(itemstack);
-        case 10:
-        case 11:
-        case 12:
-        case 13:
-            return itemstack.getItem() == Items.WHEAT_SEEDS;
+            case 0:
+                FluidStack stack = net.minecraftforge.fluids.FluidUtil.getFluidContained(itemstack);
+                return stack != null && stack.getFluid() == FluidRegistry.WATER;
+            case 1:
+                return ItemElectricBase.isElectricItem(itemstack.getItem());
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                return itemstack.getItem() == Items.DYE && itemstack.getItemDamage() == 15;
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                return ContainerTerraformer.isOnSaplingList(itemstack);
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+                return itemstack.getItem() == Items.WHEAT_SEEDS;
         }
         return false;
     }
@@ -554,12 +558,12 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
         {
             switch (index)
             {
-            case 0:
-                this.treesDisabled = !this.treesDisabled;
-                break;
-            case 1:
-                this.grassDisabled = !this.grassDisabled;
-                break;
+                case 0:
+                    this.treesDisabled = !this.treesDisabled;
+                    break;
+                case 1:
+                    this.grassDisabled = !this.grassDisabled;
+                    break;
             }
 
             this.disableCooldown = 10;
@@ -571,10 +575,10 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
     {
         switch (index)
         {
-        case 0:
-            return this.treesDisabled;
-        case 1:
-            return this.grassDisabled;
+            case 0:
+                return this.treesDisabled;
+            case 1:
+                return this.grassDisabled;
         }
 
         return false;
@@ -598,7 +602,7 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
         return 64.0F;
     }
 
-    //Pipe handling
+    // Pipe handling
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid)
     {
@@ -639,14 +643,16 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from)
     {
-        return new FluidTankInfo[] { new FluidTankInfo(this.waterTank) };
+        return new FluidTankInfo[]
+        {new FluidTankInfo(this.waterTank)};
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox()
     {
-        return new AxisAlignedBB(this.getPos().getX() - this.bubbleSize, this.getPos().getY() - this.bubbleSize, this.getPos().getZ() - this.bubbleSize, this.getPos().getX() + this.bubbleSize, this.getPos().getY() + this.bubbleSize, this.getPos().getZ() + this.bubbleSize);
+        return new AxisAlignedBB(this.getPos().getX() - this.bubbleSize, this.getPos().getY() - this.bubbleSize, this.getPos().getZ() - this.bubbleSize, this.getPos().getX() + this.bubbleSize,
+            this.getPos().getY() + this.bubbleSize, this.getPos().getZ() + this.bubbleSize);
     }
 
     @Override
@@ -670,7 +676,7 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
     @Override
     public EnumFacing byIndex()
     {
-        IBlockState state = this.world.getBlockState(getPos()); 
+        IBlockState state = this.world.getBlockState(getPos());
         if (state.getBlock() instanceof BlockMachineMars)
         {
             return state.getValue(BlockMachineMars.FACING);
@@ -707,7 +713,7 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
         if (direction == null)
         {
             return false;
-        } 
+        }
         if (type == NetworkType.POWER)
         {
             return direction == this.getElectricInputDirection();

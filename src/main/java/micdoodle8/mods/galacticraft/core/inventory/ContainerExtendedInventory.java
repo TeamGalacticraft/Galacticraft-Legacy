@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.inventory;
 
 import micdoodle8.mods.galacticraft.core.items.ItemCanisterOxygenInfinite;
 import micdoodle8.mods.galacticraft.core.items.ItemOxygenTank;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -10,6 +11,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerExtendedInventory extends Container
 {
+
     public InventoryPlayer inventoryPlayer;
     public InventoryExtended extendedInventory;
 
@@ -77,8 +79,7 @@ public class ContainerExtendedInventory extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 boolean flag = false;
                 for (int j = 36; j < 40; j++)
@@ -103,8 +104,7 @@ public class ContainerExtendedInventory extends Container
                             return ItemStack.EMPTY;
                         }
                         flag = true;
-                    }
-                    else
+                    } else
                     {
                         for (int j = 40; j < 51; j++)
                         {
@@ -129,8 +129,7 @@ public class ContainerExtendedInventory extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(stack, 0, 27, false))
+                    } else if (!this.mergeItemStack(stack, 0, 27, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -140,8 +139,7 @@ public class ContainerExtendedInventory extends Container
             if (stack.getCount() == 0)
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

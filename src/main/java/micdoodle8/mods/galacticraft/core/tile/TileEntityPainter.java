@@ -12,6 +12,7 @@ import micdoodle8.mods.galacticraft.core.util.ColorUtil;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
@@ -30,25 +31,33 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
-import ic2.api.item.IC2Items;
-import io.netty.buffer.ByteBuf;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import biomesoplenty.api.item.BOPItems;
+import ic2.api.item.IC2Items;
+import io.netty.buffer.ByteBuf;
 
 //import net.minecraft.item.EnumDyeColor;
 
 public class TileEntityPainter extends TileEntityInventory implements IDisableableMachine, IPacketReceiver
 {
+
     private static final int RANGE_DEFAULT = 96;
     public static Map<Integer, Set<BlockVec3>> loadedTilesForDim = new HashMap<Integer, Set<BlockVec3>>();
 
-    public int range = RANGE_DEFAULT;  //currently unused
-    
-    public int[] glassColor = new int[]{ -1, -1, -1 };  //Size of this array must match GlassType enum
+    public int range = RANGE_DEFAULT; // currently unused
+
+    public int[] glassColor = new int[]
+    {-1, -1, -1}; // Size of this array must
+                  // match GlassType enum
     public final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
-    
+
     public int guiColor = 0xffffff;
 
     public TileEntityPainter()
@@ -75,19 +84,18 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
         if (item == Items.DYE)
         {
             color = ItemDye.DYE_COLORS[itemStack.getItemDamage()];
-        }
-        else if (item instanceof ItemBlock)
+        } else if (item instanceof ItemBlock)
         {
-            Block b = ((ItemBlock)item).getBlock();
+            Block b = ((ItemBlock) item).getBlock();
             IBlockState bs = b.getStateFromMeta(itemStack.getItemDamage());
             try
             {
                 MapColor mc = b.getMapColor(bs, null, null);
                 color = mc.colorValue;
+            } catch (Exception e)
+            {
             }
-            catch (Exception e) { }
-        }
-        else
+        } else
         {
             color = tryOtherModDyes(itemStack);
         }
@@ -107,15 +115,14 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
         }
 
         Item item = itemStack.getItem();
-        
+
         if (item instanceof IPaintable)
         {
-            //TODO  e.g. flags, eggs, rockets???
-        }
-        else if (item instanceof ItemBlock)
+            // TODO e.g. flags, eggs, rockets???
+        } else if (item instanceof ItemBlock)
         {
             color = ColorUtil.lighten(color, 0.03F);
-            Block b = ((ItemBlock)item).getBlock();
+            Block b = ((ItemBlock) item).getBlock();
             int result = 0;
             if (b instanceof IPaintable)
             {
@@ -123,7 +130,7 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
             }
             if (b instanceof BlockSpaceGlass)
             {
-                int type = ((BlockSpaceGlass)b).type.ordinal(); 
+                int type = ((BlockSpaceGlass) b).type.ordinal();
                 this.glassColor[type] = color;
                 if (result > 0 && side == Side.CLIENT)
                 {
@@ -132,7 +139,7 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
             }
         }
     }
-    
+
     private void setGlassColors(int color1, int color2, int color3)
     {
         boolean changes = false;
@@ -155,7 +162,7 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
 //        if (changes)
 //            ColorUtil.updateColorsForArea(this.world), this.pos, this.range, this.glassColor[0], this.glassColor[1], this.glassColor[2]);;
     }
-    
+
     @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
@@ -193,25 +200,25 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
     {
         int dimID = GCCoreUtil.getDimensionID(world);
         Set<BlockVec3> loaded = loadedTilesForDim.get(dimID);
-        
+
         if (loaded == null)
         {
             loaded = new HashSet<BlockVec3>();
             loadedTilesForDim.put(dimID, loaded);
         }
-        
+
         return loaded;
     }
-    
+
     @Override
     public void onLoad()
     {
         if (this.world.isRemote)
         {
-            //Request any networked information from server on first client update
+            // Request any networked information from server on first client
+            // update
             GalacticraftCore.packetPipeline.sendToServer(new PacketDynamic(this));
-        }
-        else
+        } else
         {
             this.getLoadedTiles(this.world).add(new BlockVec3(this.pos));
         }
@@ -239,7 +246,8 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
         List<EntityPlayerMP> allPlayers = PlayerUtil.getPlayersOnline();
         for (final EntityPlayerMP player : allPlayers)
         {
-            if (player.dimension != dimID) continue;
+            if (player.dimension != dimID)
+                continue;
 
             BlockVec3 playerPos = new BlockVec3(player);
             BlockVec3 nearest = null;
@@ -253,19 +261,20 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
                     nearest = bv;
                 }
             }
-            
+
             if (nearest != null)
             {
                 TileEntity te = nearest.getTileEntity(world);
                 if (te instanceof TileEntityPainter)
                 {
-                    ((TileEntityPainter)te).dominantToPlayer(player);
+                    ((TileEntityPainter) te).dominantToPlayer(player);
                 }
             }
 
-            //TODO
-            //Make sure this works in a way so that the nearest Painter quickly takes priority, but there is no race condition...
-            //Also maybe some hysteresis?
+            // TODO
+            // Make sure this works in a way so that the nearest Painter quickly
+            // takes priority, but there is no race condition...
+            // Also maybe some hysteresis?
         }
     }
 
@@ -283,26 +292,26 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
     @Override
     public void setDisabled(int index, boolean disabled)
     {
-        //Used to do the painting!
+        // Used to do the painting!
         for (EntityPlayer entityPlayer : playersUsing)
         {
             this.buttonPressed(index, entityPlayer, Side.SERVER);
         }
     }
-    
+
     public void buttonPressed(int index, EntityPlayer player, Side side)
     {
         switch (index)
         {
-        case 0:  //Apply Paint
-            this.applyColorToItem(this.getStackInSlot(1), this.guiColor, side, player);
-            break;
-        case 1:  //Mix Colors
-            this.takeColorFromItem(this.getStackInSlot(0));
-            break;
-        case 2:  //Reset Colors
-            this.guiColor = 0xffffff;
-            break;
+            case 0: // Apply Paint
+                this.applyColorToItem(this.getStackInSlot(1), this.guiColor, side, player);
+                break;
+            case 1: // Mix Colors
+                this.takeColorFromItem(this.getStackInSlot(0));
+                break;
+            case 2: // Reset Colors
+                this.guiColor = 0xffffff;
+                break;
         }
     }
 
@@ -331,15 +340,15 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
             try
             {
                 this.guiColor = buffer.readInt();
-            }
-            catch (Exception ignore)
+            } catch (Exception ignore)
             {
                 ignore.printStackTrace();
             }
         }
     }
 
-    //Any special cases go here, e.g. coloured dye or paint items added by other mods
+    // Any special cases go here, e.g. coloured dye or paint items added by
+    // other mods
     private static int tryOtherModDyes(ItemStack itemStack)
     {
         Item item = itemStack.getItem();
@@ -355,11 +364,16 @@ public class TileEntityPainter extends TileEntityInventory implements IDisableab
 
         if (CompatibilityManager.isBOPLoaded())
         {
-            if (item == BOPItems.black_dye) return ItemDye.DYE_COLORS[EnumDyeColor.BLACK.getDyeDamage()];
-            if (item == BOPItems.blue_dye) return ItemDye.DYE_COLORS[EnumDyeColor.BLUE.getDyeDamage()];
-            if (item == BOPItems.brown_dye) return ItemDye.DYE_COLORS[EnumDyeColor.BROWN.getDyeDamage()];
-            if (item == BOPItems.green_dye) return ItemDye.DYE_COLORS[EnumDyeColor.GREEN.getDyeDamage()];
-            if (item == BOPItems.white_dye) return ItemDye.DYE_COLORS[EnumDyeColor.WHITE.getDyeDamage()];
+            if (item == BOPItems.black_dye)
+                return ItemDye.DYE_COLORS[EnumDyeColor.BLACK.getDyeDamage()];
+            if (item == BOPItems.blue_dye)
+                return ItemDye.DYE_COLORS[EnumDyeColor.BLUE.getDyeDamage()];
+            if (item == BOPItems.brown_dye)
+                return ItemDye.DYE_COLORS[EnumDyeColor.BROWN.getDyeDamage()];
+            if (item == BOPItems.green_dye)
+                return ItemDye.DYE_COLORS[EnumDyeColor.GREEN.getDyeDamage()];
+            if (item == BOPItems.white_dye)
+                return ItemDye.DYE_COLORS[EnumDyeColor.WHITE.getDyeDamage()];
         }
 
         return -1;

@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.mars.entities;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.entity.IEntityBreathable;
 import micdoodle8.mods.galacticraft.api.recipe.ISchematicPage;
@@ -19,7 +23,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -32,12 +41,9 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
 public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathable, IRangedAttackMob
 {
+
     protected long ticks = 0;
     public int headsRemaining = 3;
     private Entity targetEntity;
@@ -64,8 +70,7 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
             if (this.isEntityInvulnerable(damageSource))
             {
                 return false;
-            }
-            else if (super.attackEntityFrom(damageSource, damage))
+            } else if (super.attackEntityFrom(damageSource, damage))
             {
                 Entity entity = damageSource.getTrueSource();
 
@@ -77,13 +82,11 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
                     }
 
                     return true;
-                }
-                else
+                } else
                 {
                     return true;
                 }
-            }
-            else
+            } else
             {
                 return false;
             }
@@ -130,7 +133,7 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
         return null;
     }
 
-    //    @Override
+    // @Override
 //    protected String getHurtSound()
 //    {
 //        this.playSound(Constants.TEXTURE_PREFIX + "entity.ouch", this.getSoundVolume(), this.getSoundPitch() - 0.15F);
@@ -152,7 +155,8 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
         {
             if (this.deathTicks == 1)
             {
-                GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_PLAY_SOUND_BOSS_DEATH, GCCoreUtil.getDimensionID(this.world), new Object[] { getSoundPitch() - 0.1F }), new TargetPoint(GCCoreUtil.getDimensionID(this.world), this.posX, this.posY, this.posZ, 40.0D));
+                GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_PLAY_SOUND_BOSS_DEATH, GCCoreUtil.getDimensionID(this.world), new Object[]
+                {getSoundPitch() - 0.1F}), new TargetPoint(GCCoreUtil.getDimensionID(this.world), this.posX, this.posY, this.posZ, 40.0D));
             }
         }
     }
@@ -165,12 +169,10 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
         if (this.getHealth() <= 0)
         {
             this.headsRemaining = 0;
-        }
-        else if (this.getHealth() <= this.getMaxHealth() / 3.0)
+        } else if (this.getHealth() <= this.getMaxHealth() / 3.0)
         {
             this.headsRemaining = 1;
-        }
-        else if (this.getHealth() <= 2 * (this.getMaxHealth() / 3.0))
+        } else if (this.getHealth() <= 2 * (this.getMaxHealth() / 3.0))
         {
             this.headsRemaining = 2;
         }
@@ -184,8 +186,7 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
                 this.getNavigator().getPathToEntityLiving(player);
                 this.targetEntity = player;
             }
-        }
-        else
+        } else
         {
             this.targetEntity = null;
         }
@@ -208,8 +209,7 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
         if (this.captureDrops)
         {
             this.capturedDrops.add(entityitem);
-        }
-        else
+        } else
         {
             this.world.spawnEntity(entityitem);
         }
@@ -229,8 +229,7 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
             final ItemStack var2 = new ItemStack(Items.BOW);
             EnchantmentHelper.addRandomEnchantment(this.rand, var2, 5, false);
             this.entityDropItem(var2, 0.0F);
-        }
-        else
+        } else
         {
             this.dropItem(Items.BOW, 1);
         }
@@ -249,8 +248,10 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
         stackList.addAll(GalacticraftRegistry.getDungeonLoot(2));
         boolean hasT3Rocket = false;
         boolean hasAstroMiner = false;
-        // Check if player seems to have Tier 3 rocket or Astro Miner already - in that case we don't want more
-        // (we don't really want him giving powerful schematics to his friends who are still on Overworld) 
+        // Check if player seems to have Tier 3 rocket or Astro Miner already -
+        // in that case we don't want more
+        // (we don't really want him giving powerful schematics to his friends
+        // who are still on Overworld)
         final EntityPlayer player = this.world.getClosestPlayer(this.posX, this.posY, this.posZ, 20.0, false);
         if (player != null)
         {
@@ -262,15 +263,15 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
                     if (page.getPageID() == ConfigManagerAsteroids.idSchematicRocketT3)
                     {
                         hasT3Rocket = true;
-                    }
-                    else if (page.getPageID() == ConfigManagerAsteroids.idSchematicRocketT3 + 1)
+                    } else if (page.getPageID() == ConfigManagerAsteroids.idSchematicRocketT3 + 1)
                     {
                         hasAstroMiner = true;
                     }
                 }
             }
         }
-        // The following code assumes the list start is hard coded to: Cargo Rocket, T3 Rocket, Astro Miner in that order
+        // The following code assumes the list start is hard coded to: Cargo
+        // Rocket, T3 Rocket, Astro Miner in that order
         // (see MarsModule.init())
         //
         // Remove schematics which he already has
@@ -280,23 +281,22 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
             if (stackList.size() == 3)
             {
                 stackList.remove(1 + rand.nextInt(2));
-            }
-            else
+            } else
             {
                 stackList.remove(2);
                 stackList.remove(1);
             }
-        }
-        else if (hasT3Rocket)
+        } else if (hasT3Rocket)
         {
             stackList.remove(1);
-        }
-        else if (hasAstroMiner)
+        } else if (hasAstroMiner)
         {
             stackList.remove(2);
         }
-        // If he does not yet have the T3 rocket, limit the list size to 2 so 50% chance of getting it
-        // otherwise return the full list (note: addons could have added more schematics to the list)
+        // If he does not yet have the T3 rocket, limit the list size to 2 so
+        // 50% chance of getting it
+        // otherwise return the full list (note: addons could have added more
+        // schematics to the list)
         int range = (!hasT3Rocket) ? 2 : stackList.size();
         return stackList.get(rand.nextInt(range)).copy();
     }
@@ -338,7 +338,9 @@ public class EntityCreeperBoss extends EntityBossBase implements IEntityBreathab
     }
 
     @Override
-    public void setSwingingArms(boolean swingingArms) {}
+    public void setSwingingArms(boolean swingingArms)
+    {
+    }
 
     @Override
     public void onKillCommand()

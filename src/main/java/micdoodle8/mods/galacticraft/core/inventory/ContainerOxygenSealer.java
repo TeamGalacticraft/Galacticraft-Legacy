@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseElectricBlock;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenSealer;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerOxygenSealer extends Container
 {
+
     private TileBaseElectricBlock tileEntity;
 
     public ContainerOxygenSealer(InventoryPlayer par1InventoryPlayer, TileEntityOxygenSealer sealer)
@@ -66,8 +68,7 @@ public class ContainerOxygenSealer extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(stack.getItem()))
                 {
@@ -75,22 +76,19 @@ public class ContainerOxygenSealer extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (stack.getItem() instanceof IItemOxygenSupply)
+                } else if (stack.getItem() instanceof IItemOxygenSupply)
                 {
                     if (!this.mergeItemStack(stack, 1, 2, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (stack.getItem() == GCItems.basicItem && stack.getItemDamage() == 20)
+                } else if (stack.getItem() == GCItems.basicItem && stack.getItemDamage() == 20)
                 {
                     if (!this.mergeItemStack(stack, 2, 3, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     if (par1 < b - 9)
                     {
@@ -98,8 +96,7 @@ public class ContainerOxygenSealer extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(stack, b - 36, b - 9, false))
+                    } else if (!this.mergeItemStack(stack, b - 36, b - 9, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -109,8 +106,7 @@ public class ContainerOxygenSealer extends Container
             if (stack.getCount() == 0)
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

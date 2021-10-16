@@ -17,6 +17,7 @@ import java.util.Random;
 
 public abstract class Piece extends StructureComponent
 {
+
     protected DungeonConfiguration configuration;
     private static Field mirror;
     private static Field rotation;
@@ -51,33 +52,33 @@ public abstract class Piece extends StructureComponent
         int blockX, blockZ, sizeX, sizeZ;
         switch (direction)
         {
-        case NORTH:
-            sizeX = width;
-            sizeZ = length;
-            blockX = this.boundingBox.minX + (this.boundingBox.maxX - this.boundingBox.minX) / 2 - sizeX / 2;
-            blockZ = this.boundingBox.minZ - sizeZ;
-            break;
-        case EAST:
-            sizeX = length;
-            sizeZ = width;
-            blockX = this.boundingBox.maxX;
-            blockZ = this.boundingBox.minZ + (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 - sizeZ / 2;
-            break;
-        case SOUTH:
-            sizeX = width;
-            sizeZ = length;
-            blockX = this.boundingBox.minX + (this.boundingBox.maxX - this.boundingBox.minX) / 2 - sizeX / 2;
-            blockZ = this.boundingBox.maxZ;
-            break;
-        case WEST:
-        default:
-            sizeX = length;
-            sizeZ = width;
-            blockX = this.boundingBox.minX - sizeX;
-            blockZ = this.boundingBox.minZ + (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 - sizeZ / 2;
-            break;
+            case NORTH:
+                sizeX = width;
+                sizeZ = length;
+                blockX = this.boundingBox.minX + (this.boundingBox.maxX - this.boundingBox.minX) / 2 - sizeX / 2;
+                blockZ = this.boundingBox.minZ - sizeZ;
+                break;
+            case EAST:
+                sizeX = length;
+                sizeZ = width;
+                blockX = this.boundingBox.maxX;
+                blockZ = this.boundingBox.minZ + (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 - sizeZ / 2;
+                break;
+            case SOUTH:
+                sizeX = width;
+                sizeZ = length;
+                blockX = this.boundingBox.minX + (this.boundingBox.maxX - this.boundingBox.minX) / 2 - sizeX / 2;
+                blockZ = this.boundingBox.maxZ;
+                break;
+            case WEST:
+            default:
+                sizeX = length;
+                sizeZ = width;
+                blockX = this.boundingBox.minX - sizeX;
+                blockZ = this.boundingBox.minZ + (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 - sizeZ / 2;
+                break;
         }
-        return new StructureBoundingBox(blockX, this.configuration.getYPosition(), blockZ, blockX + sizeX, this.configuration.getYPosition() + this.configuration.getHallwayHeight(),blockZ + sizeZ);
+        return new StructureBoundingBox(blockX, this.configuration.getYPosition(), blockZ, blockX + sizeX, this.configuration.getYPosition() + this.configuration.getHallwayHeight(), blockZ + sizeZ);
     }
 
     public Piece getNextPiece(DungeonStart startPiece, Random rand)
@@ -89,7 +90,8 @@ public abstract class Piece extends StructureComponent
     protected void setBlockState(World worldIn, IBlockState blockstateIn, int x, int y, int z, StructureBoundingBox boundingboxIn)
     {
         BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
-        if (mirror == null || rotation == null) {
+        if (mirror == null || rotation == null)
+        {
             mirror = ReflectionHelper.findField(StructureComponent.class, "mirror", "field_186168_b");
             rotation = ReflectionHelper.findField(StructureComponent.class, "rotation", "field_186169_c");
             mirror.setAccessible(true);
@@ -101,8 +103,7 @@ public abstract class Piece extends StructureComponent
         {
             mirror = (Mirror) Piece.mirror.get(this);
             rotation = (Rotation) Piece.rotation.get(this);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
             super.setBlockState(worldIn, blockstateIn, x, y, z, boundingboxIn);

@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 
 public abstract class TileEntityInventory extends TileEntity implements ISidedInventory
 {
+
     public NonNullList<ItemStack> inventory;
     private HashMap<EnumFacing, IItemHandler> itemHandlers = new HashMap<>();
     private String tileName;
@@ -178,14 +180,13 @@ public abstract class TileEntityInventory extends TileEntity implements ISidedIn
         return super.getCapability(capability, side);
     }
 
-
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void openInventory(EntityPlayer player)
     {
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void closeInventory(EntityPlayer player)
     {
@@ -218,8 +219,8 @@ public abstract class TileEntityInventory extends TileEntity implements ISidedIn
     }
 
     /**
-     * Override this and return true IF the inventory .getName() is
-     * ALREADY a localized name e.g. by GCCoreUtil.translate()
+     * Override this and return true IF the inventory .getName() is ALREADY a
+     * localized name e.g. by GCCoreUtil.translate()
      *
      **/
     @Override
@@ -239,7 +240,7 @@ public abstract class TileEntityInventory extends TileEntity implements ISidedIn
     {
         return GCCoreUtil.translate(tileName);
     }
-    
+
     @Override
     public synchronized void handleUpdateTag(NBTTagCompound tag)
     {

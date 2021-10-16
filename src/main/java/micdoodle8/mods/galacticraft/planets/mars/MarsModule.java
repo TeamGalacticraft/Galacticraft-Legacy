@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.planets.mars;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
@@ -9,7 +12,11 @@ import micdoodle8.mods.galacticraft.api.world.AtmosphereInfo;
 import micdoodle8.mods.galacticraft.api.world.EnumAtmosphericGas;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.entities.*;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedCreeper;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedEnderman;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedSkeleton;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedSpider;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedZombie;
 import micdoodle8.mods.galacticraft.core.event.EventHandlerGC;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockDesc;
 import micdoodle8.mods.galacticraft.core.items.ItemBucketGC;
@@ -25,15 +32,33 @@ import micdoodle8.mods.galacticraft.planets.mars.blocks.BlockSludge;
 import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
 import micdoodle8.mods.galacticraft.planets.mars.dimension.TeleportTypeMars;
 import micdoodle8.mods.galacticraft.planets.mars.dimension.WorldProviderMars;
-import micdoodle8.mods.galacticraft.planets.mars.entities.*;
-import micdoodle8.mods.galacticraft.planets.mars.inventory.*;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityCargoRocket;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityCreeperBoss;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityLandingBalloons;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityProjectileTNT;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntitySlimeling;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntitySludgeling;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityTier2Rocket;
+import micdoodle8.mods.galacticraft.planets.mars.inventory.ContainerElectrolyzer;
+import micdoodle8.mods.galacticraft.planets.mars.inventory.ContainerGasLiquefier;
+import micdoodle8.mods.galacticraft.planets.mars.inventory.ContainerLaunchController;
+import micdoodle8.mods.galacticraft.planets.mars.inventory.ContainerMethaneSynthesizer;
+import micdoodle8.mods.galacticraft.planets.mars.inventory.ContainerTerraformer;
 import micdoodle8.mods.galacticraft.planets.mars.items.ItemSchematicTier2;
 import micdoodle8.mods.galacticraft.planets.mars.items.MarsItems;
 import micdoodle8.mods.galacticraft.planets.mars.network.PacketSimpleMars;
 import micdoodle8.mods.galacticraft.planets.mars.recipe.RecipeManagerMars;
 import micdoodle8.mods.galacticraft.planets.mars.schematic.SchematicCargoRocket;
 import micdoodle8.mods.galacticraft.planets.mars.schematic.SchematicTier2Rocket;
-import micdoodle8.mods.galacticraft.planets.mars.tile.*;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityCryogenicChamber;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityDungeonSpawnerMars;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityElectrolyzer;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityGasLiquefier;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityLaunchController;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityMethaneSynthesizer;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntitySlimelingEgg;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityTerraformer;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityTreasureChestMars;
 import micdoodle8.mods.galacticraft.planets.mars.world.gen.BiomeMars;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
@@ -52,16 +77,18 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 public class MarsModule implements IPlanetsModule
 {
+
     public static Fluid sludge;
     public static Fluid sludgeGC;
     public static Material sludgeMaterial = new MaterialLiquid(MapColor.FOLIAGE);
@@ -71,7 +98,8 @@ public class MarsModule implements IPlanetsModule
     @Override
     public void preInit(FMLPreInitializationEvent event)
     {
-        MarsModule.planetMars = (Planet) new Planet("mars").setParentSolarSystem(GalacticraftCore.solarSystemSol).setRingColorRGB(0.67F, 0.1F, 0.1F).setPhaseShift(0.1667F).setRelativeSize(0.5319F).setRelativeDistanceFromCenter(new CelestialBody.ScalableDistance(1.25F, 1.25F)).setRelativeOrbitTime(1.8811610076670317634173055859803F);
+        MarsModule.planetMars = (Planet) new Planet("mars").setParentSolarSystem(GalacticraftCore.solarSystemSol).setRingColorRGB(0.67F, 0.1F, 0.1F).setPhaseShift(0.1667F).setRelativeSize(0.5319F)
+            .setRelativeDistanceFromCenter(new CelestialBody.ScalableDistance(1.25F, 1.25F)).setRelativeOrbitTime(1.8811610076670317634173055859803F);
 
         MinecraftForge.EVENT_BUS.register(new EventHandlerMars());
 
@@ -81,8 +109,7 @@ public class MarsModule implements IPlanetsModule
             ResourceLocation flowingIcon = new ResourceLocation(GalacticraftPlanets.TEXTURE_PREFIX + "blocks/fluids/sludge_flow");
             sludgeGC = new Fluid("bacterialsludge", stillIcon, flowingIcon).setDensity(800).setViscosity(1500);
             FluidRegistry.registerFluid(sludgeGC);
-        }
-        else
+        } else
         {
             GCLog.info("Galacticraft sludge is not default, issues may occur.");
         }
@@ -95,15 +122,18 @@ public class MarsModule implements IPlanetsModule
             ((BlockSludge) MarsBlocks.blockSludge).setQuantaPerBlock(3);
             MarsBlocks.registerBlock(MarsBlocks.blockSludge, ItemBlockDesc.class);
             sludge.setBlock(MarsBlocks.blockSludge);
-        }
-        else
+        } else
         {
             MarsBlocks.blockSludge = sludge.getBlock();
         }
 
         if (MarsBlocks.blockSludge != null)
         {
-        	FluidRegistry.addBucketForFluid(sludge);  //Create a Universal Bucket AS WELL AS our type, this is needed to pull fluids out of other mods tanks
+            FluidRegistry.addBucketForFluid(sludge); // Create a Universal
+                                                     // Bucket AS WELL AS our
+                                                     // type, this is needed to
+                                                     // pull fluids out of other
+                                                     // mods tanks
             MarsItems.bucketSludge = new ItemBucketGC(MarsBlocks.blockSludge, sludge).setTranslationKey("bucket_sludge");
             MarsItems.registerItem(MarsItems.bucketSludge);
             EventHandlerGC.bucketList.put(MarsBlocks.blockSludge, MarsItems.bucketSludge);
@@ -194,8 +224,7 @@ public class MarsModule implements IPlanetsModule
                 registerMethod.invoke(null, clazzbm.getConstructor(Block.class, int.class).newInstance(MarsBlocks.marsBlock, 8), "tile.mars.marsdeco");
                 registerMethod.invoke(null, clazzbm.getConstructor(Block.class, int.class).newInstance(MarsBlocks.marsBlock, 9), "tile.mars.marsstone");
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
         }
     }
@@ -267,20 +296,16 @@ public class MarsModule implements IPlanetsModule
                 if (tile instanceof TileEntityTerraformer)
                 {
                     return new ContainerTerraformer(player.inventory, (TileEntityTerraformer) tile, player);
-                }
-                else if (tile instanceof TileEntityLaunchController)
+                } else if (tile instanceof TileEntityLaunchController)
                 {
                     return new ContainerLaunchController(player.inventory, (TileEntityLaunchController) tile, player);
-                }
-                else if (tile instanceof TileEntityElectrolyzer)
+                } else if (tile instanceof TileEntityElectrolyzer)
                 {
                     return new ContainerElectrolyzer(player.inventory, (TileEntityElectrolyzer) tile, player);
-                }
-                else if (tile instanceof TileEntityGasLiquefier)
+                } else if (tile instanceof TileEntityGasLiquefier)
                 {
                     return new ContainerGasLiquefier(player.inventory, (TileEntityGasLiquefier) tile, player);
-                }
-                else if (tile instanceof TileEntityMethaneSynthesizer)
+                } else if (tile instanceof TileEntityMethaneSynthesizer)
                 {
                     return new ContainerMethaneSynthesizer(player.inventory, (TileEntityMethaneSynthesizer) tile, player);
                 }

@@ -24,6 +24,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderTier2Rocket extends Render<EntityTier2Rocket>
 {
+
     private ItemModelRocketT2 rocketModel;
 
     public RenderTier2Rocket(RenderManager manager)
@@ -72,8 +73,7 @@ public class RenderTier2Rocket extends Render<EntityTier2Rocket>
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }

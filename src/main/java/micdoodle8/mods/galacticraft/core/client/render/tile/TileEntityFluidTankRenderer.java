@@ -1,10 +1,11 @@
 package micdoodle8.mods.galacticraft.core.client.render.tile;
 
 import micdoodle8.mods.galacticraft.core.tile.TileEntityFluidTank;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -17,6 +18,7 @@ import org.lwjgl.opengl.GL11;
 
 public class TileEntityFluidTankRenderer extends TileEntitySpecialRenderer<TileEntityFluidTank>
 {
+
     @Override
     public void render(TileEntityFluidTank tank, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
     {
@@ -26,7 +28,7 @@ public class TileEntityFluidTankRenderer extends TileEntitySpecialRenderer<TileE
         {
             return;
         }
-        FluidStack tankFluid = info[0].fluid; 
+        FluidStack tankFluid = info[0].fluid;
         if (tankFluid == null || tankFluid.getFluid() == null || (!tankFluid.getFluid().isGaseous() && tankFluid.amount == 0))
         {
             return;
@@ -63,17 +65,17 @@ public class TileEntityFluidTankRenderer extends TileEntitySpecialRenderer<TileE
         if (compositeGaseous)
         {
             opacity = Math.min(tankFluid.amount / (float) info[0].capacity * 0.8F + 0.2F, 1F);
-        }
-        else
+        } else
         {
             level = tank.fluidTank.getFluidAmount() / 16400.0F;
             if (level <= 0.012F)
             {
-                levelInv = 1.0F;  //Empty tanks render empty - see #3222
-            }
-            else
+                levelInv = 1.0F; // Empty tanks render empty - see #3222
+            } else
             {
-                levelInv = 0.988F - level;  //1.2% inset from each end of the tank, to avoid z-fighting with blocks above/below
+                levelInv = 0.988F - level; // 1.2% inset from each end of the
+                                           // tank, to avoid z-fighting with
+                                           // blocks above/below
             }
         }
 

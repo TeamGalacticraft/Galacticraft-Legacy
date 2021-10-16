@@ -11,6 +11,9 @@ import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityLandingPad;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+
+import net.minecraft.client.audio.ISound;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -27,6 +30,7 @@ import java.util.List;
 
 public class EntityTier1Rocket extends EntityTieredRocket
 {
+
     public EntityTier1Rocket(World par1World)
     {
         super(par1World);
@@ -71,8 +75,7 @@ public class EntityTier1Rocket extends EntityTieredRocket
         if (this.timeUntilLaunch >= 100)
         {
             i = Math.abs(this.timeUntilLaunch / 100);
-        }
-        else
+        } else
         {
             i = 1;
         }
@@ -94,18 +97,16 @@ public class EntityTier1Rocket extends EntityTieredRocket
                 if (this.world.provider instanceof IGalacticraftWorldProvider && ((IGalacticraftWorldProvider) this.world.provider).hasNoAtmosphere())
                 {
                     d = Math.min(d * 1.2, 1.6);
-                }
-                else
+                } else
                 {
-                d = Math.min(d, 1);
+                    d = Math.min(d, 1);
                 }
 
                 if (d != 0.0)
                 {
                     this.motionY = -d * Math.cos((this.rotationPitch - 180) / Constants.RADIANS_TO_DEGREES_D);
                 }
-            }
-            else
+            } else
             {
                 this.motionY -= 0.008D;
             }
@@ -130,8 +131,7 @@ public class EntityTier1Rocket extends EntityTieredRocket
                     this.stopRocketSound();
                 }
             }
-        }
-        else if (!this.hasValidFuel() && this.getLaunched() && !this.world.isRemote)
+        } else if (!this.hasValidFuel() && this.getLaunched() && !this.world.isRemote)
         {
             if (Math.abs(Math.sin(this.timeSinceLaunch / 1000)) / 10 != 0.0)
             {
@@ -152,8 +152,7 @@ public class EntityTier1Rocket extends EntityTieredRocket
             if (this.stacks == null || this.stacks.isEmpty())
             {
                 stats.setRocketStacks(NonNullList.withSize(2, ItemStack.EMPTY));
-            }
-            else
+            } else
             {
                 stats.setRocketStacks(this.stacks);
             }
@@ -192,7 +191,8 @@ public class EntityTier1Rocket extends EntityTieredRocket
             if (this.getLaunched())
             {
                 Vector3 motionVec = new Vector3(x1, y1, z1);
-                Object[] rider = new Object[] { riddenByEntity };
+                Object[] rider = new Object[]
+                {riddenByEntity};
                 GalacticraftCore.proxy.spawnParticle("launchFlameLaunched", new Vector3(x2 + 0.4 - this.rand.nextDouble() / 10D, y, z2 + 0.4 - this.rand.nextDouble() / 10D), motionVec, rider);
                 GalacticraftCore.proxy.spawnParticle("launchFlameLaunched", new Vector3(x2 - 0.4 + this.rand.nextDouble() / 10D, y, z2 + 0.4 - this.rand.nextDouble() / 10D), motionVec, rider);
                 GalacticraftCore.proxy.spawnParticle("launchFlameLaunched", new Vector3(x2 - 0.4 + this.rand.nextDouble() / 10D, y, z2 - 0.4 + this.rand.nextDouble() / 10D), motionVec, rider);
@@ -203,15 +203,19 @@ public class EntityTier1Rocket extends EntityTieredRocket
                 GalacticraftCore.proxy.spawnParticle("launchFlameLaunched", new Vector3(x2, y, z2 + 0.4D), motionVec, rider);
                 GalacticraftCore.proxy.spawnParticle("launchFlameLaunched", new Vector3(x2, y, z2 - 0.4D), motionVec, rider);
 
-            }
-            else if (this.ticksExisted % 2 == 0)
+            } else if (this.ticksExisted % 2 == 0)
             {
-                Object[] rider = new Object[] { riddenByEntity };
+                Object[] rider = new Object[]
+                {riddenByEntity};
                 y += 0.6D;
-                GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2 + 0.4 - this.rand.nextDouble() / 10D, y, z2 + 0.4 - this.rand.nextDouble() / 10D), new Vector3(this.rand.nextDouble() / 2.0 - 0.25, 0.0, this.rand.nextDouble() / 2.0 - 0.25), rider);
-                GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2 - 0.4 + this.rand.nextDouble() / 10D, y, z2 + 0.4 - this.rand.nextDouble() / 10D), new Vector3(this.rand.nextDouble() / 2.0 - 0.25, 0.0, this.rand.nextDouble() / 2.0 - 0.25), rider);
-                GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2 - 0.4 + this.rand.nextDouble() / 10D, y, z2 - 0.4 + this.rand.nextDouble() / 10D), new Vector3(this.rand.nextDouble() / 2.0 - 0.25, 0.0, this.rand.nextDouble() / 2.0 - 0.25), rider);
-                GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2 + 0.4 - this.rand.nextDouble() / 10D, y, z2 - 0.4 + this.rand.nextDouble() / 10D), new Vector3(this.rand.nextDouble() / 2.0 - 0.25, 0.0, this.rand.nextDouble() / 2.0 - 0.25), rider);
+                GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2 + 0.4 - this.rand.nextDouble() / 10D, y, z2 + 0.4 - this.rand.nextDouble() / 10D),
+                    new Vector3(this.rand.nextDouble() / 2.0 - 0.25, 0.0, this.rand.nextDouble() / 2.0 - 0.25), rider);
+                GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2 - 0.4 + this.rand.nextDouble() / 10D, y, z2 + 0.4 - this.rand.nextDouble() / 10D),
+                    new Vector3(this.rand.nextDouble() / 2.0 - 0.25, 0.0, this.rand.nextDouble() / 2.0 - 0.25), rider);
+                GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2 - 0.4 + this.rand.nextDouble() / 10D, y, z2 - 0.4 + this.rand.nextDouble() / 10D),
+                    new Vector3(this.rand.nextDouble() / 2.0 - 0.25, 0.0, this.rand.nextDouble() / 2.0 - 0.25), rider);
+                GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2 + 0.4 - this.rand.nextDouble() / 10D, y, z2 - 0.4 + this.rand.nextDouble() / 10D),
+                    new Vector3(this.rand.nextDouble() / 2.0 - 0.25, 0.0, this.rand.nextDouble() / 2.0 - 0.25), rider);
             }
         }
     }
@@ -297,5 +301,26 @@ public class EntityTier1Rocket extends EntityTieredRocket
     public double getOnPadYOffset()
     {
         return 0.0D;
+    }
+
+    @Override
+    public void onReachAtmosphere()
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onLaunch()
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public ISound setSoundUpdater(EntityPlayerSP player)
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

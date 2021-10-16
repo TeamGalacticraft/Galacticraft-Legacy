@@ -8,6 +8,7 @@ import micdoodle8.mods.galacticraft.api.tile.IFuelDock;
  */
 public interface IDockable extends IFuelable, ICargoEntity
 {
+
     /**
      * Sets the current fuel dock for this entity
      */
@@ -25,11 +26,10 @@ public interface IDockable extends IFuelable, ICargoEntity
     void onPadDestroyed();
 
     /**
-     * Whether or not the fuel dock this entity is on is valid.
-     * <p/>
-     * Returning false will not let setPad be called.
+     * Whether or not the fuel dock this entity is on is valid. <p/> Returning
+     * false will not let setPad be called.
      */
     boolean isDockValid(IFuelDock dock);
-    
+
     boolean inFlight();
 }

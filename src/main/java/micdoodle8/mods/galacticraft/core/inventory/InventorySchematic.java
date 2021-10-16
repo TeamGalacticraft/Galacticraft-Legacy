@@ -12,6 +12,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 public class InventorySchematic implements IInventory
 {
+
     public NonNullList<ItemStack> stacks;
     protected final Container eventHandler;
 
@@ -56,7 +57,7 @@ public class InventorySchematic implements IInventory
             this.markDirty();
             this.eventHandler.onCraftMatrixChanged(this);
         }
-    	return oldstack;
+        return oldstack;
     }
 
     @Override
@@ -116,13 +117,13 @@ public class InventorySchematic implements IInventory
         return false;
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void openInventory(EntityPlayer player)
     {
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void closeInventory(EntityPlayer player)
     {

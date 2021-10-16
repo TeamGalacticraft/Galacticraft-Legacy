@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerMethaneSynthesizer extends Container
 {
+
     private final TileEntityMethaneSynthesizer tileEntity;
 
     public ContainerMethaneSynthesizer(InventoryPlayer par1InventoryPlayer, TileEntityMethaneSynthesizer tileEntity, EntityPlayer player)
@@ -93,8 +94,7 @@ public class ContainerMethaneSynthesizer extends Container
                 {
                     slot.onSlotChange(var4, var2);
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(var4.getItem()))
                 {
@@ -102,8 +102,7 @@ public class ContainerMethaneSynthesizer extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     if (var4.getItem() instanceof ItemAtmosphericValve)
                     {
@@ -111,29 +110,25 @@ public class ContainerMethaneSynthesizer extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (var4.getItem() == MarsItems.carbonFragments)
+                    } else if (var4.getItem() == MarsItems.carbonFragments)
                     {
                         if (!this.mergeItemStack(var4, 3, 4, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (FluidUtil.isPartialContainer(var4, AsteroidsItems.methaneCanister))
+                    } else if (FluidUtil.isPartialContainer(var4, AsteroidsItems.methaneCanister))
                     {
                         if (!this.mergeItemStack(var4, 4, 5, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (par1 < 32)
+                    } else if (par1 < 32)
                     {
                         if (!this.mergeItemStack(var4, 32, 41, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(var4, 5, 32, false))
+                    } else if (!this.mergeItemStack(var4, 5, 32, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -143,8 +138,7 @@ public class ContainerMethaneSynthesizer extends Container
             if (var4.isEmpty())
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class MapGenCaveMars extends MapGenBaseMeta
 {
+
     public static final int BREAK_THROUGH_CHANCE = 25; // 1 in n chance
 
     protected void generateLargeCaveNode(long par1, int par3, int par4, ChunkPrimer primer, double par6, double par8, double par10)
@@ -58,8 +59,7 @@ public class MapGenCaveMars extends MapGenBaseMeta
             if (flag1)
             {
                 par14 *= 0.92F;
-            }
-            else
+            } else
             {
                 par14 *= 0.7F;
             }
@@ -179,8 +179,7 @@ public class MapGenCaveMars extends MapGenBaseMeta
                                                 {
                                                     primer.setBlockState(localX, localY, localZ, Blocks.AIR.getDefaultState());
 //                                                    blockIdArray[coords] = Blocks.AIR;
-                                                }
-                                                else if (metadata == 5 && random.nextInt(MapGenCaveMars.BREAK_THROUGH_CHANCE) == 0)
+                                                } else if (metadata == 5 && random.nextInt(MapGenCaveMars.BREAK_THROUGH_CHANCE) == 0)
                                                 {
                                                     primer.setBlockState(localX, localY, localZ, Blocks.AIR.getDefaultState());
 //                                                    blockIdArray[coords] = Blocks.AIR;

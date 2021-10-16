@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class DungeonStartVenus extends EntranceCraterVenus
 {
+
     public List<StructureComponent> attachedComponents = Lists.newArrayList();
     public List<StructureBoundingBox> componentBounds = Lists.newArrayList();
 
@@ -46,8 +47,8 @@ public class DungeonStartVenus extends EntranceCraterVenus
 
                 next = next.getNextPiece(this, rand);
             }
-            if (attachedComponents.size() >= 3 && attachedComponents.get(attachedComponents.size() - 1) instanceof RoomTreasureVenus &&
-                    attachedComponents.get(attachedComponents.size() - 3) instanceof RoomBossVenus)
+            if (attachedComponents.size() >= 3 && attachedComponents.get(attachedComponents.size() - 1) instanceof RoomTreasureVenus
+                && attachedComponents.get(attachedComponents.size() - 3) instanceof RoomBossVenus)
             {
                 validAttempt = true;
             }

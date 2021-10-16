@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.inventory;
 
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.util.RecipeUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -15,6 +16,7 @@ import net.minecraft.world.World;
 
 public class ContainerBuggyBench extends Container
 {
+
     public InventoryBuggyBench craftMatrix = new InventoryBuggyBench(this);
     public IInventory craftResult = new InventoryCraftResult();
     private final World world;
@@ -126,8 +128,7 @@ public class ContainerBuggyBench extends Container
                 {
                     slot.onSlotChange(var4, var2);
                 }
-            }
-            else
+            } else
             {
                 Item i = var4.getItem();
                 if (i == GCItems.heavyPlatingTier1 || i == GCItems.partBuggy)
@@ -139,8 +140,7 @@ public class ContainerBuggyBench extends Container
                             this.mergeOneItem(var4, j, j + 1, false);
                         }
                     }
-                }
-                else
+                } else
                 {
                     if (par1 < b - 9)
                     {
@@ -148,8 +148,7 @@ public class ContainerBuggyBench extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else
+                    } else
                     {
                         if (!this.mergeItemStack(var4, b - 36, b - 9, false))
                         {
@@ -175,7 +174,6 @@ public class ContainerBuggyBench extends Container
 
         return var2;
     }
-
 
     protected boolean mergeOneItem(ItemStack par1ItemStack, int par2, int par3, boolean par4)
     {

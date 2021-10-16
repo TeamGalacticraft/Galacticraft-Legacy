@@ -33,6 +33,7 @@ import java.util.Map;
 
 public class GuiShortRangeTelepad extends GuiContainerGC implements ITextBoxCallback
 {
+
     private static final ResourceLocation launchControllerGui = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/short_range_telepad.png");
 
     private TileEntityShortRangeTelepad telepad;
@@ -57,8 +58,7 @@ public class GuiShortRangeTelepad extends GuiContainerGC implements ITextBoxCall
         if (this.telepad.disableCooldown > 0)
         {
             this.enableControllerButton.enabled = false;
-        }
-        else
+        } else
         {
             this.enableControllerButton.enabled = true;
         }
@@ -131,11 +131,12 @@ public class GuiShortRangeTelepad extends GuiContainerGC implements ITextBoxCall
         {
             switch (par1GuiButton.id)
             {
-            case 0:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(mc.world), new Object[] { this.telepad.getPos(), 0 }));
-                break;
-            default:
-                break;
+                case 0:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                    {this.telepad.getPos(), 0}));
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -194,12 +195,15 @@ public class GuiShortRangeTelepad extends GuiContainerGC implements ITextBoxCall
         if (textBox.equals(this.address))
         {
             this.telepad.address = textBox.getIntegerValue();
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleAsteroids(PacketSimpleAsteroids.EnumSimplePacketAsteroids.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(this.mc.world), new Object[] { 0, this.telepad.getPos(), this.telepad.address }));
-        }
-        else if (textBox.equals(this.targetAddress))
+            GalacticraftCore.packetPipeline
+                .sendToServer(new PacketSimpleAsteroids(PacketSimpleAsteroids.EnumSimplePacketAsteroids.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(this.mc.world), new Object[]
+                {0, this.telepad.getPos(), this.telepad.address}));
+        } else if (textBox.equals(this.targetAddress))
         {
             this.telepad.targetAddress = textBox.getIntegerValue();
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleAsteroids(PacketSimpleAsteroids.EnumSimplePacketAsteroids.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(this.mc.world), new Object[] { 1, this.telepad.getPos(), this.telepad.targetAddress }));
+            GalacticraftCore.packetPipeline
+                .sendToServer(new PacketSimpleAsteroids(PacketSimpleAsteroids.EnumSimplePacketAsteroids.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(this.mc.world), new Object[]
+                {1, this.telepad.getPos(), this.telepad.targetAddress}));
         }
     }
 
@@ -209,8 +213,7 @@ public class GuiShortRangeTelepad extends GuiContainerGC implements ITextBoxCall
         if (textBox.equals(this.address))
         {
             return String.valueOf(this.telepad.address);
-        }
-        else if (textBox.equals(this.targetAddress))
+        } else if (textBox.equals(this.targetAddress))
         {
             return String.valueOf(this.telepad.targetAddress);
         }
@@ -224,18 +227,15 @@ public class GuiShortRangeTelepad extends GuiContainerGC implements ITextBoxCall
         if (textBox.equals(this.address))
         {
             return this.telepad.addressValid ? ColorUtil.to32BitColor(255, 20, 255, 20) : ColorUtil.to32BitColor(255, 255, 25, 25);
-        }
-        else if (textBox.equals(this.targetAddress))
+        } else if (textBox.equals(this.targetAddress))
         {
             if (this.telepad.targetAddressResult == TileEntityShortRangeTelepad.EnumTelepadSearchResult.VALID)
             {
                 return ColorUtil.to32BitColor(255, 20, 255, 20);
-            }
-            else if (this.telepad.targetAddressResult == TileEntityShortRangeTelepad.EnumTelepadSearchResult.TARGET_DISABLED)
+            } else if (this.telepad.targetAddressResult == TileEntityShortRangeTelepad.EnumTelepadSearchResult.TARGET_DISABLED)
             {
                 return ColorUtil.to32BitColor(255, 255, 170, 25);
-            }
-            else
+            } else
             {
                 return ColorUtil.to32BitColor(255, 255, 25, 25);
             }

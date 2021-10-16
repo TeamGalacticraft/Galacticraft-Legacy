@@ -1,0 +1,26 @@
+[
+  {
+    "modid": "galacticraftplanets",
+    "name": "Galacticraft Planets",
+    "description": "An advanced space travel mod for Minecraft!",
+    "version": "${version}",
+    "mcversion": "${mc_version}",
+    "logoFile": "assets/galacticraftplanets/logo.png",
+    "authorList": [
+      "micdoodle8",
+      "radfast",
+      "EzerArch",
+      "fishtaco",
+      "SpaceViking",
+      "SteveKunG"
+    ],
+    "useDependencyInformation": true,
+    "dependencies": [
+      "galacticraftcore"
+    ],
+    "requiredMods": [
+      "forge@[14.23.5.2847,)",
+      "galacticraftcore@[${version}]"
+    ]
+  }
+]

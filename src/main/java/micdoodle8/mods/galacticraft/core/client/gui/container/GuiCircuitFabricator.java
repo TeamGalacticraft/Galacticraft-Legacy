@@ -7,10 +7,12 @@ import micdoodle8.mods.galacticraft.core.inventory.ContainerCircuitFabricator;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityCircuitFabricator;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiCircuitFabricator extends GuiContainerGC
 {
+
     private static final ResourceLocation circuitFabricatorTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/circuit_fabricator.png");
     private TileEntityCircuitFabricator tileEntity;
     private GuiElementInfoRegion electricInfoRegion = new GuiElementInfoRegion(0, 0, 56, 9, null, 0, 0, this);
@@ -62,8 +65,7 @@ public class GuiCircuitFabricator extends GuiContainerGC
         if (this.tileEntity.processTicks > 0)
         {
             displayText = EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.status.running.name");
-        }
-        else
+        } else
         {
             displayText = EnumColor.ORANGE + GCCoreUtil.translate("gui.status.idle.name");
         }
@@ -101,8 +103,7 @@ public class GuiCircuitFabricator extends GuiContainerGC
         if (this.tileEntity.processTicks > 0)
         {
             scale = (this.tileEntity.processTicks * 100) / this.tileEntity.getProcessTimeRequired();
-        }
-        else
+        } else
         {
             scale = 0;
         }

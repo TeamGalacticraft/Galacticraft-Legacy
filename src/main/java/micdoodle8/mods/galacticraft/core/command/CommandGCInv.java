@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.inventory.InventoryExtended;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -15,10 +16,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CommandGCInv extends CommandBase
 {
+
     protected static final Map<String, ItemStack[]> savedata = new HashMap<String, ItemStack[]>();
     private static final Set<String> dontload = new HashSet<String>();
     private static boolean firstuse = true;
@@ -84,8 +90,7 @@ public class CommandGCInv extends CommandBase
                     {
                         InventoryExtended gcInventory = stats.getExtendedInventory();
                         gcInventory.dropExtendedItems(thePlayer);
-                    }
-                    else if (args[0].equalsIgnoreCase("save"))
+                    } else if (args[0].equalsIgnoreCase("save"))
                     {
                         InventoryExtended gcInventory = stats.getExtendedInventory();
                         ItemStack[] saveinv = new ItemStack[gcInventory.getSizeInventory()];
@@ -99,8 +104,7 @@ public class CommandGCInv extends CommandBase
                         CommandGCInv.dontload.add(args[1].toLowerCase());
                         CommandGCInv.writefile();
                         System.out.println("[GCInv] Saving and clearing GC inventory slots of " + PlayerUtil.getName(thePlayer));
-                    }
-                    else if (args[0].equalsIgnoreCase("restore"))
+                    } else if (args[0].equalsIgnoreCase("restore"))
                     {
                         ItemStack[] saveinv = CommandGCInv.savedata.get(args[1].toLowerCase());
                         CommandGCInv.dontload.remove(args[1].toLowerCase());
@@ -111,21 +115,18 @@ public class CommandGCInv extends CommandBase
                         }
 
                         CommandGCInv.doLoad(thePlayer);
-                    }
-                    else if (args[0].equalsIgnoreCase("clear"))
+                    } else if (args[0].equalsIgnoreCase("clear"))
                     {
                         InventoryExtended gcInventory = stats.getExtendedInventory();
                         for (int i = 0; i < gcInventory.getSizeInventory(); i++)
                         {
                             gcInventory.setInventorySlotContents(i, ItemStack.EMPTY);
                         }
-                    }
-                    else
+                    } else
                     {
                         throw new WrongUsageException("Invalid GCInv command. Usage: " + this.getUsage(sender));
                     }
-                }
-                else
+                } else
                 {
                     // Special rule for 'restore' command if player not found -
                     // look to see if the player is offline (i.e. had a saved
@@ -146,20 +147,17 @@ public class CommandGCInv extends CommandBase
                     if (args[0].equalsIgnoreCase("clear") || args[0].equalsIgnoreCase("save") || args[0].equalsIgnoreCase("drop"))
                     {
                         System.out.println("GCInv command: player " + args[1] + " not found.");
-                    }
-                    else
+                    } else
                     {
                         throw new WrongUsageException("Invalid GCInv command. Usage: " + this.getUsage(sender), new Object[0]);
                     }
                 }
-            }
-            catch (final Exception e)
+            } catch (final Exception e)
             {
                 System.out.println(e.toString());
                 e.printStackTrace();
             }
-        }
-        else
+        } else
         {
             throw new WrongUsageException("Not enough command arguments! Usage: " + this.getUsage(sender), new Object[0]);
         }
@@ -184,8 +182,7 @@ public class CommandGCInv extends CommandBase
             CommandGCInv.writefile();
             System.out.println("[GCInv] Restored GC inventory slots of " + PlayerUtil.getName(thePlayer));
 
-        }
-        else
+        } else
         {
             System.out.println("[GCInv] Player " + PlayerUtil.getName(thePlayer) + " was spawned without restoring the GCInv save.  Run /gcinv restore playername to restore it.");
         }

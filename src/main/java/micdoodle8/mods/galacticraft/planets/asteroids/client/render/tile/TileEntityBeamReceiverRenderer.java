@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.planets.asteroids.client.render.tile;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
+
 import micdoodle8.mods.galacticraft.core.client.model.OBJLoaderGC;
 import micdoodle8.mods.galacticraft.core.tile.ReceiverMode;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
@@ -26,6 +27,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class TileEntityBeamReceiverRenderer extends TileEntitySpecialRenderer<TileEntityBeamReceiver>
 {
+
     private static OBJModel.OBJBakedModel reflectorModelMain;
     private static OBJModel.OBJBakedModel reflectorModelReceiver;
     private static OBJModel.OBJBakedModel reflectorModelRing;
@@ -42,8 +44,7 @@ public class TileEntityBeamReceiverRenderer extends TileEntitySpecialRenderer<Ti
                 reflectorModelMain = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Main"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 reflectorModelReceiver = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Receiver"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 reflectorModelRing = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Ring"), false), DefaultVertexFormats.ITEM, spriteFunction);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -65,33 +66,33 @@ public class TileEntityBeamReceiverRenderer extends TileEntitySpecialRenderer<Ti
 
         switch (tile.facing)
         {
-        case DOWN:
-            GlStateManager.translate(0.7F, -0.15F, 0.0F);
-            GlStateManager.rotate(90, 0, 0, 1);
-            break;
-        case UP:
-            GlStateManager.translate(-0.7F, 1.3F, 0.0F);
-            GlStateManager.rotate(-90, 0, 0, 1);
-            break;
-        case EAST:
-            GlStateManager.translate(0.7F, -0.15F, 0.0F);
-            GlStateManager.rotate(180, 0, 1, 0);
-            break;
-        case SOUTH:
-            GlStateManager.translate(0.0F, -0.15F, 0.7F);
-            GlStateManager.rotate(90, 0, 1, 0);
-            break;
-        case WEST:
-            GlStateManager.translate(-0.7F, -0.15F, 0.0F);
-            GlStateManager.rotate(0, 0, 1, 0);
-            break;
-        case NORTH:
-            GlStateManager.translate(0.0F, -0.15F, -0.7F);
-            GlStateManager.rotate(270, 0, 1, 0);
-            break;
-        default:
-            GlStateManager.popMatrix();
-            return;
+            case DOWN:
+                GlStateManager.translate(0.7F, -0.15F, 0.0F);
+                GlStateManager.rotate(90, 0, 0, 1);
+                break;
+            case UP:
+                GlStateManager.translate(-0.7F, 1.3F, 0.0F);
+                GlStateManager.rotate(-90, 0, 0, 1);
+                break;
+            case EAST:
+                GlStateManager.translate(0.7F, -0.15F, 0.0F);
+                GlStateManager.rotate(180, 0, 1, 0);
+                break;
+            case SOUTH:
+                GlStateManager.translate(0.0F, -0.15F, 0.7F);
+                GlStateManager.rotate(90, 0, 1, 0);
+                break;
+            case WEST:
+                GlStateManager.translate(-0.7F, -0.15F, 0.0F);
+                GlStateManager.rotate(0, 0, 1, 0);
+                break;
+            case NORTH:
+                GlStateManager.translate(0.0F, -0.15F, -0.7F);
+                GlStateManager.rotate(270, 0, 1, 0);
+                break;
+            default:
+                GlStateManager.popMatrix();
+                return;
         }
 
         this.updateModels();
@@ -100,8 +101,7 @@ public class TileEntityBeamReceiverRenderer extends TileEntitySpecialRenderer<Ti
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }
@@ -114,12 +114,10 @@ public class TileEntityBeamReceiverRenderer extends TileEntitySpecialRenderer<Ti
         if (tile.modeReceive == ReceiverMode.RECEIVE.ordinal())
         {
             color = ColorUtil.to32BitColor(255, 0, 204, 0);
-        }
-        else if (tile.modeReceive == ReceiverMode.EXTRACT.ordinal())
+        } else if (tile.modeReceive == ReceiverMode.EXTRACT.ordinal())
         {
             color = ColorUtil.to32BitColor(255, 0, 0, 153);
-        }
-        else
+        } else
         {
             color = ColorUtil.to32BitColor(255, 25, 25, 25);
         }

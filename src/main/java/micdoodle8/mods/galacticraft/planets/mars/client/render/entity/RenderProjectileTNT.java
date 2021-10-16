@@ -15,6 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderProjectileTNT extends Render<EntityProjectileTNT>
 {
+
     public RenderProjectileTNT(RenderManager renderManager)
     {
         super(renderManager);

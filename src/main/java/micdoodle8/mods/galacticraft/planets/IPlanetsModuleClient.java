@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.planets;
 
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public interface IPlanetsModuleClient
 {
+
     public void preInit(FMLPreInitializationEvent event);
 
     public void registerVariants();

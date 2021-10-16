@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 
 public class ItemBlockEmergencyBox extends ItemBlockDesc
 {
+
     public ItemBlockEmergencyBox(Block block)
     {
         super(block);

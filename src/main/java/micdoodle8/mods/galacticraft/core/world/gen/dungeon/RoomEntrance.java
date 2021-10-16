@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.core.world.gen.dungeon;
 
-import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -8,9 +7,13 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 import java.util.Random;
 
+import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
+
 public class RoomEntrance extends SizedPiece
 {
+
     private boolean generated = false;
+
     public RoomEntrance()
     {
     }
@@ -22,13 +25,15 @@ public class RoomEntrance extends SizedPiece
         int sX = this.sizeX / 2;
         int sZ = this.sizeZ / 2;
 
-        this.boundingBox = new StructureBoundingBox(blockPosX - sX, configuration.getYPosition(), blockPosZ - sZ, blockPosX - sX + this.sizeX, configuration.getYPosition() + this.sizeY, blockPosZ - sZ + this.sizeZ);
+        this.boundingBox =
+            new StructureBoundingBox(blockPosX - sX, configuration.getYPosition(), blockPosZ - sZ, blockPosX - sX + this.sizeX, configuration.getYPosition() + this.sizeY, blockPosZ - sZ + this.sizeZ);
     }
 
     @Override
     public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn)
     {
-        if (CompatibilityManager.isSpongeLoaded() && generated) return true;
+        if (CompatibilityManager.isSpongeLoaded() && generated)
+            return true;
         generated = true;
         for (int i = 0; i <= this.sizeX; i++)
         {
@@ -36,11 +41,13 @@ public class RoomEntrance extends SizedPiece
             {
                 for (int k = 0; k <= this.sizeZ; k++)
                 {
-                    if (i == 0 || i == this.sizeX || j == 0 /*|| j == this.sizeY*/ || k == 0 || k == this.sizeZ)
+                    if (i == 0 || i == this.sizeX
+                        || j == 0 /*
+                                   * || j == this.sizeY
+                                   */ || k == 0 || k == this.sizeZ)
                     {
                         this.setBlockState(worldIn, this.configuration.getBrickBlock(), i, j, k, boundingBox);
-                    }
-                    else
+                    } else
                     {
                         this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, boundingBox);
                     }

@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.core.energy.item;
 
-import ic2.api.item.IElectricItemManager;
 import micdoodle8.mods.galacticraft.api.item.ElectricItemHelper;
 import micdoodle8.mods.galacticraft.api.item.IItemElectricBase;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
@@ -9,6 +8,7 @@ import micdoodle8.mods.galacticraft.core.energy.EnergyDisplayHelper;
 import micdoodle8.mods.galacticraft.core.items.ItemBatteryInfinite;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import micdoodle8.mods.miccore.Annotations.RuntimeInterface;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,8 +27,11 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import ic2.api.item.IElectricItemManager;
+
 public abstract class ItemElectricBase extends Item implements IItemElectricBase
 {
+
     private static Object itemManagerIC2;
     public float transferMax;
     private DefaultArtifactVersion mcVersion = null;
@@ -66,7 +69,7 @@ public abstract class ItemElectricBase extends Item implements IItemElectricBase
     {
         return this.transferMax;
     }
-    
+
     @Override
     public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
@@ -76,12 +79,10 @@ public abstract class ItemElectricBase extends Item implements IItemElectricBase
         if (joules <= this.getMaxElectricityStored(itemStack) / 3)
         {
             color = "\u00a74";
-        }
-        else if (joules > this.getMaxElectricityStored(itemStack) * 2 / 3)
+        } else if (joules > this.getMaxElectricityStored(itemStack) * 2 / 3)
         {
             color = "\u00a72";
-        }
-        else
+        } else
         {
             color = "\u00a76";
         }
@@ -180,13 +181,12 @@ public abstract class ItemElectricBase extends Item implements IItemElectricBase
             if (obj instanceof NBTTagDouble)
             {
                 energyStored = ((NBTTagDouble) obj).getFloat();
-            }
-            else if (obj instanceof NBTTagFloat)
+            } else if (obj instanceof NBTTagFloat)
             {
                 energyStored = ((NBTTagFloat) obj).getFloat();
             }
-        }
-        else //First time check item - maybe from addInformation() in a JEI recipe display?
+        } else // First time check item - maybe from addInformation() in a JEI
+               // recipe display?
         {
             if (itemStack.getItemDamage() == DAMAGE_RANGE)
                 return 0F;
@@ -251,12 +251,13 @@ public abstract class ItemElectricBase extends Item implements IItemElectricBase
 
         return false;
     }
-    
+
     public static boolean isElectricItemCharged(ItemStack itemstack)
     {
-        if (itemstack == null) return false;        
+        if (itemstack == null)
+            return false;
         Item item = itemstack.getItem();
-        
+
         if (item instanceof IItemElectricBase)
         {
             return ((IItemElectricBase) item).getElectricityStored(itemstack) > 0;
@@ -272,8 +273,8 @@ public abstract class ItemElectricBase extends Item implements IItemElectricBase
 
         return false;
     }
-    
-    //For RF compatibility
+
+    // For RF compatibility
 
     @RuntimeInterface(clazz = "cofh.redstoneflux.api.IEnergyContainerItem", modID = "")
     public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate)

@@ -32,6 +32,7 @@ import net.minecraft.world.World;
 
 public class EntityJuicer extends EntityMob implements IEntityBreathable
 {
+
     private static final DataParameter<Boolean> IS_FALLING = EntityDataManager.createKey(EntityJuicer.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> IS_HANGING = EntityDataManager.createKey(EntityJuicer.class, DataSerializers.BOOLEAN);
     private BlockPos jumpTarget;
@@ -153,23 +154,23 @@ public class EntityJuicer extends EntityMob implements IEntityBreathable
                     BlockPos posAbove = new BlockPos(this.posX, this.posY + (this.isHanging() ? 1.0 : -0.5), this.posZ);
                     IBlockState blockAbove = this.world.getBlockState(posAbove);
 
-                    if (blockAbove.getBlock() == VenusBlocks.venusBlock && (blockAbove.getValue(BlockBasicVenus.BASIC_TYPE_VENUS) == BlockBasicVenus.EnumBlockBasicVenus.DUNGEON_BRICK_2 ||
-                            blockAbove.getValue(BlockBasicVenus.BASIC_TYPE_VENUS) == BlockBasicVenus.EnumBlockBasicVenus.DUNGEON_BRICK_1))
+                    if (blockAbove.getBlock() == VenusBlocks.venusBlock && (blockAbove.getValue(BlockBasicVenus.BASIC_TYPE_VENUS) == BlockBasicVenus.EnumBlockBasicVenus.DUNGEON_BRICK_2
+                        || blockAbove.getValue(BlockBasicVenus.BASIC_TYPE_VENUS) == BlockBasicVenus.EnumBlockBasicVenus.DUNGEON_BRICK_1))
                     {
-                        RayTraceResult hit = this.world.rayTraceBlocks(new Vec3d(this.posX, this.posY, this.posZ), new Vec3d(this.posX, this.posY + (this.isHanging() ? -10 : 10), this.posZ), false, true, false);
+                        RayTraceResult hit =
+                            this.world.rayTraceBlocks(new Vec3d(this.posX, this.posY, this.posZ), new Vec3d(this.posX, this.posY + (this.isHanging() ? -10 : 10), this.posZ), false, true, false);
 
                         if (hit != null && hit.typeOfHit == RayTraceResult.Type.BLOCK)
                         {
                             IBlockState blockBelow = this.world.getBlockState(hit.getBlockPos());
-                            if (blockBelow.getBlock() == VenusBlocks.venusBlock && (blockBelow.getValue(BlockBasicVenus.BASIC_TYPE_VENUS) == BlockBasicVenus.EnumBlockBasicVenus.DUNGEON_BRICK_2 ||
-                                    blockBelow.getValue(BlockBasicVenus.BASIC_TYPE_VENUS) == BlockBasicVenus.EnumBlockBasicVenus.DUNGEON_BRICK_1))
+                            if (blockBelow.getBlock() == VenusBlocks.venusBlock && (blockBelow.getValue(BlockBasicVenus.BASIC_TYPE_VENUS) == BlockBasicVenus.EnumBlockBasicVenus.DUNGEON_BRICK_2
+                                || blockBelow.getValue(BlockBasicVenus.BASIC_TYPE_VENUS) == BlockBasicVenus.EnumBlockBasicVenus.DUNGEON_BRICK_1))
                             {
                                 if (this.isHanging())
                                 {
                                     this.jumpTarget = hit.getBlockPos();
                                     this.setFalling(this.jumpTarget != null);
-                                }
-                                else
+                                } else
                                 {
                                     this.jumpTarget = hit.getBlockPos().offset(EnumFacing.DOWN);
                                     this.setFalling(this.jumpTarget != null);
@@ -177,8 +178,7 @@ public class EntityJuicer extends EntityMob implements IEntityBreathable
                             }
                         }
                     }
-                }
-                else
+                } else
                 {
                     this.timeSinceLastJump--;
                 }
@@ -220,8 +220,7 @@ public class EntityJuicer extends EntityMob implements IEntityBreathable
 
             this.limbSwingAmount += (f2 - this.limbSwingAmount) * 0.4F;
             this.limbSwing += this.limbSwingAmount;
-        }
-        else
+        } else
         {
             if (this.jumpTarget != null)
             {
@@ -238,16 +237,14 @@ public class EntityJuicer extends EntityMob implements IEntityBreathable
                     this.setFalling(false);
                     this.timeSinceLastJump = this.rand.nextInt(180) + 60;
                     this.setHanging(true);
-                }
-                else if (diffY < 0.0F && Math.abs(this.jumpTarget.getY() - (this.posY + this.motionY)) < 0.8F)
+                } else if (diffY < 0.0F && Math.abs(this.jumpTarget.getY() - (this.posY + this.motionY)) < 0.8F)
                 {
                     this.setPosition(this.jumpTarget.getX() + 0.5, this.jumpTarget.getY() + 1.0, this.jumpTarget.getZ() + 0.5);
                     this.jumpTarget = null;
                     this.setFalling(false);
                     this.timeSinceLastJump = this.rand.nextInt(180) + 60;
                     this.setHanging(false);
-                }
-                else
+                } else
                 {
                     this.setHanging(false);
                 }
@@ -268,8 +265,7 @@ public class EntityJuicer extends EntityMob implements IEntityBreathable
         {
             EntityPlayer var1 = this.world.getClosestPlayerToEntity(this, 5.0D);
             return var1 == null;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -322,8 +318,7 @@ public class EntityJuicer extends EntityMob implements IEntityBreathable
         if (tagCompund.getBoolean("jumpTargetNull"))
         {
             this.jumpTarget = null;
-        }
-        else
+        } else
         {
             this.jumpTarget = new BlockPos(tagCompund.getInteger("jumpTargetX"), tagCompund.getInteger("jumpTargetY"), tagCompund.getInteger("jumpTargetZ"));
         }

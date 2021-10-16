@@ -4,20 +4,23 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class OverlayOxygenTanks extends Overlay
 {
+
     private final static ResourceLocation guiTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/gui.png");
 
     /**
@@ -57,8 +60,7 @@ public class OverlayOxygenTanks extends Overlay
             maxLeftX = i - 40;
             minRightX = i - 39;
             maxRightX = i - 20;
-        }
-        else
+        } else
         {
             minLeftX = 10;
             maxLeftX = 29;
@@ -69,8 +71,7 @@ public class OverlayOxygenTanks extends Overlay
         if (top)
         {
             topY = 10.5;
-        }
-        else
+        } else
         {
             topY = j - 57;
         }
@@ -164,7 +165,8 @@ public class OverlayOxygenTanks extends Overlay
         if (invalid)
         {
             String value = GCCoreUtil.translate("gui.warning.invalid_thermal");
-            mc.fontRenderer.drawString(value, minLeftX - 18 - mc.fontRenderer.getStringWidth(value), (int) bottomY - heatLevelScaled - mc.fontRenderer.FONT_HEIGHT / 2 - 1, ColorUtil.to32BitColor(255, 255, 10, 10));
+            mc.fontRenderer.drawString(value, minLeftX - 18 - mc.fontRenderer.getStringWidth(value), (int) bottomY - heatLevelScaled - mc.fontRenderer.FONT_HEIGHT / 2 - 1,
+                ColorUtil.to32BitColor(255, 255, 10, 10));
         }
         GlStateManager.disableBlend();
     }

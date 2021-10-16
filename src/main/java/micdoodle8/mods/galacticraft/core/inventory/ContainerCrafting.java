@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.inventory;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityCrafting;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.core.util.RecipeUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class ContainerCrafting extends Container
 {
+
     public TileEntityCrafting tileEntity;
     public PersistantInventoryCrafting craftMatrix;
     public IInventory craftResult = new InventoryCraftResult();
@@ -53,7 +55,7 @@ public class ContainerCrafting extends Container
 
         this.onCraftMatrixChanged(this.craftMatrix);
     }
-    
+
     @Override
     public NonNullList<ItemStack> getInventory()
     {
@@ -63,8 +65,9 @@ public class ContainerCrafting extends Container
         {
             list.add(this.inventorySlots.get(i).getStack());
         }
-        
-        //Override this method to trick vanilla networking into carrying our memory at end of its packets 
+
+        // Override this method to trick vanilla networking into carrying our
+        // memory at end of its packets
         for (int i = 0; i < 9; i++)
             list.add(this.tileEntity.memory.get(i));
 
@@ -79,7 +82,8 @@ public class ContainerCrafting extends Container
             if (i < 46)
                 this.getSlot(i).putStack(list.get(i));
             else if (i < 55)
-            	//Read memory clientside from the end of the vanilla packet, see getInventory() 
+                // Read memory clientside from the end of the vanilla packet,
+                // see getInventory()
                 this.tileEntity.memory.set(i - 46, list.get(i));
         }
     }
@@ -134,29 +138,25 @@ public class ContainerCrafting extends Container
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
-            }
-            else if (index < 10)
+            } else if (index < 10)
             {
                 if (!this.mergeItemStack(itemstack1, 10, 46, false))
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (this.matchesCrafting(itemstack1))
+            } else if (this.matchesCrafting(itemstack1))
             {
                 if (!this.mergeToCrafting(itemstack1, false))
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (index >= 10 && index < 37)
+            } else if (index >= 10 && index < 37)
             {
                 if (!this.mergeItemStack(itemstack1, 37, 46, false))
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (index >= 37 && index < 46)
+            } else if (index >= 37 && index < 46)
             {
                 if (!this.mergeItemStack(itemstack1, 10, 37, false))
                 {
@@ -167,8 +167,7 @@ public class ContainerCrafting extends Container
             if (itemstack1.isEmpty())
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }
@@ -202,7 +201,8 @@ public class ContainerCrafting extends Container
             {
                 ItemStack target = slot.getStack();
                 ItemStack target2 = this.memory.get(i - 1);
-                if (target2.isEmpty()) continue;
+                if (target2.isEmpty())
+                    continue;
                 if (target.isEmpty())
                 {
                     target = target2.copy();
@@ -213,12 +213,13 @@ public class ContainerCrafting extends Container
                     int availSpace = target.getMaxStackSize() - target.getCount();
                     acceptQuantity.add(availSpace);
                     acceptTotal += availSpace;
-                    if (availSpace < minQuantity) minQuantity = availSpace;
+                    if (availSpace < minQuantity)
+                        minQuantity = availSpace;
                 }
             }
         }
-        
-        //First fill any empty slots
+
+        // First fill any empty slots
         for (Slot slot : acceptSlots)
         {
             ItemStack target = slot.getStack();
@@ -232,14 +233,14 @@ public class ContainerCrafting extends Container
                     return false;
                 }
             }
-        }        
-        
-        //The stack more than exceeds what the crafting inventory requires
+        }
+
+        // The stack more than exceeds what the crafting inventory requires
         if (stack.getCount() >= acceptTotal)
         {
             if (acceptTotal == 0)
                 return false;
-            
+
             for (Slot slot : acceptSlots)
             {
                 ItemStack target = slot.getStack();
@@ -249,20 +250,20 @@ public class ContainerCrafting extends Container
             }
             return true;
         }
-        
+
         int uneven = 0;
         for (int q : acceptQuantity)
         {
             uneven += q - minQuantity;
         }
-        
-        //Use the whole stack to try to even up the neediest slots
+
+        // Use the whole stack to try to even up the neediest slots
         if (stack.getCount() <= uneven)
         {
             do
             {
                 Slot neediest = null;
-                int smallestStack = 64; 
+                int smallestStack = 64;
                 for (Slot slot : acceptSlots)
                 {
                     ItemStack target = slot.getStack();
@@ -274,8 +275,7 @@ public class ContainerCrafting extends Container
                 }
                 neediest.getStack().grow(1);
                 stack.shrink(1);
-            }
-            while (!stack.isEmpty());
+            } while (!stack.isEmpty());
             for (Slot slot : acceptSlots)
             {
                 slot.onSlotChanged();
@@ -283,7 +283,7 @@ public class ContainerCrafting extends Container
             return true;
         }
 
-        //Use some of the stack to even things up
+        // Use some of the stack to even things up
         if (uneven > 0)
         {
             int targetSize = stack.getMaxStackSize() - minQuantity;
@@ -296,8 +296,8 @@ public class ContainerCrafting extends Container
                 slot.onSlotChanged();
             }
         }
-        
-        //Spread the remaining stack over all slots evenly
+
+        // Spread the remaining stack over all slots evenly
         int average = stack.getCount() / acceptSlots.size();
         int modulus = stack.getCount() - average * acceptSlots.size();
         for (Slot slot : acceptSlots)
@@ -311,7 +311,8 @@ public class ContainerCrafting extends Container
                     transfer++;
                     modulus--;
                 }
-                if (transfer > stack.getCount()) transfer = stack.getCount();
+                if (transfer > stack.getCount())
+                    transfer = stack.getCount();
                 stack.shrink(transfer);
                 target.grow(transfer);
                 if (target.getCount() > target.getMaxStackSize())
@@ -325,7 +326,7 @@ public class ContainerCrafting extends Container
                     break;
             }
         }
-    
+
         return true;
     }
 
@@ -338,26 +339,29 @@ public class ContainerCrafting extends Container
 
         for (int i = 0; i < 9; i++)
         {
-           if (matchingStacks(itemstack1, this.tileEntity.getMemory(i)) && (this.craftMatrix.getStackInSlot(i).isEmpty() || this.craftMatrix.getStackInSlot(i).getCount() < itemstack1.getMaxStackSize()))
-           {
-               for (int j = 0; j < 9; j++)
-               {
-                   this.memory.set(j, this.tileEntity.getMemory(j));
-               }
-               return true;
-           }
+            if (matchingStacks(itemstack1, this.tileEntity.getMemory(i))
+                && (this.craftMatrix.getStackInSlot(i).isEmpty() || this.craftMatrix.getStackInSlot(i).getCount() < itemstack1.getMaxStackSize()))
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    this.memory.set(j, this.tileEntity.getMemory(j));
+                }
+                return true;
+            }
         }
         return false;
     }
-    
+
     private boolean matchingStacks(ItemStack stack, ItemStack target)
     {
-        return !target.isEmpty() && target.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == target.getMetadata()) && RecipeUtil.areItemStackTagsEqual(stack, target) && (!target.isStackable() || target.getCount() < target.getMaxStackSize());
+        return !target.isEmpty() && target.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == target.getMetadata()) && RecipeUtil.areItemStackTagsEqual(stack, target)
+            && (!target.isStackable() || target.getCount() < target.getMaxStackSize());
     }
 
     /**
-     * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in
-     * is null for the initial slot that was double-clicked.
+     * Called to determine if the current slot is valid for the stack merging
+     * (double-click) code. The stack passed in is null for the initial slot
+     * that was double-clicked.
      */
     @Override
     public boolean canMergeSlot(ItemStack stack, Slot p_94530_2_)

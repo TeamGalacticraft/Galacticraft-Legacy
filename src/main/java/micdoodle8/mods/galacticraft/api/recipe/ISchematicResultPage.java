@@ -5,6 +5,7 @@ package micdoodle8.mods.galacticraft.api.recipe;
  */
 public interface ISchematicResultPage
 {
+
     /**
      * Sets the integer index in the set of pages the player has unlocked
      */

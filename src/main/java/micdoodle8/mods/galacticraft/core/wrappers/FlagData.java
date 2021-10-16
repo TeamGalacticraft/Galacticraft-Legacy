@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.wrappers;
 
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
+
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.awt.image.BufferedImage;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 
 public class FlagData
 {
+
     public static FlagData DEFAULT = new FlagData(48, 32);
     private int height;
     private int width;
@@ -52,9 +54,8 @@ public class FlagData
     }
 
     /**
-     * Returns the color, normalized, at the flag coordinates.
-     * <p/>
-     * 0, 0 is the top left.
+     * Returns the color, normalized, at the flag coordinates. <p/> 0, 0 is the
+     * top left.
      *
      * @param posX x-position of the flag
      * @param posY y-position of the flag
@@ -73,8 +74,8 @@ public class FlagData
     /**
      * Set the color at the designated flag coordinates
      *
-     * @param posX     The x-position of the flag
-     * @param posY     The y-position of the flag
+     * @param posX The x-position of the flag
+     * @param posY The y-position of the flag
      * @param colorVec The color vector, values from 0-256
      */
     public void setColorAt(int posX, int posY, Vector3 colorVec)
@@ -88,7 +89,7 @@ public class FlagData
     {
         if (nbt.hasKey("FlagWidth"))
         {
-            //Legacy saves
+            // Legacy saves
             int width = nbt.getInteger("FlagWidth");
             int height = nbt.getInteger("FlagHeight");
 
@@ -107,7 +108,7 @@ public class FlagData
             return flagData;
         }
 
-        //New more compact flag save style
+        // New more compact flag save style
         int width = nbt.getInteger("FWidth");
         int height = nbt.getInteger("FHeight");
 

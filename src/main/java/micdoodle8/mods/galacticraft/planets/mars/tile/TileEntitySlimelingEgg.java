@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.mars.tile;
 
+import java.util.UUID;
+
 import micdoodle8.mods.galacticraft.planets.mars.entities.EntitySlimeling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,10 +12,9 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.UUID;
-
 public class TileEntitySlimelingEgg extends TileEntity implements ITickable
 {
+
     public int timeToHatch = -1;
     public String lastTouchedPlayerUUID = "";
     public String lastTouchedPlayerName = "";
@@ -26,8 +27,7 @@ public class TileEntitySlimelingEgg extends TileEntity implements ITickable
             if (this.timeToHatch > 0)
             {
                 this.timeToHatch--;
-            }
-            else if (this.timeToHatch == 0 && lastTouchedPlayerUUID != null && lastTouchedPlayerUUID.length() > 0)
+            } else if (this.timeToHatch == 0 && lastTouchedPlayerUUID != null && lastTouchedPlayerUUID.length() > 0)
             {
                 IBlockState state = this.world.getBlockState(this.getPos());
                 int metadata = state.getBlock().getMetaFromState(state) % 3;
@@ -38,16 +38,16 @@ public class TileEntitySlimelingEgg extends TileEntity implements ITickable
 
                 switch (metadata)
                 {
-                case 0:
-                    colorRed = 1.0F;
-                    break;
-                case 1:
-                    colorBlue = 1.0F;
-                    break;
-                case 2:
-                    colorRed = 1.0F;
-                    colorGreen = 1.0F;
-                    break;
+                    case 0:
+                        colorRed = 1.0F;
+                        break;
+                    case 1:
+                        colorBlue = 1.0F;
+                        break;
+                    case 2:
+                        colorRed = 1.0F;
+                        colorGreen = 1.0F;
+                        break;
                 }
 
                 EntitySlimeling slimeling = new EntitySlimeling(this.world, colorRed, colorGreen, colorBlue);
@@ -81,8 +81,7 @@ public class TileEntitySlimelingEgg extends TileEntity implements ITickable
         if (nbt.hasKey("OwnerUUID", 8))
         {
             uuid = nbt.getString("OwnerUUID");
-        }
-        else
+        } else
         {
             uuid = PreYggdrasilConverter.convertMobOwnerIfNeeded(this.world.getMinecraftServer(), nbt.getString("Owner"));
         }

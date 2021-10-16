@@ -12,6 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IWeatherProvider
 {
+
     @SideOnly(Side.CLIENT)
     Particle getParticle(WorldClient world, double x, double y, double z);
 

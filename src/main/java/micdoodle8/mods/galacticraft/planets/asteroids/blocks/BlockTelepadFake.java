@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.blocks;
 
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.blocks.BlockAdvancedTile;
 import micdoodle8.mods.galacticraft.planets.asteroids.tile.TileEntityTelepadFake;
@@ -27,10 +29,9 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
 public class BlockTelepadFake extends BlockAdvancedTile implements ITileEntityProvider
 {
+
     public static final PropertyBool TOP = PropertyBool.create("top");
     public static final PropertyBool CONNECTABLE = PropertyBool.create("connectable");
     protected static final AxisAlignedBB AABB_TOP = new AxisAlignedBB(0.0F, 0.55F, 0.0F, 1.0F, 1.0F, 1.0F);
@@ -247,8 +248,7 @@ public class BlockTelepadFake extends BlockAdvancedTile implements ITileEntityPr
         if (mainBlockPosition != null)
         {
             world.getBlockState(pos).getBlock().setBedOccupied(world, mainBlockPosition, player, occupied);
-        }
-        else
+        } else
         {
             super.setBedOccupied(world, pos, player, occupied);
         }

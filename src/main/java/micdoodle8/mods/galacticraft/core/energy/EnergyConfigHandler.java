@@ -1,16 +1,17 @@
 package micdoodle8.mods.galacticraft.core.energy;
 
-import mekanism.api.gas.Gas;
-import mekanism.api.gas.GasRegistry;
 import micdoodle8.mods.galacticraft.core.GCFluids;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
+
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import buildcraft.api.mj.MjAPI;
+import mekanism.api.gas.Gas;
+import mekanism.api.gas.GasRegistry;
 
 /**
  * The universal energy compatibility module allows Galacticraft to be
@@ -24,37 +25,41 @@ public class EnergyConfigHandler
     private static Configuration config;
 
     /**
-     * Ratio of Build craft(MJ) energy to Galacticraft energy(gJ).
-     * Multiply BC3 energy by this to convert to gJ.
+     * Ratio of Build craft(MJ) energy to Galacticraft energy(gJ). Multiply BC3
+     * energy by this to convert to gJ.
      */
     public static float BC3_RATIO = 16F;
     private static float BC8_MICROJOULE_RATIO = 1000000F;
     public static float BC8_INTERNAL_RATIO = BC3_RATIO / BC8_MICROJOULE_RATIO;
 
-    //Note on energy equivalence:
+    // Note on energy equivalence:
     //
-    //In BuildCraft, 1 lump of coal produces 1600 MJ (Minecraft Joules)
-    //in a Stirling Engine.  This is by design: coal has 1600 ticks burn time
-    //in a vanilla Furnace, which corresponds with 1600 MJ in BuildCraft.
+    // In BuildCraft, 1 lump of coal produces 1600 MJ (Minecraft Joules)
+    // in a Stirling Engine. This is by design: coal has 1600 ticks burn time
+    // in a vanilla Furnace, which corresponds with 1600 MJ in BuildCraft.
     //
-    //In Galacticraft, 1 lump of coal produces 38,400 gJ
-    //in a coal generator operating at 100% hull heat (less efficient at lower hull heats).
+    // In Galacticraft, 1 lump of coal produces 38,400 gJ
+    // in a coal generator operating at 100% hull heat (less efficient at lower
+    // hull heats).
 
-    //If 1600 MJ = 38,400 gJ then strictly 1 MJ = 24 gJ.
-    //But, that feels imbalanced - for example redstone engines make too much gJ if the ratio is 24.
-    //So, the BC conversion ratio is set at 16.
-    //Think of it as the Galacticraft coal generator at full heat turning coal into
-    //electrical energy 50% more efficiently than BuildCraft's Stirling Engine can.
+    // If 1600 MJ = 38,400 gJ then strictly 1 MJ = 24 gJ.
+    // But, that feels imbalanced - for example redstone engines make too much
+    // gJ if the ratio is 24.
+    // So, the BC conversion ratio is set at 16.
+    // Think of it as the Galacticraft coal generator at full heat turning coal
+    // into
+    // electrical energy 50% more efficiently than BuildCraft's Stirling Engine
+    // can.
 
     /**
-     * Ratio of RF energy to Galacticraft energy(gJ).
-     * Multiply RF energy by this to convert to gJ.
+     * Ratio of RF energy to Galacticraft energy(gJ). Multiply RF energy by this
+     * to convert to gJ.
      */
     public static float RF_RATIO = EnergyConfigHandler.BC3_RATIO / 10F;
 
     /**
-     * Ratio of IC2 energy (EU) to Galacticraft energy(gJ).
-     * Multiply IC2 power by this to convert to gJ.
+     * Ratio of IC2 energy (EU) to Galacticraft energy(gJ). Multiply IC2 power
+     * by this to convert to gJ.
      */
     public static float IC2_RATIO = EnergyConfigHandler.BC3_RATIO / 2.44F;
 
@@ -129,11 +134,14 @@ public class EnergyConfigHandler
         }
 
         EnergyConfigHandler.config.load();
-        EnergyConfigHandler.IC2_RATIO = (float) EnergyConfigHandler.config.get("Compatibility", "IndustrialCraft Conversion Ratio", EnergyConfigHandler.IC2_RATIO).getDouble(EnergyConfigHandler.IC2_RATIO);
+        EnergyConfigHandler.IC2_RATIO =
+            (float) EnergyConfigHandler.config.get("Compatibility", "IndustrialCraft Conversion Ratio", EnergyConfigHandler.IC2_RATIO).getDouble(EnergyConfigHandler.IC2_RATIO);
         EnergyConfigHandler.RF_RATIO = (float) EnergyConfigHandler.config.get("Compatibility", "RF Conversion Ratio", EnergyConfigHandler.RF_RATIO).getDouble(EnergyConfigHandler.RF_RATIO);
         EnergyConfigHandler.BC3_RATIO = (float) EnergyConfigHandler.config.get("Compatibility", "BuildCraft Conversion Ratio", EnergyConfigHandler.BC3_RATIO).getDouble(EnergyConfigHandler.BC3_RATIO);
-        EnergyConfigHandler.MEKANISM_RATIO = (float) EnergyConfigHandler.config.get("Compatibility", "Mekanism Conversion Ratio", EnergyConfigHandler.MEKANISM_RATIO).getDouble(EnergyConfigHandler.MEKANISM_RATIO);
-        EnergyConfigHandler.conversionLossFactor = EnergyConfigHandler.config.get("Compatibility", "Loss factor when converting energy as a percentage (100 = no loss, 90 = 10% loss ...)", 100).getInt(100);
+        EnergyConfigHandler.MEKANISM_RATIO =
+            (float) EnergyConfigHandler.config.get("Compatibility", "Mekanism Conversion Ratio", EnergyConfigHandler.MEKANISM_RATIO).getDouble(EnergyConfigHandler.MEKANISM_RATIO);
+        EnergyConfigHandler.conversionLossFactor =
+            EnergyConfigHandler.config.get("Compatibility", "Loss factor when converting energy as a percentage (100 = no loss, 90 = 10% loss ...)", 100).getInt(100);
         if (EnergyConfigHandler.conversionLossFactor > 100)
         {
             EnergyConfigHandler.conversionLossFactor = 100;
@@ -145,9 +153,12 @@ public class EnergyConfigHandler
 
         updateRatios();
 
-        EnergyConfigHandler.displayEnergyUnitsBC = EnergyConfigHandler.config.get("Display", "If BuildCraft is loaded, show Galacticraft machines energy as MJ instead of gJ?", false).getBoolean(false);
-        EnergyConfigHandler.displayEnergyUnitsIC2 = EnergyConfigHandler.config.get("Display", "If IndustrialCraft2 is loaded, show Galacticraft machines energy as EU instead of gJ?", false).getBoolean(false);
-        EnergyConfigHandler.displayEnergyUnitsMek = EnergyConfigHandler.config.get("Display", "If Mekanism is loaded, show Galacticraft machines energy as Joules (J) instead of gJ?", false).getBoolean(false);
+        EnergyConfigHandler.displayEnergyUnitsBC =
+            EnergyConfigHandler.config.get("Display", "If BuildCraft is loaded, show Galacticraft machines energy as MJ instead of gJ?", false).getBoolean(false);
+        EnergyConfigHandler.displayEnergyUnitsIC2 =
+            EnergyConfigHandler.config.get("Display", "If IndustrialCraft2 is loaded, show Galacticraft machines energy as EU instead of gJ?", false).getBoolean(false);
+        EnergyConfigHandler.displayEnergyUnitsMek =
+            EnergyConfigHandler.config.get("Display", "If Mekanism is loaded, show Galacticraft machines energy as Joules (J) instead of gJ?", false).getBoolean(false);
         EnergyConfigHandler.displayEnergyUnitsRF = EnergyConfigHandler.config.get("Display", "Show Galacticraft machines energy in RF instead of gJ?", false).getBoolean(false);
 
         EnergyConfigHandler.disableMJinterface = EnergyConfigHandler.config.get("Compatibility", "Disable old Buildcraft API (MJ) interfacing completely?", false).getBoolean(false);
@@ -199,8 +210,7 @@ public class EnergyConfigHandler
             if (oxygen == null)
             {
                 EnergyConfigHandler.gasOxygen = GasRegistry.register(new Gas(GCFluids.fluidOxygenGas)).registerFluid();
-            }
-            else
+            } else
             {
                 EnergyConfigHandler.gasOxygen = oxygen;
             }
@@ -210,8 +220,7 @@ public class EnergyConfigHandler
             if (hydrogen == null)
             {
                 EnergyConfigHandler.gasHydrogen = GasRegistry.register(new Gas(GCFluids.fluidHydrogenGas)).registerFluid();
-            }
-            else
+            } else
             {
                 EnergyConfigHandler.gasHydrogen = hydrogen;
             }
@@ -238,8 +247,9 @@ public class EnergyConfigHandler
                 BC8_MICROJOULE_RATIO = MjAPI.MJ;
                 BC8_INTERNAL_RATIO = BC3_RATIO / BC8_MICROJOULE_RATIO;
                 TO_BC_RATIO = conversionLossFactor / 100F / EnergyConfigHandler.BC3_RATIO * BC8_MICROJOULE_RATIO;
+            } catch (Throwable ignore)
+            {
             }
-            catch (Throwable ignore) {}
             cachedBCRLoaded = true;
             cachedBCRLoadedValue = mjAPIFound && CompatibilityManager.isBCraftEnergyLoaded() && CompatibilityManager.classBCTransportPipeTile != null;
         }
@@ -294,8 +304,7 @@ public class EnergyConfigHandler
             {
                 count += 2;
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
         }
         try
@@ -304,8 +313,7 @@ public class EnergyConfigHandler
             {
                 count2++;
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
         }
         try
@@ -314,8 +322,7 @@ public class EnergyConfigHandler
             {
                 count2++;
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
         }
 
@@ -324,10 +331,9 @@ public class EnergyConfigHandler
             cachedRFLoadedValue = true;
             cachedRF1LoadedValue = (count == 3);
             cachedRF2LoadedValue = (count2 == 2);
-        }
-        else if (count > 0 || count2 > 0)
+        } else if (count > 0 || count2 > 0)
         {
-            GCLog.severe("Incomplete Redstone Flux API detected: Galacticraft will not support RF energy connections until this is fixed.");
+            GCLog.error("Incomplete Redstone Flux API detected: Galacticraft will not support RF energy connections until this is fixed.");
         }
     }
 
@@ -338,7 +344,7 @@ public class EnergyConfigHandler
 
     private static void updateRatios()
     {
-        //Sense checks to avoid crazy large inverse ratios or ratios
+        // Sense checks to avoid crazy large inverse ratios or ratios
         if (EnergyConfigHandler.IC2_RATIO < 0.01F)
         {
             EnergyConfigHandler.IC2_RATIO = 0.01F;

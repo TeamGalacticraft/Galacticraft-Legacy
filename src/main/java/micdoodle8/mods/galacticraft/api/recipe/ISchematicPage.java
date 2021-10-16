@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public interface ISchematicPage extends Comparable<ISchematicPage>
 {
+
     /**
      * Get the page ID. Make it configurable since it has to be unique between
      * other Galacticraft addons. Determines order of schematics.
@@ -36,7 +37,7 @@ public interface ISchematicPage extends Comparable<ISchematicPage>
      * The resulting client-side GUI for this page
      *
      * @param player The player opening this GUI
-     * @param pos    Coordinates of the NASA Workbench
+     * @param pos Coordinates of the NASA Workbench
      * @return the GUI to be opened with this schematic
      */
     @SideOnly(Side.CLIENT)
@@ -46,7 +47,7 @@ public interface ISchematicPage extends Comparable<ISchematicPage>
      * The resulting container for this page
      *
      * @param player The player opening this GUI
-     * @param pos    Coordinates of the NASA Workbench
+     * @param pos Coordinates of the NASA Workbench
      * @return the container to be opened with this schematic
      */
     Container getResultContainer(EntityPlayer player, BlockPos pos);

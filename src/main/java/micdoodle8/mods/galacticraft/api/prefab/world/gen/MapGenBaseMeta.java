@@ -5,12 +5,13 @@ import net.minecraft.world.chunk.ChunkPrimer;
 import java.util.Random;
 
 /**
- * Do not include this prefab class in your released mod download.
- * <p/>
- * This is a base class for World Gen such as caves. Override and generate features in recursiveGenerate
+ * Do not include this prefab class in your released mod download. <p/> This is
+ * a base class for World Gen such as caves. Override and generate features in
+ * recursiveGenerate
  */
 public abstract class MapGenBaseMeta
 {
+
     /**
      * The number of Chunks to gen-check in any given direction.
      */

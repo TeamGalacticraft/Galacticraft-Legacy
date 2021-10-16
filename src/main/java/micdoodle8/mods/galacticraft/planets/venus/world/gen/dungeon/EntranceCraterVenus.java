@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class EntranceCraterVenus extends SizedPieceVenus
 {
+
     private final int range = 16;
 
     public EntranceCraterVenus()

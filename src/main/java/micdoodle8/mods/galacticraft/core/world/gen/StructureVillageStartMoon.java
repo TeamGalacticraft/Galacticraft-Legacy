@@ -10,6 +10,7 @@ import java.util.Random;
 
 public class StructureVillageStartMoon extends StructureStart
 {
+
     public StructureVillageStartMoon()
     {
     }
@@ -35,8 +36,7 @@ public class StructureVillageStartMoon extends StructureStart
                 var10 = par2Random.nextInt(var9.size());
                 var11 = (StructureComponent) var9.remove(var10);
                 var11.buildComponent(var7, this.components, par2Random);
-            }
-            else
+            } else
             {
                 var10 = par2Random.nextInt(var8.size());
                 var11 = (StructureComponent) var8.remove(var10);

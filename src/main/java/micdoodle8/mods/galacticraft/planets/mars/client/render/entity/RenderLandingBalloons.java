@@ -24,6 +24,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderLandingBalloons extends Render<EntityLandingBalloons>
 {
+
     private IBakedModel balloonModel;
     protected ModelBalloonParachute parachuteModel = new ModelBalloonParachute();
 
@@ -40,8 +41,7 @@ public class RenderLandingBalloons extends Render<EntityLandingBalloons>
             try
             {
                 this.balloonModel = ClientUtil.modelFromOBJ(new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "landing_balloon.obj"), ImmutableList.of("Sphere"));
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -71,8 +71,7 @@ public class RenderLandingBalloons extends Render<EntityLandingBalloons>
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }
@@ -92,7 +91,7 @@ public class RenderLandingBalloons extends Render<EntityLandingBalloons>
         }
         RenderHelper.enableStandardItemLighting();
     }
-    
+
     @Override
     public boolean shouldRender(EntityLandingBalloons lander, ICamera camera, double camX, double camY, double camZ)
     {

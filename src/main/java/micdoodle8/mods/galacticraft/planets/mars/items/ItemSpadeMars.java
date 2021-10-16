@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSpadeMars extends ItemSpade implements ISortableItem
 {
+
     public ItemSpadeMars(ToolMaterial par2EnumToolMaterial)
     {
         super(par2EnumToolMaterial);

@@ -12,11 +12,13 @@ package micdoodle8.mods.galacticraft.core.util;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+
 import net.minecraftforge.common.property.IUnlistedProperty;
 
 import java.util.Objects;
 
-public class PropertyObject<T> implements IUnlistedProperty<T> {
+public class PropertyObject<T> implements IUnlistedProperty<T>
+{
 
     private final String name;
     private final Class<T> clazz;
@@ -35,6 +37,7 @@ public class PropertyObject<T> implements IUnlistedProperty<T> {
     {
         this(name, clazz, Predicates.<T>alwaysTrue(), new Function<T, String>()
         {
+
             @Override
             public String apply(T input)
             {

@@ -21,6 +21,7 @@ import java.util.Random;
 @SideOnly(Side.CLIENT)
 public class SkyProviderVenus extends IRenderHandler
 {
+
     private static final ResourceLocation overworldTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/celestialbodies/earth.png");
     private static final ResourceLocation sunTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/planets/atmosphericsun.png");
 
@@ -227,7 +228,7 @@ public class SkyProviderVenus extends IRenderHandler
         // Render sun
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
-        //Some blanking to conceal the stars
+        // Some blanking to conceal the stars
         f10 = this.sunSize / 3.5F;
         worldRenderer1.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldRenderer1.pos(-f10, 99.9D, -f10).endVertex();
@@ -307,8 +308,7 @@ public class SkyProviderVenus extends IRenderHandler
         if (world.provider.isSkyColored())
         {
             GL11.glColor3f(f1 * 0.2F + 0.04F, f2 * 0.2F + 0.04F, f3 * 0.6F + 0.1F);
-        }
-        else
+        } else
         {
             GL11.glColor3f(f1, f2, f3);
         }

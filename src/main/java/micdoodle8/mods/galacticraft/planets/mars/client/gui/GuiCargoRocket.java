@@ -26,6 +26,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiCargoRocket extends GuiContainerGC
 {
+
     private static ResourceLocation[] rocketTextures = new ResourceLocation[4];
 
     static
@@ -61,11 +62,12 @@ public class GuiCargoRocket extends GuiContainerGC
     {
         switch (button.id)
         {
-        case 0:
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_CARGO_ROCKET_STATUS, GCCoreUtil.getDimensionID(mc.world), new Object[] { this.rocket.getEntityId(), 0 }));
-            break;
-        default:
-            break;
+            case 0:
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_CARGO_ROCKET_STATUS, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                {this.rocket.getEntityId(), 0}));
+                break;
+            default:
+                break;
         }
     }
 
@@ -80,7 +82,8 @@ public class GuiCargoRocket extends GuiContainerGC
         List<String> fuelTankDesc = new ArrayList<String>();
         fuelTankDesc.add(GCCoreUtil.translate("gui.fuel_tank.desc.0"));
         fuelTankDesc.add(GCCoreUtil.translate("gui.fuel_tank.desc.1"));
-        this.infoRegions.add(new GuiElementInfoRegion((this.width - this.xSize) / 2 + (this.rocket.rocketType.getInventorySpace() == 2 ? 70 : 71), (this.height - this.ySize) / 2 + 6, 36, 40, fuelTankDesc, this.width, this.height, this));
+        this.infoRegions.add(new GuiElementInfoRegion((this.width - this.xSize) / 2 + (this.rocket.rocketType.getInventorySpace() == 2 ? 70 : 71), (this.height - this.ySize) / 2 + 6, 36, 40,
+            fuelTankDesc, this.width, this.height, this));
     }
 
     @Override
@@ -89,8 +92,7 @@ public class GuiCargoRocket extends GuiContainerGC
         if (this.rocket.rocketType.getInventorySpace() == 2)
         {
             this.fontRenderer.drawString(GCCoreUtil.translate(this.upperChestInventory.getName()), 8, 76 + (this.rocket.rocketType.getInventorySpace() - 20) / 9 * 18, 4210752);
-        }
-        else
+        } else
         {
             this.fontRenderer.drawString(GCCoreUtil.translate(this.upperChestInventory.getName()), 8, 89 + (this.rocket.rocketType.getInventorySpace() - 20) / 9 * 18, 4210752);
         }
@@ -104,7 +106,8 @@ public class GuiCargoRocket extends GuiContainerGC
         str = GCCoreUtil.translate("gui.message.status.name") + ":";
         this.fontRenderer.drawString(str, 40 - this.fontRenderer.getStringWidth(str) / 2, 9, 4210752);
 
-        String[] spltString = { "" };
+        String[] spltString =
+        {""};
         String colour = EnumColor.YELLOW.toString();
 
         if (this.rocket.statusMessageCooldown == 0 || this.rocket.statusMessage == null)
@@ -120,8 +123,7 @@ public class GuiCargoRocket extends GuiContainerGC
                 spltString[1] = GCCoreUtil.translate("gui.cargorocket.status.launched.1");
                 this.launchButton.enabled = false;
             }
-        }
-        else
+        } else
         {
             spltString = this.rocket.statusMessage.split("#");
             colour = this.rocket.statusColour;
@@ -151,6 +153,7 @@ public class GuiCargoRocket extends GuiContainerGC
         this.drawTexturedModalRect(var5, var6, 0, 0, 176, this.ySize);
 
         final int fuelLevel = this.rocket.getScaledFuelLevel(38);
-        this.drawTexturedModalRect((this.width - this.xSize) / 2 + (this.rocket.rocketType.getInventorySpace() == 2 ? 71 : 72), (this.height - this.ySize) / 2 + 45 - fuelLevel, 176, 38 - fuelLevel, 42, fuelLevel);
+        this.drawTexturedModalRect((this.width - this.xSize) / 2 + (this.rocket.rocketType.getInventorySpace() == 2 ? 71 : 72), (this.height - this.ySize) / 2 + 45 - fuelLevel, 176, 38 - fuelLevel,
+            42, fuelLevel);
     }
 }

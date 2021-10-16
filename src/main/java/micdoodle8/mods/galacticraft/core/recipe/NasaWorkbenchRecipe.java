@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.recipe;
 
 import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -10,6 +11,7 @@ import java.util.Map.Entry;
 
 public class NasaWorkbenchRecipe implements INasaWorkbenchRecipe
 {
+
     private ItemStack output;
     private HashMap<Integer, ItemStack> input;
 
@@ -49,7 +51,8 @@ public class NasaWorkbenchRecipe implements INasaWorkbenchRecipe
         {
             return false;
         }
-        return target.isEmpty() && input.isEmpty() || target.getItem() == input.getItem() && (target.getItemDamage() == OreDictionary.WILDCARD_VALUE || target.getItemDamage() == input.getItemDamage());
+        return target.isEmpty() && input.isEmpty()
+            || target.getItem() == input.getItem() && (target.getItemDamage() == OreDictionary.WILDCARD_VALUE || target.getItemDamage() == input.getItemDamage());
     }
 
     @Override

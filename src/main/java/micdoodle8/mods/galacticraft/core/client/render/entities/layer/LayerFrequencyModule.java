@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.client.render.entities.layer;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
+
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.model.ModelPlayerGC;
@@ -9,6 +10,7 @@ import micdoodle8.mods.galacticraft.core.client.model.OBJLoaderGC;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerHandler;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.PlayerGearData;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -27,6 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class LayerFrequencyModule implements LayerRenderer<AbstractClientPlayer>
 {
+
     private final RenderPlayer playerRenderer;
     private OBJModel.OBJBakedModel moduleModel;
     private OBJModel.OBJBakedModel radarModel;
@@ -46,8 +49,7 @@ public class LayerFrequencyModule implements LayerRenderer<AbstractClientPlayer>
                 Function<ResourceLocation, TextureAtlasSprite> spriteFunction = location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
                 this.moduleModel = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Main"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 this.radarModel = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Radar"), false), DefaultVertexFormats.ITEM, spriteFunction);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -83,8 +85,7 @@ public class LayerFrequencyModule implements LayerRenderer<AbstractClientPlayer>
                     if (wearingHelmet)
                     {
                         GlStateManager.translate(-1.1F, player.isSneaking() ? 0.35F : 1.2F, 0);
-                    }
-                    else
+                    } else
                     {
                         GlStateManager.translate(-0.9F, player.isSneaking() ? 0.1F : 0.9F, 0);
                     }

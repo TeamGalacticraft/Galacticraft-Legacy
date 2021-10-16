@@ -12,6 +12,7 @@ import net.minecraft.util.EnumFacing;
 
 public abstract class TileEntitySolarTransmitter extends TileEntityAdvanced implements ITransmitter
 {
+
     private IGridNetwork network;
     public TileEntity[] adjacentConnections = null;
     private boolean validated = true;
@@ -151,8 +152,7 @@ public abstract class TileEntitySolarTransmitter extends TileEntityAdvanced impl
                             {
                                 this.setNetwork(((INetworkProvider) tileEntity).getNetwork());
                                 ((SolarModuleNetwork) this.getNetwork()).addTransmitter(this);
-                            }
-                            else if (this.hasNetwork() && !this.getNetwork().equals(((INetworkProvider) tileEntity).getNetwork()))
+                            } else if (this.hasNetwork() && !this.getNetwork().equals(((INetworkProvider) tileEntity).getNetwork()))
                             {
                                 this.setNetwork((IGridNetwork) this.getNetwork().merge(((INetworkProvider) tileEntity).getNetwork()));
                             }
@@ -174,7 +174,6 @@ public abstract class TileEntitySolarTransmitter extends TileEntityAdvanced impl
         if (this.adjacentConnections == null)
         {
             this.adjacentConnections = new TileEntity[EnumFacing.VALUES.length];
-
 
             BlockVec3 thisVec = new BlockVec3(this);
             for (EnumFacing direction : EnumFacing.VALUES)

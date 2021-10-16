@@ -25,6 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class WorldProviderMars extends WorldProviderSpace implements IGalacticraftWorldProvider, ISolarLevel
 {
+
     private double solarMultiplier = -1D;
 
     @Override
@@ -97,7 +98,7 @@ public class WorldProviderMars extends WorldProviderSpace implements IGalacticra
         return true;
     }
 
-    //Overriding so that beds do not explode on Mars
+    // Overriding so that beds do not explode on Mars
     @Override
     public boolean canRespawnHere()
     {

@@ -16,12 +16,11 @@ import javax.annotation.Nonnull;
 
 public class CargoRocketRecipeCategory implements IRecipeCategory
 {
+
     private static final ResourceLocation rocketGuiTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/schematic_rocket_cargo.png");
 
-    @Nonnull
-    private final IDrawable background;
-    @Nonnull
-    private final String localizedName;
+    @Nonnull private final IDrawable background;
+    @Nonnull private final String localizedName;
 
     public CargoRocketRecipeCategory(IGuiHelper guiHelper)
     {

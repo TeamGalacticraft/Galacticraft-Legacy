@@ -11,6 +11,7 @@ import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMulti.EnumBlockMultiType;
 import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityLaunchController;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,6 +32,7 @@ import java.util.List;
 
 public class TileEntityLandingPad extends TileEntityMulti implements IMultiBlock, IFuelable, IFuelDock, ICargoEntity
 {
+
     public TileEntityLandingPad()
     {
         super(null);
@@ -44,20 +46,22 @@ public class TileEntityLandingPad extends TileEntityMulti implements IMultiBlock
     {
         if (!this.initialised)
         {
-            if (!this.world.isRemote) this.onCreate(this.world, this.getPos());
+            if (!this.world.isRemote)
+                this.onCreate(this.world, this.getPos());
             this.initialiseMultiTiles(this.getPos(), this.world);
             this.initialised = true;
         }
 
         if (!this.world.isRemote)
         {
-            final List<Entity> list = this.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(this.getPos().getX() - 0.5D, this.getPos().getY(), this.getPos().getZ() - 0.5D, this.getPos().getX() + 0.5D, this.getPos().getY() + 1.0D, this.getPos().getZ() + 0.5D));
+            final List<Entity> list = this.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(this.getPos().getX() - 0.5D, this.getPos().getY(), this.getPos().getZ() - 0.5D,
+                this.getPos().getX() + 0.5D, this.getPos().getY() + 1.0D, this.getPos().getZ() + 0.5D));
 
             boolean docked = false;
 
             for (final Object o : list)
             {
-                if (o instanceof IDockable && !((Entity)o).isDead)
+                if (o instanceof IDockable && !((Entity) o).isDead)
                 {
                     final IDockable fuelable = (IDockable) o;
 
@@ -70,8 +74,7 @@ public class TileEntityLandingPad extends TileEntityMulti implements IMultiBlock
                             if (fuelable instanceof ILandable)
                             {
                                 ((ILandable) fuelable).landEntity(this.getPos());
-                            }
-                            else
+                            } else
                             {
                                 fuelable.setPad(this);
                             }
@@ -117,7 +120,7 @@ public class TileEntityLandingPad extends TileEntityMulti implements IMultiBlock
     {
         return EnumBlockMultiType.ROCKET_PAD;
     }
-    
+
     @Override
     public void getPositions(BlockPos placedPosition, List<BlockPos> positions)
     {
@@ -126,7 +129,8 @@ public class TileEntityLandingPad extends TileEntityMulti implements IMultiBlock
         {
             for (int z = -1; z < 2; z++)
             {
-                if (x == 0 && z == 0) continue;
+                if (x == 0 && z == 0)
+                    continue;
                 positions.add(new BlockPos(placedPosition.getX() + x, y, placedPosition.getZ() + z));
             }
         }
@@ -191,21 +195,21 @@ public class TileEntityLandingPad extends TileEntityMulti implements IMultiBlock
 
         for (int x = this.getPos().getX() - 1; x < this.getPos().getX() + 2; x++)
         {
-        	this.testConnectedTile(x, this.getPos().getZ() - 2, connectedTiles);
-        	this.testConnectedTile(x, this.getPos().getZ() + 2, connectedTiles);
+            this.testConnectedTile(x, this.getPos().getZ() - 2, connectedTiles);
+            this.testConnectedTile(x, this.getPos().getZ() + 2, connectedTiles);
         }
 
-        for (int z = this.getPos().getZ() -1; z < this.getPos().getZ() + 2; z++)
-                {
-        	this.testConnectedTile(this.getPos().getX() - 2, z, connectedTiles);
-        	this.testConnectedTile(this.getPos().getX() + 2, z, connectedTiles);
+        for (int z = this.getPos().getZ() - 1; z < this.getPos().getZ() + 2; z++)
+        {
+            this.testConnectedTile(this.getPos().getX() - 2, z, connectedTiles);
+            this.testConnectedTile(this.getPos().getX() + 2, z, connectedTiles);
         }
 
         return connectedTiles;
     }
-    
+
     private void testConnectedTile(int x, int z, HashSet<ILandingPadAttachable> connectedTiles)
-                    {
+    {
         BlockPos testPos = new BlockPos(x, this.getPos().getY(), z);
         if (!this.world.isBlockLoaded(testPos, false))
             return;
@@ -213,14 +217,14 @@ public class TileEntityLandingPad extends TileEntityMulti implements IMultiBlock
         final TileEntity tile = this.world.getTileEntity(testPos);
 
         if (tile instanceof ILandingPadAttachable && ((ILandingPadAttachable) tile).canAttachToLandingPad(this.world, this.getPos()))
-                        {
-                            connectedTiles.add((ILandingPadAttachable) tile);
-                            if (GalacticraftCore.isPlanetsLoaded && tile instanceof TileEntityLaunchController)
-                            {
-                                ((TileEntityLaunchController) tile).setAttachedPad(this);
-                            }
-                        }
-                    }
+        {
+            connectedTiles.add((ILandingPadAttachable) tile);
+            if (GalacticraftCore.isPlanetsLoaded && tile instanceof TileEntityLaunchController)
+            {
+                ((TileEntityLaunchController) tile).setAttachedPad(this);
+            }
+        }
+    }
 
     @Override
     public EnumCargoLoadingState addCargo(ItemStack stack, boolean doAdd)

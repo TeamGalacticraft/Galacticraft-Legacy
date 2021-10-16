@@ -26,6 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockSolarArrayModule extends BlockAdvanced implements IShiftDescription, IPartialSealableBlock, ISortableBlock, ITileEntityProvider
 {
+
     protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0, 0.375, 0.0, 1.0, 0.625, 1.0);
 
     public BlockSolarArrayModule(String assetName)

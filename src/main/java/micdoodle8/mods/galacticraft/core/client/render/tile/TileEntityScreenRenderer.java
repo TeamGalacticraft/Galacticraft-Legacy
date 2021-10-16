@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.client.render.tile;
 
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityScreen;
+
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -9,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 import java.nio.FloatBuffer;
@@ -16,6 +18,7 @@ import java.nio.FloatBuffer;
 @SideOnly(Side.CLIENT)
 public class TileEntityScreenRenderer extends TileEntitySpecialRenderer<TileEntityScreen>
 {
+
     public static final ResourceLocation blockTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/blocks/screen_side.png");
     private TextureManager renderEngine = FMLClientHandler.instance().getClient().renderEngine;
     private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
@@ -37,37 +40,37 @@ public class TileEntityScreenRenderer extends TileEntitySpecialRenderer<TileEnti
 
         switch (meta)
         {
-        case 0:
-            GL11.glRotatef(180, 1, 0, 0);
-            GL11.glTranslatef(0, -1.0F, -1.0F);
-            break;
-        case 1:
-            break;
-        case 2:
-            GL11.glTranslatef(0.0F, 0.0F, -0.87F);
-            GL11.glRotatef(90, 1.0F, 0, 0);
-            GL11.glTranslatef(0.0F, 0.0F, -1.0F);
-            break;
-        case 3:
-            GL11.glTranslatef(0.0F, 0.0F, 0.87F);
-            GL11.glRotatef(90, -1.0F, 0, 0);
-            GL11.glTranslatef(1.0F, -1.0F, 1.0F);
-            GL11.glRotatef(180, 0, -1.0F, 0);
-            break;
-        case 4:
-            GL11.glTranslatef(-0.87F, 0.0F, 0.0F);
-            GL11.glRotatef(90, 0, 0, -1.0F);
-            GL11.glTranslatef(-1.0F, 0.0F, 1.0F);
-            GL11.glRotatef(90, 0, 1.0F, 0);
-            break;
-        case 5:
-            GL11.glTranslatef(0.87F, 0.0F, 0.0F);
-            GL11.glRotatef(90, 0, 0, 1.0F);
-            GL11.glTranslatef(1.0F, -1.0F, 0.0F);
-            GL11.glRotatef(90, 0, -1.0F, 0);
-            break;
-        default:
-            break;
+            case 0:
+                GL11.glRotatef(180, 1, 0, 0);
+                GL11.glTranslatef(0, -1.0F, -1.0F);
+                break;
+            case 1:
+                break;
+            case 2:
+                GL11.glTranslatef(0.0F, 0.0F, -0.87F);
+                GL11.glRotatef(90, 1.0F, 0, 0);
+                GL11.glTranslatef(0.0F, 0.0F, -1.0F);
+                break;
+            case 3:
+                GL11.glTranslatef(0.0F, 0.0F, 0.87F);
+                GL11.glRotatef(90, -1.0F, 0, 0);
+                GL11.glTranslatef(1.0F, -1.0F, 1.0F);
+                GL11.glRotatef(180, 0, -1.0F, 0);
+                break;
+            case 4:
+                GL11.glTranslatef(-0.87F, 0.0F, 0.0F);
+                GL11.glRotatef(90, 0, 0, -1.0F);
+                GL11.glTranslatef(-1.0F, 0.0F, 1.0F);
+                GL11.glRotatef(90, 0, 1.0F, 0);
+                break;
+            case 5:
+                GL11.glTranslatef(0.87F, 0.0F, 0.0F);
+                GL11.glRotatef(90, 0, 0, 1.0F);
+                GL11.glTranslatef(1.0F, -1.0F, 0.0F);
+                GL11.glRotatef(90, 0, -1.0F, 0);
+                break;
+            default:
+                break;
         }
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -83,7 +86,7 @@ public class TileEntityScreenRenderer extends TileEntitySpecialRenderer<TileEnti
         int totalUD = screen.connectionsUp + screen.connectionsDown;
         if (totalLR > 1 && totalUD > 1 && !cornerblock)
         {
-            //centre block
+            // centre block
             if (screen.connectionsLeft == screen.connectionsRight - (totalLR | 1))
             {
                 if (screen.connectionsUp == screen.connectionsDown - (totalUD | 1))

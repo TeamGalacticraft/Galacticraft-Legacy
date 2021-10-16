@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.client.fx;
 
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
+
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
@@ -15,6 +16,7 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class ParticleOxygen extends Particle
 {
+
     private final float portalParticleScale;
     private final double portalPosX;
     private final double portalPosY;
@@ -65,8 +67,7 @@ public class ParticleOxygen extends Particle
         if (cacheLighting.containsKey(blockpos))
         {
             var2 = cacheLighting.get(blockpos);
-        }
-        else
+        } else
         {
             var2 = this.world.isBlockLoaded(blockpos) ? this.world.getCombinedLight(blockpos, 0) : 0;
             cacheLighting.put(blockpos, var2);
@@ -86,7 +87,7 @@ public class ParticleOxygen extends Particle
         return var4 | var5 << 16;
     }
 
-    //    @Override
+    // @Override
 //    public float getBrightness(float par1)
 //    {
 //        final float var2 = super.getBrightness(par1);

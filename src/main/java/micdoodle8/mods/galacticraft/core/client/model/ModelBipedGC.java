@@ -9,6 +9,7 @@ import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.render.entities.RenderPlayerGC;
 import micdoodle8.mods.galacticraft.core.wrappers.PlayerGearData;
+
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
@@ -21,14 +22,17 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class ModelBipedGC
 {
+
     public static void setRotationAngles(ModelBiped biped, float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
-        if (!(par7Entity instanceof EntityPlayer)) return;
+        if (!(par7Entity instanceof EntityPlayer))
+            return;
         final EntityPlayer player = (EntityPlayer) par7Entity;
         final ItemStack currentItemStack = player.inventory.getCurrentItem();
         final float floatPI = 3.1415927F;
 
-        if (!par7Entity.onGround && par7Entity.world.provider instanceof IGalacticraftWorldProvider && par7Entity.getRidingEntity() == null && !(currentItemStack != null && currentItemStack.getItem() instanceof IHoldableItem))
+        if (!par7Entity.onGround && par7Entity.world.provider instanceof IGalacticraftWorldProvider && par7Entity.getRidingEntity() == null
+            && !(currentItemStack != null && currentItemStack.getItem() instanceof IHoldableItem))
         {
             float speedModifier = 0.1162F * 2;
 

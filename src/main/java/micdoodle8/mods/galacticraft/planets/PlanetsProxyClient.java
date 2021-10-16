@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.planets.asteroids.AsteroidsModuleClient;
 import micdoodle8.mods.galacticraft.planets.mars.MarsModuleClient;
 import micdoodle8.mods.galacticraft.planets.venus.VenusModuleClient;
+
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class PlanetsProxyClient extends PlanetsProxy
 {
+
     private List<Item> itemsToRegisterJson = Lists.newArrayList();
 
     @Override

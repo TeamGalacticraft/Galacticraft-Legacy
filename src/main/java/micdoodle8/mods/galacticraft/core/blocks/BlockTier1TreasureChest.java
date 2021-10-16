@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityTreasureChest;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
@@ -37,6 +38,7 @@ import java.util.Iterator;
 
 public class BlockTier1TreasureChest extends BlockContainer implements ITileEntityProvider, IShiftDescription, ISortableBlock
 {
+
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0625, 0.0, 0.0625, 0.9375, 0.875, 0.9375);
 
@@ -152,27 +154,23 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
         if (!flag && !flag1 && !flag2 && !flag3)
         {
             worldIn.setBlockState(pos, state, 3);
-        }
-        else if (enumfacing.getAxis() == EnumFacing.Axis.X && (flag || flag1))
+        } else if (enumfacing.getAxis() == EnumFacing.Axis.X && (flag || flag1))
         {
             if (flag)
             {
                 worldIn.setBlockState(blockpos1, state, 3);
-            }
-            else
+            } else
             {
                 worldIn.setBlockState(blockpos2, state, 3);
             }
 
             worldIn.setBlockState(pos, state, 3);
-        }
-        else if (enumfacing.getAxis() == EnumFacing.Axis.Z && (flag2 || flag3))
+        } else if (enumfacing.getAxis() == EnumFacing.Axis.Z && (flag2 || flag3))
         {
             if (flag2)
             {
                 worldIn.setBlockState(blockpos3, state, 3);
-            }
-            else
+            } else
             {
                 worldIn.setBlockState(blockpos4, state, 3);
             }
@@ -186,8 +184,7 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
         if (worldIn.isRemote)
         {
             return state;
-        }
-        else
+        } else
         {
             IBlockState iblockstate1 = worldIn.getBlockState(pos.north());
             IBlockState iblockstate2 = worldIn.getBlockState(pos.south());
@@ -215,8 +212,7 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
                     if (block2 == this)
                     {
                         enumfacing2 = (EnumFacing) iblockstate3.getValue(FACING);
-                    }
-                    else
+                    } else
                     {
                         enumfacing2 = (EnumFacing) iblockstate4.getValue(FACING);
                     }
@@ -239,8 +235,7 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
                         enumfacing = EnumFacing.NORTH;
                     }
                 }
-            }
-            else
+            } else
             {
                 BlockPos blockpos1 = block == this ? pos.north() : pos.south();
                 IBlockState iblockstate5 = worldIn.getBlockState(blockpos1.west());
@@ -251,8 +246,7 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
                 if (block == this)
                 {
                     enumfacing1 = (EnumFacing) iblockstate1.getValue(FACING);
-                }
-                else
+                } else
                 {
                     enumfacing1 = (EnumFacing) iblockstate2.getValue(FACING);
                 }
@@ -312,8 +306,7 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
         if (enumfacing != null)
         {
             return state.withProperty(FACING, enumfacing.getOpposite());
-        }
-        else
+        } else
         {
             EnumFacing enumfacing2 = (EnumFacing) state.getValue(FACING);
             IBlockState state1 = worldIn.getBlockState(pos.offset(enumfacing2));
@@ -396,8 +389,7 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
         if (worldIn.getBlockState(pos).getBlock() != this)
         {
             return false;
-        }
-        else
+        } else
         {
             Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
             EnumFacing enumfacing;
@@ -410,8 +402,7 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
                 }
 
                 enumfacing = (EnumFacing) iterator.next();
-            }
-            while (worldIn.getBlockState(pos.offset(enumfacing)).getBlock() != this);
+            } while (worldIn.getBlockState(pos.offset(enumfacing)).getBlock() != this);
 
             return true;
         }
@@ -449,8 +440,7 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
         if (worldIn.isRemote)
         {
             return true;
-        }
-        else
+        } else
         {
             TileEntity tile = worldIn.getTileEntity(pos);
             playerIn.displayGUIChest((IInventory) tile);
@@ -463,14 +453,13 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
     {
         return new TileEntityTreasureChest();
     }
-    
+
     public int isProvidingWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
     {
         if (!this.canProvidePower(state))
         {
             return 0;
-        }
-        else
+        } else
         {
             int i = 0;
             TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -501,7 +490,8 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
 
     private boolean isOcelotSittingOnChest(World worldIn, BlockPos pos)
     {
-        Iterator iterator = worldIn.getEntitiesWithinAABB(EntityOcelot.class, new AxisAlignedBB((double) pos.getX(), (double) (pos.getY() + 1), (double) pos.getZ(), (double) (pos.getX() + 1), (double) (pos.getY() + 2), (double) (pos.getZ() + 1))).iterator();
+        Iterator iterator = worldIn.getEntitiesWithinAABB(EntityOcelot.class,
+            new AxisAlignedBB((double) pos.getX(), (double) (pos.getY() + 1), (double) pos.getZ(), (double) (pos.getX() + 1), (double) (pos.getY() + 2), (double) (pos.getZ() + 1))).iterator();
         EntityOcelot entityocelot;
 
         do
@@ -513,8 +503,7 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
 
             Entity entity = (Entity) iterator.next();
             entityocelot = (EntityOcelot) entity;
-        }
-        while (!entityocelot.isSitting());
+        } while (!entityocelot.isSitting());
 
         return true;
     }

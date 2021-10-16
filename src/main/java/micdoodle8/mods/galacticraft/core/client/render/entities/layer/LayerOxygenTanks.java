@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.model.ModelPlayerGC;
 import micdoodle8.mods.galacticraft.core.wrappers.PlayerGearData;
+
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelRenderer;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class LayerOxygenTanks implements LayerRenderer<AbstractClientPlayer>
 {
+
     private final RenderPlayer playerRenderer;
     public ModelRenderer[] greenOxygenTanks = new ModelRenderer[2];
     public ModelRenderer[] orangeOxygenTanks = new ModelRenderer[2];
@@ -97,8 +99,7 @@ public class LayerOxygenTanks implements LayerRenderer<AbstractClientPlayer>
                     this.redOxygenTanks[1].rotationPointY = 2.0F;
                     this.redOxygenTanks[0].rotationPointZ = 1.6F;
                     this.redOxygenTanks[1].rotationPointZ = 1.6F;
-                }
-                else
+                } else
                 {
                     this.greenOxygenTanks[0].rotationPointY = 0.5F;
                     this.greenOxygenTanks[1].rotationPointY = 0.5F;

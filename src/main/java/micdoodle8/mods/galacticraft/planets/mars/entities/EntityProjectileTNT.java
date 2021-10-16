@@ -12,6 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityProjectileTNT extends EntityFireball
 {
+
     public EntityProjectileTNT(World par1World)
     {
         super(par1World);
@@ -47,10 +48,12 @@ public class EntityProjectileTNT extends EntityFireball
                 float difficulty = 0;
                 switch (this.world.getDifficulty())
                 {
-                case HARD : difficulty = 2F;
-                    break;
-                case NORMAL : difficulty = 1F;
-                    break;
+                    case HARD:
+                        difficulty = 2F;
+                        break;
+                    case NORMAL:
+                        difficulty = 1F;
+                        break;
                 }
                 movingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 6.0F + 3.0F * difficulty);
             }

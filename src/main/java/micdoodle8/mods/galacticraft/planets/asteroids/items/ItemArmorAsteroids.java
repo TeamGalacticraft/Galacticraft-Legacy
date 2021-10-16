@@ -16,11 +16,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemArmorAsteroids extends ItemArmor implements ISortableItem
 {
+
     public ItemArmorAsteroids(EntityEquipmentSlot armorIndex, String assetSuffix)
     {
         super(AsteroidsItems.ARMOR_TITANIUM, 0, armorIndex);
         this.setTranslationKey("titanium_" + assetSuffix);
-        //this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + "titanium_" + assetSuffix);
+        // this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + "titanium_"
+        // + assetSuffix);
     }
 
     @Override
@@ -44,12 +46,10 @@ public class ItemArmorAsteroids extends ItemArmor implements ISortableItem
             if (stack.getItem() == AsteroidsItems.titaniumHelmet)
             {
                 return GalacticraftPlanets.TEXTURE_PREFIX + "textures/model/armor/titanium_1.png";
-            }
-            else if (stack.getItem() == AsteroidsItems.titaniumChestplate || stack.getItem() == AsteroidsItems.titaniumBoots)
+            } else if (stack.getItem() == AsteroidsItems.titaniumChestplate || stack.getItem() == AsteroidsItems.titaniumBoots)
             {
                 return GalacticraftPlanets.TEXTURE_PREFIX + "textures/model/armor/titanium_2.png";
-            }
-            else if (stack.getItem() == AsteroidsItems.titaniumLeggings)
+            } else if (stack.getItem() == AsteroidsItems.titaniumLeggings)
             {
                 return GalacticraftPlanets.TEXTURE_PREFIX + "textures/model/armor/titanium_3.png";
             }
@@ -63,7 +63,7 @@ public class ItemArmorAsteroids extends ItemArmor implements ISortableItem
     {
         return EnumSortCategoryItem.ARMOR;
     }
-    
+
     @Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {

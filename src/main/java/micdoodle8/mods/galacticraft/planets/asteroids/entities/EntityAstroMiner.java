@@ -1,5 +1,12 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.entities;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
+
+import org.lwjgl.opengl.GL11;
+
 import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.api.entity.IAntiGrav;
 import micdoodle8.mods.galacticraft.api.entity.IEntityNoisy;
@@ -13,7 +20,12 @@ import micdoodle8.mods.galacticraft.core.blocks.BlockSpaceGlass;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.network.IPacketReceiver;
 import micdoodle8.mods.galacticraft.core.network.PacketDynamic;
-import micdoodle8.mods.galacticraft.core.util.*;
+import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+import micdoodle8.mods.galacticraft.core.util.GCLog;
+import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+import micdoodle8.mods.galacticraft.core.util.RecipeUtil;
+import micdoodle8.mods.galacticraft.core.util.WorldUtil;
 import micdoodle8.mods.galacticraft.planets.asteroids.blocks.AsteroidBlocks;
 import micdoodle8.mods.galacticraft.planets.asteroids.client.sounds.SoundUpdaterMiner;
 import micdoodle8.mods.galacticraft.planets.asteroids.dimension.WorldProviderAsteroids;
@@ -60,12 +72,9 @@ import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import org.lwjgl.opengl.GL11;
-
-import java.util.*;
-
 public class EntityAstroMiner extends Entity implements IInventory, IPacketReceiver, IEntityNoisy, IAntiGrav, ITelemetry
 {
+
     private static final DataParameter<Float> DAMAGE = EntityDataManager.createKey(EntityAstroMiner.class, DataSerializers.FLOAT);
 
     public static final int MINE_LENGTH = 24;
@@ -118,20 +127,10 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
     public EnumFacing facing;
     private EnumFacing facingAI;
     private EnumFacing lastFacing;
-    private static BlockVec3[] headings = {
-            new BlockVec3(0, -1, 0),
-            new BlockVec3(0, 1, 0),
-            new BlockVec3(0, 0, -1),
-            new BlockVec3(0, 0, 1),
-            new BlockVec3(-1, 0, 0),
-            new BlockVec3(1, 0, 0) };
-    private static BlockVec3[] headings2 = {
-            new BlockVec3(0, -3, 0),
-            new BlockVec3(0, 2, 0),
-            new BlockVec3(0, 0, -3),
-            new BlockVec3(0, 0, 2),
-            new BlockVec3(-3, 0, 0),
-            new BlockVec3(2, 0, 0) };
+    private static BlockVec3[] headings =
+    {new BlockVec3(0, -1, 0), new BlockVec3(0, 1, 0), new BlockVec3(0, 0, -1), new BlockVec3(0, 0, 1), new BlockVec3(-1, 0, 0), new BlockVec3(1, 0, 0)};
+    private static BlockVec3[] headings2 =
+    {new BlockVec3(0, -3, 0), new BlockVec3(0, 2, 0), new BlockVec3(0, 0, -3), new BlockVec3(0, 0, 2), new BlockVec3(-3, 0, 0), new BlockVec3(2, 0, 0)};
 
     private final int baseSafeRadius = 32;
     private final double speedbase = TEMPFAST ? 0.16D : 0.022D;
@@ -139,7 +138,8 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
     private final float rotSpeedBase = TEMPFAST ? 8F : 1.5F;
     private float rotSpeed = rotSpeedBase;
     private double speedup = SPEEDUP;
-    private boolean noSpeedup = false;  //This stops the miner getting stuck at turning points
+    private boolean noSpeedup = false; // This stops the miner getting stuck at
+                                       // turning points
     public float shipDamage;
     public int currentDamage;
     public int timeSinceHit;
@@ -147,8 +147,8 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
     private boolean flagCheckPlayer = false;
     private boolean toAddToServer = AsteroidsTickHandlerServer.loadingSavedChunks.get();
 
-    //To do:
-    //   break the entity drops it as an item
+    // To do:
+    // break the entity drops it as an item
 
     private int turnProgress;
     private double minecartX;
@@ -156,12 +156,9 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
     private double minecartZ;
     private double minecartYaw;
     private double minecartPitch;
-    @SideOnly(Side.CLIENT)
-    private double velocityX;
-    @SideOnly(Side.CLIENT)
-    private double velocityY;
-    @SideOnly(Side.CLIENT)
-    private double velocityZ;
+    @SideOnly(Side.CLIENT) private double velocityX;
+    @SideOnly(Side.CLIENT) private double velocityY;
+    @SideOnly(Side.CLIENT) private double velocityZ;
 
     private int tryBlockLimit;
     private int inventoryDrops;
@@ -183,10 +180,11 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
 
     static
     {
-        //Avoid:
-        // Overworld: avoid lava source blocks, mossy cobble, End Portal and Fortress blocks
+        // Avoid:
+        // Overworld: avoid lava source blocks, mossy cobble, End Portal and
+        // Fortress blocks
         // railtrack, levers, redstone dust, GC walkways,
-        //Anything with a tileEntity will also be avoided:
+        // Anything with a tileEntity will also be avoided:
         // spawners, chests, oxygen pipes, hydrogen pipes, wires
         noMineList.add(Blocks.BEDROCK);
         noMineList.add(Blocks.MOSSY_COBBLESTONE);
@@ -199,8 +197,8 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         noMineList.add(Blocks.LEVER);
         noMineList.add(Blocks.REDSTONE_WIRE);
         noMineList.add(AsteroidBlocks.blockWalkway);
-        //TODO:
-        //Add configurable blacklist
+        // TODO:
+        // Add configurable blacklist
     }
 
     public EntityAstroMiner(World world, NonNullList<ItemStack> cargo, int energy)
@@ -225,7 +223,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
 //        this.dataManager.addObject(this.currentDamage, new Integer(0));
 //        this.dataManager.addObject(this.timeSinceHit, new Integer(0));
         this.noClip = true;
-        
+
         if (world != null && world.isRemote)
         {
             GalacticraftCore.packetPipeline.sendToServer(new PacketDynamic(this));
@@ -283,9 +281,9 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         ItemStack oldstack = ItemStackHelper.getAndRemove(this.stacks, index);
         if (!oldstack.isEmpty())
         {
-        	this.markDirty();
+            this.markDirty();
         }
-    	return oldstack;
+        return oldstack;
     }
 
     @Override
@@ -350,13 +348,13 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         return true;
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void openInventory(EntityPlayer player)
     {
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void closeInventory(EntityPlayer player)
     {
@@ -402,16 +400,15 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 this.stacks.set(i, ItemStack.EMPTY);
                 this.markDirty();
                 return true;
-            }
-            else if (stack.getCount() < sizeprev)
+            } else if (stack.getCount() < sizeprev)
             {
                 this.stacks.set(i, stack);
                 this.markDirty();
-                //Something was transferred although some stacks remaining
+                // Something was transferred although some stacks remaining
                 return true;
             }
         }
-        //No stacks were transferred
+        // No stacks were transferred
         return false;
     }
 
@@ -436,18 +433,19 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
 
         if (this.world.isRemote)
         {
-            //CLIENT CODE
+            // CLIENT CODE
             if (this.turnProgress == 0)
             {
                 this.turnProgress++;
                 if (this.AIstate < AISTATE_TRAVELLING)
                 {
-                    //It should be stationary, so this deals with the spooky movement (due to minor differences between server and client position)
+                    // It should be stationary, so this deals with the spooky
+                    // movement (due to minor differences between server and
+                    // client position)
                     this.posX = this.minecartX;
                     this.posY = this.minecartY;
                     this.posZ = this.minecartZ;
-                }
-                else
+                } else
                 {
                     double diffX = this.minecartX - this.posX;
                     double diffY = this.minecartY - this.posY;
@@ -457,8 +455,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                         this.posX = this.minecartX;
                         this.posY = this.minecartY;
                         this.posZ = this.minecartZ;
-                    }
-                    else
+                    } else
                     {
                         if (Math.abs(diffX) > Math.abs(this.motionX))
                         {
@@ -485,7 +482,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 this.prepareMoveClient(TEMPFAST ? 8 : 1, 2);
             }
 
-            //Sound updates on client
+            // Sound updates on client
             if (this.AIstate < AISTATE_ATBASE)
             {
                 this.stopRocketSound();
@@ -499,7 +496,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             this.serverIndex = AsteroidsTickHandlerServer.monitorMiner(this);
         }
 
-        //SERVER CODE
+        // SERVER CODE
         if (this.ticksExisted % 10 == 0 || this.flagLink)
         {
             this.flagLink = false;
@@ -509,45 +506,43 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 TileEntity tileEntity = posBase.getTileEntity(this.world);
                 if (tileEntity instanceof TileEntityMinerBase && ((TileEntityMinerBase) tileEntity).isMaster && !tileEntity.isInvalid())
                 {
-                    //Create link with base on loading the EntityAstroMiner
+                    // Create link with base on loading the EntityAstroMiner
                     UUID linker = ((TileEntityMinerBase) tileEntity).getLinkedMiner();
                     if (!this.getUniqueID().equals(linker))
                     {
                         if (linker == null)
                         {
                             ((TileEntityMinerBase) tileEntity).linkMiner(this);
-                        }
-                        else
+                        } else
                         {
                             this.freeze(FAIL_ANOTHERWASLINKED);
                             return;
                         }
-                    }
-                    else if (((TileEntityMinerBase) tileEntity).linkedMiner != this)
+                    } else if (((TileEntityMinerBase) tileEntity).linkedMiner != this)
                     {
                         ((TileEntityMinerBase) tileEntity).linkMiner(this);
                     }
-                }
-                else
+                } else
                 {
-					if (this.playerMP != null && (this.givenFailMessage & (1 << FAIL_BASEDESTROYED)) == 0)
-					{
-	                    this.playerMP.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.message.astro_miner" + FAIL_BASEDESTROYED + ".fail")));
-	                    this.givenFailMessage += (1 << FAIL_BASEDESTROYED);
-	                    //Continue mining even though base was destroyed - maybe it will be replaced
+                    if (this.playerMP != null && (this.givenFailMessage & (1 << FAIL_BASEDESTROYED)) == 0)
+                    {
+                        this.playerMP.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.message.astro_miner" + FAIL_BASEDESTROYED + ".fail")));
+                        this.givenFailMessage += (1 << FAIL_BASEDESTROYED);
+                        // Continue mining even though base was destroyed -
+                        // maybe it will be replaced
                     }
                 }
             }
-        }
-        else if (this.flagCheckPlayer)
+        } else if (this.flagCheckPlayer)
         {
             this.checkPlayer();
         }
 
         if (this.playerMP == null)
         {
-            //Go into dormant state if player is offline
-            //but do not actually set the dormant state on the server, so can resume immediately if player comes online
+            // Go into dormant state if player is offline
+            // but do not actually set the dormant state on the server, so can
+            // resume immediately if player comes online
             if (this.motionX != 0 || this.motionY != 0 || this.motionZ != 0)
             {
                 this.motionX = 0;
@@ -557,7 +552,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             }
             return;
         }
-        
+
         if (this.lastFacing != this.facingAI)
         {
             this.lastFacing = this.facingAI;
@@ -574,84 +569,83 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         this.prevPosZ = this.posZ;
         this.prevRotationPitch = this.rotationPitch;
         this.prevRotationYaw = this.rotationYaw;
-        
+
         if (this.AIstate > AISTATE_ATBASE)
         {
             if (this.energyLevel <= 0)
             {
                 this.freeze(FAIL_OUTOFENERGY);
-            }
-            else if (!(this.world.provider instanceof WorldProviderAsteroids) && this.ticksExisted % 2 == 0)
+            } else if (!(this.world.provider instanceof WorldProviderAsteroids) && this.ticksExisted % 2 == 0)
             {
                 this.energyLevel--;
             }
-            //No energy consumption when moving in space in Asteroids dimension (this reduces the risk of the Astro Miner becoming stranded!)
+            // No energy consumption when moving in space in Asteroids dimension
+            // (this reduces the risk of the Astro Miner becoming stranded!)
         }
 
         switch (this.AIstate)
         {
-        case AISTATE_STUCK:
-            //TODO blinking distress light or something?
-            //Attempt to re-start every 30 seconds or so
-            if (this.ticksExisted % 600 == 0)
-            {
-                if ((this.givenFailMessage & 8) > 0)
+            case AISTATE_STUCK:
+                // TODO blinking distress light or something?
+                // Attempt to re-start every 30 seconds or so
+                if (this.ticksExisted % 600 == 0)
                 {
-                    //The base was destroyed - see if it has been replaced?
-                    this.atBase();
-                }
-                else
-                {
-                    //See if the return path has been unblocked, and give a small amount of backup energy to try to get home
-                    this.AIstate = AISTATE_RETURNING;
-                    if (this.energyLevel <= 0)
+                    if ((this.givenFailMessage & 8) > 0)
                     {
-                        this.energyLevel = 20;
+                        // The base was destroyed - see if it has been replaced?
+                        this.atBase();
+                    } else
+                    {
+                        // See if the return path has been unblocked, and give a
+                        // small amount of backup energy to try to get home
+                        this.AIstate = AISTATE_RETURNING;
+                        if (this.energyLevel <= 0)
+                        {
+                            this.energyLevel = 20;
+                        }
                     }
                 }
-            }
-            break;
-        case AISTATE_ATBASE:
-            this.atBase();
-            break;
-        case AISTATE_TRAVELLING:
-            if (!this.moveToTarget())
-            {
-                this.prepareMove(TEMPFAST ? 8 : 2, 2);
-            }
-            break;
-        case AISTATE_MINING:
-            if (!this.doMining() && this.ticksExisted % 2 == 0)
-            {
-                this.energyLevel--;
-                this.prepareMove(TEMPFAST ? 8 : 1, 2);
-            }
-            break;
-        case AISTATE_RETURNING:
-            this.moveToBase();
-            this.prepareMove(TEMPFAST ? 8 : 4, 1);
-            break;
-        case AISTATE_DOCKING:
-            if (this.waypointBase != null)
-            {
-                this.speed = speedbase / 1.6;
-                this.rotSpeed = rotSpeedBase / 1.6F;
-                if (this.moveToPos(this.waypointBase, true))
+                break;
+            case AISTATE_ATBASE:
+                this.atBase();
+                break;
+            case AISTATE_TRAVELLING:
+                if (!this.moveToTarget())
                 {
-                    this.AIstate = AISTATE_ATBASE;
-                    this.motionX = 0;
-                    this.motionY = 0;
-                    this.motionZ = 0;
-                    this.speed = speedbase;
-                    this.rotSpeed = rotSpeedBase;
+                    this.prepareMove(TEMPFAST ? 8 : 2, 2);
                 }
-            }
-            else
-            {
-                GCLog.severe("AstroMiner missing base position: this is a bug.");
-                this.AIstate = AISTATE_STUCK;
-            }
-            break;
+                break;
+            case AISTATE_MINING:
+                if (!this.doMining() && this.ticksExisted % 2 == 0)
+                {
+                    this.energyLevel--;
+                    this.prepareMove(TEMPFAST ? 8 : 1, 2);
+                }
+                break;
+            case AISTATE_RETURNING:
+                this.moveToBase();
+                this.prepareMove(TEMPFAST ? 8 : 4, 1);
+                break;
+            case AISTATE_DOCKING:
+                if (this.waypointBase != null)
+                {
+                    this.speed = speedbase / 1.6;
+                    this.rotSpeed = rotSpeedBase / 1.6F;
+                    if (this.moveToPos(this.waypointBase, true))
+                    {
+                        this.AIstate = AISTATE_ATBASE;
+                        this.motionX = 0;
+                        this.motionY = 0;
+                        this.motionZ = 0;
+                        this.speed = speedbase;
+                        this.rotSpeed = rotSpeedBase;
+                    }
+                } else
+                {
+                    GCLog.error("AstroMiner missing base position: this is a bug.");
+                    this.AIstate = AISTATE_STUCK;
+                }
+                break;
         }
 
         GalacticraftCore.packetPipeline.sendToDimension(new PacketDynamic(this), GCCoreUtil.getDimensionID(this.world));
@@ -661,16 +655,14 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         this.posZ += this.motionZ;
         setEntityBoundingBox(getEntityBoundingBox().offset(this.motionX, this.motionY, this.motionZ));
 
-/*        if (this.dataManager.get(this.timeSinceHit) > 0)
-        {
-            this.dataManager.set(this.timeSinceHit, Integer.valueOf(this.dataManager.get(this.timeSinceHit) - 1));
-        }
-
-        if (this.dataManager.get(this.currentDamage) > 0)
-        {
-            this.dataManager.set(this.currentDamage, Integer.valueOf(this.dataManager.get(this.currentDamage) - 1));
-        }       
-*/
+        /*
+         * if (this.dataManager.get(this.timeSinceHit) > 0) {
+         * this.dataManager.set(this.timeSinceHit,
+         * Integer.valueOf(this.dataManager.get(this.timeSinceHit) - 1)); } if
+         * (this.dataManager.get(this.currentDamage) > 0) {
+         * this.dataManager.set(this.currentDamage,
+         * Integer.valueOf(this.dataManager.get(this.currentDamage) - 1)); }
+         */
     }
 
     private void checkPlayer()
@@ -681,8 +673,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             {
                 this.playerMP = PlayerUtil.getPlayerByUUID(this.playerUUID);
             }
-        }
-        else
+        } else
         {
             if (!PlayerUtil.isPlayerOnline(this.playerMP))
             {
@@ -704,7 +695,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         }
     }
 
-    //packet with AIstate, energy, rotationP + Y, mining data count
+    // packet with AIstate, energy, rotationP + Y, mining data count
     @Override
     public void decodePacketdata(ByteBuf buffer)
     {
@@ -765,7 +756,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             return EnumFacing.DOWN;
         }
         float rY = this.rotationYaw % 360F;
-        //rotationYaw 5 90 4 270 2 180 3 0
+        // rotationYaw 5 90 4 270 2 180 3 0
         if (rY < 45F || rY > 315F)
         {
             return EnumFacing.SOUTH;
@@ -792,7 +783,8 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         }
 
         TileEntityMinerBase minerBase = (TileEntityMinerBase) tileEntity;
-        //If it's successfully reached its base, clear all fail messages except number 6, which is that all mining areas are finished (see below)
+        // If it's successfully reached its base, clear all fail messages except
+        // number 6, which is that all mining areas are finished (see below)
         this.givenFailMessage &= 64;
         this.wayPoints.clear();
 
@@ -819,8 +811,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 this.AIstate = AISTATE_TRAVELLING;
                 this.wayPoints.add(this.waypointBase.clone());
                 this.mineCount = 0;
-            }
-            else
+            } else
             {
                 if (this.playerMP != null && (this.givenFailMessage & 64) == 0)
                 {
@@ -845,7 +836,8 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
 
     private boolean findNextTarget(TileEntityMinerBase minerBase)
     {
-        //If mining has finished, or path has been blocked two or more times, try mining elsewhere
+        // If mining has finished, or path has been blocked two or more times,
+        // try mining elsewhere
         if (!this.minePoints.isEmpty() && this.pathBlockedCount < 2)
         {
             this.posTarget = this.minePoints.getFirst().clone();
@@ -857,7 +849,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         this.posTarget = minerBase.findNextTarget();
         this.pathBlockedCount = 0;
 
-        //No more mining targets, the whole area is mined
+        // No more mining targets, the whole area is mined
         if (this.posTarget == null)
         {
             return false;
@@ -882,7 +874,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
 
         if (this.posTarget == null)
         {
-            GCLog.severe("AstroMiner missing target: this is a bug.");
+            GCLog.error("AstroMiner missing target: this is a bug.");
             AIstate = AISTATE_STUCK;
             return true;
         }
@@ -902,11 +894,11 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
     {
         if (this.wayPoints.size() == 0)
         {
-            //When it gets there: stop and reverse in!
+            // When it gets there: stop and reverse in!
             AIstate = AISTATE_DOCKING;
             if (this.waypointBase != null)
             {
-                //Teleport back to base in case of any serious problem
+                // Teleport back to base in case of any serious problem
                 this.setPosition(this.waypointBase.x, this.waypointBase.y, this.waypointBase.z);
                 this.facingAI = this.baseFacing;
             }
@@ -921,7 +913,8 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
 
     private void setMinePoints()
     {
-        //Still some areas left to mine from last visit (maybe it was full or out of power?)
+        // Still some areas left to mine from last visit (maybe it was full or
+        // out of power?)
         if (this.minePoints.size() > 0)
         {
             return;
@@ -935,40 +928,40 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         }
         switch (this.baseFacing)
         {
-        case NORTH:
-        case SOUTH:
-            this.minePoints.add(inFront.clone().translate(0, 0, otherEnd));
-            this.minePoints.add(inFront.clone().translate(4, 0, otherEnd));
-            this.minePoints.add(inFront.clone().translate(4, 0, 0));
-            this.minePoints.add(inFront.clone().translate(2, 3, 0));
-            this.minePoints.add(inFront.clone().translate(2, 3, otherEnd));
-            this.minePoints.add(inFront.clone().translate(-2, 3, otherEnd));
-            this.minePoints.add(inFront.clone().translate(-2, 3, 0));
-            this.minePoints.add(inFront.clone().translate(-4, 0, 0));
-            this.minePoints.add(inFront.clone().translate(-4, 0, otherEnd));
-            this.minePoints.add(inFront.clone().translate(-2, -3, otherEnd));
-            this.minePoints.add(inFront.clone().translate(-2, -3, 0));
-            this.minePoints.add(inFront.clone().translate(2, -3, 0));
-            this.minePoints.add(inFront.clone().translate(2, -3, otherEnd));
-            this.minePoints.add(inFront.clone().translate(0, 0, otherEnd));
-            break;
-        case WEST:
-        case EAST:
-            this.minePoints.add(inFront.clone().translate(otherEnd, 0, 0));
-            this.minePoints.add(inFront.clone().translate(otherEnd, 0, 4));
-            this.minePoints.add(inFront.clone().translate(0, 0, 4));
-            this.minePoints.add(inFront.clone().translate(0, 3, 2));
-            this.minePoints.add(inFront.clone().translate(otherEnd, 3, 2));
-            this.minePoints.add(inFront.clone().translate(otherEnd, 3, -2));
-            this.minePoints.add(inFront.clone().translate(0, 3, -2));
-            this.minePoints.add(inFront.clone().translate(0, 0, -4));
-            this.minePoints.add(inFront.clone().translate(otherEnd, 0, -4));
-            this.minePoints.add(inFront.clone().translate(otherEnd, -3, -2));
-            this.minePoints.add(inFront.clone().translate(0, -3, -2));
-            this.minePoints.add(inFront.clone().translate(0, -3, 2));
-            this.minePoints.add(inFront.clone().translate(otherEnd, -3, 2));
-            this.minePoints.add(inFront.clone().translate(otherEnd, 0, 0));
-            break;
+            case NORTH:
+            case SOUTH:
+                this.minePoints.add(inFront.clone().translate(0, 0, otherEnd));
+                this.minePoints.add(inFront.clone().translate(4, 0, otherEnd));
+                this.minePoints.add(inFront.clone().translate(4, 0, 0));
+                this.minePoints.add(inFront.clone().translate(2, 3, 0));
+                this.minePoints.add(inFront.clone().translate(2, 3, otherEnd));
+                this.minePoints.add(inFront.clone().translate(-2, 3, otherEnd));
+                this.minePoints.add(inFront.clone().translate(-2, 3, 0));
+                this.minePoints.add(inFront.clone().translate(-4, 0, 0));
+                this.minePoints.add(inFront.clone().translate(-4, 0, otherEnd));
+                this.minePoints.add(inFront.clone().translate(-2, -3, otherEnd));
+                this.minePoints.add(inFront.clone().translate(-2, -3, 0));
+                this.minePoints.add(inFront.clone().translate(2, -3, 0));
+                this.minePoints.add(inFront.clone().translate(2, -3, otherEnd));
+                this.minePoints.add(inFront.clone().translate(0, 0, otherEnd));
+                break;
+            case WEST:
+            case EAST:
+                this.minePoints.add(inFront.clone().translate(otherEnd, 0, 0));
+                this.minePoints.add(inFront.clone().translate(otherEnd, 0, 4));
+                this.minePoints.add(inFront.clone().translate(0, 0, 4));
+                this.minePoints.add(inFront.clone().translate(0, 3, 2));
+                this.minePoints.add(inFront.clone().translate(otherEnd, 3, 2));
+                this.minePoints.add(inFront.clone().translate(otherEnd, 3, -2));
+                this.minePoints.add(inFront.clone().translate(0, 3, -2));
+                this.minePoints.add(inFront.clone().translate(0, 0, -4));
+                this.minePoints.add(inFront.clone().translate(otherEnd, 0, -4));
+                this.minePoints.add(inFront.clone().translate(otherEnd, -3, -2));
+                this.minePoints.add(inFront.clone().translate(0, -3, -2));
+                this.minePoints.add(inFront.clone().translate(0, -3, 2));
+                this.minePoints.add(inFront.clone().translate(otherEnd, -3, 2));
+                this.minePoints.add(inFront.clone().translate(otherEnd, 0, 0));
+                break;
         }
     }
 
@@ -1005,26 +998,24 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             this.AIstate = AISTATE_DOCKING;
             switch (this.baseFacing)
             {
-            case NORTH:
-                this.targetYaw = 180;
-                break;
-            case SOUTH:
-                this.targetYaw = 0;
-                break;
-            case WEST:
-                this.targetYaw = 270;
-                break;
-            case EAST:
-                this.targetYaw = 90;
-                break;
+                case NORTH:
+                    this.targetYaw = 180;
+                    break;
+                case SOUTH:
+                    this.targetYaw = 0;
+                    break;
+                case WEST:
+                    this.targetYaw = 270;
+                    break;
+                case EAST:
+                    this.targetYaw = 90;
+                    break;
             }
-        }
-        else
+        } else
         {
             this.freeze(FAIL_RETURNPATHBLOCKED);
         }
     }
-
 
     /**
      * Mine out the area in front of the miner (dist blocks from miner centre)
@@ -1044,8 +1035,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         if (dist == 2)
         {
             inFront.translate(headings2[this.facingAI.getIndex()]);
-        }
-        else
+        } else
         {
             if ((this.facingAI.getIndex() & 1) == EnumFacing.DOWN.getIndex())
             {
@@ -1068,7 +1058,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         int y = inFront.y;
         int z = inFront.z;
 
-        //Test not trying to mine own dock!
+        // Test not trying to mine own dock!
         if (y == this.waypointBase.y && x == this.waypointBase.x - ((this.baseFacing == EnumFacing.EAST) ? 1 : 0) && z == this.waypointBase.z - ((this.baseFacing == EnumFacing.SOUTH) ? 1 : 0))
         {
             this.tryBackIn();
@@ -1077,166 +1067,169 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         boolean wayBarred = false;
         this.tryBlockLimit = limit;
 
-        //Check not obstructed by something immovable e.g. bedrock
-        //Mine out the 12 blocks in front of it in direction of travel when getting close
-        //There are 12 blocks around ... and 12 in front.  One block per tick?
-        //(That means can move at 5/6 block per second when mining, and 1.67 bps when traveling)
+        // Check not obstructed by something immovable e.g. bedrock
+        // Mine out the 12 blocks in front of it in direction of travel when
+        // getting close
+        // There are 12 blocks around ... and 12 in front. One block per tick?
+        // (That means can move at 5/6 block per second when mining, and 1.67
+        // bps when traveling)
         BlockPos pos = new BlockPos(x, y, z);
         switch (EnumFacing.byIndex(this.facingAI.getIndex() & 6))
         {
-        case DOWN:
-            if (tryMineBlock(pos))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(1, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(1, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, 0, -2)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-1, 0, -2)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-1, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-2, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-2, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-1, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-1, 0, 1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, 0, 1)))
-            {
-                wayBarred = true;
-            }
-            break;
-        case NORTH:
-            if (tryMineBlock(pos.add(0, -2, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-1, -2, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-1, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(1, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-2, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(1, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-2, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-1, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, 1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(-1, 1, 0)))
-            {
-                wayBarred = true;
-            }
-            break;
-        case WEST:
-            if (tryMineBlock(pos.add(0, -2, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, -1, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, -1, +1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, -1, -2)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, 0, 1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, 0, -2)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, -2, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, 1, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos))
-            {
-                wayBarred = true;
-            }
-            if (tryMineBlock(pos.add(0, 1, 0)))
-            {
-                wayBarred = true;
-            }
-            break;
+            case DOWN:
+                if (tryMineBlock(pos))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(1, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(1, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, 0, -2)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-1, 0, -2)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-1, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-2, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-2, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-1, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-1, 0, 1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, 0, 1)))
+                {
+                    wayBarred = true;
+                }
+                break;
+            case NORTH:
+                if (tryMineBlock(pos.add(0, -2, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-1, -2, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-1, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(1, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-2, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(1, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-2, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-1, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, 1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(-1, 1, 0)))
+                {
+                    wayBarred = true;
+                }
+                break;
+            case WEST:
+                if (tryMineBlock(pos.add(0, -2, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, -1, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, -1, +1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, -1, -2)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, 0, 1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, 0, -2)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, -2, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, 1, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos))
+                {
+                    wayBarred = true;
+                }
+                if (tryMineBlock(pos.add(0, 1, 0)))
+                {
+                    wayBarred = true;
+                }
+                break;
         }
 
-        //If it is obstructed, return to base, or stand still if that is impossible
+        // If it is obstructed, return to base, or stand still if that is
+        // impossible
         if (wayBarred)
         {
             if (this.playerMP != null && blockingBlock.block != Blocks.AIR)
@@ -1244,8 +1237,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 if (blockingBlock.block == Blocks.STONE)
                 {
                     this.playerMP.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.message.astro_miner1_a.fail") + " " + GCCoreUtil.translate("gui.message.astro_miner1_b.fail")));
-                }
-                else
+                } else
                 {
                     this.playerMP.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.message.astro_miner1_a.fail") + " " + GCCoreUtil.translate(EntityAstroMiner.blockingBlock.toString())));
                 }
@@ -1257,17 +1249,14 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             if (this.AIstate == AISTATE_TRAVELLING)
             {
                 this.AIstate = AISTATE_RETURNING;
-            }
-            else if (AIstate == AISTATE_MINING)
+            } else if (AIstate == AISTATE_MINING)
             {
                 this.pathBlockedCount++;
                 this.AIstate = AISTATE_RETURNING;
-            }
-            else if (this.AIstate == AISTATE_RETURNING)
+            } else if (this.AIstate == AISTATE_RETURNING)
             {
                 this.tryBackIn();
-            }
-            else
+            } else
             {
                 this.freeze(FAIL_RETURNPATHBLOCKED);
             }
@@ -1290,8 +1279,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         if (dist == 2)
         {
             inFront.translate(headings2[this.facing.getIndex()]);
-        }
-        else
+        } else
         {
             if ((this.facing.getIndex() & 1) == EnumFacing.DOWN.getIndex())
             {
@@ -1314,166 +1302,169 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         boolean wayBarred = false;
         this.tryBlockLimit = limit;
 
-        //Check not obstructed by something immovable e.g. bedrock
-        //Mine out the 12 blocks in front of it in direction of travel when getting close
-        //There are 12 blocks around ... and 12 in front.  One block per tick?
-        //(That means can move at 5/6 block per second when mining, and 1.67 bps when traveling)
+        // Check not obstructed by something immovable e.g. bedrock
+        // Mine out the 12 blocks in front of it in direction of travel when
+        // getting close
+        // There are 12 blocks around ... and 12 in front. One block per tick?
+        // (That means can move at 5/6 block per second when mining, and 1.67
+        // bps when traveling)
         BlockPos pos = new BlockPos(x, y, z);
         switch (EnumFacing.byIndex(this.facing.getIndex() & 6))
         {
-        case DOWN:
-            if (tryBlockClient(pos))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(1, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(1, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, 0, -2)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-1, 0, -2)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-1, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-2, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-2, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-1, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-1, 0, 1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, 0, 1)))
-            {
-                wayBarred = true;
-            }
-            break;
-        case NORTH:
-            if (tryBlockClient(pos.add(0, -2, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-1, -2, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-1, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(1, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-2, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(1, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-2, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-1, 0, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, 1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(-1, 1, 0)))
-            {
-                wayBarred = true;
-            }
-            break;
-        case WEST:
-            if (tryBlockClient(pos.add(0, -2, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, -1, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, -1, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, -1, +1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, -1, -2)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, 0, 1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, 0, -2)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, 0, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, -2, 0)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, 1, -1)))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos))
-            {
-                wayBarred = true;
-            }
-            if (tryBlockClient(pos.add(0, 1, 0)))
-            {
-                wayBarred = true;
-            }
-            break;
+            case DOWN:
+                if (tryBlockClient(pos))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(1, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(1, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, 0, -2)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-1, 0, -2)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-1, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-2, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-2, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-1, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-1, 0, 1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, 0, 1)))
+                {
+                    wayBarred = true;
+                }
+                break;
+            case NORTH:
+                if (tryBlockClient(pos.add(0, -2, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-1, -2, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-1, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(1, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-2, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(1, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-2, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-1, 0, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, 1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(-1, 1, 0)))
+                {
+                    wayBarred = true;
+                }
+                break;
+            case WEST:
+                if (tryBlockClient(pos.add(0, -2, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, -1, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, -1, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, -1, +1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, -1, -2)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, 0, 1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, 0, -2)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, 0, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, -2, 0)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, 1, -1)))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos))
+                {
+                    wayBarred = true;
+                }
+                if (tryBlockClient(pos.add(0, 1, 0)))
+                {
+                    wayBarred = true;
+                }
+                break;
         }
 
-        //If it is obstructed, return to base, or stand still if that is impossible
+        // If it is obstructed, return to base, or stand still if that is
+        // impossible
         if (wayBarred)
         {
             this.tryBlockLimit = 0;
@@ -1489,8 +1480,9 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
 
     private boolean tryMineBlock(BlockPos pos)
     {
-        //Check things to avoid in front of it (see static list for list) including base type things
-        //Can move through liquids including flowing lava
+        // Check things to avoid in front of it (see static list for list)
+        // including base type things
+        // Can move through liquids including flowing lava
         IBlockState state = this.world.getBlockState(pos);
         Block b = state.getBlock();
         if (b.getMaterial(state) == Material.AIR)
@@ -1539,8 +1531,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 if (CompatibilityManager.isGTLoaded() && gregTechCheck(b))
                 {
                     gtFlag = true;
-                }
-                else
+                } else
                 {
                     blockingBlock.block = b;
                     blockingBlock.meta = meta;
@@ -1562,14 +1553,15 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         }
 
         this.tryBlockLimit--;
-        
-        //Collect the mined block - unless it's a plant or leaves in which case just break it
+
+        // Collect the mined block - unless it's a plant or leaves in which case
+        // just break it
         if (!((b instanceof IPlantable && !(b instanceof BlockReed)) || b instanceof BlockLeaves))
         {
-		    ItemStack drops = gtFlag ? getGTDrops(this.world, pos, b) : getPickBlock(this.world, pos, b);
-		    if (drops != null && !this.addToInventory(drops))
+            ItemStack drops = gtFlag ? getGTDrops(this.world, pos, b) : getPickBlock(this.world, pos, b);
+            if (drops != null && !this.addToInventory(drops))
             {
-                //drop itemstack if AstroMiner can't hold it
+                // drop itemstack if AstroMiner can't hold it
                 dropStack(pos, drops);
             }
         }
@@ -1614,7 +1606,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             return false;
         }
 
-        //Add minable blocks to the laser fx list
+        // Add minable blocks to the laser fx list
         IBlockState state = this.world.getBlockState(pos);
         Block b = state.getBlock();
         if (b.getMaterial(state) == Material.AIR)
@@ -1653,7 +1645,6 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         return false;
     }
 
-
     public void removeLaserBlocks(int removeCount)
     {
         for (int i = 0; i < removeCount; i++)
@@ -1682,7 +1673,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             GCLog.info("AstroMiner was unable to mine anything from: " + b.getTranslationKey());
             return null;
         }
-            
+
         if (item.getHasSubtypes())
         {
             i = b.getMetaFromState(world.getBlockState(pos));
@@ -1714,8 +1705,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                         itemstack.setCount(0);
                         itemstack1.setCount(l);
                         flag1 = true;
-                    }
-                    else if (itemstack1.getCount() < itemstack.getMaxStackSize())
+                    } else if (itemstack1.getCount() < itemstack.getMaxStackSize())
                     {
                         itemstack.shrink(itemstack.getMaxStackSize() - itemstack1.getCount());
                         itemstack1.setCount(itemstack.getMaxStackSize());
@@ -1755,13 +1745,13 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         return flag1;
     }
 
-
     /**
      * Logic to move the miner to a given position
      *
      * @param pos
      * @param reverse True if returning home (re-use same tunnels)
-     * @return False while the miner is en route, True when the position is reached
+     * @return False while the miner is en route, True when the position is
+     *         reached
      */
     private boolean moveToPos(BlockVec3 pos, boolean reverse)
     {
@@ -1774,62 +1764,61 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 this.moveToPosZ(pos.z, stopForTurn);
                 if (TEMPDEBUG)
                 {
-                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving Z to " + pos.toString() + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
+                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving Z to " + pos.toString()
+                        + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
                 }
-            }
-            else if (this.posY > pos.y - 0.9999D || this.posY < pos.y - 1.0001D)
+            } else if (this.posY > pos.y - 0.9999D || this.posY < pos.y - 1.0001D)
             {
                 this.moveToPosY(pos.y - 1, stopForTurn);
                 if (TEMPDEBUG)
                 {
-                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving Y to " + pos.toString() + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
+                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving Y to " + pos.toString()
+                        + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
                 }
-            }
-            else if (this.posX > pos.x + 0.0001D || this.posX < pos.x - 0.0001D)
+            } else if (this.posX > pos.x + 0.0001D || this.posX < pos.x - 0.0001D)
             {
                 this.moveToPosX(pos.x, stopForTurn);
                 if (TEMPDEBUG)
                 {
-                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving X to " + pos.toString() + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
+                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving X to " + pos.toString()
+                        + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
                 }
-            }
-            else
+            } else
             {
                 return true;
             }
-            //got there
-        }
-        else
+            // got there
+        } else
         {
             if (this.posX > pos.x + 0.0001D || this.posX < pos.x - 0.0001D)
             {
                 this.moveToPosX(pos.x, stopForTurn);
                 if (TEMPDEBUG)
                 {
-                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving X to " + pos.toString() + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
+                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving X to " + pos.toString()
+                        + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
                 }
-            }
-            else if (this.posY > pos.y - 0.9999D || this.posY < pos.y - 1.0001D)
+            } else if (this.posY > pos.y - 0.9999D || this.posY < pos.y - 1.0001D)
             {
                 this.moveToPosY(pos.y - 1, stopForTurn);
                 if (TEMPDEBUG)
                 {
-                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving Y to " + pos.toString() + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
+                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving Y to " + pos.toString()
+                        + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
                 }
-            }
-            else if (this.posZ > pos.z + 0.0001D || this.posZ < pos.z - 0.0001D)
+            } else if (this.posZ > pos.z + 0.0001D || this.posZ < pos.z - 0.0001D)
             {
                 this.moveToPosZ(pos.z, stopForTurn);
                 if (TEMPDEBUG)
                 {
-                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving Z to " + pos.toString() + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
+                    GCLog.debug("At " + posX + "," + posY + "," + posZ + "Moving Z to " + pos.toString()
+                        + (stopForTurn ? " : Stop for turn " + this.rotationPitch + "," + this.rotationYaw + " | " + this.targetPitch + "," + this.targetYaw : ""));
                 }
-            }
-            else
+            } else
             {
                 return true;
             }
-            //got there
+            // got there
         }
 
         return false;
@@ -1846,15 +1835,14 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 this.targetYaw = 270;
             }
             this.motionX = -this.speed;
-            //TODO some acceleration and deceleration
+            // TODO some acceleration and deceleration
             if (this.motionX * speedup <= x - this.posX)
             {
                 this.motionX = x - this.posX;
                 this.noSpeedup = true;
             }
             this.facingAI = EnumFacing.WEST;
-        }
-        else
+        } else
         {
             if (this.AIstate != AISTATE_DOCKING)
             {
@@ -1890,8 +1878,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 this.noSpeedup = true;
             }
             this.facingAI = EnumFacing.DOWN;
-        }
-        else
+        } else
         {
             this.targetPitch = 90;
             this.motionY = this.speed;
@@ -1923,15 +1910,14 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 this.targetYaw = 180;
             }
             this.motionZ = -this.speed;
-            //TODO some acceleration and deceleration
+            // TODO some acceleration and deceleration
             if (this.motionZ * speedup <= z - this.posZ)
             {
                 this.motionZ = z - this.posZ;
                 this.noSpeedup = true;
             }
             this.facingAI = EnumFacing.NORTH;
-        }
-        else
+        } else
         {
             if (this.AIstate != AISTATE_DOCKING)
             {
@@ -1958,14 +1944,13 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
     private boolean checkRotation()
     {
         boolean flag = true;
-        //Handle the turns when it changes direction
+        // Handle the turns when it changes direction
         if (this.rotationPitch > this.targetPitch + 0.001F || this.rotationPitch < this.targetPitch - 0.001F)
         {
             if (this.rotationPitch > this.targetPitch + 180)
             {
                 this.rotationPitch -= 360;
-            }
-            else if (this.rotationPitch < this.targetPitch - 180)
+            } else if (this.rotationPitch < this.targetPitch - 180)
             {
                 this.rotationPitch += 360;
             }
@@ -1977,8 +1962,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 {
                     this.rotationPitch = this.targetPitch;
                 }
-            }
-            else
+            } else
             {
                 this.rotationPitch += this.rotSpeed;
                 if (this.rotationPitch > this.targetPitch)
@@ -1993,8 +1977,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             if (this.rotationYaw > this.targetYaw + 180)
             {
                 this.rotationYaw -= 360;
-            }
-            else if (this.rotationYaw < this.targetYaw - 180)
+            } else if (this.rotationYaw < this.targetYaw - 180)
             {
                 this.rotationYaw += 360;
             }
@@ -2006,8 +1989,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 {
                     this.rotationYaw = this.targetYaw;
                 }
-            }
-            else
+            } else
             {
                 this.rotationYaw += this.rotSpeed;
                 if (this.rotationYaw > this.targetYaw)
@@ -2055,18 +2037,18 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         miner.targetPitch = 0;
         switch (facing)
         {
-        case NORTH:
-            miner.targetYaw = 180;
-            break;
-        case SOUTH:
-            miner.targetYaw = 0;
-            break;
-        case WEST:
-            miner.targetYaw = 270;
-            break;
-        case EAST:
-            miner.targetYaw = 90;
-            break;
+            case NORTH:
+                miner.targetYaw = 180;
+                break;
+            case SOUTH:
+                miner.targetYaw = 0;
+                break;
+            case WEST:
+                miner.targetYaw = 270;
+                break;
+            case EAST:
+                miner.targetYaw = 90;
+                break;
         }
         miner.rotationPitch = miner.targetPitch;
         miner.rotationYaw = miner.targetYaw;
@@ -2074,10 +2056,11 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         miner.AIstate = AISTATE_ATBASE;
         miner.posBase = base;
 
-        //Increase motion speed when moving in empty space between asteroids
+        // Increase motion speed when moving in empty space between asteroids
         miner.speedup = (world.provider instanceof WorldProviderAsteroids) ? SPEEDUP * 2.2D : SPEEDUP;
 
-        //Clear blocks, and test to see if its movement area in front of the base is blocked
+        // Clear blocks, and test to see if its movement area in front of the
+        // base is blocked
         if (miner.prepareMove(12, 0))
         {
             miner.isDead = true;
@@ -2112,25 +2095,25 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         float zsize = cWIDTH;
         switch (this.facing)
         {
-        case DOWN:
-        case UP:
-            ysize = cLENGTH;
-            break;
-        case NORTH:
-        case SOUTH:
-            ysize = cHEIGHT;
-            zsize = cLENGTH;
-            break;
-        case WEST:
-        case EAST:
-            ysize = cHEIGHT;
-            xsize = cLENGTH;
-            break;
+            case DOWN:
+            case UP:
+                ysize = cLENGTH;
+                break;
+            case NORTH:
+            case SOUTH:
+                ysize = cHEIGHT;
+                zsize = cLENGTH;
+                break;
+            case WEST:
+            case EAST:
+                ysize = cHEIGHT;
+                xsize = cLENGTH;
+                break;
         }
         this.width = Math.max(xsize, zsize);
         this.height = ysize;
-        this.setEntityBoundingBox(new AxisAlignedBB(this.posX - xsize / 2D, this.posY + 1D - ysize / 2D, this.posZ - zsize / 2D,
-                this.posX + xsize / 2D, this.posY + 1D + ysize / 2D, this.posZ + zsize / 2D));
+        this.setEntityBoundingBox(
+            new AxisAlignedBB(this.posX - xsize / 2D, this.posY + 1D - ysize / 2D, this.posZ - zsize / 2D, this.posX + xsize / 2D, this.posY + 1D + ysize / 2D, this.posZ + zsize / 2D));
     }
 
     @Override
@@ -2145,7 +2128,8 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         {
             Entity e = par1DamageSource.getTrueSource();
 
-            //If creative mode player, kill the entity (even if player owner is offline) and drop nothing
+            // If creative mode player, kill the entity (even if player owner is
+            // offline) and drop nothing
             if (e instanceof EntityPlayer && ((EntityPlayer) e).capabilities.isCreativeMode)
             {
                 if (this.playerMP == null && !this.spawnedInCreative)
@@ -2156,12 +2140,11 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
                 return true;
             }
 
-            //Invulnerable to mobs
+            // Invulnerable to mobs
             if (this.isEntityInvulnerable() || (e instanceof EntityLivingBase && !(e instanceof EntityPlayer)))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.markVelocityChanged();
 //                this.dataManager.set(this.timeSinceHit, Integer.valueOf(10));
@@ -2183,8 +2166,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
 
                 return true;
             }
-        }
-        else
+        } else
         {
             return true;
         }
@@ -2193,7 +2175,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
     @Override
     public AxisAlignedBB getCollisionBox(Entity par1Entity)
     {
-        return null;  //AstroMiners aren't stopped by any other entity
+        return null; // AstroMiners aren't stopped by any other entity
     }
 
     @Override
@@ -2315,7 +2297,8 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
 
     public boolean isEntityInvulnerable()
     {
-        //Can't be damaged if its player is offline - it's in a fully dormant state
+        // Can't be damaged if its player is offline - it's in a fully dormant
+        // state
         return this.playerMP == null;
     }
 
@@ -2397,27 +2380,27 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         str[4] = GCCoreUtil.translate("gui.energy_storage.desc.1") + ": " + energyPerCent + "%";
         switch (data[4])
         {
-        case EntityAstroMiner.AISTATE_STUCK:
-            str[0] = GCCoreUtil.translate("gui.message.no_energy.name");
-            break;
-        case EntityAstroMiner.AISTATE_ATBASE:
-            str[0] = GCCoreUtil.translate("gui.miner.docked");
-            break;
-        case EntityAstroMiner.AISTATE_TRAVELLING:
-            str[0] = GCCoreUtil.translate("gui.miner.travelling");
-            break;
-        case EntityAstroMiner.AISTATE_MINING:
-            str[0] = GCCoreUtil.translate("gui.miner.mining");
-            break;
-        case EntityAstroMiner.AISTATE_RETURNING:
-            str[0] = GCCoreUtil.translate("gui.miner.returning");
-            break;
-        case EntityAstroMiner.AISTATE_DOCKING:
-            str[0] = GCCoreUtil.translate("gui.miner.docking");
-            break;
-        case EntityAstroMiner.AISTATE_OFFLINE:
-            str[0] = GCCoreUtil.translate("gui.miner.offline");
-            break;
+            case EntityAstroMiner.AISTATE_STUCK:
+                str[0] = GCCoreUtil.translate("gui.message.no_energy.name");
+                break;
+            case EntityAstroMiner.AISTATE_ATBASE:
+                str[0] = GCCoreUtil.translate("gui.miner.docked");
+                break;
+            case EntityAstroMiner.AISTATE_TRAVELLING:
+                str[0] = GCCoreUtil.translate("gui.miner.travelling");
+                break;
+            case EntityAstroMiner.AISTATE_MINING:
+                str[0] = GCCoreUtil.translate("gui.miner.mining");
+                break;
+            case EntityAstroMiner.AISTATE_RETURNING:
+                str[0] = GCCoreUtil.translate("gui.miner.returning");
+                break;
+            case EntityAstroMiner.AISTATE_DOCKING:
+                str[0] = GCCoreUtil.translate("gui.miner.docking");
+                break;
+            case EntityAstroMiner.AISTATE_OFFLINE:
+                str[0] = GCCoreUtil.translate("gui.miner.offline");
+                break;
         }
     }
 
@@ -2435,19 +2418,18 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         int itemCount = 0;
         for (ItemStack stack : this.stacks)
         {
-        	itemCount += stack.getCount();
+            itemCount += stack.getCount();
         }
         this.mineCount = itemCount;
 
         if (nbt.hasKey("sindex"))
         {
             this.serverIndex = nbt.getInteger("sindex");
-        }
-        else
+        } else
         {
             this.serverIndex = -1;
         }
-        
+
         if (nbt.hasKey("Energy"))
         {
             this.energyLevel = nbt.getInteger("Energy");
@@ -2478,18 +2460,18 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
             this.facingAI = EnumFacing.byIndex(nbt.getInteger("Facing"));
             switch (this.facingAI)
             {
-            case NORTH:
-                this.targetYaw = 180;
-                break;
-            case SOUTH:
-                this.targetYaw = 0;
-                break;
-            case WEST:
-                this.targetYaw = 270;
-                break;
-            case EAST:
-                this.targetYaw = 90;
-                break;
+                case NORTH:
+                    this.targetYaw = 180;
+                    break;
+                case SOUTH:
+                    this.targetYaw = 0;
+                    break;
+                case WEST:
+                    this.targetYaw = 270;
+                    break;
+                case EAST:
+                    this.targetYaw = 90;
+                    break;
             }
         }
         this.lastFacing = null;
@@ -2516,24 +2498,21 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         if (nbt.hasKey("MinePointCurrent"))
         {
             this.minePointCurrent = BlockVec3.readFromNBT(nbt.getCompoundTag("MinePointCurrent"));
-        }
-        else
+        } else
         {
             this.minePointCurrent = null;
         }
         if (nbt.hasKey("playerUUIDMost", 4) && nbt.hasKey("playerUUIDLeast", 4))
         {
             this.playerUUID = new UUID(nbt.getLong("playerUUIDMost"), nbt.getLong("playerUUIDLeast"));
-        }
-        else
+        } else
         {
             this.playerUUID = null;
         }
         if (nbt.hasKey("speedup"))
         {
             this.speedup = nbt.getDouble("speedup");
-        }
-        else
+        } else
         {
             this.speedup = (WorldUtil.getProviderForDimensionServer(this.dimension) instanceof WorldProviderAsteroids) ? SPEEDUP * 1.6D : SPEEDUP;
         }
@@ -2546,7 +2525,8 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
-        if (world.isRemote) return;
+        if (world.isRemote)
+            return;
         final NBTTagList var2 = new NBTTagList();
 
         ItemStackHelper.saveAllItems(nbt, this.stacks);
@@ -2607,4 +2587,3 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
         nbt.setBoolean("spawnedInCreative", this.spawnedInCreative);
     }
 }
-

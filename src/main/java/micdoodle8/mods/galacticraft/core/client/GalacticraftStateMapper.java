@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GalacticraftStateMapper extends StateMapperBase
 {
+
     public static final GalacticraftStateMapper INSTANCE = new GalacticraftStateMapper();
 
     public static String getPropertyString(IBlockState state)

@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.energy.grid;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IConductor;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
+
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 public class NetworkFinder
 {
+
     public World worldObj;
     public BlockVec3 start;
     private int theDim;
@@ -42,24 +44,24 @@ public class NetworkFinder
             }
             switch (dir)
             {
-            case 0:
-                obj = new BlockVec3(x, y - 1, z);
-                break;
-            case 1:
-                obj = new BlockVec3(x, y + 1, z);
-                break;
-            case 2:
-                obj = new BlockVec3(x, y, z - 1);
-                break;
-            case 3:
-                obj = new BlockVec3(x, y, z + 1);
-                break;
-            case 4:
-                obj = new BlockVec3(x - 1, y, z);
-                break;
-            case 5:
-                obj = new BlockVec3(x + 1, y, z);
-                break;
+                case 0:
+                    obj = new BlockVec3(x, y - 1, z);
+                    break;
+                case 1:
+                    obj = new BlockVec3(x, y + 1, z);
+                    break;
+                case 2:
+                    obj = new BlockVec3(x, y, z - 1);
+                    break;
+                case 3:
+                    obj = new BlockVec3(x, y, z + 1);
+                    break;
+                case 4:
+                    obj = new BlockVec3(x - 1, y, z);
+                    break;
+                case 5:
+                    obj = new BlockVec3(x + 1, y, z);
+                    break;
             }
 
             if (!iterated.contains(obj))
@@ -68,7 +70,7 @@ public class NetworkFinder
 
                 TileEntity tileEntity = worldObj.getTileEntity(new BlockPos(obj.x, obj.y, obj.z));
 
-                if (tileEntity instanceof IConductor && ((IConductor)tileEntity).canConnect(EnumFacing.byIndex(dir ^ 1), NetworkType.POWER))
+                if (tileEntity instanceof IConductor && ((IConductor) tileEntity).canConnect(EnumFacing.byIndex(dir ^ 1), NetworkType.POWER))
                 {
                     found.add((IConductor) tileEntity);
                     loopAll(obj.x, obj.y, obj.z, dir ^ 1);

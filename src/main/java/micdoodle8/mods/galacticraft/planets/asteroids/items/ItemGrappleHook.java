@@ -11,10 +11,17 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.*;
-import net.minecraft.util.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,6 +30,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemGrappleHook extends ItemBow implements ISortableItem
 {
+
     private static NonNullList<ItemStack> stringEntries = null;
 
     public ItemGrappleHook(String assetName)
@@ -30,7 +38,7 @@ public class ItemGrappleHook extends ItemBow implements ISortableItem
         super();
         this.setTranslationKey(assetName);
         this.setMaxStackSize(1);
-        //this.setTextureName("arrow");
+        // this.setTextureName("arrow");
     }
 
     @Override
@@ -66,7 +74,8 @@ public class ItemGrappleHook extends ItemBow implements ISortableItem
         boolean canShoot = player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
         ItemStack string = ItemStack.EMPTY;
 
-        if (stringEntries == null) stringEntries = OreDictionary.getOres("string");
+        if (stringEntries == null)
+            stringEntries = OreDictionary.getOres("string");
 
         for (ItemStack itemstack : player.inventory.mainInventory)
         {
@@ -101,8 +110,7 @@ public class ItemGrappleHook extends ItemBow implements ISortableItem
                     player.inventory.deleteStack(string);
                 }
             }
-        }
-        else if (worldIn.isRemote)
+        } else if (worldIn.isRemote)
         {
             player.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.message.grapple.fail")));
         }

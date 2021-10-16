@@ -1,19 +1,22 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.dimension;
 
+import java.util.Map;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.google.common.collect.Maps;
+
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.planets.asteroids.tick.AsteroidsTickHandlerServer;
 import micdoodle8.mods.galacticraft.planets.asteroids.tile.TileEntityShortRangeTelepad;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.storage.WorldSavedData;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import java.util.Map;
 
 public class ShortRangeTelepadHandler extends WorldSavedData
 {
+
     public static final String saveDataID = "ShortRangeTelepads";
     private static Map<Integer, TelepadEntry> tileMap = Maps.newHashMap();
 
@@ -24,6 +27,7 @@ public class ShortRangeTelepadHandler extends WorldSavedData
 
     public static class TelepadEntry
     {
+
         public int dimensionID;
         public BlockVec3 position;
         public boolean enabled;
@@ -46,7 +50,8 @@ public class ShortRangeTelepadHandler extends WorldSavedData
         {
             if (other instanceof TelepadEntry)
             {
-                return new EqualsBuilder().append(((TelepadEntry) other).dimensionID, this.dimensionID).append(((TelepadEntry) other).position, this.position).append(((TelepadEntry) other).enabled, this.enabled).isEquals();
+                return new EqualsBuilder().append(((TelepadEntry) other).dimensionID, this.dimensionID).append(((TelepadEntry) other).position, this.position)
+                    .append(((TelepadEntry) other).enabled, this.enabled).isEquals();
             }
 
             return false;

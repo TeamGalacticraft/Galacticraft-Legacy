@@ -1,17 +1,18 @@
 package micdoodle8.mods.galacticraft.planets.mars;
 
+import java.io.File;
+
+import org.apache.logging.log4j.Level;
+
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.FMLLog;
 
-import org.apache.logging.log4j.Level;
-
-import java.io.File;
-
 public class ConfigManagerMars
 {
+
     public static boolean loaded;
 
     public static Configuration config;
@@ -134,8 +135,7 @@ public class ConfigManagerMars
             }
             disableDeshGen = prop.getBoolean(false);
             GalacticraftPlanets.finishProp(prop, Constants.CONFIG_CATEGORY_WORLDGEN);
-        }
-        catch (final Exception e)
+        } catch (final Exception e)
         {
             FMLLog.log(Level.ERROR, e, "Galacticraft Mars (Planets) has a problem loading its config");
         }

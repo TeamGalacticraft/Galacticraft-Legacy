@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.api.recipe.CircuitFabricatorRecipes;
 import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityCircuitFabricator;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -22,6 +23,7 @@ import java.util.List;
 
 public class ContainerCircuitFabricator extends Container
 {
+
     private TileEntityCircuitFabricator tileEntity;
 
     public ContainerCircuitFabricator(InventoryPlayer playerInv, TileEntityCircuitFabricator tileEntity)
@@ -107,8 +109,7 @@ public class ContainerCircuitFabricator extends Container
                 {
                     slot.onSlotChange(var4, var2);
                 }
-            }
-            else
+            } else
             {
                 Item i = var4.getItem();
                 if (EnergyUtil.isElectricItem(i))
@@ -117,43 +118,37 @@ public class ContainerCircuitFabricator extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (i == Items.DIAMOND)
+                } else if (i == Items.DIAMOND)
                 {
                     if (!this.mergeItemStack(var4, 1, 2, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (this.isSilicon(var4))
+                } else if (this.isSilicon(var4))
                 {
                     if (!this.mergeEven(var4, 2, 4))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (i == Items.REDSTONE)
+                } else if (i == Items.REDSTONE)
                 {
                     if (!this.mergeItemStack(var4, 4, 5, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (i == Items.REPEATER || i == new ItemStack(Blocks.REDSTONE_TORCH).getItem() || i == Items.DYE && i.getDamage(var4) == 4)
+                } else if (i == Items.REPEATER || i == new ItemStack(Blocks.REDSTONE_TORCH).getItem() || i == Items.DYE && i.getDamage(var4) == 4)
                 {
                     if (!this.mergeItemStack(var4, 5, 6, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (par1 < b - 9)
+                } else if (par1 < b - 9)
                 {
                     if (!this.mergeItemStack(var4, b - 9, b, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (!this.mergeItemStack(var4, b - 36, b - 9, false))
+                } else if (!this.mergeItemStack(var4, b - 36, b - 9, false))
                 {
                     return ItemStack.EMPTY;
                 }
@@ -162,8 +157,7 @@ public class ContainerCircuitFabricator extends Container
             if (var4.getCount() == 0)
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }
@@ -187,7 +181,7 @@ public class ContainerCircuitFabricator extends Container
         int acceptTotal = 0;
         for (int i = a; i < b; i++)
         {
-            Slot slot = (Slot)this.inventorySlots.get(i);
+            Slot slot = (Slot) this.inventorySlots.get(i);
 
             if (slot != null)
             {
@@ -198,7 +192,8 @@ public class ContainerCircuitFabricator extends Container
                     int availSpace = stack.getMaxStackSize() - target.getCount();
                     acceptQuantity.add(availSpace);
                     acceptTotal += availSpace;
-                    if (availSpace < minQuantity) minQuantity = availSpace;
+                    if (availSpace < minQuantity)
+                        minQuantity = availSpace;
                 }
             }
         }
@@ -217,14 +212,14 @@ public class ContainerCircuitFabricator extends Container
                     return false;
                 }
             }
-        }        
+        }
 
-        //The stack more than exceeds what the crafting inventory requires
+        // The stack more than exceeds what the crafting inventory requires
         if (stack.getCount() >= acceptTotal)
         {
             if (acceptTotal == 0)
                 return false;
-            
+
             for (Slot slot : acceptSlots)
             {
                 ItemStack target = slot.getStack();
@@ -234,20 +229,20 @@ public class ContainerCircuitFabricator extends Container
             }
             return true;
         }
-        
+
         int uneven = 0;
         for (int q : acceptQuantity)
         {
             uneven += q - minQuantity;
         }
-        
-        //Use the whole stack to try to even up the neediest slots
+
+        // Use the whole stack to try to even up the neediest slots
         if (stack.getCount() <= uneven)
         {
             do
             {
                 Slot neediest = null;
-                int smallestStack = 64; 
+                int smallestStack = 64;
                 for (Slot slot : acceptSlots)
                 {
                     ItemStack target = slot.getStack();
@@ -259,8 +254,7 @@ public class ContainerCircuitFabricator extends Container
                 }
                 neediest.getStack().grow(1);
                 stack.shrink(1);
-            }
-            while (!stack.isEmpty());
+            } while (!stack.isEmpty());
             for (Slot slot : acceptSlots)
             {
                 slot.onSlotChanged();
@@ -268,7 +262,7 @@ public class ContainerCircuitFabricator extends Container
             return true;
         }
 
-        //Use some of the stack to even things up
+        // Use some of the stack to even things up
         if (uneven > 0)
         {
             int targetSize = stack.getMaxStackSize() - minQuantity;
@@ -281,8 +275,8 @@ public class ContainerCircuitFabricator extends Container
                 slot.onSlotChanged();
             }
         }
-        
-        //Spread the remaining stack over all slots evenly
+
+        // Spread the remaining stack over all slots evenly
         int average = stack.getCount() / acceptSlots.size();
         int modulus = stack.getCount() - average * acceptSlots.size();
         for (Slot slot : acceptSlots)
@@ -296,7 +290,8 @@ public class ContainerCircuitFabricator extends Container
                     transfer++;
                     modulus--;
                 }
-                if (transfer > stack.getCount()) transfer = stack.getCount();
+                if (transfer > stack.getCount())
+                    transfer = stack.getCount();
                 stack.shrink(transfer);
                 target.grow(transfer);
                 if (target.getCount() > target.getMaxStackSize())
@@ -310,7 +305,7 @@ public class ContainerCircuitFabricator extends Container
                     break;
             }
         }
-    
+
         return true;
     }
 
@@ -318,13 +313,15 @@ public class ContainerCircuitFabricator extends Container
     {
         for (ItemStack stack : CircuitFabricatorRecipes.slotValidItems.get(1))
         {
-            if (stack.isItemEqual(test)) return true;
+            if (stack.isItemEqual(test))
+                return true;
         }
         return false;
     }
 
     private boolean matchingStacks(ItemStack stack, ItemStack target)
     {
-        return target.isEmpty() || target.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == target.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, target) && (target.isStackable() && target.getCount() < target.getMaxStackSize());
+        return target.isEmpty() || target.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == target.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, target)
+            && (target.isStackable() && target.getCount() < target.getMaxStackSize());
     }
 }

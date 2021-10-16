@@ -35,6 +35,7 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public class RenderTier3Rocket extends Render<EntityTier3Rocket>
 {
+
     private OBJModel.OBJBakedModel rocketModel;
     private OBJModel.OBJBakedModel coneModel;
     private OBJModel.OBJBakedModel cubeModel;
@@ -56,8 +57,7 @@ public class RenderTier3Rocket extends Render<EntityTier3Rocket>
                 this.rocketModel = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Boosters", "Rocket"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 this.coneModel = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("NoseCone"), false), DefaultVertexFormats.ITEM, spriteFunction);
                 this.cubeModel = (OBJModel.OBJBakedModel) model.bake(new OBJModel.OBJState(ImmutableList.of("Cube"), false), DefaultVertexFormats.ITEM, spriteFunction);
-            }
-            catch (IOException e)
+            } catch (IOException e)
             {
                 throw new RuntimeException(e);
             }
@@ -106,25 +106,23 @@ public class RenderTier3Rocket extends Render<EntityTier3Rocket>
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }
 
-		GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-		GlStateManager.scale(0.8F, 0.8F, 0.8F);
+        GlStateManager.scale(-1.0F, -1.0F, 1.0F);
+        GlStateManager.scale(0.8F, 0.8F, 0.8F);
         ClientUtil.drawBakedModel(this.rocketModel);
 
         Vector3 teamColor = ClientUtil.updateTeamColor(PlayerUtil.getName(FMLClientHandler.instance().getClient().player), true);
 
         if (teamColor != null)
         {
-            int color = ColorUtil.to32BitColor(255, (int)(teamColor.floatZ() * 255), (int)(teamColor.floatY() * 255), (int)(teamColor.floatX() * 255));
+            int color = ColorUtil.to32BitColor(255, (int) (teamColor.floatZ() * 255), (int) (teamColor.floatY() * 255), (int) (teamColor.floatX() * 255));
             GlStateManager.disableTexture2D();
             ClientUtil.drawBakedModelColored(coneModel, color);
-        }
-        else
+        } else
         {
             ClientUtil.drawBakedModel(coneModel);
             GlStateManager.disableTexture2D();

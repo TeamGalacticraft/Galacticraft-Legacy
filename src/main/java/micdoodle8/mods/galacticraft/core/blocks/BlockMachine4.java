@@ -2,35 +2,37 @@ package micdoodle8.mods.galacticraft.core.blocks;
 
 import micdoodle8.mods.galacticraft.core.tile.IMachineSides;
 import micdoodle8.mods.galacticraft.core.tile.IMachineSidesProperties;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityCircuitFabricator;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityDeconstructor;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityElectricIngotCompressor;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenStorageModule;
+
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 /**
- * A block for advanced types of POWERED Galacticraft machine
- * with a base building purpose - e.g. Advanced Compressor
+ * A block for advanced types of POWERED Galacticraft machine with a base
+ * building purpose - e.g. Advanced Compressor
  * 
- * Note: this DOES implement IMachineSides, in comparison with BlockMachine3 which does not
+ * Note: this DOES implement IMachineSides, in comparison with BlockMachine3
+ * which does not
  *
  */
 public class BlockMachine4 extends BlockMachineBase
 {
+
     public static final PropertyEnum<EnumMachineAdvancedType> TYPE = PropertyEnum.create("type", EnumMachineAdvancedType.class);
     public static IMachineSidesProperties MACHINESIDES_RENDERTYPE = IMachineSidesProperties.TWOFACES_HORIZ;
     public static final PropertyEnum SIDES = MACHINESIDES_RENDERTYPE.asProperty;
 
     public enum EnumMachineAdvancedType implements EnumMachineBase, IStringSerializable
     {
+
         ADVANCED_COMPRESSOR(0, "advanced_compressor", () -> new TileEntityElectricIngotCompressor(true), "tile.compressor_advanced.description", "tile.machine4.11");
-        
+
         private final int meta;
         private final String name;
         private final TileConstructor tile;
@@ -53,18 +55,19 @@ public class BlockMachine4 extends BlockMachineBase
         }
 
         private final static EnumMachineAdvancedType[] values = values();
+
         @Override
         public EnumMachineAdvancedType fromMetadata(int meta)
         {
-            return values[0]; //(meta / 4) % values.length];
+            return values[0]; // (meta / 4) % values.length];
         }
-        
+
         @Override
         public String getName()
         {
             return this.name;
         }
-        
+
         @Override
         public TileEntity tileConstructor()
         {
@@ -74,7 +77,8 @@ public class BlockMachine4 extends BlockMachineBase
         @FunctionalInterface
         private static interface TileConstructor
         {
-              TileEntity create();
+
+            TileEntity create();
         }
 
         @Override

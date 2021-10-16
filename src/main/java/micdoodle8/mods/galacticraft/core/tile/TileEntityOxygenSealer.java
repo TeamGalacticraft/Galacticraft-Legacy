@@ -15,6 +15,7 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.util.FluidUtil;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -31,21 +32,17 @@ import java.util.List;
 
 public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileClientUpdates
 {
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean sealed;
+
+    @NetworkedField(targetSide = Side.CLIENT) public boolean sealed;
     public boolean lastSealed = false;
 
     public boolean lastDisabled = false;
 
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean active;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean active;
     public ThreadFindSeal threadSeal;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int stopSealThreadCooldown;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int threadCooldownTotal;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean calculatingSealed;
+    @NetworkedField(targetSide = Side.CLIENT) public int stopSealThreadCooldown;
+    @NetworkedField(targetSide = Side.CLIENT) public int threadCooldownTotal;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean calculatingSealed;
     public static int countEntities = 0;
     private static int countTemp = 0;
     private static boolean sealerCheckedThisTick = false;
@@ -53,14 +50,31 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
     private static final int UNSEALED_OXYGENPERTICK = 12;
     public List<BlockVec3> leaksClient;
 
-
     public TileEntityOxygenSealer()
     {
         super("container.oxygensealer.name", 10000, UNSEALED_OXYGENPERTICK);
         this.noRedstoneControl = true;
-        this.storage.setMaxExtract(5.0F);  //Half of a standard machine's power draw
+        this.storage.setMaxExtract(5.0F); // Half of a standard machine's power
+                                          // draw
         this.storage.setMaxReceive(25.0F);
-        this.storage.setCapacity(EnergyStorageTile.STANDARD_CAPACITY * 2);  //Large capacity so it can keep working for a while even if chunk unloads affect its power supply
+        this.storage.setCapacity(EnergyStorageTile.STANDARD_CAPACITY * 2); // Large
+                                                                           // capacity
+                                                                           // so
+                                                                           // it
+                                                                           // can
+                                                                           // keep
+                                                                           // working
+                                                                           // for
+                                                                           // a
+                                                                           // while
+                                                                           // even
+                                                                           // if
+                                                                           // chunk
+                                                                           // unloads
+                                                                           // affect
+                                                                           // its
+                                                                           // power
+                                                                           // supply
         inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     }
 
@@ -74,8 +88,7 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
                 TileEntityOxygenSealer.loadedTiles.add(this);
             }
             this.stopSealThreadCooldown = 126 + countEntities;
-        }
-        else
+        } else
         {
             this.clientOnLoad();
         }
@@ -156,8 +169,7 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
                 {
                     this.storage.setMaxExtract(20.0F);
                 }
-            }
-            else if (this.storage.getMaxExtract() != 5.0F)
+            } else if (this.storage.getMaxExtract() != 5.0F)
             {
                 this.storage.setMaxExtract(5.0F);
                 this.storage.setMaxReceive(25.0F);
@@ -177,17 +189,19 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
             if (this.disabled != this.lastDisabled)
             {
                 this.lastDisabled = this.disabled;
-                if (!this.disabled) this.stopSealThreadCooldown = this.threadCooldownTotal * 3 / 5;
+                if (!this.disabled)
+                    this.stopSealThreadCooldown = this.threadCooldownTotal * 3 / 5;
             }
 
-            //TODO: if multithreaded, this codeblock should not run if the current threadSeal is flagged looping
+            // TODO: if multithreaded, this codeblock should not run if the
+            // current threadSeal is flagged looping
             if (this.stopSealThreadCooldown > 0)
             {
                 this.stopSealThreadCooldown--;
-            }
-            else if (!TileEntityOxygenSealer.sealerCheckedThisTick)
+            } else if (!TileEntityOxygenSealer.sealerCheckedThisTick)
             {
-                // This puts any Sealer which is updated to the back of the queue for updates
+                // This puts any Sealer which is updated to the back of the
+                // queue for updates
                 this.threadCooldownTotal = this.stopSealThreadCooldown = 75 + TileEntityOxygenSealer.countEntities;
                 if (this.active || this.sealed)
                 {
@@ -196,28 +210,28 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
                 }
             }
 
-            //TODO: if multithreaded, this.threadSeal needs to be atomic
+            // TODO: if multithreaded, this.threadSeal needs to be atomic
             if (this.threadSeal != null)
             {
-            	if (this.threadSeal.looping.get())
-            	{
-            		this.calculatingSealed = this.active;
-            	}
-            	else
-            	{
-            		this.calculatingSealed = false;
-            		this.sealed = this.threadSeal.sealedFinal.get();
-            	}
-            }
-            else
+                if (this.threadSeal.looping.get())
+                {
+                    this.calculatingSealed = this.active;
+                } else
+                {
+                    this.calculatingSealed = false;
+                    this.sealed = this.threadSeal.sealedFinal.get();
+                }
+            } else
             {
-                this.calculatingSealed = true;  //Give an initial 'Check pending' in GUI when first placed
+                this.calculatingSealed = true; // Give an initial 'Check
+                                               // pending' in GUI when first
+                                               // placed
             }
 
             this.lastSealed = this.sealed;
         }
     }
-    
+
     public static void onServerTick()
     {
         TileEntityOxygenSealer.countEntities = TileEntityOxygenSealer.countTemp;
@@ -230,7 +244,8 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[] { 0, 1 };
+        return new int[]
+        {0, 1};
     }
 
     @Override
@@ -240,14 +255,14 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
         {
             switch (slotID)
             {
-            case 0:
-                return ItemElectricBase.isElectricItemCharged(itemstack);
-            case 1:
-                return itemstack.getItemDamage() < itemstack.getItem().getMaxDamage();
-            case 2:
-                return itemstack.getItem() == GCItems.basicItem && itemstack.getItemDamage() == 20;
-            default:
-                return false;
+                case 0:
+                    return ItemElectricBase.isElectricItemCharged(itemstack);
+                case 1:
+                    return itemstack.getItemDamage() < itemstack.getItem().getMaxDamage();
+                case 2:
+                    return itemstack.getItem() == GCItems.basicItem && itemstack.getItemDamage() == 20;
+                default:
+                    return false;
             }
         }
         return false;
@@ -258,12 +273,12 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
     {
         switch (slotID)
         {
-        case 0:
-            return ItemElectricBase.isElectricItemEmpty(itemstack);
-        case 1:
-            return FluidUtil.isEmptyContainer(itemstack);
-        default:
-            return false;
+            case 0:
+                return ItemElectricBase.isElectricItemEmpty(itemstack);
+            case 1:
+                return FluidUtil.isEmptyContainer(itemstack);
+            default:
+                return false;
         }
     }
 
@@ -304,7 +319,7 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
     @Override
     public EnumFacing byIndex()
     {
-        IBlockState state = this.world.getBlockState(getPos()); 
+        IBlockState state = this.world.getBlockState(getPos());
         if (state.getBlock() instanceof BlockOxygenSealer)
         {
             return state.getValue(BlockOxygenSealer.FACING);
@@ -399,13 +414,14 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
                 composite = dz + ((dy + (dx << 8)) << 8);
             data[index++] = composite;
         }
-        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_LEAK_DATA, GCCoreUtil.getDimensionID(player.world), new Object[] { this.getPos(), data }), player);
+        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_LEAK_DATA, GCCoreUtil.getDimensionID(player.world), new Object[]
+        {this.getPos(), data}), player);
     }
 
     @Override
     public void buildDataPacket(int[] data)
     {
-        //unused
+        // unused
     }
 
     @Override
@@ -414,7 +430,7 @@ public class TileEntityOxygenSealer extends TileEntityOxygen implements ITileCli
         this.leaksClient = new ArrayList<>();
         if (data.size() > 1)
         {
-            for (int i = 1; i < data.size(); i ++)
+            for (int i = 1; i < data.size(); i++)
             {
                 int comp = (Integer) data.get(i);
                 if (comp >= 0)

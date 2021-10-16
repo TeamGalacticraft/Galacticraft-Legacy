@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class DungeonConfiguration
 {
+
     private IBlockState brickBlock;
     private int yPosition;
     private int hallwayLengthMin;
@@ -57,8 +58,7 @@ public class DungeonConfiguration
             this.roomHeight = tagCompound.getInteger("roomHeight");
             this.bossRoom = Class.forName(tagCompound.getString("bossRoom"));
             this.treasureRoom = Class.forName(tagCompound.getString("treasureRoom"));
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             System.err.println("Failed to read dungeon configuration from NBT");
             e.printStackTrace();

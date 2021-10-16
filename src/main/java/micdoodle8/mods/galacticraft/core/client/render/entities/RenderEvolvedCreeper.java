@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlaySensorGlasses
 import micdoodle8.mods.galacticraft.core.client.model.ModelEvolvedCreeper;
 import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerEvolvedCreeperCharge;
 import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedCreeper;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -16,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderEvolvedCreeper extends RenderLiving<EntityEvolvedCreeper>
 {
+
     private static final ResourceLocation creeperTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/creeper.png");
     private boolean texSwitch;
 
@@ -50,13 +52,12 @@ public class RenderEvolvedCreeper extends RenderLiving<EntityEvolvedCreeper>
     {
         float f = entity.getCreeperFlashIntensity(partialTicks);
 
-        if ((int)(f * 10.0F) % 2 == 0)
+        if ((int) (f * 10.0F) % 2 == 0)
         {
             return 0;
-        }
-        else
+        } else
         {
-            int i = (int)(f * 0.2F * 255.0F);
+            int i = (int) (f * 0.2F * 255.0F);
             i = MathHelper.clamp(i, 0, 255);
             return i << 24 | 16777215;
         }

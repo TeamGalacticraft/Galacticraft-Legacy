@@ -6,6 +6,7 @@ import net.minecraft.world.storage.WorldSavedData;
 
 public class AsteroidSaveData extends WorldSavedData
 {
+
     public static final String saveDataID = Constants.GCDATAFOLDER + "GCAsteroidData";
     public NBTTagCompound datacompound;
 

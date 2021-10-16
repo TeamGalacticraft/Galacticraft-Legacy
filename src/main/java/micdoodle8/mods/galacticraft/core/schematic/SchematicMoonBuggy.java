@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.client.gui.GuiIdsCore;
 import micdoodle8.mods.galacticraft.core.client.gui.container.GuiSchematicBuggy;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerBuggyBench;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -16,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SchematicMoonBuggy extends SchematicPage
 {
+
     @Override
     public int getPageID()
     {

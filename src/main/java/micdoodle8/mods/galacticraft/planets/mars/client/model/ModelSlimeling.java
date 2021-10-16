@@ -7,6 +7,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class ModelSlimeling extends ModelBase
 {
+
     ModelRenderer tail3;
     ModelRenderer tail2;
     ModelRenderer tail1;

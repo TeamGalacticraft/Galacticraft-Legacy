@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.core.entities;
 
-import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GCFluids;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
@@ -8,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.network.IPacketReceiver;
 import micdoodle8.mods.galacticraft.core.network.PacketDynamic;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityParaChest;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -28,8 +28,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import io.netty.buffer.ByteBuf;
+
 public class EntityParachest extends Entity implements IPacketReceiver
 {
+
     public NonNullList<ItemStack> cargo;
     public int fuelLevel;
     private boolean placedChest;
@@ -79,7 +82,8 @@ public class EntityParachest extends Entity implements IPacketReceiver
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
-        if (world.isRemote) return;
+        if (world.isRemote)
+            return;
         nbt.setInteger("CargoLength", this.cargo.size());
         ItemStackHelper.saveAllItems(nbt, this.cargo);
 
@@ -139,8 +143,7 @@ public class EntityParachest extends Entity implements IPacketReceiver
 
                 this.placedChest = true;
                 this.setDead();
-            }
-            else
+            } else
             {
                 this.motionY = -0.35;
             }
@@ -189,8 +192,7 @@ public class EntityParachest extends Entity implements IPacketReceiver
                     Collections.copy(chest.getInventory(), this.cargo);
 
                     chest.fuelTank.fill(FluidRegistry.getFluidStack(GCFluids.fluidFuel.getName().toLowerCase(), this.fuelLevel), true);
-                }
-                else
+                } else
                 {
                     for (ItemStack stack : this.cargo)
                     {

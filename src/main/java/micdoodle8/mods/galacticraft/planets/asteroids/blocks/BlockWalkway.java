@@ -36,6 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockWalkway extends BlockTransmitter implements ITileEntityProvider, IShiftDescription, ISortableBlock
 {
+
     public static final PropertyEnum<EnumWalkwayType> WALKWAY_TYPE = PropertyEnum.create("type", EnumWalkwayType.class);
 //    private Vector3 minVector = new Vector3(0.0, 0.32, 0.0);
 //    private Vector3 maxVector = new Vector3(1.0, 1.0, 1.0);
@@ -44,9 +45,8 @@ public class BlockWalkway extends BlockTransmitter implements ITileEntityProvide
 
     public enum EnumWalkwayType implements IStringSerializable
     {
-        WALKWAY(0, "walkway"),
-        WALKWAY_WIRE(1, "walkway_wire"),
-        WALKWAY_PIPE(2, "walkway_pipe");
+
+        WALKWAY(0, "walkway"), WALKWAY_WIRE(1, "walkway_wire"), WALKWAY_PIPE(2, "walkway_pipe");
 
         private final int meta;
         private final String name;
@@ -63,6 +63,7 @@ public class BlockWalkway extends BlockTransmitter implements ITileEntityProvide
         }
 
         private final static EnumWalkwayType[] values = values();
+
         public static EnumWalkwayType byMetadata(int meta)
         {
             return values[meta % values.length];
@@ -135,7 +136,7 @@ public class BlockWalkway extends BlockTransmitter implements ITileEntityProvide
     {
         return true;
     }
-    
+
     @Override
     public boolean isNormalCube(IBlockState state)
     {
@@ -296,12 +297,10 @@ public class BlockWalkway extends BlockTransmitter implements ITileEntityProvide
         if (meta == EnumWalkwayType.WALKWAY.getMeta())
         {
             return GCCoreUtil.translate("tile.walkway.walkway.description");
-        }
-        else if (meta == EnumWalkwayType.WALKWAY_WIRE.getMeta())
+        } else if (meta == EnumWalkwayType.WALKWAY_WIRE.getMeta())
         {
             return GCCoreUtil.translate("tile.walkway.walkway_wire.description");
-        }
-        else if (meta == EnumWalkwayType.WALKWAY_PIPE.getMeta())
+        } else if (meta == EnumWalkwayType.WALKWAY_PIPE.getMeta())
         {
             return GCCoreUtil.translate("tile.walkway.walkway_pipe.description");
         }
@@ -327,7 +326,7 @@ public class BlockWalkway extends BlockTransmitter implements ITileEntityProvide
         Object[] connectable = new Object[EnumFacing.VALUES.length];
 
         TileEntity tileEntity = null;
-        
+
         if (state.getValue(WALKWAY_TYPE) != EnumWalkwayType.WALKWAY)
         {
             tileEntity = worldIn.getTileEntity(pos);
@@ -348,22 +347,18 @@ public class BlockWalkway extends BlockTransmitter implements ITileEntityProvide
                 {
                     connectable[direction.ordinal()] = block;
                 }
-            }
-            else if (tileEntity !=null && state.getValue(WALKWAY_TYPE) == EnumWalkwayType.WALKWAY_PIPE)
+            } else if (tileEntity != null && state.getValue(WALKWAY_TYPE) == EnumWalkwayType.WALKWAY_PIPE)
             {
                 connectable = OxygenUtil.getAdjacentFluidConnections(tileEntity);
-            }
-            else if (tileEntity !=null && state.getValue(WALKWAY_TYPE) == EnumWalkwayType.WALKWAY_WIRE)
+            } else if (tileEntity != null && state.getValue(WALKWAY_TYPE) == EnumWalkwayType.WALKWAY_WIRE)
             {
                 connectable = EnergyUtil.getAdjacentPowerConnections(tileEntity);
             }
         }
 
-        return state.withProperty(NORTH, Boolean.valueOf(connectable[EnumFacing.NORTH.ordinal()] != null))
-                .withProperty(EAST, Boolean.valueOf(connectable[EnumFacing.EAST.ordinal()] != null))
-                .withProperty(SOUTH, Boolean.valueOf(connectable[EnumFacing.SOUTH.ordinal()] != null))
-                .withProperty(WEST, Boolean.valueOf(connectable[EnumFacing.WEST.ordinal()] != null))
-                .withProperty(DOWN, Boolean.valueOf(connectable[EnumFacing.DOWN.ordinal()] != null));
+        return state.withProperty(NORTH, Boolean.valueOf(connectable[EnumFacing.NORTH.ordinal()] != null)).withProperty(EAST, Boolean.valueOf(connectable[EnumFacing.EAST.ordinal()] != null))
+            .withProperty(SOUTH, Boolean.valueOf(connectable[EnumFacing.SOUTH.ordinal()] != null)).withProperty(WEST, Boolean.valueOf(connectable[EnumFacing.WEST.ordinal()] != null))
+            .withProperty(DOWN, Boolean.valueOf(connectable[EnumFacing.DOWN.ordinal()] != null));
     }
 
     @Override

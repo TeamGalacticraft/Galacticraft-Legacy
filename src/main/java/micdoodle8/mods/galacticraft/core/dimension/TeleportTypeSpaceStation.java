@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.api.world.ITeleportType;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
@@ -15,6 +16,7 @@ import java.util.Random;
 
 public class TeleportTypeSpaceStation implements ITeleportType
 {
+
     @Override
     public boolean useParachute()
     {
@@ -44,7 +46,8 @@ public class TeleportTypeSpaceStation implements ITeleportType
     {
         if (ConfigManagerCore.spaceStationsRequirePermission && !newWorld.isRemote)
         {
-            player.sendMessage(new TextComponentString(EnumColor.YELLOW + GCCoreUtil.translate("gui.spacestation.type_command") + " " + EnumColor.AQUA + "/ssinvite " + GCCoreUtil.translate("gui.spacestation.playername") + " " + EnumColor.YELLOW + GCCoreUtil.translate("gui.spacestation.to_allow_entry")));
+            player.sendMessage(new TextComponentString(EnumColor.YELLOW + GCCoreUtil.translate("gui.spacestation.type_command") + " " + EnumColor.AQUA + "/ssinvite "
+                + GCCoreUtil.translate("gui.spacestation.playername") + " " + EnumColor.YELLOW + GCCoreUtil.translate("gui.spacestation.to_allow_entry")));
         }
     }
 

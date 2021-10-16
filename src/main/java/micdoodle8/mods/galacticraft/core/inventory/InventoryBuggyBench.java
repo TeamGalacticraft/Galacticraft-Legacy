@@ -12,6 +12,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 public class InventoryBuggyBench implements IInventory
 {
+
     private final NonNullList<ItemStack> stackList;
     private final int inventoryWidth;
     private final Container eventHandler;
@@ -42,8 +43,7 @@ public class InventoryBuggyBench implements IInventory
         {
             final int var3 = par1 + par2 * this.inventoryWidth;
             return this.getStackInSlot(var3);
-        }
-        else
+        } else
         {
             return ItemStack.EMPTY;
         }
@@ -64,7 +64,7 @@ public class InventoryBuggyBench implements IInventory
             this.markDirty();
             this.eventHandler.onCraftMatrixChanged(this);
         }
-    	return oldstack;
+        return oldstack;
     }
 
     @Override

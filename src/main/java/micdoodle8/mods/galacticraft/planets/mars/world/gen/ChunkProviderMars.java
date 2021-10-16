@@ -21,11 +21,14 @@ import java.util.List;
 
 public class ChunkProviderMars extends ChunkProviderSpace
 {
+
     private final BiomeDecoratorMars marsBiomeDecorator = new BiomeDecoratorMars();
     private final MapGenCavernMars caveGenerator = new MapGenCavernMars();
     private final MapGenCaveMars cavernGenerator = new MapGenCaveMars();
 
-    private final MapGenDungeon dungeonGenerator = new MapGenDungeonMars(new DungeonConfiguration(MarsBlocks.marsBlock.getDefaultState().withProperty(BlockBasicMars.BASIC_TYPE, BlockBasicMars.EnumBlockBasic.DUNGEON_BRICK), 30, 8, 16, 7, 7, RoomBossMars.class, RoomTreasureMars.class));
+    private final MapGenDungeon dungeonGenerator =
+        new MapGenDungeonMars(new DungeonConfiguration(MarsBlocks.marsBlock.getDefaultState().withProperty(BlockBasicMars.BASIC_TYPE, BlockBasicMars.EnumBlockBasic.DUNGEON_BRICK), 30, 8, 16, 7, 7,
+            RoomBossMars.class, RoomTreasureMars.class));
 
     public ChunkProviderMars(World par1World, long seed, boolean mapFeaturesEnabled)
     {
@@ -41,7 +44,8 @@ public class ChunkProviderMars extends ChunkProviderSpace
     @Override
     protected Biome[] getBiomesForGeneration()
     {
-        return new Biome[] { BiomeAdaptive.biomeDefault };
+        return new Biome[]
+        {BiomeAdaptive.biomeDefault};
     }
 
     @Override

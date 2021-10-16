@@ -9,10 +9,11 @@ import net.minecraft.world.World;
  * into your block class.
  * 
  * It is recommended that blocks implementing this should be set to tick
- * randomly, and should override @updateTick() also to carry out oxygen checks. 
+ * randomly, and should override @updateTick() also to carry out oxygen checks.
  */
 public interface IOxygenReliantBlock
 {
+
     void onOxygenRemoved(World world, BlockPos pos, IBlockState currentState);
 
     void onOxygenAdded(World world, BlockPos pos, IBlockState currentState);

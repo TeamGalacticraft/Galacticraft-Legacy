@@ -4,12 +4,10 @@ import micdoodle8.mods.galacticraft.core.inventory.SlotRocketBenchResult;
 import micdoodle8.mods.galacticraft.planets.mars.util.RecipeUtilMars;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -17,6 +15,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ContainerSchematicTier3Rocket extends Container
 {
+
     public InventorySchematicTier3Rocket craftMatrix = new InventorySchematicTier3Rocket(this);
     public IInventory craftResult = new InventoryCraftResult();
     private final World world;
@@ -132,8 +131,7 @@ public class ContainerSchematicTier3Rocket extends Container
                 }
 
                 var3.onSlotChange(var4, var2);
-            }
-            else
+            } else
             {
                 boolean valid = false;
                 for (int i = 1; i < 19; i++)
@@ -151,8 +149,7 @@ public class ContainerSchematicTier3Rocket extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     boolean foundChest = false;
                     for (ItemStack woodChest : OreDictionary.getOres("chestWood"))
@@ -169,22 +166,19 @@ public class ContainerSchematicTier3Rocket extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (par1 >= 22 && par1 < 49)
+                    } else if (par1 >= 22 && par1 < 49)
                     {
                         if (!this.mergeItemStack(var4, 49, 58, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (par1 >= 49 && par1 < 58)
+                    } else if (par1 >= 49 && par1 < 58)
                     {
                         if (!this.mergeItemStack(var4, 22, 49, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(var4, 22, 58, false))
+                    } else if (!this.mergeItemStack(var4, 22, 58, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -194,8 +188,7 @@ public class ContainerSchematicTier3Rocket extends Container
             if (var4.isEmpty())
             {
                 var3.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var3.onSlotChanged();
             }

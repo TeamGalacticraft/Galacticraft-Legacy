@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Do not include this prefab class in your released mod download.
- * <p/>
- * This chunk manager is used for single-biome dimensions, which is common on basic planets.
+ * Do not include this prefab class in your released mod download. <p/> This
+ * chunk manager is used for single-biome dimensions, which is common on basic
+ * planets.
  */
 public abstract class BiomeProviderSpace extends BiomeProvider
 {
+
     private final BiomeCache biomeCache;
     private final List<Biome> biomesToSpawnIn;
 
@@ -84,8 +85,7 @@ public abstract class BiomeProviderSpace extends BiomeProvider
             final Biome[] var9 = this.biomeCache.getCachedBiomes(x, z);
             System.arraycopy(var9, 0, listToReuse, 0, width * length);
             return listToReuse;
-        }
-        else
+        } else
         {
             for (int var8 = 0; var8 < width * length; ++var8)
             {

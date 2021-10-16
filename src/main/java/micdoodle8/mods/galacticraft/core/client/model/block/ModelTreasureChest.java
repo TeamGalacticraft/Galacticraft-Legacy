@@ -1,11 +1,13 @@
 package micdoodle8.mods.galacticraft.core.client.model.block;
 
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.model.ModelRenderer;
 
 public class ModelTreasureChest extends ModelChest
 {
+
     public ModelRenderer keyParts[] = new ModelRenderer[6];
 
     public ModelTreasureChest()

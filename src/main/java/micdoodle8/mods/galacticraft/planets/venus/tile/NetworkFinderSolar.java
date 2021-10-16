@@ -1,8 +1,5 @@
 package micdoodle8.mods.galacticraft.planets.venus.tile;
 
-import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
-import micdoodle8.mods.galacticraft.api.transmission.tile.ITransmitter;
-import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -12,8 +9,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
+import micdoodle8.mods.galacticraft.api.transmission.tile.ITransmitter;
+import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
+
 public class NetworkFinderSolar
 {
+
     public World worldObj;
     public BlockVec3 start;
     private BlockVec3 toIgnore;
@@ -40,24 +42,24 @@ public class NetworkFinderSolar
             }
             switch (dir)
             {
-            case 0:
-                obj = new BlockVec3(x, y - 1, z);
-                break;
-            case 1:
-                obj = new BlockVec3(x, y + 1, z);
-                break;
-            case 2:
-                obj = new BlockVec3(x, y, z - 1);
-                break;
-            case 3:
-                obj = new BlockVec3(x, y, z + 1);
-                break;
-            case 4:
-                obj = new BlockVec3(x - 1, y, z);
-                break;
-            case 5:
-                obj = new BlockVec3(x + 1, y, z);
-                break;
+                case 0:
+                    obj = new BlockVec3(x, y - 1, z);
+                    break;
+                case 1:
+                    obj = new BlockVec3(x, y + 1, z);
+                    break;
+                case 2:
+                    obj = new BlockVec3(x, y, z - 1);
+                    break;
+                case 3:
+                    obj = new BlockVec3(x, y, z + 1);
+                    break;
+                case 4:
+                    obj = new BlockVec3(x - 1, y, z);
+                    break;
+                case 5:
+                    obj = new BlockVec3(x + 1, y, z);
+                    break;
             }
 
             if (!iterated.contains(obj))

@@ -22,8 +22,9 @@ import javax.annotation.Nullable;
 
 public class ItemSchematicTier2 extends ItemSchematic implements ISchematicItem, ISortableItem
 {
+
     private static int indexOffset = 0;
-    
+
     public ItemSchematicTier2()
     {
         super("schematic");
@@ -54,15 +55,15 @@ public class ItemSchematicTier2 extends ItemSchematic implements ISchematicItem,
     {
         switch (par1ItemStack.getItemDamage())
         {
-        case 0:
-            tooltip.add(GCCoreUtil.translate("schematic.rocket_t3.name"));
-            break;
-        case 1:
-            tooltip.add(GCCoreUtil.translate("schematic.cargo_rocket.name"));
-            break;
-        case 2:
-            tooltip.add(GCCoreUtil.translate("schematic.astro_miner.name"));
-            break;
+            case 0:
+                tooltip.add(GCCoreUtil.translate("schematic.rocket_t3.name"));
+                break;
+            case 1:
+                tooltip.add(GCCoreUtil.translate("schematic.cargo_rocket.name"));
+                break;
+            case 2:
+                tooltip.add(GCCoreUtil.translate("schematic.astro_miner.name"));
+                break;
         }
     }
 
@@ -71,17 +72,17 @@ public class ItemSchematicTier2 extends ItemSchematic implements ISchematicItem,
     {
         return EnumSortCategoryItem.SCHEMATIC;
     }
-    
-    /** 
-     *  Higher tiers should use this form and make sure they have set up the
-     *  indexOffset correctly in registerSchematicItems()
+
+    /**
+     * Higher tiers should use this form and make sure they have set up the
+     * indexOffset correctly in registerSchematicItems()
      */
     @Override
     protected int getIndex(int damage)
     {
         return damage + indexOffset;
     }
-    
+
     /**
      * Make sure the number of these will match the index values
      */
@@ -95,7 +96,7 @@ public class ItemSchematicTier2 extends ItemSchematic implements ISchematicItem,
     /**
      * Make sure the order of these will match the index values
      */
-    @SideOnly(value=Side.CLIENT)
+    @SideOnly(value = Side.CLIENT)
     public static void registerTextures()
     {
         SchematicRegistry.registerTexture(new ResourceLocation("galacticraftplanets", "textures/items/schematic_rocket_t3.png"));

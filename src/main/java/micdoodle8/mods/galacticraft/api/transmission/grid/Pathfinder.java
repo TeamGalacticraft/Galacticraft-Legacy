@@ -1,19 +1,19 @@
 package micdoodle8.mods.galacticraft.api.transmission.grid;
 
-import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
+
 /**
- * A class that allows flexible ai for different positions. Compared to
- * AStar ai, this version is faster but does not calculated the most
- * optimal path.
+ * A class that allows flexible ai for different positions. Compared to AStar
+ * ai, this version is faster but does not calculated the most optimal path.
  *
  * @author Calclavia
  */
 public class Pathfinder
 {
+
     /**
      * A ai call back interface used to call back on paths.
      */

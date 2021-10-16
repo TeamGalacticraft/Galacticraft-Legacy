@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.inventory;
 import micdoodle8.mods.galacticraft.api.item.IItemElectric;
 import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityElectricFurnace;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -13,6 +14,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class ContainerElectricFurnace extends Container
 {
+
     private TileEntityElectricFurnace tileEntity;
 
     public ContainerElectricFurnace(InventoryPlayer par1InventoryPlayer, TileEntityElectricFurnace tileEntity)
@@ -86,8 +88,7 @@ public class ContainerElectricFurnace extends Container
                 }
 
                 var3.onSlotChange(var4, var2);
-            }
-            else if (par1 != 1 && par1 != 0)
+            } else if (par1 != 1 && par1 != 0)
             {
                 if (EnergyUtil.isElectricItem(var4.getItem()))
                 {
@@ -95,27 +96,23 @@ public class ContainerElectricFurnace extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (!FurnaceRecipes.instance().getSmeltingResult(var4).isEmpty())
+                } else if (!FurnaceRecipes.instance().getSmeltingResult(var4).isEmpty())
                 {
                     if (!this.mergeItemStack(var4, 1, 2, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (par1 >= 3 + off && par1 < 30 + off)
+                } else if (par1 >= 3 + off && par1 < 30 + off)
                 {
                     if (!this.mergeItemStack(var4, 30 + off, 39 + off, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (par1 >= 30 + off && par1 < 39 + off && !this.mergeItemStack(var4, 3 + off, 30 + off, false))
+                } else if (par1 >= 30 + off && par1 < 39 + off && !this.mergeItemStack(var4, 3 + off, 30 + off, false))
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (!this.mergeItemStack(var4, 3 + off, 39 + off, false))
+            } else if (!this.mergeItemStack(var4, 3 + off, 39 + off, false))
             {
                 return ItemStack.EMPTY;
             }
@@ -123,8 +120,7 @@ public class ContainerElectricFurnace extends Container
             if (var4.getCount() == 0)
             {
                 var3.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var3.onSlotChanged();
             }

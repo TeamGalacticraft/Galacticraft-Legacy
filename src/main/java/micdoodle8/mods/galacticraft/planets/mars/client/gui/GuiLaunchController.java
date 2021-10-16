@@ -37,6 +37,7 @@ import java.util.Random;
 
 public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallback
 {
+
     private static final ResourceLocation launchControllerGui = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/launch_controller.png");
 
     private TileEntityLaunchController launchController;
@@ -65,8 +66,7 @@ public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallb
         {
             this.enableControllerButton.enabled = false;
             this.hideDestinationFrequency.enabled = false;
-        }
-        else
+        } else
         {
             boolean isOwner = PlayerUtil.getName(this.mc.player).equals(this.launchController.getOwnerName());
             this.enableControllerButton.enabled = isOwner;
@@ -119,7 +119,8 @@ public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallb
         {
             if (!PlayerUtil.getName(this.mc.player).equals(this.launchController.getOwnerName()) && !this.launchController.getDisabled(2))
             {
-                // in case the player is not equal to the owner of the controller,
+                // in case the player is not equal to the owner of the
+                // controller,
                 // scramble the destination number such that other players can't
                 // fly to it directly
                 Random r = new Random();
@@ -129,8 +130,7 @@ public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallb
                     fakefrequency += (char) (r.nextInt(126 - 33) + 33);
                 }
                 destinationFrequency.text = fakefrequency;
-            }
-            else
+            } else
             {
                 destinationFrequency.text = String.valueOf(this.launchController.destFrequency);
             }
@@ -164,13 +164,11 @@ public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallb
             {
                 Integer.parseInt(string);
                 return true;
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -233,17 +231,20 @@ public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallb
         {
             switch (par1GuiButton.id)
             {
-            case 0:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, mc.world.provider.getDimension(), new Object[] { this.launchController.getPos(), 0 }));
-                break;
-            case 6:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, mc.world.provider.getDimension(), new Object[] { this.launchController.getPos(), 2 }));
-                break;
-            case 7:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_SWITCH_LAUNCH_CONTROLLER_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[] { this.launchController.getPos(), 0 }));
-                break;
-            default:
-                break;
+                case 0:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, mc.world.provider.getDimension(), new Object[]
+                    {this.launchController.getPos(), 0}));
+                    break;
+                case 6:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, mc.world.provider.getDimension(), new Object[]
+                    {this.launchController.getPos(), 2}));
+                    break;
+                case 7:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_SWITCH_LAUNCH_CONTROLLER_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                    {this.launchController.getPos(), 0}));
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -256,17 +257,24 @@ public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallb
 
         if (this.cannotEditTimer > 0)
         {
-            this.fontRenderer.drawString(this.launchController.getOwnerName(), this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 5, this.cannotEditTimer % 30 < 15 ? ColorUtil.to32BitColor(255, 255, 100, 100) : 4210752);
+            this.fontRenderer.drawString(this.launchController.getOwnerName(), this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 5,
+                this.cannotEditTimer % 30 < 15 ? ColorUtil.to32BitColor(255, 255, 100, 100) : 4210752);
             this.cannotEditTimer--;
         }
 
         this.fontRenderer.drawString(GCCoreUtil.translate("container.inventory"), 8, 115, 4210752);
         displayString = this.getStatus();
         this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 86, 4210752);
-        //		displayString = ElectricityDisplay.getDisplay(this.launchController.ueWattsPerTick * 20, ElectricUnit.WATT);
-        //		this.fontRenderer.drawString(displayString, this.xSize - 26 - this.fontRenderer.getStringWidth(displayString), 94, 4210752);
-        //		displayString = ElectricityDisplay.getDisplay(this.launchController.getVoltage(), ElectricUnit.VOLTAGE);
-        //		this.fontRenderer.drawString(displayString, this.xSize - 26 - this.fontRenderer.getStringWidth(displayString), 104, 4210752);
+        // displayString =
+        // ElectricityDisplay.getDisplay(this.launchController.ueWattsPerTick *
+        // 20, ElectricUnit.WATT);
+        // this.fontRenderer.drawString(displayString, this.xSize - 26 -
+        // this.fontRenderer.getStringWidth(displayString), 94, 4210752);
+        // displayString =
+        // ElectricityDisplay.getDisplay(this.launchController.getVoltage(),
+        // ElectricUnit.VOLTAGE);
+        // this.fontRenderer.drawString(displayString, this.xSize - 26 -
+        // this.fontRenderer.getStringWidth(displayString), 104, 4210752);
         this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.frequency.name") + ":", 7, 22, 4210752);
         this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.dest_frequency.name") + ":", 7, 44, 4210752);
 
@@ -332,12 +340,13 @@ public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallb
             if (textBox.equals(this.frequency))
             {
                 this.launchController.frequency = textBox.getIntegerValue();
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[] { 0, this.launchController.getPos(), this.launchController.frequency }));
-            }
-            else if (textBox.equals(this.destinationFrequency))
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                {0, this.launchController.getPos(), this.launchController.frequency}));
+            } else if (textBox.equals(this.destinationFrequency))
             {
                 this.launchController.destFrequency = textBox.getIntegerValue();
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[] { 2, this.launchController.getPos(), this.launchController.destFrequency }));
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimpleMars(EnumSimplePacketMars.S_UPDATE_ADVANCED_GUI, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                {2, this.launchController.getPos(), this.launchController.destFrequency}));
             }
         }
     }
@@ -348,16 +357,15 @@ public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallb
         if (textBox.equals(this.frequency))
         {
             return String.valueOf(this.launchController.frequency);
-        }
-        else if (textBox.equals(this.destinationFrequency))
+        } else if (textBox.equals(this.destinationFrequency))
         {
             if (PlayerUtil.getName(this.mc.player).equals(this.launchController.getOwnerName()) || this.launchController.getDisabled(2))
             {
                 return String.valueOf(this.launchController.destFrequency);
-            }
-            else
+            } else
             {
-                // in case the player is not equal to the owner of the controller,
+                // in case the player is not equal to the owner of the
+                // controller,
                 // scramble the destination number such that other players can't
                 // fly to it directly
                 Random r = new Random();
@@ -379,8 +387,7 @@ public class GuiLaunchController extends GuiContainerGC implements ITextBoxCallb
         if (textBox.equals(this.frequency))
         {
             return this.launchController.frequencyValid ? ColorUtil.to32BitColor(255, 20, 255, 20) : ColorUtil.to32BitColor(255, 255, 25, 25);
-        }
-        else if (textBox.equals(this.destinationFrequency))
+        } else if (textBox.equals(this.destinationFrequency))
         {
             return this.launchController.destFrequencyValid ? ColorUtil.to32BitColor(255, 20, 255, 20) : ColorUtil.to32BitColor(255, 255, 25, 25);
         }

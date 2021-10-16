@@ -8,6 +8,7 @@ package micdoodle8.mods.galacticraft.api.vector;
 
 public class Vector2 implements Cloneable
 {
+
     public double x;
     public double y;
 

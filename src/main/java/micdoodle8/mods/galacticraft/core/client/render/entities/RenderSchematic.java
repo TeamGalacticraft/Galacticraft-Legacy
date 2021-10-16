@@ -2,10 +2,11 @@ package micdoodle8.mods.galacticraft.core.client.render.entities;
 
 import micdoodle8.mods.galacticraft.api.recipe.SchematicRegistry;
 import micdoodle8.mods.galacticraft.core.entities.EntityHangingSchematic;
+
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderSchematic extends Render<EntityHangingSchematic>
 {
+
     public RenderSchematic(RenderManager manager)
     {
         super(manager);
@@ -46,11 +48,11 @@ public class RenderSchematic extends Render<EntityHangingSchematic>
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
-    
+
     private void renderPainting(EntityHangingSchematic painting, int width, int height)
     {
-        float f = (float)(-width) / 2.0F;
-        float f1 = (float)(-height) / 2.0F;
+        float f = (float) (-width) / 2.0F;
+        float f1 = (float) (-height) / 2.0F;
         float f2 = 0.5F;
         float f3 = 0.75F;
         float f4 = 0.8125F;
@@ -69,15 +71,15 @@ public class RenderSchematic extends Render<EntityHangingSchematic>
         {
             for (int j = 0; j < height / 16; ++j)
             {
-                double a = f + (float)((i + 1) * 16);
-                double b = f + (float)(i * 16);
-                double c = f1 + (float)((j + 1) * 16);
-                double d = f1 + (float)(j * 16);
+                double a = f + (float) ((i + 1) * 16);
+                double b = f + (float) (i * 16);
+                double c = f1 + (float) ((j + 1) * 16);
+                double d = f1 + (float) (j * 16);
                 this.setLightmap(painting, (a + b) / 2.0F, (c + d) / 2.0F);
-                float f19 = (float)(width - i * 16) / 32.0F;
-                float f20 = (float)(width - (i + 1) * 16) / 32.0F;
-                float f21 = (float)(height - j * 16) / 32.0F;
-                float f22 = (float)(height - (j + 1) * 16) / 32.0F;
+                float f19 = (float) (width - i * 16) / 32.0F;
+                float f20 = (float) (width - (i + 1) * 16) / 32.0F;
+                float f21 = (float) (height - j * 16) / 32.0F;
+                float f22 = (float) (height - (j + 1) * 16) / 32.0F;
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder worldrenderer = tessellator.getBuffer();
                 worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
@@ -113,34 +115,34 @@ public class RenderSchematic extends Render<EntityHangingSchematic>
     private void setLightmap(EntityHanging painting, double p_77008_2_, double p_77008_3_)
     {
         int i = MathHelper.floor(painting.posX);
-        int j = MathHelper.floor(painting.posY + (double)(p_77008_3_ / 16.0F));
+        int j = MathHelper.floor(painting.posY + (double) (p_77008_3_ / 16.0F));
         int k = MathHelper.floor(painting.posZ);
         EnumFacing enumfacing = painting.facingDirection;
 
         if (enumfacing == EnumFacing.NORTH)
         {
-            i = MathHelper.floor(painting.posX + (double)(p_77008_2_ / 16.0F));
+            i = MathHelper.floor(painting.posX + (double) (p_77008_2_ / 16.0F));
         }
 
         if (enumfacing == EnumFacing.WEST)
         {
-            k = MathHelper.floor(painting.posZ - (double)(p_77008_2_ / 16.0F));
+            k = MathHelper.floor(painting.posZ - (double) (p_77008_2_ / 16.0F));
         }
 
         if (enumfacing == EnumFacing.SOUTH)
         {
-            i = MathHelper.floor(painting.posX - (double)(p_77008_2_ / 16.0F));
+            i = MathHelper.floor(painting.posX - (double) (p_77008_2_ / 16.0F));
         }
 
         if (enumfacing == EnumFacing.EAST)
         {
-            k = MathHelper.floor(painting.posZ + (double)(p_77008_2_ / 16.0F));
+            k = MathHelper.floor(painting.posZ + (double) (p_77008_2_ / 16.0F));
         }
 
         int l = this.renderManager.world.getCombinedLight(new BlockPos(i, j, k), 0);
         int i1 = l % 65536;
         int j1 = l / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)i1, (float)j1);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) i1, (float) j1);
         GlStateManager.color(1.0F, 1.0F, 1.0F);
     }
 }

@@ -7,16 +7,18 @@ import micdoodle8.mods.galacticraft.api.recipe.SpaceStationRecipe;
  */
 public class SpaceStationType
 {
+
     private final int spaceStationID;
     private final int planetID;
     private SpaceStationRecipe recipe;
 
     /**
-     * The planet ID is the home planet.  Only one SpaceStationType is allowed per home planet.
-     * The dimension number for the planet ID should match what it will be on the CLIENT
-     * even if the server has assigned different dimension IDs.  For example, for the Overworld
-     * the planet ID should be 0 (it should be 0, even if the server has set ConfigManagerCore.idDimensionOverworld
-     * to a different value than 0).
+     * The planet ID is the home planet. Only one SpaceStationType is allowed
+     * per home planet. The dimension number for the planet ID should match what
+     * it will be on the CLIENT even if the server has assigned different
+     * dimension IDs. For example, for the Overworld the planet ID should be 0
+     * (it should be 0, even if the server has set
+     * ConfigManagerCore.idDimensionOverworld to a different value than 0).
      */
     public SpaceStationType(int spaceStationID, int planetID, SpaceStationRecipe recipe)
     {

@@ -1,8 +1,8 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.world.gen;
 
-import net.minecraft.block.Block;
-
 import java.util.ArrayList;
+
+import net.minecraft.block.Block;
 
 public class SpecialAsteroidBlock
 {
@@ -10,7 +10,7 @@ public class SpecialAsteroidBlock
     public Block block;
     public byte meta;
     public int probability;
-    public double thickness; //Arbitrary scale from 0 to 1;
+    public double thickness; // Arbitrary scale from 0 to 1;
     public int index;
     public static ArrayList<SpecialAsteroidBlock> register = new ArrayList<>();
 

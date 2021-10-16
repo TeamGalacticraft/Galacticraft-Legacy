@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 
 public class ContainerSchematicAstroMiner extends Container
 {
+
     public InventorySchematicAstroMiner craftMatrix = new InventorySchematicAstroMiner(this);
     public IInventory craftResult = new InventoryCraftResult();
     private final World world;
@@ -119,8 +120,7 @@ public class ContainerSchematicAstroMiner extends Container
                 }
 
                 var3.onSlotChange(var4, var2);
-            }
-            else
+            } else
             {
                 boolean valid = false;
                 for (int i = 1; i < 15; i++)
@@ -138,8 +138,7 @@ public class ContainerSchematicAstroMiner extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     if (par1 >= 15 && par1 < 42)
                     {
@@ -147,15 +146,13 @@ public class ContainerSchematicAstroMiner extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (par1 >= 42 && par1 < 51)
+                    } else if (par1 >= 42 && par1 < 51)
                     {
                         if (!this.mergeItemStack(var4, 15, 42, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(var4, 15, 51, false))
+                    } else if (!this.mergeItemStack(var4, 15, 51, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -165,8 +162,7 @@ public class ContainerSchematicAstroMiner extends Container
             if (var4.isEmpty())
             {
                 var3.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var3.onSlotChanged();
             }

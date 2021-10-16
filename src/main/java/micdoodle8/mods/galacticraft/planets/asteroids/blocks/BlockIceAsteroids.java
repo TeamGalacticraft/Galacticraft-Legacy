@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.blocks;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.blocks.ISortableBlock;
@@ -30,11 +33,9 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class BlockIceAsteroids extends BlockBreakable implements ISortableBlock
 {
+
     public BlockIceAsteroids(String assetName)
     {
         super(Material.ICE, false);
@@ -75,8 +76,7 @@ public class BlockIceAsteroids extends BlockBreakable implements ISortableBlock
             {
                 Block.spawnAsEntity(worldIn, pos, is);
             }
-        }
-        else
+        } else
         {
             if (worldIn.provider.getDimension() == -1 || worldIn.provider instanceof IGalacticraftWorldProvider)
             {

@@ -6,6 +6,7 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 
 public abstract class SizedPieceVenus extends DirectionalPieceVenus
 {
+
     protected int sizeX;
     protected int sizeY;
     protected int sizeZ;

@@ -1,23 +1,25 @@
 package micdoodle8.mods.galacticraft.core.entities.player;
 
-import api.player.client.ClientPlayerAPI;
-import api.player.client.ClientPlayerBase;
 import micdoodle8.mods.galacticraft.api.world.IZeroGDimension;
 import micdoodle8.mods.galacticraft.core.TransformerHooks;
 import micdoodle8.mods.galacticraft.core.client.EventHandlerClient;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
+import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
+
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import api.player.client.ClientPlayerAPI;
+import api.player.client.ClientPlayerBase;
+
 public class GCPlayerBaseSP extends ClientPlayerBase
 {
+
     boolean lastIsFlying;
     int lastLandingTicks;
-
 
     public GCPlayerBaseSP(ClientPlayerAPI playerAPI)
     {
@@ -64,9 +66,9 @@ public class GCPlayerBaseSP extends ClientPlayerBase
                 this.player.movementInput.moveForward *= 0.5F;
             }
 
-            //TODO: equivalent to getEyeHeight() in GCEntityClientPlayerMP
+            // TODO: equivalent to getEyeHeight() in GCEntityClientPlayerMP
 
-            //TODO: set this.player.flyToggleTimer = 0;
+            // TODO: set this.player.flyToggleTimer = 0;
         }
     }
 
@@ -77,7 +79,8 @@ public class GCPlayerBaseSP extends ClientPlayerBase
         {
             this.player.setJumping(false);
             AxisAlignedBB aABB = this.player.getEntityBoundingBox();
-            if ((aABB.minY % 1D) == 0.5D) this.player.setEntityBoundingBox(aABB.offset(0D, 0.00001D, 0D));
+            if ((aABB.minY % 1D) == 0.5D)
+                this.player.setEntityBoundingBox(aABB.offset(0D, 0.00001D, 0D));
         }
     }
 
@@ -111,26 +114,28 @@ public class GCPlayerBaseSP extends ClientPlayerBase
     public boolean isSneaking()
     {
         if (this.player.world.provider instanceof IZeroGDimension)
-    	{
+        {
             GCPlayerStatsClient stats = GCPlayerStatsClient.get(this.player);
-        	if (stats.getLandingTicks() > 0)
-        	{
-        	    if (this.lastLandingTicks == 0)
-        	        this.lastLandingTicks = stats.getLandingTicks();
+            if (stats.getLandingTicks() > 0)
+            {
+                if (this.lastLandingTicks == 0)
+                    this.lastLandingTicks = stats.getLandingTicks();
 
-        	    return stats.getLandingTicks() < this.lastLandingTicks;
-        	}
-        	else
-        	    this.lastLandingTicks = 0;
+                return stats.getLandingTicks() < this.lastLandingTicks;
+            } else
+                this.lastLandingTicks = 0;
 
-        	if (stats.getFreefallHandler().pjumpticks > 0) return true;
+            if (stats.getFreefallHandler().pjumpticks > 0)
+                return true;
 
-        	if (EventHandlerClient.sneakRenderOverride)
-        	{
-        	    if (stats.getFreefallHandler().testFreefall(this.player)) return false;
-        	    if (stats.isInFreefall()) return false;
-        	}
-    	}
+            if (EventHandlerClient.sneakRenderOverride)
+            {
+                if (stats.getFreefallHandler().testFreefall(this.player))
+                    return false;
+                if (stats.isInFreefall())
+                    return false;
+            }
+        }
         return super.isSneaking();
     }
 
@@ -145,8 +150,9 @@ public class GCPlayerBaseSP extends ClientPlayerBase
     @SideOnly(Side.CLIENT)
     public int getBrightnessForRender()
     {
-        double height = this.player.posY + (double)this.player.getEyeHeight();
-        if (height > 255D) height = 255D;
+        double height = this.player.posY + (double) this.player.getEyeHeight();
+        if (height > 255D)
+            height = 255D;
         BlockPos blockpos = new BlockPos(this.player.posX, height, this.player.posZ);
         return this.player.world.isBlockLoaded(blockpos) ? this.player.world.getCombinedLight(blockpos, 0) : 0;
     }

@@ -7,17 +7,18 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.launchwrapper.Launch;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -30,6 +31,7 @@ import java.util.Random;
 
 public class SkyProviderOverworld extends IRenderHandler
 {
+
     private static final ResourceLocation moonTexture = new ResourceLocation("textures/environment/moon_phases.png");
     private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");
 
@@ -40,8 +42,7 @@ public class SkyProviderOverworld extends IRenderHandler
         try
         {
             optifinePresent = Launch.classLoader.getClassBytes("CustomColorizer") != null;
-        }
-        catch (final Exception e)
+        } catch (final Exception e)
         {
         }
     }
@@ -126,7 +127,8 @@ public class SkyProviderOverworld extends IRenderHandler
     {
         if (!ClientProxyCore.overworldTextureRequestSent)
         {
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(mc.world), new Object[] {}));
+            GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_OVERWORLD_IMAGE, GCCoreUtil.getDimensionID(mc.world), new Object[]
+            {}));
             ClientProxyCore.overworldTextureRequestSent = true;
         }
 
@@ -158,8 +160,7 @@ public class SkyProviderOverworld extends IRenderHandler
                 GL11.glLoadIdentity();
 
                 mc.entityRenderer.orientCamera(partialTicks);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -265,7 +266,7 @@ public class SkyProviderOverworld extends IRenderHandler
         GL11.glRotatef(this.minecraft.world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
         double playerHeight = this.minecraft.player.posY;
 
-        //Draw stars
+        // Draw stars
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         float threshold;
@@ -287,7 +288,7 @@ public class SkyProviderOverworld extends IRenderHandler
 
         GL11.glCallList(this.starGLCallList + 4);
 
-        //Draw sun
+        // Draw sun
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         r = 30.0F;
@@ -300,7 +301,7 @@ public class SkyProviderOverworld extends IRenderHandler
         worldRenderer.pos(-r, 100.0D, r).tex(0.0D, 1.0D).endVertex();
         var23.draw();
 
-        //Draw moon
+        // Draw moon
         r = 40.0F;
         this.minecraft.renderEngine.bindTexture(SkyProviderOverworld.moonTexture);
         float sinphi = this.minecraft.world.getMoonPhase();
@@ -326,7 +327,7 @@ public class SkyProviderOverworld extends IRenderHandler
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glColor3f(0.0F, 0.0F, 0.0F);
 
-        //TODO get exact height figure here
+        // TODO get exact height figure here
         double var25 = playerHeight - 64;
 
         if (var25 > this.minecraft.gameSettings.renderDistanceChunks * 16)
@@ -387,8 +388,7 @@ public class SkyProviderOverworld extends IRenderHandler
                 GL11.glLoadIdentity();
 
                 mc.entityRenderer.orientCamera(partialTicks);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
             }

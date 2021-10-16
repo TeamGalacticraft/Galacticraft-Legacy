@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.mars.blocks;
 
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMachineBase;
@@ -23,14 +25,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Random;
-
 public class BlockMachineMarsT2 extends BlockMachineBase
 {
+
     public static final PropertyEnum<EnumMachineType> TYPE = PropertyEnum.create("type", EnumMachineType.class);
 
     public enum EnumMachineType implements EnumMachineBase, IStringSerializable
     {
+
         GAS_LIQUEFIER(0, "gas_liquefier", TileEntityGasLiquefier::new, "tile.gas_liquefier.description", "tile.mars_machine.4"),
         METHANE_SYNTHESIZER(4, "methane_synthesizer", TileEntityMethaneSynthesizer::new, "tile.methane_synthesizer.description", "tile.mars_machine.5"),
         ELECTROLYZER(8, "electrolyzer", TileEntityElectrolyzer::new, "tile.electrolyzer.description", "tile.mars_machine.6");
@@ -57,18 +59,19 @@ public class BlockMachineMarsT2 extends BlockMachineBase
         }
 
         private final static EnumMachineType[] values = values();
+
         @Override
         public EnumMachineType fromMetadata(int meta)
         {
             return values[(meta / 4) % values.length];
         }
-        
+
         @Override
         public String getName()
         {
             return this.name;
         }
-        
+
         @Override
         public TileEntity tileConstructor()
         {
@@ -78,7 +81,8 @@ public class BlockMachineMarsT2 extends BlockMachineBase
         @FunctionalInterface
         private static interface TileConstructor
         {
-              TileEntity create();
+
+            TileEntity create();
         }
 
         @Override
@@ -143,19 +147,23 @@ public class BlockMachineMarsT2 extends BlockMachineBase
                 {
                     if (rand.nextInt(3) == 0)
                     {
-                        GalacticraftCore.proxy.spawnParticle("whiteSmokeTiny", new Vector3(x + i, y, z - 0.41F), new Vector3(0.0D, -0.015D, -0.0015D), new Object[] {});
+                        GalacticraftCore.proxy.spawnParticle("whiteSmokeTiny", new Vector3(x + i, y, z - 0.41F), new Vector3(0.0D, -0.015D, -0.0015D), new Object[]
+                        {});
                     }
                     if (rand.nextInt(3) == 0)
                     {
-                        GalacticraftCore.proxy.spawnParticle("whiteSmokeTiny", new Vector3(x + i, y, z + 0.537F), new Vector3(0.0D, -0.015D, 0.0015D), new Object[] {});
+                        GalacticraftCore.proxy.spawnParticle("whiteSmokeTiny", new Vector3(x + i, y, z + 0.537F), new Vector3(0.0D, -0.015D, 0.0015D), new Object[]
+                        {});
                     }
                     if (rand.nextInt(3) == 0)
                     {
-                        GalacticraftCore.proxy.spawnParticle("whiteSmokeTiny", new Vector3(x - 0.41F, y, z + i), new Vector3(-0.0015D, -0.015D, 0.0D), new Object[] {});
+                        GalacticraftCore.proxy.spawnParticle("whiteSmokeTiny", new Vector3(x - 0.41F, y, z + i), new Vector3(-0.0015D, -0.015D, 0.0D), new Object[]
+                        {});
                     }
                     if (rand.nextInt(3) == 0)
                     {
-                        GalacticraftCore.proxy.spawnParticle("whiteSmokeTiny", new Vector3(x + 0.537F, y, z + i), new Vector3(0.0015D, -0.015D, 0.0D), new Object[] {});
+                        GalacticraftCore.proxy.spawnParticle("whiteSmokeTiny", new Vector3(x + 0.537F, y, z + i), new Vector3(0.0015D, -0.015D, 0.0D), new Object[]
+                        {});
                     }
                 }
             }

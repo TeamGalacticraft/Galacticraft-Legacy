@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.venus;
 
+import java.util.List;
+
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
@@ -9,7 +11,11 @@ import micdoodle8.mods.galacticraft.api.world.AtmosphereInfo;
 import micdoodle8.mods.galacticraft.api.world.EnumAtmosphericGas;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.entities.*;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedCreeper;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedEnderman;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedSkeleton;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedSpider;
+import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedZombie;
 import micdoodle8.mods.galacticraft.core.event.EventHandlerGC;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockDesc;
 import micdoodle8.mods.galacticraft.core.items.ItemBucketGC;
@@ -36,7 +42,14 @@ import micdoodle8.mods.galacticraft.planets.venus.inventory.ContainerSolarArrayC
 import micdoodle8.mods.galacticraft.planets.venus.network.PacketSimpleVenus;
 import micdoodle8.mods.galacticraft.planets.venus.recipe.RecipeManagerVenus;
 import micdoodle8.mods.galacticraft.planets.venus.tick.VenusTickHandlerServer;
-import micdoodle8.mods.galacticraft.planets.venus.tile.*;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityCrashedProbe;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityDungeonSpawnerVenus;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityGeothermalGenerator;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityLaserTurret;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntitySolarArrayController;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntitySolarArrayModule;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntitySpout;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityTreasureChestVenus;
 import micdoodle8.mods.galacticraft.planets.venus.world.gen.BiomeVenus;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -54,15 +67,18 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.List;
-
 public class VenusModule implements IPlanetsModule
 {
+
     public static Planet planetVenus;
     public static Fluid sulphuricAcid;
     public static Fluid sulphuricAcidGC;
@@ -71,7 +87,8 @@ public class VenusModule implements IPlanetsModule
     @Override
     public void preInit(FMLPreInitializationEvent event)
     {
-        VenusModule.planetVenus = (Planet) new Planet("venus").setParentSolarSystem(GalacticraftCore.solarSystemSol).setRingColorRGB(0.1F, 0.9F, 0.6F).setPhaseShift(2.0F).setRelativeDistanceFromCenter(new CelestialBody.ScalableDistance(0.75F, 0.75F)).setRelativeOrbitTime(0.61527929901423877327491785323111F);
+        VenusModule.planetVenus = (Planet) new Planet("venus").setParentSolarSystem(GalacticraftCore.solarSystemSol).setRingColorRGB(0.1F, 0.9F, 0.6F).setPhaseShift(2.0F)
+            .setRelativeDistanceFromCenter(new CelestialBody.ScalableDistance(0.75F, 0.75F)).setRelativeOrbitTime(0.61527929901423877327491785323111F);
         MinecraftForge.EVENT_BUS.register(new EventHandlerVenus());
 
         if (!FluidRegistry.isFluidRegistered("sulphuricacid"))
@@ -80,8 +97,7 @@ public class VenusModule implements IPlanetsModule
             ResourceLocation flowingIcon = new ResourceLocation(GalacticraftPlanets.TEXTURE_PREFIX + "blocks/fluids/sulphuric_acid_flow");
             sulphuricAcidGC = new Fluid("sulphuricacid", stillIcon, flowingIcon).setDensity(6229).setViscosity(1400);
             FluidRegistry.registerFluid(sulphuricAcidGC);
-        }
-        else
+        } else
         {
             GCLog.info("Galacticraft sulphuric acid is not default, issues may occur.");
         }
@@ -94,15 +110,20 @@ public class VenusModule implements IPlanetsModule
             ((BlockSulphuricAcid) VenusBlocks.sulphuricAcid).setQuantaPerBlock(5);
             VenusBlocks.registerBlock(VenusBlocks.sulphuricAcid, ItemBlockDesc.class);
             sulphuricAcid.setBlock(VenusBlocks.sulphuricAcid);
-        }
-        else
+        } else
         {
             VenusBlocks.sulphuricAcid = sulphuricAcid.getBlock();
         }
 
         if (VenusBlocks.sulphuricAcid != null)
         {
-        	FluidRegistry.addBucketForFluid(sulphuricAcid);  //Create a Universal Bucket AS WELL AS our type, this is needed to pull fluids out of other mods tanks
+            FluidRegistry.addBucketForFluid(sulphuricAcid); // Create a
+                                                            // Universal Bucket
+                                                            // AS WELL AS our
+                                                            // type, this is
+                                                            // needed to pull
+                                                            // fluids out of
+                                                            // other mods tanks
             VenusItems.bucketSulphuricAcid = new ItemBucketGC(VenusBlocks.sulphuricAcid, VenusModule.sulphuricAcid).setTranslationKey("bucket_sulphuric_acid");
             VenusItems.registerItem(VenusItems.bucketSulphuricAcid);
             EventHandlerGC.bucketList.put(VenusBlocks.sulphuricAcid, VenusItems.bucketSulphuricAcid);
@@ -110,7 +131,7 @@ public class VenusModule implements IPlanetsModule
 
         VenusBlocks.initBlocks();
         VenusItems.initItems();
-        
+
         VenusModule.planetVenus.setBiomeInfo(BiomeVenus.venusFlat, BiomeVenus.venusMountain, BiomeVenus.venusValley);
     }
 
@@ -179,14 +200,19 @@ public class VenusModule implements IPlanetsModule
 
     public void registerTileEntities()
     {
-        GameRegistry.registerTileEntity(TileEntitySpout.class, "GC Venus Spout");
-        GameRegistry.registerTileEntity(TileEntityDungeonSpawnerVenus.class, "GC Venus Dungeon Spawner");
-        GameRegistry.registerTileEntity(TileEntityTreasureChestVenus.class, "GC Tier 3 Treasure Chest");
-        GameRegistry.registerTileEntity(TileEntityGeothermalGenerator.class, "GC Geothermal Generator");
-        GameRegistry.registerTileEntity(TileEntityCrashedProbe.class, "GC Crashed Probe");
-        GameRegistry.registerTileEntity(TileEntitySolarArrayModule.class, "GC Solar Array Module");
-        GameRegistry.registerTileEntity(TileEntitySolarArrayController.class, "GC Solar Array Controller");
-        GameRegistry.registerTileEntity(TileEntityLaserTurret.class, "GC Laser Turret");
+        registerTileEntity(TileEntitySpout.class, "Venus Spout");
+        registerTileEntity(TileEntityDungeonSpawnerVenus.class, "Venus Dungeon Spawner");
+        registerTileEntity(TileEntityTreasureChestVenus.class, "Tier 3 Treasure Chest");
+        registerTileEntity(TileEntityGeothermalGenerator.class, "Geothermal Generator");
+        registerTileEntity(TileEntityCrashedProbe.class, "Crashed Probe");
+        registerTileEntity(TileEntitySolarArrayModule.class, "Solar Array Module");
+        registerTileEntity(TileEntitySolarArrayController.class, "Solar Array Controller");
+        registerTileEntity(TileEntityLaserTurret.class, "Laser Turret");
+    }
+
+    private void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String name)
+    {
+        GameRegistry.registerTileEntity(tileEntityClass, new ResourceLocation(Constants.MOD_ID_PLANETS, name));
     }
 
     public void registerCreatures()
@@ -218,16 +244,13 @@ public class VenusModule implements IPlanetsModule
             if (tile instanceof TileEntityGeothermalGenerator)
             {
                 return new ContainerGeothermal(player.inventory, (TileEntityGeothermalGenerator) tile);
-            }
-            else if (tile instanceof TileEntityCrashedProbe)
+            } else if (tile instanceof TileEntityCrashedProbe)
             {
                 return new ContainerCrashedProbe(player.inventory, (TileEntityCrashedProbe) tile);
-            }
-            else if (tile instanceof TileEntitySolarArrayController)
+            } else if (tile instanceof TileEntitySolarArrayController)
             {
                 return new ContainerSolarArrayController(player.inventory, (TileEntitySolarArrayController) tile);
-            }
-            else if (tile instanceof TileEntityLaserTurret)
+            } else if (tile instanceof TileEntityLaserTurret)
             {
                 return new ContainerLaserTurret(player.inventory, (TileEntityLaserTurret) tile);
             }

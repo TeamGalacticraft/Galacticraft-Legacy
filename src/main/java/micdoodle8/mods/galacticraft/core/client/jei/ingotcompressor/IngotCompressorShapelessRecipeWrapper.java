@@ -1,26 +1,27 @@
 package micdoodle8.mods.galacticraft.core.client.jei.ingotcompressor;
 
-import java.util.List;
-
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jei.api.recipe.IStackHelper;
 import micdoodle8.mods.galacticraft.api.recipe.ShapelessOreRecipeGC;
 import micdoodle8.mods.galacticraft.core.client.jei.GalacticraftJEI;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
+import java.awt.Color;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
-import java.awt.Color;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.IStackHelper;
 
 public class IngotCompressorShapelessRecipeWrapper implements IRecipeWrapper
 {
-    @Nonnull
-    private final ShapelessOreRecipeGC recipe;
+
+    @Nonnull private final ShapelessOreRecipeGC recipe;
     private final IStackHelper stackHelper;
 
     public IngotCompressorShapelessRecipeWrapper(IStackHelper stackhelper, @Nonnull ShapelessOreRecipeGC recipe)
@@ -32,8 +33,8 @@ public class IngotCompressorShapelessRecipeWrapper implements IRecipeWrapper
     @Override
     public void getIngredients(IIngredients ingredients)
     {
-    	List<List<ItemStack>> inputs =  this.stackHelper.expandRecipeItemStackInputs(recipe.getInput());
-    	ingredients.setInputLists(ItemStack.class, inputs);
+        List<List<ItemStack>> inputs = this.stackHelper.expandRecipeItemStackInputs(recipe.getInput());
+        ingredients.setInputLists(ItemStack.class, inputs);
         ingredients.setOutput(ItemStack.class, this.recipe.getRecipeOutput());
     }
 
@@ -55,8 +56,9 @@ public class IngotCompressorShapelessRecipeWrapper implements IRecipeWrapper
         try
         {
             experience = furnaceRecipes.getSmeltingExperience(this.recipe.getRecipeOutput());
+        } catch (Exception e)
+        {
         }
-        catch (Exception e) {}
 
         if (experience > 0)
         {

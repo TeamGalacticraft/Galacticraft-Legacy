@@ -14,6 +14,7 @@ import net.minecraft.util.SoundCategory;
  */
 public class SoundUpdaterMiner extends MovingSound
 {
+
     private final EntityPlayerSP thePlayer;
     private final EntityAstroMiner theRocket;
     private boolean soundStopped;
@@ -25,12 +26,12 @@ public class SoundUpdaterMiner extends MovingSound
         super(GCSounds.astroMiner, SoundCategory.AMBIENT);
         this.theRocket = par2Entity;
         this.thePlayer = par1EntityPlayerSP;
-        this.volume = 0.00001F;  //If it's zero it won't start playing
+        this.volume = 0.00001F; // If it's zero it won't start playing
         this.targetVolume = 0.6F;
         this.targetPitch = 1.0F;
-        this.pitch = 1.0F;  //pitch
+        this.pitch = 1.0F; // pitch
         this.repeat = true;
-        this.repeatDelay = 0;  //repeat delay
+        this.repeatDelay = 0; // repeat delay
         this.updateSoundLocation(par2Entity);
     }
 
@@ -46,8 +47,7 @@ public class SoundUpdaterMiner extends MovingSound
             {
                 this.targetVolume = 0.6F;
                 this.targetPitch = 0.1F;
-            }
-            else
+            } else
             {
                 this.targetVolume = 1.0F;
                 this.targetPitch = 1.0F;
@@ -59,8 +59,7 @@ public class SoundUpdaterMiner extends MovingSound
                 {
                     this.volume = this.targetVolume;
                 }
-            }
-            else if (this.volume > this.targetVolume)
+            } else if (this.volume > this.targetVolume)
             {
                 this.volume -= 0.1F;
                 if (this.volume < this.targetVolume)
@@ -75,8 +74,7 @@ public class SoundUpdaterMiner extends MovingSound
                 {
                     this.pitch = this.targetPitch;
                 }
-            }
-            else if (this.pitch > this.targetPitch)
+            } else if (this.pitch > this.targetPitch)
             {
                 this.pitch -= 0.05F;
                 if (this.pitch < this.targetPitch)
@@ -85,8 +83,7 @@ public class SoundUpdaterMiner extends MovingSound
                 }
             }
             this.updateSoundLocation(this.theRocket);
-        }
-        else
+        } else
         {
             this.donePlaying = true;
         }

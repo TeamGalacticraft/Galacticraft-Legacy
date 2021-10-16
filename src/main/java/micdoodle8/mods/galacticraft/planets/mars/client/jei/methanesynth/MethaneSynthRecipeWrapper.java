@@ -8,10 +8,9 @@ import javax.annotation.Nonnull;
 
 public class MethaneSynthRecipeWrapper implements IRecipeWrapper
 {
-    @Nonnull
-    private final ItemStack input;
-    @Nonnull
-    private final ItemStack output;
+
+    @Nonnull private final ItemStack input;
+    @Nonnull private final ItemStack output;
 
     public MethaneSynthRecipeWrapper(@Nonnull ItemStack input, @Nonnull ItemStack output)
     {

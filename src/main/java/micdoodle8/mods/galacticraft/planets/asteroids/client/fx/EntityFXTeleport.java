@@ -14,6 +14,7 @@ import java.lang.ref.WeakReference;
 @SideOnly(Side.CLIENT)
 public class EntityFXTeleport extends Particle
 {
+
     private float portalParticleScale;
     private double portalPosX;
     private double portalPosY;

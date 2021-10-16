@@ -28,6 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockBeamReflector extends BlockTileGC implements IShiftDescription, ISortableBlock
 {
+
     protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 0.8, 0.75);
 
     public BlockBeamReflector(String assetName)

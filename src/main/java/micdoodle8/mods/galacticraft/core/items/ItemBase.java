@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
@@ -21,13 +22,14 @@ import javax.annotation.Nullable;
 
 public class ItemBase extends Item implements ISortableItem
 {
+
     float smeltingXP = -1F;
-    
+
     public ItemBase(String assetName)
     {
         super();
         this.setTranslationKey(assetName);
-        //this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
+        // this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
     }
 
     @Override
@@ -50,8 +52,7 @@ public class ItemBase extends Item implements ISortableItem
         if (par1ItemStack != null && this == GCItems.heavyPlatingTier1)
         {
             tooltip.add(GCCoreUtil.translate("item.tier1.desc"));
-        }
-        else if (par1ItemStack != null && this == GCItems.dungeonFinder)
+        } else if (par1ItemStack != null && this == GCItems.dungeonFinder)
         {
             tooltip.add(EnumColor.RED + GCCoreUtil.translate("gui.creative_only.desc"));
         }
@@ -68,7 +69,7 @@ public class ItemBase extends Item implements ISortableItem
         this.smeltingXP = f;
         return this;
     }
-    
+
     @Override
     public float getSmeltingExperience(ItemStack item)
     {

@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public class SlotRocketBenchResult extends Slot
 {
+
     private final IInventory craftMatrix;
     private final EntityPlayer thePlayer;
 
@@ -22,8 +23,6 @@ public class SlotRocketBenchResult extends Slot
     {
         return false;
     }
-
-
 
     @Override
     public ItemStack onTake(EntityPlayer par1EntityPlayer, ItemStack stack)
@@ -45,8 +44,7 @@ public class SlotRocketBenchResult extends Slot
                         if (this.craftMatrix.getStackInSlot(var2).isEmpty())
                         {
                             this.craftMatrix.setInventorySlotContents(var2, var4);
-                        }
-                        else
+                        } else
                         {
                             this.thePlayer.entityDropItem(var4, 0.0F);
                         }

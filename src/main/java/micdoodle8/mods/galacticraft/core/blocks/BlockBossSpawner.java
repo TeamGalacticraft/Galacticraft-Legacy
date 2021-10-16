@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.blocks;
 
 import micdoodle8.mods.galacticraft.core.entities.EntitySkeletonBoss;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityDungeonSpawner;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -23,6 +24,7 @@ import java.util.Random;
 
 public class BlockBossSpawner extends Block implements ITileEntityProvider
 {
+
     public BlockBossSpawner(String assetName)
     {
         super(Material.ROCK);

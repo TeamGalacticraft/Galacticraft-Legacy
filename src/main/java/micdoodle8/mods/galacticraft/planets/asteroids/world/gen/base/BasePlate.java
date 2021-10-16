@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class BasePlate extends SizedPiece
 {
+
     public BasePlate()
     {
     }
@@ -37,5 +38,5 @@ public class BasePlate extends SizedPiece
 
         return true;
     }
-    
+
 }

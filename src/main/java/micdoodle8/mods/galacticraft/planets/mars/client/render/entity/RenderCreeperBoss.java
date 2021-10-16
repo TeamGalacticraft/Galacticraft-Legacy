@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderCreeperBoss extends RenderLiving<EntityCreeperBoss>
 {
+
     private static final ResourceLocation creeperTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/model/creeper.png");
     private static final ResourceLocation powerTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/power.png");
     private final ModelBase creeperModel = new ModelCreeperBoss(2.0F);
@@ -67,7 +68,8 @@ public class RenderCreeperBoss extends RenderLiving<EntityCreeperBoss>
     protected void preRenderCallback(EntityCreeperBoss par1EntityLiving, float par2)
     {
         GL11.glScalef(4.0F, 4.0F, 4.0F);
-        GL11.glRotatef((float) (Math.pow(par1EntityLiving.deathTicks, 2) / 5.0F + (Math.pow(par1EntityLiving.deathTicks, 2) / 5.0F - Math.pow(par1EntityLiving.deathTicks - 1, 2) / 5.0F) * par2), 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef((float) (Math.pow(par1EntityLiving.deathTicks, 2) / 5.0F + (Math.pow(par1EntityLiving.deathTicks, 2) / 5.0F - Math.pow(par1EntityLiving.deathTicks - 1, 2) / 5.0F) * par2), 0.0F,
+            1.0F, 0.0F);
     }
 
     @Override

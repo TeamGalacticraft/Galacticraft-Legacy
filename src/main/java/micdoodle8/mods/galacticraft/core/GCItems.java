@@ -4,17 +4,53 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
-import mezz.jei.api.ingredients.IIngredientBlacklist;
-import micdoodle8.mods.galacticraft.core.items.*;
+import micdoodle8.mods.galacticraft.core.items.ISortableItem;
+import micdoodle8.mods.galacticraft.core.items.ItemArmorGC;
+import micdoodle8.mods.galacticraft.core.items.ItemAxeGC;
+import micdoodle8.mods.galacticraft.core.items.ItemBase;
+import micdoodle8.mods.galacticraft.core.items.ItemBasic;
+import micdoodle8.mods.galacticraft.core.items.ItemBattery;
+import micdoodle8.mods.galacticraft.core.items.ItemBatteryInfinite;
+import micdoodle8.mods.galacticraft.core.items.ItemBuggy;
+import micdoodle8.mods.galacticraft.core.items.ItemBuggyMaterial;
+import micdoodle8.mods.galacticraft.core.items.ItemCanister;
+import micdoodle8.mods.galacticraft.core.items.ItemCanisterGeneric;
+import micdoodle8.mods.galacticraft.core.items.ItemCanisterOxygenInfinite;
+import micdoodle8.mods.galacticraft.core.items.ItemCheese;
+import micdoodle8.mods.galacticraft.core.items.ItemEmergencyKit;
+import micdoodle8.mods.galacticraft.core.items.ItemFlag;
+import micdoodle8.mods.galacticraft.core.items.ItemFood;
+import micdoodle8.mods.galacticraft.core.items.ItemFuelCanister;
+import micdoodle8.mods.galacticraft.core.items.ItemHoeGC;
+import micdoodle8.mods.galacticraft.core.items.ItemIC2Compat;
+import micdoodle8.mods.galacticraft.core.items.ItemKey;
+import micdoodle8.mods.galacticraft.core.items.ItemMeteorChunk;
+import micdoodle8.mods.galacticraft.core.items.ItemMeteoricIron;
+import micdoodle8.mods.galacticraft.core.items.ItemMoon;
+import micdoodle8.mods.galacticraft.core.items.ItemOilCanister;
+import micdoodle8.mods.galacticraft.core.items.ItemOxygenGear;
+import micdoodle8.mods.galacticraft.core.items.ItemOxygenMask;
+import micdoodle8.mods.galacticraft.core.items.ItemOxygenTank;
+import micdoodle8.mods.galacticraft.core.items.ItemParaChute;
+import micdoodle8.mods.galacticraft.core.items.ItemPickaxeGC;
+import micdoodle8.mods.galacticraft.core.items.ItemPreLaunchChecklist;
+import micdoodle8.mods.galacticraft.core.items.ItemRocketEngineGC;
+import micdoodle8.mods.galacticraft.core.items.ItemSchematic;
+import micdoodle8.mods.galacticraft.core.items.ItemSensorGlasses;
+import micdoodle8.mods.galacticraft.core.items.ItemSpadeGC;
+import micdoodle8.mods.galacticraft.core.items.ItemSwordGC;
+import micdoodle8.mods.galacticraft.core.items.ItemTier1Rocket;
+import micdoodle8.mods.galacticraft.core.items.ItemUniversalWrench;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.StackSorted;
 import micdoodle8.mods.galacticraft.core.wrappers.PartialCanister;
+
+import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -31,8 +67,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import mezz.jei.api.ingredients.IIngredientBlacklist;
+
 public class GCItems
 {
+
     public static Item oxTankLight;
     public static Item oxTankMedium;
     public static Item oxTankHeavy;
@@ -85,8 +124,10 @@ public class GCItems
     public static Item ic2compat;
     public static Item emergencyKit;
 
-    public static ArmorMaterial ARMOR_SENSOR_GLASSES = EnumHelper.addArmorMaterial("SENSORGLASSES", "", 200, new int[] { 0, 0, 0, 0 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
-    public static ArmorMaterial ARMOR_STEEL = EnumHelper.addArmorMaterial("steel", "", 30, new int[] { 3, 6, 8, 3 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0F);
+    public static ArmorMaterial ARMOR_SENSOR_GLASSES = EnumHelper.addArmorMaterial("SENSORGLASSES", "", 200, new int[]
+    {0, 0, 0, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
+    public static ArmorMaterial ARMOR_STEEL = EnumHelper.addArmorMaterial("steel", "", 30, new int[]
+    {3, 6, 8, 3}, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0F);
     public static ToolMaterial TOOL_STEEL = EnumHelper.addToolMaterial("steel", 3, 768, 5.0F, 2, 8);
 
     public static ArrayList<Item> hiddenItems = new ArrayList<Item>();
@@ -144,7 +185,7 @@ public class GCItems
         GCItems.prelaunchChecklist = new ItemPreLaunchChecklist("prelaunch_checklist");
         GCItems.dungeonFinder = new ItemBase("dungeonfinder");
         GCItems.ic2compat = new ItemIC2Compat("ic2compat");
-        GCItems.emergencyKit = new ItemEmergencyKit("emergency_kit"); 
+        GCItems.emergencyKit = new ItemEmergencyKit("emergency_kit");
 
         GCItems.registerHarvestLevels();
 
@@ -157,7 +198,7 @@ public class GCItems
         GalacticraftCore.proxy.registerCanister(new PartialCanister(GCItems.oilCanister, Constants.MOD_ID_CORE, "oil_canister_partial", 7));
         GalacticraftCore.proxy.registerCanister(new PartialCanister(GCItems.fuelCanister, Constants.MOD_ID_CORE, "fuel_canister_partial", 7));
     }
-    
+
     public static void oreDictRegistrations()
     {
         for (int i = 0; i < ItemBasic.names.length; i++)
@@ -193,14 +234,11 @@ public class GCItems
         GalacticraftCore.proxy.registerCanister(new PartialCanister(GCItems.fuelCanister, Constants.MOD_ID_CORE, "fuel_canister_partial", 7));
         OreDictionary.registerOre(ConfigManagerCore.otherModsSilicon, new ItemStack(GCItems.basicItem, 1, 2));
     }
-    
-    
 
     /**
-     * Do not call this until after mod loading is complete
-     * because JEI doesn't have an internal item blacklist
-     * until it services an FMLLoadCompleteEvent.
-     * (Seriously?!)
+     * Do not call this until after mod loading is complete because JEI doesn't
+     * have an internal item blacklist until it services an
+     * FMLLoadCompleteEvent. (Seriously?!)
      */
     public static void hideItemsJEI(IIngredientBlacklist jeiHidden)
     {
@@ -237,8 +275,7 @@ public class GCItems
             if (stackSorteds != null)
             {
                 itemOrderListItems.addAll(stackSorteds);
-            }
-            else
+            } else
             {
                 System.out.println("ERROR: null sort stack: " + type.toString());
             }
@@ -272,8 +309,7 @@ public class GCItems
                 }
                 sortMapItems.get(categoryItem).add(new StackSorted(stack.getItem(), stack.getItemDamage()));
             }
-        }
-        else if (item.getCreativeTab() == GalacticraftCore.galacticraftItemsTab)
+        } else if (item.getCreativeTab() == GalacticraftCore.galacticraftItemsTab)
         {
             throw new RuntimeException(item.getClass() + " must inherit " + ISortableItem.class.getSimpleName() + "!");
         }
@@ -330,11 +366,12 @@ public class GCItems
         GCItems.registerItem(GCItems.prelaunchChecklist);
         GCItems.registerItem(GCItems.dungeonFinder);
         GCItems.registerItem(GCItems.emergencyKit);
-        
+
         GCItems.canisterTypes.add((ItemCanisterGeneric) GCItems.fuelCanister);
         GCItems.canisterTypes.add((ItemCanisterGeneric) GCItems.oilCanister);
-        
-        if (CompatibilityManager.useAluDust()) GCItems.registerItem(GCItems.ic2compat);
+
+        if (CompatibilityManager.useAluDust())
+            GCItems.registerItem(GCItems.ic2compat);
     }
 
     public static void registerItem(Item item)
@@ -348,7 +385,7 @@ public class GCItems
         GalacticraftCore.itemListTrue.add(item);
         GalacticraftCore.proxy.postRegisterItem(item);
     }
-    
+
     public static void registerItems(IForgeRegistry<Item> registry)
     {
         for (ItemStack item : GalacticraftCore.itemList)

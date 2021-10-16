@@ -4,12 +4,11 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Implement into a key Item class to allow @IKeyable tile entities to get
- * activated while holding this item
- * <p/>
- * Nothing here (yet)
+ * activated while holding this item <p/> Nothing here (yet)
  */
 public interface IKeyItem
 {
+
     /**
      * Gets the tier of this object
      *

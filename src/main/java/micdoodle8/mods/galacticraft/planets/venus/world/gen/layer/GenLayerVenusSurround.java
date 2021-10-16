@@ -5,6 +5,7 @@ import net.minecraft.world.gen.layer.GenLayer;
 
 public class GenLayerVenusSurround extends GenLayer
 {
+
     public GenLayerVenusSurround(long l, GenLayer parent)
     {
         super(l);
@@ -29,19 +30,7 @@ public class GenLayerVenusSurround extends GenLayer
         {
             for (int dx = 0; dx < width; dx++)
             {
-                int right = input[dx + 0 + (dz + 1) * nwidth];
-                int left = input[dx + 2 + (dz + 1) * nwidth];
-                int up = input[dx + 1 + (dz + 0) * nwidth];
-                int down = input[dx + 1 + (dz + 2) * nwidth];
-                int center = input[dx + 1 + (dz + 1) * nwidth];
-//                if (surrounded(BiomeVenus.venusMountain.biomeID, center, right, left, up, down) && nextInt(25) == 0)
-//                {
-//                    output[dx + dz * width] = BiomeVenus.venusVolcano.biomeID;
-//                }
-//                else
-                {
-                    output[dx + dz * width] = center;
-                }
+                output[dx + dz * width] = input[dx + 1 + (dz + 1) * nwidth];
             }
         }
 

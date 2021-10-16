@@ -7,11 +7,22 @@ import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenSealer;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
-import net.minecraft.block.*;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockEnchantmentTable;
+import net.minecraft.block.BlockFarmland;
+import net.minecraft.block.BlockGlass;
+import net.minecraft.block.BlockGravel;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.BlockPistonBase;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockSponge;
+import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -20,6 +31,7 @@ import java.util.Map;
 
 public class OxygenPressureProtocol
 {
+
     public final static Map<Block, ArrayList<Integer>> nonPermeableBlocks = new HashMap<Block, ArrayList<Integer>>();
 
     static
@@ -42,22 +54,19 @@ public class OxygenPressureProtocol
                     if (!list.contains(meta))
                     {
                         list.add(meta);
-                    }
-                    else
+                    } else
                     {
                         GCLog.info("[config] External Sealable IDs: skipping duplicate entry '" + s + "'.");
                     }
-                }
-                else
+                } else
                 {
                     final ArrayList<Integer> list = new ArrayList<Integer>();
                     list.add(meta);
                     OxygenPressureProtocol.nonPermeableBlocks.put(bt.block, list);
                 }
-            }
-            catch (final Exception e)
+            } catch (final Exception e)
             {
-                GCLog.severe("[config] External Sealable IDs: error parsing '" + s + "'. Must be in the form Blockname or BlockName:metadata");
+                GCLog.error("[config] External Sealable IDs: error parsing '" + s + "'. Must be in the form Blockname or BlockName:metadata");
             }
         }
     }
@@ -67,8 +76,7 @@ public class OxygenPressureProtocol
         try
         {
             head.threadSeal = new ThreadFindSeal(head);
-        }
-        catch (IllegalThreadStateException e)
+        } catch (IllegalThreadStateException e)
         {
 
         }
@@ -101,8 +109,9 @@ public class OxygenPressureProtocol
             return !((IPartialSealableBlock) block).isSealed(world, pos, side);
         }
 
-        //Check leaves first, because their isOpaqueCube() test depends on graphics settings
-        //(See net.minecraft.block.BlockLeaves.isOpaqueCube()!)
+        // Check leaves first, because their isOpaqueCube() test depends on
+        // graphics settings
+        // (See net.minecraft.block.BlockLeaves.isOpaqueCube()!)
         if (block instanceof BlockLeaves)
         {
             return true;
@@ -119,7 +128,7 @@ public class OxygenPressureProtocol
             return false;
         }
 
-        //Solid but non-opaque blocks, for example special glass
+        // Solid but non-opaque blocks, for example special glass
         if (OxygenPressureProtocol.nonPermeableBlocks.containsKey(block))
         {
             ArrayList<Integer> metaList = OxygenPressureProtocol.nonPermeableBlocks.get(block);
@@ -129,14 +138,15 @@ public class OxygenPressureProtocol
             }
         }
 
-        //Half slab seals on the top side or the bottom side according to its metadata
+        // Half slab seals on the top side or the bottom side according to its
+        // metadata
         if (block instanceof BlockSlab)
         {
             int meta = state.getBlock().getMetaFromState(state);
             return !(side == EnumFacing.DOWN && (meta & 8) == 8 || side == EnumFacing.UP && (meta & 8) == 0);
         }
 
-        //Farmland etc only seals on the solid underside
+        // Farmland etc only seals on the solid underside
         if (block instanceof BlockFarmland || block instanceof BlockEnchantmentTable || block instanceof BlockLiquid)
         {
             return side != EnumFacing.UP;
@@ -152,9 +162,12 @@ public class OxygenPressureProtocol
             return false;
         }
 
-        //General case - this should cover any block which correctly implements isBlockSolidOnSide
-        //including most modded blocks - Forge microblocks in particular is covered by this.
-        // ### Any exceptions in mods should implement the IPartialSealableBlock interface ###
+        // General case - this should cover any block which correctly implements
+        // isBlockSolidOnSide
+        // including most modded blocks - Forge microblocks in particular is
+        // covered by this.
+        // ### Any exceptions in mods should implement the IPartialSealableBlock
+        // interface ###
         return !block.isSideSolid(state, world, pos, side.getOpposite());
     }
 }

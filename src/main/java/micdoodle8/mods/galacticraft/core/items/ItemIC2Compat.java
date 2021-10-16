@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -14,8 +15,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemIC2Compat extends Item implements ISortableItem
 {
-    public static final String[] types = { "dust", "ore_purified", "ore_crushed", "dust_small" };
-    public static final String[] names = { "alu", "titanium" };
+
+    public static final String[] types =
+    {"dust", "ore_purified", "ore_crushed", "dust_small"};
+    public static final String[] names =
+    {"alu", "titanium"};
 
     public ItemIC2Compat(String assetName)
     {
@@ -42,7 +46,8 @@ public class ItemIC2Compat extends Item implements ISortableItem
     public String getTranslationKey(ItemStack itemStack)
     {
         int meta = itemStack.getItemDamage();
-        if (!CompatibilityManager.isIc2Loaded()) meta = 0;
+        if (!CompatibilityManager.isIc2Loaded())
+            meta = 0;
         return this.getTranslationKey() + "." + ItemIC2Compat.types[meta % 4] + "_" + ItemIC2Compat.names[meta / 4];
     }
 

@@ -5,12 +5,14 @@ import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityPlatform;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.util.math.AxisAlignedBB;
 
 import java.util.ArrayList;
 
 public class StatsClientCapability extends GCPlayerStatsClient
 {
+
     public boolean usingParachute;
     public boolean lastUsingParachute;
     public boolean usingAdvancedGoggles;
@@ -76,148 +78,148 @@ public class StatsClientCapability extends GCPlayerStatsClient
 
         switch (this.gdir.getIntValue())
         {
-        case 1:
-            switch (newGravity.getIntValue())
-            {
             case 1:
-                break;
-            case 2:
-                this.gravityTurnVecX = -2.0F;
-                break;
-            case 3:
-                this.gravityTurnVecY = -1.0F;
-                this.gravityTurnYaw = -90.0F;
-                break;
-            case 4:
-                this.gravityTurnVecY = 1.0F;
-                this.gravityTurnYaw = 90.0F;
-                break;
-            case 5:
-                this.gravityTurnVecX = 1.0F;
-                break;
-            case 6:
-                this.gravityTurnVecX = -1.0F;
-            }
+                switch (newGravity.getIntValue())
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        this.gravityTurnVecX = -2.0F;
+                        break;
+                    case 3:
+                        this.gravityTurnVecY = -1.0F;
+                        this.gravityTurnYaw = -90.0F;
+                        break;
+                    case 4:
+                        this.gravityTurnVecY = 1.0F;
+                        this.gravityTurnYaw = 90.0F;
+                        break;
+                    case 5:
+                        this.gravityTurnVecX = 1.0F;
+                        break;
+                    case 6:
+                        this.gravityTurnVecX = -1.0F;
+                }
 
-            break;
-        case 2:
-            switch (newGravity.getIntValue())
-            {
-            case 1:
-                this.gravityTurnVecX = -2.0F;
                 break;
             case 2:
-                break;
-            case 3:
-                this.gravityTurnVecY = 1.0F;
-                this.gravityTurnYaw = 90.0F;
-                break;
-            case 4:
-                this.gravityTurnVecY = -1.0F;
-                this.gravityTurnYaw = -90.0F;
-                break;
-            case 5:
-                this.gravityTurnVecX = -1.0F;
-                break;
-            case 6:
-                this.gravityTurnVecX = 1.0F;
-            }
+                switch (newGravity.getIntValue())
+                {
+                    case 1:
+                        this.gravityTurnVecX = -2.0F;
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        this.gravityTurnVecY = 1.0F;
+                        this.gravityTurnYaw = 90.0F;
+                        break;
+                    case 4:
+                        this.gravityTurnVecY = -1.0F;
+                        this.gravityTurnYaw = -90.0F;
+                        break;
+                    case 5:
+                        this.gravityTurnVecX = -1.0F;
+                        break;
+                    case 6:
+                        this.gravityTurnVecX = 1.0F;
+                }
 
-            break;
-        case 3:
-            switch (newGravity.getIntValue())
-            {
-            case 1:
-                this.gravityTurnVecY = 1.0F;
-                this.gravityTurnYaw = 90.0F;
-                break;
-            case 2:
-                this.gravityTurnVecY = -1.0F;
-                this.gravityTurnYaw = -90.0F;
                 break;
             case 3:
-                break;
-            case 4:
-                this.gravityTurnVecZ = -2.0F;
-                break;
-            case 5:
-                this.gravityTurnVecZ = -1.0F;
-                this.gravityTurnYaw = -180.0F;
-                break;
-            case 6:
-                this.gravityTurnVecZ = 1.0F;
-            }
+                switch (newGravity.getIntValue())
+                {
+                    case 1:
+                        this.gravityTurnVecY = 1.0F;
+                        this.gravityTurnYaw = 90.0F;
+                        break;
+                    case 2:
+                        this.gravityTurnVecY = -1.0F;
+                        this.gravityTurnYaw = -90.0F;
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        this.gravityTurnVecZ = -2.0F;
+                        break;
+                    case 5:
+                        this.gravityTurnVecZ = -1.0F;
+                        this.gravityTurnYaw = -180.0F;
+                        break;
+                    case 6:
+                        this.gravityTurnVecZ = 1.0F;
+                }
 
-            break;
-        case 4:
-            switch (newGravity.getIntValue())
-            {
-            case 1:
-                this.gravityTurnVecY = -1.0F;
-                this.gravityTurnYaw = -90.0F;
-                break;
-            case 2:
-                this.gravityTurnVecY = 1.0F;
-                this.gravityTurnYaw = 90.0F;
-                break;
-            case 3:
-                this.gravityTurnVecZ = -2.0F;
                 break;
             case 4:
-                break;
-            case 5:
-                this.gravityTurnVecZ = 1.0F;
-                this.gravityTurnYaw = -180.0F;
-                break;
-            case 6:
-                this.gravityTurnVecZ = -1.0F;
-            }
+                switch (newGravity.getIntValue())
+                {
+                    case 1:
+                        this.gravityTurnVecY = -1.0F;
+                        this.gravityTurnYaw = -90.0F;
+                        break;
+                    case 2:
+                        this.gravityTurnVecY = 1.0F;
+                        this.gravityTurnYaw = 90.0F;
+                        break;
+                    case 3:
+                        this.gravityTurnVecZ = -2.0F;
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        this.gravityTurnVecZ = 1.0F;
+                        this.gravityTurnYaw = -180.0F;
+                        break;
+                    case 6:
+                        this.gravityTurnVecZ = -1.0F;
+                }
 
-            break;
-        case 5:
-            switch (newGravity.getIntValue())
-            {
-            case 1:
-                this.gravityTurnVecX = -1.0F;
-                break;
-            case 2:
-                this.gravityTurnVecX = 1.0F;
-                break;
-            case 3:
-                this.gravityTurnVecZ = 1.0F;
-                this.gravityTurnYaw = 180.0F;
-                break;
-            case 4:
-                this.gravityTurnVecZ = -1.0F;
-                this.gravityTurnYaw = 180.0F;
                 break;
             case 5:
-                break;
-            case 6:
-                this.gravityTurnVecX = -2.0F;
-            }
+                switch (newGravity.getIntValue())
+                {
+                    case 1:
+                        this.gravityTurnVecX = -1.0F;
+                        break;
+                    case 2:
+                        this.gravityTurnVecX = 1.0F;
+                        break;
+                    case 3:
+                        this.gravityTurnVecZ = 1.0F;
+                        this.gravityTurnYaw = 180.0F;
+                        break;
+                    case 4:
+                        this.gravityTurnVecZ = -1.0F;
+                        this.gravityTurnYaw = 180.0F;
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        this.gravityTurnVecX = -2.0F;
+                }
 
-            break;
-        case 6:
-            switch (newGravity.getIntValue())
-            {
-            case 1:
-                this.gravityTurnVecX = 1.0F;
                 break;
-            case 2:
-                this.gravityTurnVecX = -1.0F;
-                break;
-            case 3:
-                this.gravityTurnVecZ = -1.0F;
-                break;
-            case 4:
-                this.gravityTurnVecZ = 1.0F;
-                break;
-            case 5:
-                this.gravityTurnVecX = -2.0F;
             case 6:
-            }
-            break;
+                switch (newGravity.getIntValue())
+                {
+                    case 1:
+                        this.gravityTurnVecX = 1.0F;
+                        break;
+                    case 2:
+                        this.gravityTurnVecX = -1.0F;
+                        break;
+                    case 3:
+                        this.gravityTurnVecZ = -1.0F;
+                        break;
+                    case 4:
+                        this.gravityTurnVecZ = 1.0F;
+                        break;
+                    case 5:
+                        this.gravityTurnVecX = -2.0F;
+                    case 6:
+                }
+                break;
         }
 
         this.gdir = newGravity;
@@ -630,7 +632,7 @@ public class StatsClientCapability extends GCPlayerStatsClient
     {
         return this.platformControlled;
     }
-    
+
     @Override
     public void startPlatformAscent(TileEntityPlatform noCollide, TileEntityPlatform moving, double target)
     {
@@ -642,7 +644,8 @@ public class StatsClientCapability extends GCPlayerStatsClient
         this.platformVelocityCurrent = 0D;
         this.platformVelocityTarget = 0D;
         this.platformPacketSent = false;
-        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_NOCLIP_PLAYER, GCCoreUtil.getDimensionID(noCollide), new Object[] { true }));
+        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_NOCLIP_PLAYER, GCCoreUtil.getDimensionID(noCollide), new Object[]
+        {true}));
     }
 
     @Override
@@ -663,26 +666,27 @@ public class StatsClientCapability extends GCPlayerStatsClient
             this.platformTarget.stopMoving();
             this.platformMoving.stopMoving();
             if (!this.platformPacketSent)
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_NOCLIP_PLAYER, GCCoreUtil.getDimensionID(this.platformTarget), new Object[] { false }));
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_NOCLIP_PLAYER, GCCoreUtil.getDimensionID(this.platformTarget), new Object[]
+                {false}));
             return 0D;
-        }
-        else
+        } else
         {
             if (delta > 0D)
             {
                 this.platformVelocityTarget = (delta < 1.0D + 8 * this.platformVelocityCurrent * this.platformVelocityCurrent) ? 0.08D : 0.45D;
                 if (delta < 0.6D && !this.platformPacketSent)
                 {
-                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_NOCLIP_PLAYER, GCCoreUtil.getDimensionID(this.platformTarget), new Object[] { false }));
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_NOCLIP_PLAYER, GCCoreUtil.getDimensionID(this.platformTarget), new Object[]
+                    {false}));
                     this.platformPacketSent = true;
                 }
-            }
-            else if (delta < 0D)
+            } else if (delta < 0D)
             {
                 this.platformVelocityTarget = (delta > -1.0D - 8 * this.platformVelocityCurrent * this.platformVelocityCurrent) ? -0.08D : -0.45D;
                 if (delta > -1.0D && !this.platformPacketSent)
                 {
-                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_NOCLIP_PLAYER, GCCoreUtil.getDimensionID(this.platformTarget), new Object[] { false }));
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_NOCLIP_PLAYER, GCCoreUtil.getDimensionID(this.platformTarget), new Object[]
+                    {false}));
                     this.platformPacketSent = true;
                 }
             }
@@ -693,8 +697,7 @@ public class StatsClientCapability extends GCPlayerStatsClient
                 {
                     this.platformVelocityCurrent = this.platformVelocityTarget;
                 }
-            }
-            else if (this.platformVelocityCurrent > this.platformVelocityTarget)
+            } else if (this.platformVelocityCurrent > this.platformVelocityTarget)
             {
                 this.platformVelocityCurrent -= 0.036D;
                 if (this.platformVelocityCurrent < this.platformVelocityTarget)

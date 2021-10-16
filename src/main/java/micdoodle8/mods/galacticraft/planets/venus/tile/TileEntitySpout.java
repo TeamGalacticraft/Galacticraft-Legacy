@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class TileEntitySpout extends TileEntity implements ITickable
 {
+
     private final Random rand = new Random(System.currentTimeMillis());
 
     @Override
@@ -24,12 +25,13 @@ public class TileEntitySpout extends TileEntity implements ITickable
                 IBlockState stateAbove = this.world.getBlockState(this.getPos().up());
                 if (stateAbove.getBlock().isAir(this.world.getBlockState(this.getPos().up()), this.world, this.getPos().up()))
                 {
-                    double posX = (double)pos.getX() + 0.45 + rand.nextDouble() * 0.1;
-                    double posY = (double)pos.getY() + 1.0;
-                    double posZ = (double)pos.getZ() + 0.45 + rand.nextDouble() * 0.1;
+                    double posX = (double) pos.getX() + 0.45 + rand.nextDouble() * 0.1;
+                    double posY = (double) pos.getY() + 1.0;
+                    double posZ = (double) pos.getZ() + 0.45 + rand.nextDouble() * 0.1;
                     for (int i = 0; i < 4 + rand.nextInt(4); ++i)
                     {
-                        GalacticraftPlanets.spawnParticle("acidVapor", new Vector3(posX, posY, posZ), new Vector3(rand.nextDouble() * 0.5 - 0.25, rand.nextDouble() * 0.5 + 0.5, rand.nextDouble() * 0.5 - 0.25));
+                        GalacticraftPlanets.spawnParticle("acidVapor", new Vector3(posX, posY, posZ),
+                            new Vector3(rand.nextDouble() * 0.5 - 0.25, rand.nextDouble() * 0.5 + 0.5, rand.nextDouble() * 0.5 - 0.25));
                     }
                 }
             }

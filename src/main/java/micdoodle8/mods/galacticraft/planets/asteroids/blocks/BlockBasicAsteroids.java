@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.block.IDetectableResource;
 import micdoodle8.mods.galacticraft.api.block.IPlantableBlock;
 import micdoodle8.mods.galacticraft.api.block.ITerraformableBlock;
@@ -28,16 +32,14 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class BlockBasicAsteroids extends Block implements IDetectableResource, IPlantableBlock, ITerraformableBlock, ISortableBlock
 {
+
     public static final PropertyEnum<EnumBlockBasic> BASIC_TYPE = PropertyEnum.create("basictypeasteroids", EnumBlockBasic.class);
 
     public enum EnumBlockBasic implements IStringSerializable
     {
+
         ASTEROID_0(0, "asteroid_rock_0"),
         ASTEROID_1(1, "asteroid_rock_1"),
         ASTEROID_2(2, "asteroid_rock_2"),
@@ -62,6 +64,7 @@ public class BlockBasicAsteroids extends Block implements IDetectableResource, I
         }
 
         private final static EnumBlockBasic[] values = values();
+
         public static EnumBlockBasic byMetadata(int meta)
         {
             return values[meta % values.length];
@@ -108,7 +111,6 @@ public class BlockBasicAsteroids extends Block implements IDetectableResource, I
             return ret;
         }
 
-
         return super.getDrops(world, pos, state, fortune);
     }
 
@@ -117,10 +119,10 @@ public class BlockBasicAsteroids extends Block implements IDetectableResource, I
     {
         switch (getMetaFromState(state))
         {
-        case 4:
-            return 0;
-        default:
-            return getMetaFromState(state);
+            case 4:
+                return 0;
+            default:
+                return getMetaFromState(state);
         }
     }
 
@@ -129,13 +131,13 @@ public class BlockBasicAsteroids extends Block implements IDetectableResource, I
     {
         switch (getMetaFromState(state))
         {
-        case 4:
-            if (fortune >= 1)
-            {
-                return (random.nextFloat() < fortune * 0.29F - 0.25F) ? 2 : 1;
-            }
-        default:
-            return 1;
+            case 4:
+                if (fortune >= 1)
+                {
+                    return (random.nextFloat() < fortune * 0.29F - 0.25F) ? 2 : 1;
+                }
+            default:
+                return 1;
         }
     }
 
@@ -156,12 +158,12 @@ public class BlockBasicAsteroids extends Block implements IDetectableResource, I
     {
         switch (this.getMetaFromState(state))
         {
-        case 3:
-        case 4:
-        case 5:
-            return true;
-        default:
-            return false;
+            case 3:
+            case 4:
+            case 5:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -223,14 +225,14 @@ public class BlockBasicAsteroids extends Block implements IDetectableResource, I
     {
         switch (meta)
         {
-        case 3:
-        case 4:
-        case 5:
-            return EnumSortCategoryBlock.ORE;
-        case 6:
-            return EnumSortCategoryBlock.DECORATION;
-        case 7:
-            return EnumSortCategoryBlock.INGOT_BLOCK;
+            case 3:
+            case 4:
+            case 5:
+                return EnumSortCategoryBlock.ORE;
+            case 6:
+                return EnumSortCategoryBlock.DECORATION;
+            case 7:
+                return EnumSortCategoryBlock.INGOT_BLOCK;
         }
         return EnumSortCategoryBlock.GENERAL;
     }
@@ -238,12 +240,13 @@ public class BlockBasicAsteroids extends Block implements IDetectableResource, I
     @Override
     public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
     {
-        if (state.getBlock() != this) return 0;
-        
+        if (state.getBlock() != this)
+            return 0;
+
         int meta = this.getMetaFromState(state);
         if (meta == 4)
         {
-            Random rand = world instanceof World ? ((World)world).rand : new Random();
+            Random rand = world instanceof World ? ((World) world).rand : new Random();
             return MathHelper.getInt(rand, 2, 3);
         }
         return 0;

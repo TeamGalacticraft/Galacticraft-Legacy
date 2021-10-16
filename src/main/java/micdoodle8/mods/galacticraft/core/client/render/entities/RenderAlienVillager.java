@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlaySensorGlasses;
 import micdoodle8.mods.galacticraft.core.client.model.ModelAlienVillager;
 import micdoodle8.mods.galacticraft.core.entities.EntityAlienVillager;
+
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -15,9 +16,10 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderAlienVillager extends RenderLiving<EntityAlienVillager>
 {
+
     private static final ResourceLocation villagerTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/villager.png");
     private boolean texSwitch;
-    
+
     protected ModelAlienVillager villagerModel;
 
     public RenderAlienVillager(RenderManager manager)
@@ -35,8 +37,7 @@ public class RenderAlienVillager extends RenderLiving<EntityAlienVillager>
         {
             f1 = (float) (f1 * 0.5D);
             this.shadowSize = 0.25F;
-        }
-        else
+        } else
         {
             this.shadowSize = 0.5F;
         }

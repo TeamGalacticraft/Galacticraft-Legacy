@@ -22,7 +22,7 @@ public class ItemStrangeSeed extends Item implements ISortableItem
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setTranslationKey(assetName);
-        //this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + assetName);
+        // this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + assetName);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ItemStrangeSeed extends Item implements ISortableItem
     {
         return EnumSortCategoryItem.GENERAL;
     }
-    
+
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
     {
@@ -53,7 +53,7 @@ public class ItemStrangeSeed extends Item implements ISortableItem
             list.add(new ItemStack(this, 1, 1));
         }
     }
-    
+
     @Override
     public int getMetadata(int par1)
     {

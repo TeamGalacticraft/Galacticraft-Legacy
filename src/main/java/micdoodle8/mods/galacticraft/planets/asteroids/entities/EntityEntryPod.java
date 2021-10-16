@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.entities;
 
+import java.util.Map;
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.entity.ICameraZoomEntity;
 import micdoodle8.mods.galacticraft.api.entity.IIgnoreShift;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
@@ -16,11 +19,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Map;
-import java.util.Random;
-
 public class EntityEntryPod extends EntityLanderBase implements IScaleableFuelLevel, ICameraZoomEntity, IIgnoreShift
 {
+
     public EntityEntryPod(World var1)
     {
         super(var1);
@@ -48,10 +49,10 @@ public class EntityEntryPod extends EntityLanderBase implements IScaleableFuelLe
     @Override
     public float getRotateOffset()
     {
-        //Signal no rotate
+        // Signal no rotate
         return -20.0F;
     }
-    
+
     @Override
     public boolean shouldSpawnParticles()
     {
@@ -195,8 +196,7 @@ public class EntityEntryPod extends EntityLanderBase implements IScaleableFuelLe
         {
             GCCoreUtil.openParachestInv((EntityPlayerMP) player, this);
             return true;
-        }
-        else if (player instanceof EntityPlayerMP)
+        } else if (player instanceof EntityPlayerMP)
         {
             if (!this.onGround)
             {
@@ -205,8 +205,7 @@ public class EntityEntryPod extends EntityLanderBase implements IScaleableFuelLe
 
             this.removePassengers();
             return true;
-        }
-        else
+        } else
         {
             return true;
         }

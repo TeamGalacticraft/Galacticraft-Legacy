@@ -1,12 +1,12 @@
 package micdoodle8.mods.galacticraft.core.entities;
 
-import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.network.PacketEntityUpdate;
 import micdoodle8.mods.galacticraft.core.network.PacketEntityUpdate.IEntityFullSync;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
@@ -28,8 +28,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import io.netty.buffer.ByteBuf;
+
 public abstract class EntityAdvancedMotion extends InventoryEntity implements IControllableEntity, IEntityFullSync
 {
+
     protected long ticks = 0;
 
     public float currentDamage;
@@ -113,8 +116,7 @@ public abstract class EntityAdvancedMotion extends InventoryEntity implements IC
             this.motionY = motY;
             this.motionZ = motZ;
             this.posRotIncrements = 5;
-        }
-        else
+        } else
         {
             this.setPosition(x, y, z);
             this.setRotation(yaw, pitch);
@@ -147,15 +149,13 @@ public abstract class EntityAdvancedMotion extends InventoryEntity implements IC
         if (this.isDead || var1.equals(DamageSource.CACTUS) || !this.allowDamageSource(var1))
         {
             return true;
-        }
-        else
+        } else
         {
             Entity e = var1.getTrueSource();
             if (this.isEntityInvulnerable(var1) || this.posY > 300 || (e instanceof EntityLivingBase && !(e instanceof EntityPlayer)))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.rockDirection = -this.rockDirection;
                 this.timeSinceHit = 10;
@@ -197,8 +197,8 @@ public abstract class EntityAdvancedMotion extends InventoryEntity implements IC
 
     /**
      * @return map of the particle vectors. Map key is the position and map
-     * value is the motion of the particles. Each entry will be spawned
-     * as a separate particle
+     *         value is the motion of the particles. Each entry will be spawned
+     *         as a separate particle
      */
     public abstract Map<Vector3, Vector3> getParticleMap();
 
@@ -214,9 +214,8 @@ public abstract class EntityAdvancedMotion extends InventoryEntity implements IC
     public abstract Vector3 getMotionVec();
 
     /**
-     * Can be called in the superclass init method
-     * before the subclass fields have been initialised!
-     * Therefore include null checks!!!
+     * Can be called in the superclass init method before the subclass fields
+     * have been initialised! Therefore include null checks!!!
      */
     public abstract ArrayList<Object> getNetworkedData();
 
@@ -227,7 +226,7 @@ public abstract class EntityAdvancedMotion extends InventoryEntity implements IC
 
     /**
      * @return players within this distance will recieve packets from this
-     * entity
+     *         entity
      */
     public abstract double getPacketSendDistance();
 
@@ -259,8 +258,7 @@ public abstract class EntityAdvancedMotion extends InventoryEntity implements IC
         {
             if (this.getPassengers().contains(FMLClientHandler.instance().getClient().player))
             {
-            }
-            else
+            } else
             {
                 this.posRotIncrements = posRotationIncrements + 5;
                 this.advancedPositionX = x;
@@ -309,8 +307,7 @@ public abstract class EntityAdvancedMotion extends InventoryEntity implements IC
                 --this.posRotIncrements;
                 this.setPosition(x, y, z);
                 this.setRotation(this.rotationYaw, this.rotationPitch);
-            }
-            else
+            } else
             {
 //                x = this.posX + this.motionX;
 //                y = this.posY + this.motionY;
@@ -337,8 +334,7 @@ public abstract class EntityAdvancedMotion extends InventoryEntity implements IC
         if (this.onGround)
         {
             this.tickOnGround();
-        }
-        else
+        } else
         {
             this.tickInAir();
         }
@@ -350,7 +346,8 @@ public abstract class EntityAdvancedMotion extends InventoryEntity implements IC
             this.motionY = mot.y;
             this.motionZ = mot.z;
         }
-        //Necessary on both server and client to achieve a correct this.onGround setting
+        // Necessary on both server and client to achieve a correct
+        // this.onGround setting
         this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 
         if (this.onGround && !this.lastOnGround)

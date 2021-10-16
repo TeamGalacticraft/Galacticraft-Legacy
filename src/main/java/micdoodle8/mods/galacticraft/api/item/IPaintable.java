@@ -5,5 +5,6 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public interface IPaintable
 {
+
     int setColor(int color, EntityPlayer player, Side side);
 }

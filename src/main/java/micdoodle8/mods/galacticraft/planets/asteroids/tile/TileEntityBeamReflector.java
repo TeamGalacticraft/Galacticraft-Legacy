@@ -1,17 +1,18 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.tile;
 
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import micdoodle8.mods.galacticraft.api.power.EnergySource;
 import micdoodle8.mods.galacticraft.api.power.EnergySource.EnergySourceWireless;
 import micdoodle8.mods.galacticraft.api.power.ILaserNode;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.energy.tile.EnergyStorage;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityBeamReflector extends TileEntityBeamOutput implements ILaserNode
 {
+
     public Vector3 color = new Vector3(0, 1, 0);
     private EnergyStorage storage = new EnergyStorage(10, 1);
 
@@ -87,8 +88,7 @@ public class TileEntityBeamReflector extends TileEntityBeamOutput implements ILa
                 ((EnergySourceWireless) from).nodes.add(this);
 
                 return this.getTarget().receiveEnergyGC(from, amount, simulate);
-            }
-            else
+            } else
             {
                 return 0;
             }
@@ -126,9 +126,9 @@ public class TileEntityBeamReflector extends TileEntityBeamOutput implements ILa
     {
         super.setTarget(target);
     }
-    
+
     private AxisAlignedBB renderAABB;
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox()

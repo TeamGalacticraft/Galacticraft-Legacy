@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityThruster;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -34,6 +35,7 @@ import java.util.Random;
 
 public class BlockSpinThruster extends BlockAdvanced implements IShiftDescription, ITileEntityProvider, ISortableBlock
 {
+
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool ORIENTATION = PropertyBool.create("rev");
 
@@ -56,15 +58,15 @@ public class BlockSpinThruster extends BlockAdvanced implements IShiftDescriptio
     {
         switch (state.getValue(FACING))
         {
-        case EAST:
-            return EAST_AABB;
-        case WEST:
-            return WEST_AABB;
-        case SOUTH:
-            return SOUTH_AABB;
-        default:
-        case NORTH:
-            return NORTH_AABB;
+            case EAST:
+                return EAST_AABB;
+            case WEST:
+                return WEST_AABB;
+            case SOUTH:
+                return SOUTH_AABB;
+            default:
+            case NORTH:
+                return NORTH_AABB;
         }
     }
 
@@ -89,7 +91,8 @@ public class BlockSpinThruster extends BlockAdvanced implements IShiftDescriptio
     @Override
     public boolean canPlaceBlockAt(World world, BlockPos pos)
     {
-        return world.isSideSolid(pos.west(), EnumFacing.EAST, true) || world.isSideSolid(pos.east(), EnumFacing.WEST, true) || world.isSideSolid(pos.north(), EnumFacing.SOUTH, true) || world.isSideSolid(pos.south(), EnumFacing.NORTH, true);
+        return world.isSideSolid(pos.west(), EnumFacing.EAST, true) || world.isSideSolid(pos.east(), EnumFacing.WEST, true) || world.isSideSolid(pos.north(), EnumFacing.SOUTH, true)
+            || world.isSideSolid(pos.south(), EnumFacing.NORTH, true);
     }
 
     @Override
@@ -98,8 +101,7 @@ public class BlockSpinThruster extends BlockAdvanced implements IShiftDescriptio
         if (facing.getAxis().isHorizontal() && this.canBlockStay(world, pos, facing))
         {
             return this.getDefaultState().withProperty(FACING, facing);
-        }
-        else
+        } else
         {
             for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
             {
@@ -129,20 +131,20 @@ public class BlockSpinThruster extends BlockAdvanced implements IShiftDescriptio
         BlockPos baseBlock;
         switch (metadata)
         {
-        case 1:
-            baseBlock = pos.offset(EnumFacing.WEST);
-            break;
-        case 2:
-            baseBlock = pos.offset(EnumFacing.EAST);
-            break;
-        case 3:
-            baseBlock = pos.offset(EnumFacing.NORTH);
-            break;
-        case 4:
-            baseBlock = pos.offset(EnumFacing.SOUTH);
-            break;
-        default:
-            return;
+            case 1:
+                baseBlock = pos.offset(EnumFacing.WEST);
+                break;
+            case 2:
+                baseBlock = pos.offset(EnumFacing.EAST);
+                break;
+            case 3:
+                baseBlock = pos.offset(EnumFacing.NORTH);
+                break;
+            case 4:
+                baseBlock = pos.offset(EnumFacing.SOUTH);
+                break;
+            default:
+                return;
         }
 
         if (!worldIn.isRemote)
@@ -208,8 +210,9 @@ public class BlockSpinThruster extends BlockAdvanced implements IShiftDescriptio
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {
-        //TODO this is torch code as a placeholder, still need to adjust positioning and particle type
-        //Also make small thrust sounds
+        // TODO this is torch code as a placeholder, still need to adjust
+        // positioning and particle type
+        // Also make small thrust sounds
         if (worldIn.provider instanceof WorldProviderSpaceStation)
         {
             if (((WorldProviderSpaceStation) worldIn.provider).getSpinManager().thrustersFiring || rand.nextInt(80) == 0)
@@ -224,16 +227,13 @@ public class BlockSpinThruster extends BlockAdvanced implements IShiftDescriptio
                 if (var6 == 1)
                 {
                     worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var7 - var15, var9 + var13, var11, 0.0D, 0.0D, 0.0D);
-                }
-                else if (var6 == 2)
+                } else if (var6 == 2)
                 {
                     worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var7 + var15, var9 + var13, var11, 0.0D, 0.0D, 0.0D);
-                }
-                else if (var6 == 3)
+                } else if (var6 == 3)
                 {
                     worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var7, var9 + var13, var11 - var15, 0.0D, 0.0D, 0.0D);
-                }
-                else if (var6 == 0)
+                } else if (var6 == 0)
                 {
                     worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var7, var9 + var13, var11 + var15, 0.0D, 0.0D, 0.0D);
                 }
@@ -250,9 +250,9 @@ public class BlockSpinThruster extends BlockAdvanced implements IShiftDescriptio
         EnumFacing currentFacing = state.getValue(FACING);
 //        if (this.canBlockStay(world, pos.offset(currentFacing.getOpposite()), currentFacing))
 //        {
-            world.setBlockState(pos, state.withProperty(ORIENTATION, !orientation), 2);
+        world.setBlockState(pos, state.withProperty(ORIENTATION, !orientation), 2);
 //        }
-        //TODO  else
+        // TODO else
 
         if (world.provider instanceof WorldProviderSpaceStation && !world.isRemote)
         {

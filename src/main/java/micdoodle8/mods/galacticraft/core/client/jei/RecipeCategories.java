@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.client.jei;
 
 public class RecipeCategories
 {
+
     public static final String ROCKET_T1_ID = "galacticraft.rocketT1";
     public static final String ROCKET_T2_ID = "galacticraft.rocketT2";
     public static final String ROCKET_T3_ID = "galacticraft.rocketT3";

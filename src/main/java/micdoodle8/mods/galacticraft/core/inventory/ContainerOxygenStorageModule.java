@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.inventory;
 
 import micdoodle8.mods.galacticraft.api.item.IItemOxygenSupply;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenStorageModule;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -10,6 +11,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerOxygenStorageModule extends Container
 {
+
     private TileEntityOxygenStorageModule tileEntity;
 
     public ContainerOxygenStorageModule(InventoryPlayer par1InventoryPlayer, TileEntityOxygenStorageModule storageModule)
@@ -70,8 +72,7 @@ public class ContainerOxygenStorageModule extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 if (stack.getItem() instanceof IItemOxygenSupply)
                 {
@@ -79,8 +80,7 @@ public class ContainerOxygenStorageModule extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else
+                } else
                 {
                     if (par1 < b - 9)
                     {
@@ -88,8 +88,7 @@ public class ContainerOxygenStorageModule extends Container
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(stack, b - 36, b - 9, false))
+                    } else if (!this.mergeItemStack(stack, b - 36, b - 9, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -99,8 +98,7 @@ public class ContainerOxygenStorageModule extends Container
             if (stack.getCount() == 0)
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

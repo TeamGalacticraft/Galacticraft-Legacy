@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class RoomEmptyVenus extends SizedPieceVenus
 {
+
     public RoomEmptyVenus()
     {
     }
@@ -46,14 +47,12 @@ public class RoomEmptyVenus extends SizedPieceVenus
                                 if (getDirection() == EnumFacing.SOUTH && k == 0)
                                 {
                                     placeBlock = false;
-                                }
-                                else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
+                                } else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
                                 {
                                     placeBlock = false;
                                 }
                             }
-                        }
-                        else
+                        } else
                         {
                             int start = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 - 1;
                             int end = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 + 1;
@@ -62,8 +61,7 @@ public class RoomEmptyVenus extends SizedPieceVenus
                                 if (getDirection() == EnumFacing.EAST && i == 0)
                                 {
                                     placeBlock = false;
-                                }
-                                else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
+                                } else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
                                 {
                                     placeBlock = false;
                                 }
@@ -73,13 +71,11 @@ public class RoomEmptyVenus extends SizedPieceVenus
                         {
                             DungeonConfigurationVenus venusConfig = (DungeonConfigurationVenus) this.configuration;
                             this.setBlockState(worldIn, j == 0 || j == this.sizeY ? venusConfig.getBrickBlockFloor() : this.configuration.getBrickBlock(), i, j, k, boundingBox);
-                        }
-                        else
+                        } else
                         {
                             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, boundingBox);
                         }
-                    }
-                    else
+                    } else
                     {
                         this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, boundingBox);
                     }

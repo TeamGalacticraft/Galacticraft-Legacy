@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -77,8 +78,7 @@ public class BlockGlowstoneTorch extends BlockTorchBase implements IShiftDescrip
         if (!this.checkForDrop(worldIn, pos, state))
         {
             return;
-        }
-        else
+        } else
         {
             EnumFacing enumfacing = state.getValue(FACING);
             EnumFacing.Axis enumfacing$axis = enumfacing.getAxis();
@@ -88,8 +88,7 @@ public class BlockGlowstoneTorch extends BlockTorchBase implements IShiftDescrip
             if (enumfacing$axis.isHorizontal() && !worldIn.isSideSolid(pos.offset(enumfacing1), enumfacing, true))
             {
                 flag = true;
-            }
-            else if (enumfacing$axis.isVertical() && !this.canPlaceOn(worldIn, pos.offset(enumfacing1)))
+            } else if (enumfacing$axis.isVertical() && !this.canPlaceOn(worldIn, pos.offset(enumfacing1)))
             {
                 flag = true;
             }
@@ -154,7 +153,8 @@ public class BlockGlowstoneTorch extends BlockTorchBase implements IShiftDescrip
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[] { FACING });
+        return new BlockStateContainer(this, new IProperty[]
+        {FACING});
     }
 
     @Override

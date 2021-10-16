@@ -5,15 +5,18 @@ import micdoodle8.mods.galacticraft.api.recipe.SchematicRegistry;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerBuggyBench;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.client.FMLClientHandler;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiSchematicBuggy extends GuiPositionedContainer implements ISchematicResultPage
 {
+
     private static final ResourceLocation buggyBenchTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/buggybench.png");
 
     private int pageIndex;
@@ -40,12 +43,12 @@ public class GuiSchematicBuggy extends GuiPositionedContainer implements ISchema
         {
             switch (par1GuiButton.id)
             {
-            case 0:
-                SchematicRegistry.flipToLastPage(this, this.pageIndex);
-                break;
-            case 1:
-                SchematicRegistry.flipToNextPage(this, this.pageIndex);
-                break;
+                case 0:
+                    SchematicRegistry.flipToLastPage(this, this.pageIndex);
+                    break;
+                case 1:
+                    SchematicRegistry.flipToNextPage(this, this.pageIndex);
+                    break;
             }
         }
     }

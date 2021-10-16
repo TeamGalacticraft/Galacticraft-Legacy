@@ -41,6 +41,7 @@ import java.util.UUID;
 
 public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathable, IBoss, IRangedAttackMob
 {
+
     private static final DataParameter<Byte> BURROWED_COUNT = EntityDataManager.createKey(EntitySpiderQueen.class, DataSerializers.BYTE);
     public boolean shouldEvade;
     private List<EntityJuicer> juicersSpawned = Lists.newArrayList();
@@ -74,7 +75,7 @@ public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathab
     @Override
     public double getMountedYOffset()
     {
-        return (double)(this.height * 0.5F);
+        return (double) (this.height * 0.5F);
     }
 
     @Override
@@ -87,7 +88,7 @@ public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathab
     protected void entityInit()
     {
         super.entityInit();
-        this.dataManager.register(BURROWED_COUNT, (byte)-1);
+        this.dataManager.register(BURROWED_COUNT, (byte) -1);
     }
 
     public byte getBurrowedCount()
@@ -114,7 +115,7 @@ public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathab
                 if (attackTarget != null)
                 {
                     double dX = attackTarget.posX - this.posX;
-                    double dY = attackTarget.getEntityBoundingBox().minY + (double)(attackTarget.height / 3.0F) - this.posY;
+                    double dY = attackTarget.getEntityBoundingBox().minY + (double) (attackTarget.height / 3.0F) - this.posY;
                     double dZ = attackTarget.posZ - this.posZ;
 
                     float distance = 5.0F;
@@ -130,11 +131,10 @@ public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathab
                             this.attackEntityWithRangedAttack(attackTarget, 0.0F);
                             this.rangedAttackTime = MathHelper.floor(f * (float) (this.maxRangedAttackTime - this.minRangedAttackTime) + (float) this.minRangedAttackTime);
                         }
-                    }
-                    else if (this.rangedAttackTime < 0)
+                    } else if (this.rangedAttackTime < 0)
                     {
                         float f2 = MathHelper.sqrt(d0) / distance;
-                        this.rangedAttackTime = MathHelper.floor(f2 * (float)(this.maxRangedAttackTime - this.minRangedAttackTime) + (float)this.minRangedAttackTime);
+                        this.rangedAttackTime = MathHelper.floor(f2 * (float) (this.maxRangedAttackTime - this.minRangedAttackTime) + (float) this.minRangedAttackTime);
                     }
                 }
             }
@@ -207,8 +207,7 @@ public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathab
                             {
                                 this.setBurrowedCount((byte) (this.getBurrowedCount() + 1));
                             }
-                        }
-                        else
+                        } else
                         {
                             this.setBurrowedCount((byte) 0);
                         }
@@ -361,8 +360,7 @@ public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathab
         if (health < thirdHealth && healthLast >= thirdHealth)
         {
             shouldEvade = true;
-        }
-        else if (health < 2 * thirdHealth && healthLast >= 2 * thirdHealth)
+        } else if (health < 2 * thirdHealth && healthLast >= 2 * thirdHealth)
         {
             shouldEvade = true;
         }
@@ -371,7 +369,7 @@ public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathab
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float damage)
     {
-        EntityWebShot entityarrow = new EntityWebShot(this.world, this, target, 0.8F, (float)(14 - this.world.getDifficulty().getId() * 4));
+        EntityWebShot entityarrow = new EntityWebShot(this.world, this, target, 0.8F, (float) (14 - this.world.getDifficulty().getId() * 4));
         this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.world.spawnEntity(entityarrow);
     }
@@ -427,14 +425,13 @@ public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathab
         if (this.captureDrops)
         {
             this.capturedDrops.add(entityitem);
-        }
-        else
+        } else
         {
             this.world.spawnEntity(entityitem);
         }
         return entityitem;
     }
-    
+
     @Override
     public void dropKey()
     {
@@ -451,6 +448,6 @@ public class EntitySpiderQueen extends EntityBossBase implements IEntityBreathab
     public void setSwingingArms(boolean swingingArms)
     {
         // TODO Auto-generated method stub
-        //TODO for 1.12.2
+        // TODO for 1.12.2
     }
 }

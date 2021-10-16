@@ -1,13 +1,10 @@
 package micdoodle8.mods.galacticraft.core.items;
 
-import java.lang.reflect.Method;
-
-import appeng.api.AEApi;
-import appeng.api.util.AEColor;
 import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed;
 import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed.EnumEnclosedBlockType;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -23,8 +20,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.lang.reflect.Method;
+
+import appeng.api.AEApi;
+import appeng.api.util.AEColor;
+
 public class ItemBlockEnclosed extends ItemBlockDesc
 {
+
     public ItemBlockEnclosed(Block block)
     {
         super(block);
@@ -41,8 +44,7 @@ public class ItemBlockEnclosed extends ItemBlockDesc
         {
             name = BlockEnclosed.EnumEnclosedBlockType.byMetadata(par1ItemStack.getItemDamage()).getName();
             name = name.substring(9, name.length()); // Remove "enclosed_"
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             name = "null";
         }
@@ -69,12 +71,10 @@ public class ItemBlockEnclosed extends ItemBlockDesc
             if (itemstack.getCount() == 0)
             {
                 return EnumActionResult.FAIL;
-            }
-            else if (!playerIn.canPlayerEdit(pos, side, itemstack))
+            } else if (!playerIn.canPlayerEdit(pos, side, itemstack))
             {
                 return EnumActionResult.FAIL;
-            }
-            else if (worldIn.mayPlace(this.block, pos, false, side, null))
+            } else if (worldIn.mayPlace(this.block, pos, false, side, null))
             {
                 int i = this.getMetadata(itemstack.getMetadata());
                 IBlockState iblockstate1 = this.block.getStateForPlacement(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn);
@@ -82,32 +82,34 @@ public class ItemBlockEnclosed extends ItemBlockDesc
                 if (placeBlockAt(itemstack, playerIn, worldIn, pos, side, hitX, hitY, hitZ, iblockstate1))
                 {
                     SoundType soundType = this.getBlock().getSoundType(iblockstate, worldIn, pos, playerIn);
-                    worldIn.playSound(playerIn, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+                    worldIn.playSound(playerIn, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F,
+                        soundType.getPitch() * 0.8F);
                     itemstack.shrink(1);
 
                     ItemStack itemME = AEApi.instance().definitions().parts().cableGlass().stack(AEColor.TRANSPARENT, 1);
-                    itemME.setCount(2); //Fool AppEng into not destroying anything in the player inventory
-                    AEApi.instance().partHelper().placeBus( itemME, origPos, side, playerIn, hand, worldIn );
-                    //Emulate appeng.parts.PartPlacement.place( is, pos, side, player, w, PartPlacement.PlaceType.INTERACT_SECOND_PASS, 0 );
+                    itemME.setCount(2); // Fool AppEng into not destroying
+                                        // anything in the player inventory
+                    AEApi.instance().partHelper().placeBus(itemME, origPos, side, playerIn, hand, worldIn);
+                    // Emulate appeng.parts.PartPlacement.place( is, pos, side,
+                    // player, w, PartPlacement.PlaceType.INTERACT_SECOND_PASS,
+                    // 0 );
                     try
                     {
                         Class clazzpp = Class.forName("appeng.parts.PartPlacement");
                         Class enumPlaceType = Class.forName("appeng.parts.PartPlacement$PlaceType");
                         Method methPl = clazzpp.getMethod("place", ItemStack.class, BlockPos.class, EnumFacing.class, EntityPlayer.class, EnumHand.class, World.class, enumPlaceType, int.class);
-                        methPl.invoke(null, itemME, origPos, side, playerIn, hand, worldIn, enumPlaceType.getEnumConstants()[2], 0 );
+                        methPl.invoke(null, itemME, origPos, side, playerIn, hand, worldIn, enumPlaceType.getEnumConstants()[2], 0);
                     } catch (Exception e)
                     {
                         e.printStackTrace();
                     }
                 }
                 return EnumActionResult.SUCCESS;
-            }
-            else
+            } else
             {
                 return EnumActionResult.FAIL;
             }
-        }
-        else
+        } else
         {
             return super.onItemUse(playerIn, worldIn, pos, hand, side, hitX, hitY, hitZ);
         }

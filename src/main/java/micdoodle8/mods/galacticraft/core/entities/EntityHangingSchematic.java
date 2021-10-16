@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.api.recipe.SchematicRegistry;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityHangingSchematic extends EntityHanging
 {
+
     public int schematic;
     private boolean sendToClient;
 
@@ -35,13 +37,14 @@ public class EntityHangingSchematic extends EntityHanging
     }
 
     private int tickCounter1;
+
     @Override
     public void onUpdate()
     {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        
+
         if (this.sendToClient)
         {
             this.sendToClient = false;
@@ -55,11 +58,11 @@ public class EntityHangingSchematic extends EntityHanging
             if (!this.world.isRemote && !this.isDead && !this.onValidSurface())
             {
                 this.setDead();
-                this.onBroken((Entity)null);
+                this.onBroken((Entity) null);
             }
         }
     }
-    
+
     @Override
     public void setDead()
     {
@@ -100,7 +103,7 @@ public class EntityHangingSchematic extends EntityHanging
         {
             if (brokenEntity instanceof EntityPlayer)
             {
-                EntityPlayer entityplayer = (EntityPlayer)brokenEntity;
+                EntityPlayer entityplayer = (EntityPlayer) brokenEntity;
 
                 if (entityplayer.capabilities.isCreativeMode)
                 {
@@ -122,9 +125,9 @@ public class EntityHangingSchematic extends EntityHanging
     public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch)
     {
         BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
-        this.setPosition((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
+        this.setPosition((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport)
@@ -134,9 +137,10 @@ public class EntityHangingSchematic extends EntityHanging
     public void sendToClient(World worldIn, BlockPos blockpos)
     {
         int dimID = GCCoreUtil.getDimensionID(worldIn);
-        GCCoreUtil.sendToAllAround(new PacketSimple(EnumSimplePacket.C_SPAWN_HANGING_SCHEMATIC, dimID, new Object[] { blockpos, this.getEntityId(), this.facingDirection.ordinal(), this.schematic }), worldIn, dimID, blockpos, 150D);
+        GCCoreUtil.sendToAllAround(new PacketSimple(EnumSimplePacket.C_SPAWN_HANGING_SCHEMATIC, dimID, new Object[]
+        {blockpos, this.getEntityId(), this.facingDirection.ordinal(), this.schematic}), worldIn, dimID, blockpos, 150D);
     }
-    
+
     public void setSendToClient()
     {
         this.sendToClient = true;

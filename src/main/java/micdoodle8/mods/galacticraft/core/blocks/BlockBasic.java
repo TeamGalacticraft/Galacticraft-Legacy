@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -30,15 +31,18 @@ import java.util.Random;
 
 /**
  * Metadata: 3 = Tin Decoration Block 1; 4 = Tin Decoration Block 2; 5 = Copper
- * Ore; 6 = Tin Ore; 7 = Aluminium Ore; 8 = Silicon Ore; 9 = Copper Block;
- * 10 = Tin Block;  11 = Aluminium Block;  12 = Meteoric Iron Block; 13 = Silicon Block;
+ * Ore; 6 = Tin Ore; 7 = Aluminium Ore; 8 = Silicon Ore; 9 = Copper Block; 10 =
+ * Tin Block; 11 = Aluminium Block; 12 = Meteoric Iron Block; 13 = Silicon
+ * Block;
  */
 public class BlockBasic extends Block implements IDetectableResource, ISortableBlock
 {
+
     public static final PropertyEnum<EnumBlockBasic> BASIC_TYPE = PropertyEnum.create("basictype", EnumBlockBasic.class);
 
     public enum EnumBlockBasic implements IStringSerializable
     {
+
         ALUMINUM_DECORATION_BLOCK_0(3, "deco_block_0"),
         ALUMINUM_DECORATION_BLOCK_1(4, "deco_block_1"),
         ORE_COPPER(5, "ore_copper_gc"),
@@ -102,10 +106,10 @@ public class BlockBasic extends Block implements IDetectableResource, ISortableB
     {
         switch (getMetaFromState(state))
         {
-        case 8:
-            return GCItems.basicItem;
-        default:
-            return Item.getItemFromBlock(this);
+            case 8:
+                return GCItems.basicItem;
+            default:
+                return Item.getItemFromBlock(this);
         }
     }
 
@@ -114,10 +118,10 @@ public class BlockBasic extends Block implements IDetectableResource, ISortableB
     {
         switch (getMetaFromState(state))
         {
-        case 8:
-            return 2;
-        default:
-            return getMetaFromState(state);
+            case 8:
+                return 2;
+            default:
+                return getMetaFromState(state);
         }
     }
 
@@ -139,8 +143,7 @@ public class BlockBasic extends Block implements IDetectableResource, ISortableB
             }
 
             return this.quantityDropped(random) * (j + 1) + bonus;
-        }
-        else
+        } else
         {
             return this.quantityDropped(random) + bonus;
         }
@@ -154,17 +157,15 @@ public class BlockBasic extends Block implements IDetectableResource, ISortableB
         if (metadata < 5)
         {
             return 2.0F;
-            //Decoration blocks are soft, like cauldrons or wood 
-        }
-        else if (metadata == 12)
+            // Decoration blocks are soft, like cauldrons or wood
+        } else if (metadata == 12)
         {
             return 8.0F;
-            //Meteoric Iron is tougher than diamond
-        }
-        else if (metadata > 8)
+            // Meteoric Iron is tougher than diamond
+        } else if (metadata > 8)
         {
             return 6.0F;
-            //Blocks of metal are tough - like diamond blocks in vanilla
+            // Blocks of metal are tough - like diamond blocks in vanilla
         }
 
         return super.getExplosionResistance(world, pos, exploder, explosion);
@@ -209,13 +210,13 @@ public class BlockBasic extends Block implements IDetectableResource, ISortableB
         EnumBlockBasic type = state.getValue(BASIC_TYPE);
         switch (type)
         {
-        	case ORE_COPPER:
-        	case ORE_TIN:
-        	case ORE_ALUMINUM:
-        	case ORE_SILICON:
-        		return true;
-			default:
-				return false;
+            case ORE_COPPER:
+            case ORE_TIN:
+            case ORE_ALUMINUM:
+            case ORE_SILICON:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -253,20 +254,20 @@ public class BlockBasic extends Block implements IDetectableResource, ISortableB
     {
         switch (meta)
         {
-        case 3:
-        case 4:
-            return EnumSortCategoryBlock.DECORATION;
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-            return EnumSortCategoryBlock.ORE;
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-        case 13:
-            return EnumSortCategoryBlock.INGOT_BLOCK;
+            case 3:
+            case 4:
+                return EnumSortCategoryBlock.DECORATION;
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+                return EnumSortCategoryBlock.ORE;
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+                return EnumSortCategoryBlock.INGOT_BLOCK;
         }
         return EnumSortCategoryBlock.GENERAL;
     }
@@ -274,12 +275,13 @@ public class BlockBasic extends Block implements IDetectableResource, ISortableB
     @Override
     public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
     {
-        if (state.getBlock() != this) return 0;
-        
+        if (state.getBlock() != this)
+            return 0;
+
         int meta = this.getMetaFromState(state);
         if (meta == 8)
         {
-            Random rand = world instanceof World ? ((World)world).rand : new Random();
+            Random rand = world instanceof World ? ((World) world).rand : new Random();
             return MathHelper.getInt(rand, 2, 5);
         }
         return 0;

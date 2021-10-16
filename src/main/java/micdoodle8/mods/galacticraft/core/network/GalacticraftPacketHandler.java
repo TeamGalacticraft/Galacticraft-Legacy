@@ -3,13 +3,12 @@ package micdoodle8.mods.galacticraft.core.network;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
-import io.netty.channel.ChannelHandler.Sharable;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.tick.TickHandlerClient;
 import micdoodle8.mods.galacticraft.core.tick.TickHandlerServer;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetHandler;
 import net.minecraft.world.World;
@@ -20,9 +19,14 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
+import io.netty.channel.ChannelHandler.Sharable;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+
 @Sharable
 public class GalacticraftPacketHandler extends SimpleChannelInboundHandler<IPacket>
 {
+
     private final Map<Side, Map<Integer, Queue<PacketPlayerPair>>> packetMap;
     private static volatile int livePacketCount = 0;
 
@@ -61,12 +65,12 @@ public class GalacticraftPacketHandler extends SimpleChannelInboundHandler<IPack
         {
             switch (side)
             {
-            case CLIENT:
-                pair.getPacket().handleClientSide(pair.getPlayer());
-                break;
-            case SERVER:
-                pair.getPacket().handleServerSide(pair.getPlayer());
-                break;
+                case CLIENT:
+                    pair.getPacket().handleClientSide(pair.getPlayer());
+                    break;
+                case SERVER:
+                    pair.getPacket().handleServerSide(pair.getPlayer());
+                    break;
             }
         }
     }
@@ -102,6 +106,7 @@ public class GalacticraftPacketHandler extends SimpleChannelInboundHandler<IPack
 
     private final class PacketPlayerPair
     {
+
         private IPacket packet;
         private EntityPlayer player;
 

@@ -1,6 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.mars;
 
+import java.util.List;
+
 import com.google.common.collect.ImmutableList;
+
 import micdoodle8.mods.galacticraft.api.client.IItemMeshDefinitionCustom;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
@@ -17,15 +20,38 @@ import micdoodle8.mods.galacticraft.planets.mars.blocks.BlockCavernousVine;
 import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
 import micdoodle8.mods.galacticraft.planets.mars.client.SkyProviderMars;
 import micdoodle8.mods.galacticraft.planets.mars.client.fx.ParticleDrip;
-import micdoodle8.mods.galacticraft.planets.mars.client.gui.*;
-import micdoodle8.mods.galacticraft.planets.mars.client.render.entity.*;
+import micdoodle8.mods.galacticraft.planets.mars.client.gui.GuiGasLiquefier;
+import micdoodle8.mods.galacticraft.planets.mars.client.gui.GuiLaunchController;
+import micdoodle8.mods.galacticraft.planets.mars.client.gui.GuiMethaneSynthesizer;
+import micdoodle8.mods.galacticraft.planets.mars.client.gui.GuiSlimeling;
+import micdoodle8.mods.galacticraft.planets.mars.client.gui.GuiSlimelingFeed;
+import micdoodle8.mods.galacticraft.planets.mars.client.gui.GuiTerraformer;
+import micdoodle8.mods.galacticraft.planets.mars.client.gui.GuiWaterElectrolyzer;
+import micdoodle8.mods.galacticraft.planets.mars.client.render.entity.RenderCargoRocket;
+import micdoodle8.mods.galacticraft.planets.mars.client.render.entity.RenderCreeperBoss;
+import micdoodle8.mods.galacticraft.planets.mars.client.render.entity.RenderLandingBalloons;
+import micdoodle8.mods.galacticraft.planets.mars.client.render.entity.RenderProjectileTNT;
+import micdoodle8.mods.galacticraft.planets.mars.client.render.entity.RenderSlimeling;
+import micdoodle8.mods.galacticraft.planets.mars.client.render.entity.RenderSludgeling;
+import micdoodle8.mods.galacticraft.planets.mars.client.render.entity.RenderTier2Rocket;
 import micdoodle8.mods.galacticraft.planets.mars.client.render.item.ItemModelRocketT2;
 import micdoodle8.mods.galacticraft.planets.mars.client.render.tile.TileEntityTreasureChestRenderer;
 import micdoodle8.mods.galacticraft.planets.mars.dimension.WorldProviderMars;
-import micdoodle8.mods.galacticraft.planets.mars.entities.*;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityCargoRocket;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityCreeperBoss;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityLandingBalloons;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityProjectileTNT;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntitySlimeling;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntitySludgeling;
+import micdoodle8.mods.galacticraft.planets.mars.entities.EntityTier2Rocket;
 import micdoodle8.mods.galacticraft.planets.mars.items.ItemSchematicTier2;
 import micdoodle8.mods.galacticraft.planets.mars.items.MarsItems;
-import micdoodle8.mods.galacticraft.planets.mars.tile.*;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityElectrolyzer;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityGasLiquefier;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityLaunchController;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityMethaneSynthesizer;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityTerraformer;
+import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityTreasureChestMars;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -58,10 +84,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
 public class MarsModuleClient implements IPlanetsModuleClient
 {
+
     private static ModelResourceLocation sludgeLocation = new ModelResourceLocation(GalacticraftPlanets.TEXTURE_PREFIX + "sludge", "fluid");
 
     @Override
@@ -105,6 +130,7 @@ public class MarsModuleClient implements IPlanetsModuleClient
         ModelLoader.setCustomMeshDefinition(sludge, IItemMeshDefinitionCustom.create((ItemStack stack) -> sludgeLocation));
         ModelLoader.setCustomStateMapper(MarsBlocks.blockSludge, new StateMapperBase()
         {
+
             @Override
             protected ModelResourceLocation getModelResourceLocation(IBlockState state)
             {
@@ -174,7 +200,7 @@ public class MarsModuleClient implements IPlanetsModuleClient
 
         // Add Armor Renderer Prefix
 //        RenderingRegistry.addNewArmourRendererPrefix("desh");
-        
+
         ItemSchematicTier2.registerTextures();
     }
 
@@ -229,20 +255,16 @@ public class MarsModuleClient implements IPlanetsModuleClient
                 if (tile instanceof TileEntityTerraformer)
                 {
                     return new GuiTerraformer(player.inventory, (TileEntityTerraformer) tile);
-                }
-                else if (tile instanceof TileEntityLaunchController)
+                } else if (tile instanceof TileEntityLaunchController)
                 {
                     return new GuiLaunchController(player.inventory, (TileEntityLaunchController) tile);
-                }
-                else if (tile instanceof TileEntityElectrolyzer)
+                } else if (tile instanceof TileEntityElectrolyzer)
                 {
                     return new GuiWaterElectrolyzer(player.inventory, (TileEntityElectrolyzer) tile);
-                }
-                else if (tile instanceof TileEntityGasLiquefier)
+                } else if (tile instanceof TileEntityGasLiquefier)
                 {
                     return new GuiGasLiquefier(player.inventory, (TileEntityGasLiquefier) tile);
-                }
-                else if (tile instanceof TileEntityMethaneSynthesizer)
+                } else if (tile instanceof TileEntityMethaneSynthesizer)
                 {
                     return new GuiMethaneSynthesizer(player.inventory, (TileEntityMethaneSynthesizer) tile);
                 }
@@ -270,8 +292,7 @@ public class MarsModuleClient implements IPlanetsModuleClient
                 if (particleID.equals("sludgeDrip"))
                 {
 //                    particle = new EntityDropParticleFX(mc.world, position.x, position.y, position.z, Material.WATER); TODO
-                }
-                else if (particleID.equals("bacterialDrip"))
+                } else if (particleID.equals("bacterialDrip"))
                 {
                     particle = new ParticleDrip(mc.world, position.x, position.y, position.z);
                 }
@@ -294,17 +315,18 @@ public class MarsModuleClient implements IPlanetsModuleClient
     {
         switch (gui)
         {
-        case 0:
-            FMLClientHandler.instance().getClient().displayGuiScreen(new GuiSlimeling(slimeling));
-            break;
-        case 1:
-            FMLClientHandler.instance().getClient().displayGuiScreen(new GuiSlimelingFeed(slimeling));
-            break;
+            case 0:
+                FMLClientHandler.instance().getClient().displayGuiScreen(new GuiSlimeling(slimeling));
+                break;
+            case 1:
+                FMLClientHandler.instance().getClient().displayGuiScreen(new GuiSlimelingFeed(slimeling));
+                break;
         }
     }
 
     public static class TickHandlerClient
     {
+
         @SideOnly(Side.CLIENT)
         @SubscribeEvent
         public void onClientTick(ClientTickEvent event)

@@ -1,24 +1,25 @@
 package micdoodle8.mods.galacticraft.api.recipe;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 public class SpaceStationRecipe
 {
+
     private final HashMap<Object, Integer> input = new HashMap<Object, Integer>(4, 1.0F);
 
     /**
-     * @param objMap a map of the items required. Each entry should be an object of
-     *               ItemStack, Item/Block or String(OreDict) and the amount of
-     *               that item required
+     * @param objMap a map of the items required. Each entry should be an object
+     *        of ItemStack, Item/Block or String(OreDict) and the amount of that
+     *        item required
      */
     public SpaceStationRecipe(HashMap<Object, Integer> objMap)
     {
@@ -29,25 +30,20 @@ public class SpaceStationRecipe
             if (obj instanceof ItemStack)
             {
                 this.input.put(((ItemStack) obj).copy(), amount);
-            }
-            else if (obj instanceof Item)
+            } else if (obj instanceof Item)
             {
                 this.input.put(new ItemStack((Item) obj), amount);
-            }
-            else if (obj instanceof Block)
+            } else if (obj instanceof Block)
             {
                 this.input.put(new ItemStack((Block) obj), amount);
-            }
-            else if (obj instanceof String)
+            } else if (obj instanceof String)
             {
                 List<ItemStack> stacks = OreDictionary.getOres((String) obj);
                 this.input.put(stacks, amount);
-            }
-            else if (obj instanceof ArrayList)
+            } else if (obj instanceof ArrayList)
             {
                 this.input.put(obj, amount);
-            }
-            else
+            } else
             {
                 throw new RuntimeException("INVALID SPACE STATION RECIPE");
             }
@@ -78,7 +74,8 @@ public class SpaceStationRecipe
             {
                 final ItemStack slot = player.inventory.getStackInSlot(x);
 
-                if (slot != null && slot.getCount() > 0)  //Intentional ItemStack null check
+                if (slot != null && slot.getCount() > 0) // Intentional
+                                                         // ItemStack null check
                 {
                     if (next instanceof ItemStack)
                     {
@@ -86,8 +83,7 @@ public class SpaceStationRecipe
                         {
                             amountInInv += slot.getCount();
                         }
-                    }
-                    else if (next instanceof List)
+                    } else if (next instanceof List)
                     {
                         for (final ItemStack item : (List<ItemStack>) next)
                         {
@@ -128,12 +124,12 @@ public class SpaceStationRecipe
             final int amountRequired = required.get(next);
             int amountRemoved = 0;
 
-            InventoryLoop:
-            for (int x = 0; x < player.inventory.getSizeInventory(); x++)
+            InventoryLoop: for (int x = 0; x < player.inventory.getSizeInventory(); x++)
             {
                 final ItemStack slot = player.inventory.getStackInSlot(x);
 
-                if (slot != null && slot.getCount() > 0)  //Intentional ItemStack null check
+                if (slot != null && slot.getCount() > 0) // Intentional
+                                                         // ItemStack null check
                 {
                     final int amountRemaining = amountRequired - amountRemoved;
 
@@ -152,10 +148,10 @@ public class SpaceStationRecipe
 
                             player.inventory.setInventorySlotContents(x, newStack);
                             amountRemoved += amountToRemove;
-                            if (amountRemoved == amountRequired) break;
+                            if (amountRemoved == amountRequired)
+                                break;
                         }
-                    }
-                    else if (next instanceof List)
+                    } else if (next instanceof List)
                     {
                         for (final ItemStack item : (List<ItemStack>) next)
                         {
@@ -172,7 +168,8 @@ public class SpaceStationRecipe
 
                                 player.inventory.setInventorySlotContents(x, newStack);
                                 amountRemoved += amountToRemove;
-                                if (amountRemoved == amountRequired) break InventoryLoop;
+                                if (amountRemoved == amountRequired)
+                                    break InventoryLoop;
                             }
                         }
                     }

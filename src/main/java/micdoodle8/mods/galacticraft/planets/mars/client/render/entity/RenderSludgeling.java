@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderSludgeling extends RenderLiving<EntitySludgeling>
 {
+
     private static final ResourceLocation sludgelingTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/model/sludgeling.png");
     private boolean texSwitch;
 
@@ -45,7 +46,7 @@ public class RenderSludgeling extends RenderLiving<EntitySludgeling>
     {
         return texSwitch ? OverlaySensorGlasses.altTexture : sludgelingTexture;
     }
-    
+
     @Override
     protected void preRenderCallback(EntitySludgeling entity, float par2)
     {

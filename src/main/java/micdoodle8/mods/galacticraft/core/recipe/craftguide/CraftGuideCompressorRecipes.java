@@ -1,8 +1,10 @@
+package micdoodle8.mods.galacticraft.core.recipe.craftguide;
+
 //package micdoodle8.mods.galacticraft.core.recipe.craftguide;
 //
-//import micdoodle8.mods.galacticraft.api.recipe.CompressorRecipes;
-//import micdoodle8.mods.galacticraft.core.blocks.BlockMachine;
-//import micdoodle8.mods.galacticraft.core.GCBlocks;
+//import galacticraft.api.recipe.CompressorRecipes;
+//import galacticraft.core.blocks.BlockMachine;
+//import galacticraft.core.GCBlocks;
 //import net.minecraft.item.ItemStack;
 //import net.minecraft.item.crafting.IRecipe;
 //import net.minecraft.item.crafting.ShapedRecipes;

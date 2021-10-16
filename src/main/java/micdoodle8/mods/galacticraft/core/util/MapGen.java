@@ -1,6 +1,9 @@
 package micdoodle8.mods.galacticraft.core.util;
 
+import org.apache.commons.io.FileUtils;
+
 import micdoodle8.mods.miccore.IntCache;
+
 import net.minecraft.init.Biomes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -13,8 +16,6 @@ import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.storage.WorldInfo;
-
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MapGen extends BiomeProvider implements Runnable
 {
+
     public static boolean disabled;
     private static final float[] parabolicField = new float[25];
 
@@ -36,7 +38,7 @@ public class MapGen extends BiomeProvider implements Runnable
     public AtomicBoolean finishedCalculating;
     private AtomicBoolean paused;
     private AtomicBoolean aborted;
-    
+
     private AtomicInteger progressX;
     private int progressZ;
     private int biomeMapX;
@@ -63,8 +65,9 @@ public class MapGen extends BiomeProvider implements Runnable
     private WorldType worldType;
     private WorldInfo worldInfo;
     private ChunkGeneratorSettings settings = null;
-    
-    private int[] biomesGrid = null;  //Memory efficient to keep re-using the same one.
+
+    private int[] biomesGrid = null; // Memory efficient to keep re-using the
+                                     // same one.
     private Biome[] biomesGridHeights = null;
     private int[] biomeCount = null;
     private final int dimID;
@@ -93,7 +96,7 @@ public class MapGen extends BiomeProvider implements Runnable
         }
         this.biomeMapSizeX = sx;
         this.biomeMapSizeZ = sz;
-        int progress = this.checkProgress(file); 
+        int progress = this.checkProgress(file);
         if (progress < 0)
         {
             this.mapNeedsCalculating = false;
@@ -128,7 +131,8 @@ public class MapGen extends BiomeProvider implements Runnable
         this.biomeCache = new BiomeCache(this);
         String options = worldInfo.getGeneratorOptions();
         GenLayer[] agenlayer;
-        try {
+        try
+        {
             if (options != null)
             {
                 this.settings = ChunkGeneratorSettings.Factory.jsonToFactory(options).build();
@@ -138,17 +142,15 @@ public class MapGen extends BiomeProvider implements Runnable
                 Object settingsBOP = CompatibilityManager.classBOPws.getConstructor(String.class).newInstance(options);
                 Method bopSetup = CompatibilityManager.classBOPwcm.getMethod("setupBOPGenLayers", long.class, settingsBOP.getClass());
                 agenlayer = (GenLayer[]) bopSetup.invoke(null, seed, settingsBOP);
-            }
-            else
+            } else
             {
                 agenlayer = GenLayer.initializeAllBiomeGenerators(seed, worldType, this.settings);
             }
             agenlayer = getModdedBiomeGenerators(worldType, seed, agenlayer);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
-            GCLog.severe("Galacticraft background map image generator not able to run (probably a mod conflict?)");
-            GCLog.severe("Please report this at https://github.com/micdoodle8/Galacticraft/issues/2481");
+            GCLog.error("Galacticraft background map image generator not able to run (probably a mod conflict?)");
+            GCLog.error("Please report this at https://github.com/micdoodle8/Galacticraft/issues/2481");
             e.printStackTrace();
             this.mapNeedsCalculating = false;
             MapGen.disabled = true;
@@ -156,7 +158,7 @@ public class MapGen extends BiomeProvider implements Runnable
         }
         this.genBiomes = agenlayer[0];
         this.biomeIndexLayer = agenlayer[1];
-        
+
         GCLog.debug("Starting map generation " + file.getName() + " top left " + ((biomeMapCx - limitX) * 16) + "," + ((biomeMapCz - limitZ) * 16));
         if (progress > 0)
         {
@@ -165,15 +167,16 @@ public class MapGen extends BiomeProvider implements Runnable
     }
 
     /**
-     * Returns -1 if the map file saved by the server on disk is already complete.
-     * Returns 0 if a new file is needed
-     * Returns >0 if an existing file is in progress (in this case, initialises
-     * biomeAndHeightArray and smaller arrays to match that existing file. 
+     * Returns -1 if the map file saved by the server on disk is already
+     * complete. Returns 0 if a new file is needed Returns >0 if an existing
+     * file is in progress (in this case, initialises biomeAndHeightArray and
+     * smaller arrays to match that existing file.
      */
     private int checkProgress(File file)
     {
-        if (!file.exists()) return 0;
-        
+        if (!file.exists())
+            return 0;
+
         if (file.length() != biomeMapSizeX * biomeMapSizeZ * 2)
         {
             return 0;
@@ -184,7 +187,8 @@ public class MapGen extends BiomeProvider implements Runnable
         {
             int len = (int) file.length();
             FileChannel fc;
-            try {
+            try
+            {
                 fc = (FileChannel.open(file.toPath()));
                 fc.position(len - 8);
                 byte[] flagdata = new byte[8];
@@ -195,11 +199,11 @@ public class MapGen extends BiomeProvider implements Runnable
                     databuff.order(ByteOrder.BIG_ENDIAN);
                     databuff.position(0);
                     progress = databuff.getInt();
-                }
-                else
+                } else
                 {
-                    //No progress flag data, therefore the file must be complete
-                    return -1;  
+                    // No progress flag data, therefore the file must be
+                    // complete
+                    return -1;
                 }
                 fc.close();
             } catch (IOException e)
@@ -220,46 +224,53 @@ public class MapGen extends BiomeProvider implements Runnable
                     this.biomeAndHeightArray = null;
                 }
             }
-            
+
             return 0;
         }
 
-        //Smaller files are always complete, if present and name and size match
+        // Smaller files are always complete, if present and name and size match
         return -1;
     }
 
     @Override
     public void run()
     {
-    	//Allow some time for the pause on any other map gen thread to become effective 
-    	try {
-			Thread.currentThread().sleep(90);
-		} catch (InterruptedException e) {}
+        // Allow some time for the pause on any other map gen thread to become
+        // effective
+        try
+        {
+            Thread.currentThread().sleep(90);
+        } catch (InterruptedException e)
+        {
+        }
 
         long seed = worldInfo.getSeed();
         this.initialise(seed);
-    	
-    	//Generate this map from start to finish within the thread
-    	while (!this.aborted.get())
-    	{
-    	    if (this.paused.get())
-    	    {
-    	        try {
-    	            //Sleep for a bit, next time around maybe will not be paused?
-    	            Thread.currentThread().sleep(1211);
-    	        } catch (InterruptedException e) {}
-    	    }
-    	    else
-    	    {
-    	        //Do the actual work of the thread
-    	        if (this.BiomeMapOneTick())
-    	        {
-    	            break;  //finished!
-    	        }
-    	    }
-    	}
 
-       	this.finishedCalculating.set(true);
+        // Generate this map from start to finish within the thread
+        while (!this.aborted.get())
+        {
+            if (this.paused.get())
+            {
+                try
+                {
+                    // Sleep for a bit, next time around maybe will not be
+                    // paused?
+                    Thread.currentThread().sleep(1211);
+                } catch (InterruptedException e)
+                {
+                }
+            } else
+            {
+                // Do the actual work of the thread
+                if (this.BiomeMapOneTick())
+                {
+                    break; // finished!
+                }
+            }
+        }
+
+        this.finishedCalculating.set(true);
     }
 
     public void pause()
@@ -279,10 +290,10 @@ public class MapGen extends BiomeProvider implements Runnable
 
     private void flagProgress()
     {
-        int progX = this.progressX.get(); 
+        int progX = this.progressX.get();
         if (progX > biomeMapSizeX - imagefactor)
             return;
-        
+
         GCLog.debug("Saving partial map image progress " + progX);
         int offset = this.biomeAndHeightArray.length;
         this.biomeAndHeightArray[offset - 1] = (byte) 0xFE;
@@ -294,12 +305,12 @@ public class MapGen extends BiomeProvider implements Runnable
         this.biomeAndHeightArray[offset - 7] = (byte) (progX >> 16 & 0xFF);
         this.biomeAndHeightArray[offset - 8] = (byte) (progX >> 24 & 0xFF);
     }
-    
+
     public static boolean testFlag(byte[] bb)
     {
         return (bb[7] & 0xFF) == 0xFE && bb[6] == 0x06 && bb[5] == 0x03 && bb[4] == 0x0E;
     }
-    
+
     private void resumeProgress(int progress)
     {
         int multifactor = biomeMapFactor >> 4;
@@ -308,7 +319,7 @@ public class MapGen extends BiomeProvider implements Runnable
             multifactor = 1;
         }
         int progCount = progress / imagefactor;
-        
+
         progressX.set(progress);
         biomeMapX = multifactor * progCount - (biomeMapSizeX * biomeMapFactor / 32);
         if (biomeMapX > -biomeMap0 * 4)
@@ -316,17 +327,17 @@ public class MapGen extends BiomeProvider implements Runnable
             biomeMapX += biomeMap0 * 8;
         }
     }
-    
+
     /**
-     * This is outside the multithreaded portion of the code
-     * This should be called after the finishedCalculating flag is set.
+     * This is outside the multithreaded portion of the code This should be
+     * called after the finishedCalculating flag is set.
      */
     public void writeOutputFile(boolean sendToClientImmediately)
     {
         if (this.biomeAndHeightArray == null)
             return;
-        
-        if (!this.aborted.get())  //It should be error-free if it wasn't aborted 
+
+        if (!this.aborted.get()) // It should be error-free if it wasn't aborted
         {
             try
             {
@@ -335,12 +346,11 @@ public class MapGen extends BiomeProvider implements Runnable
                     this.flagProgress();
                     FileUtils.writeByteArrayToFile(this.biomeMapFile, this.biomeAndHeightArray);
                 }
-            }
-            catch (IOException ex)
+            } catch (IOException ex)
             {
                 ex.printStackTrace();
             }
-    
+
             if (sendToClientImmediately)
             {
                 MapUtil.sendMapPacketToAll(this.biomeMapCx << 4, this.biomeMapCz << 4, this.biomeAndHeightArray);
@@ -359,21 +369,21 @@ public class MapGen extends BiomeProvider implements Runnable
 
     public static void arrayClear(int[] array, int len)
     {
-        int lenB = len < 16 ? len : 16; 
+        int lenB = len < 16 ? len : 16;
         for (int i = 0; i < lenB; i++)
         {
             array[i] = 0;
         }
         for (int i = 16; i < len; i += i)
         {
-          System.arraycopy(array, 0, array, i, i + i > len ? i : len - i);
+            System.arraycopy(array, 0, array, i, i + i > len ? i : len - i);
         }
     }
 
-	/*
-	 * Return false while there are further ticks to carry out 
-	 * Return true when completed
-	 */
+    /*
+     * Return false while there are further ticks to carry out Return true when
+     * completed
+     */
     public boolean BiomeMapOneTick()
     {
         if (this.biomeAndHeightArray == null)
@@ -390,11 +400,10 @@ public class MapGen extends BiomeProvider implements Runnable
         try
         {
             biomeMapOneChunk(biomeMapCx + biomeMapX, biomeMapCz + biomeMapZ, progX, progressZ, tickLimit);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
-            GCLog.severe("Galacticraft background map image generator hit an error (probably a mod conflict?)");
-            GCLog.severe("--> Please report this at https://github.com/micdoodle8/Galacticraft/issues/2544 <--");
+            GCLog.error("Galacticraft background map image generator hit an error (probably a mod conflict?)");
+            GCLog.error("--> Please report this at https://github.com/micdoodle8/Galacticraft/issues/2544 <--");
             e.printStackTrace();
             MapGen.disabled = true;
             this.aborted.set(true);
@@ -449,9 +458,8 @@ public class MapGen extends BiomeProvider implements Runnable
                 int idx = 0;
                 int avgHeight = 0;
                 int divisor = 0;
-                //TODO: start in centre instead of top left
-                BIOMEDONE:
-                for (int xx = 0; xx < limit; xx++)
+                // TODO: start in centre instead of top left
+                BIOMEDONE: for (int xx = 0; xx < limit; xx++)
                 {
                     int hidx = ((xx + x) << 4) + z;
                     for (int zz = 0; zz < limit; zz++)
@@ -482,7 +490,7 @@ public class MapGen extends BiomeProvider implements Runnable
                         }
                     }
                 }
-                //Clear the array for next time
+                // Clear the array for next time
                 arrayClear(biomeCount, cols.size());
 
                 int arrayIndex = (ix * biomeMapSizeZ + iz) * 2;
@@ -583,7 +591,7 @@ public class MapGen extends BiomeProvider implements Runnable
         noiseGen4 = new NoiseGeneratorOctaves(rand, 16);
         NoiseGeneratorOctaves ignore3 = new NoiseGeneratorOctaves(this.rand, 8);
         net.minecraftforge.event.terraingen.InitNoiseGensEvent.ContextOverworld ctx =
-                new net.minecraftforge.event.terraingen.InitNoiseGensEvent.ContextOverworld(noiseGen1, noiseGen2, noiseGen3, ignore1, ignore2, noiseGen4, ignore3);
+            new net.minecraftforge.event.terraingen.InitNoiseGensEvent.ContextOverworld(noiseGen1, noiseGen2, noiseGen3, ignore1, ignore2, noiseGen4, ignore3);
         ctx = net.minecraftforge.event.terraingen.TerrainGen.getModdedNoiseGenerators(this.world, this.rand, ctx);
         noiseGen1 = ctx.getLPerlin1();
         noiseGen2 = ctx.getLPerlin2();
@@ -595,16 +603,19 @@ public class MapGen extends BiomeProvider implements Runnable
     {
         float f = this.settings.coordinateScale;
         float f1 = this.settings.heightScale;
-        depthRegion = noiseGen4.generateNoiseOctaves(depthRegion, cx, cz, 5, 5, (double)this.settings.depthNoiseScaleX, (double)this.settings.depthNoiseScaleZ, (double)this.settings.depthNoiseScaleExponent);
-        mainNoiseRegion = noiseGen3.generateNoiseOctaves(mainNoiseRegion, cx, cy, cz, 5, 33, 5, (double)(f / this.settings.mainNoiseScaleX), (double)(f1 / this.settings.mainNoiseScaleY), (double)(f / this.settings.mainNoiseScaleZ));
-        minLimitRegion = noiseGen1.generateNoiseOctaves(minLimitRegion, cx, cy, cz, 5, 33, 5, (double)f, (double)f1, (double)f);
-        maxLimitRegion = noiseGen2.generateNoiseOctaves(maxLimitRegion, cx, cy, cz, 5, 33, 5, (double)f, (double)f1, (double)f);
+        depthRegion =
+            noiseGen4.generateNoiseOctaves(depthRegion, cx, cz, 5, 5, (double) this.settings.depthNoiseScaleX, (double) this.settings.depthNoiseScaleZ, (double) this.settings.depthNoiseScaleExponent);
+        mainNoiseRegion = noiseGen3.generateNoiseOctaves(mainNoiseRegion, cx, cy, cz, 5, 33, 5, (double) (f / this.settings.mainNoiseScaleX), (double) (f1 / this.settings.mainNoiseScaleY),
+            (double) (f / this.settings.mainNoiseScaleZ));
+        minLimitRegion = noiseGen1.generateNoiseOctaves(minLimitRegion, cx, cy, cz, 5, 33, 5, (double) f, (double) f1, (double) f);
+        maxLimitRegion = noiseGen2.generateNoiseOctaves(maxLimitRegion, cx, cy, cz, 5, 33, 5, (double) f, (double) f1, (double) f);
         boolean amplified = this.worldType == WorldType.AMPLIFIED;
-        double minLimitScale = (double)this.settings.lowerLimitScale;
-        double maxLimitScale = (double)this.settings.upperLimitScale;
-        double stretchY = (double)this.settings.stretchY * 128.0D / 256.0D;
-        double baseSize = (double)this.settings.baseSize;
-        int i = 2;  //start at 2 and later skip 19-33 - because these heightMap entries are never referenced in our code in this class
+        double minLimitScale = (double) this.settings.lowerLimitScale;
+        double maxLimitScale = (double) this.settings.upperLimitScale;
+        double stretchY = (double) this.settings.stretchY * 128.0D / 256.0D;
+        double baseSize = (double) this.settings.baseSize;
+        int i = 2; // start at 2 and later skip 19-33 - because these heightMap
+                   // entries are never referenced in our code in this class
         int j = 0;
 
         for (int xx = 0; xx < 5; ++xx)
@@ -668,8 +679,7 @@ public class MapGen extends BiomeProvider implements Runnable
 
                     d7 = d7 / 1.4D;
                     d7 = d7 / 2.0D;
-                }
-                else
+                } else
                 {
                     if (d7 > 1.0D)
                     {
@@ -680,15 +690,15 @@ public class MapGen extends BiomeProvider implements Runnable
                 }
 
                 ++j;
-                double d8 = (double)f3;
-                double d9 = (double)f2;
+                double d8 = (double) f3;
+                double d9 = (double) f2;
                 d8 = d8 + d7 * 0.2D;
                 d8 = d8 * baseSize / 8.0D;
                 double d0 = baseSize + d8 * 4.0D;
 
                 for (int j2 = 2; j2 < 19; ++j2)
                 {
-                    double d1 = ((double)j2 - d0) * stretchY / d9;
+                    double d1 = ((double) j2 - d0) * stretchY / d9;
                     if (d1 < 0.0D)
                     {
                         d1 *= 4.0D;
@@ -701,14 +711,14 @@ public class MapGen extends BiomeProvider implements Runnable
                     heighttemp[i] = d5;
                     ++i;
                 }
-                i += 16;  //We skip j2 = 0-1 and 19-32
+                i += 16; // We skip j2 = 0-1 and 19-32
             }
         }
     }
-    
+
     /**
-     *      REPLICATES method in WorldChunkManager
-     * Returns an array of biomes for the location input, used for generating the height map
+     * REPLICATES method in WorldChunkManager Returns an array of biomes for the
+     * location input, used for generating the height map
      */
     @Override
     public Biome[] getBiomesForGeneration(Biome[] biomes, int x, int z, int width, int height)
@@ -723,20 +733,21 @@ public class MapGen extends BiomeProvider implements Runnable
         }
         for (int i = 0; i < size; ++i)
         {
-        	int biomeId = aint[i];
-        	Biome biomegenbase = Biome.getBiome(biomeId, Biomes.DEFAULT);
+            int biomeId = aint[i];
+            Biome biomegenbase = Biome.getBiome(biomeId, Biomes.DEFAULT);
 //        	else
 //        		System.err.println("MapGen: Biome ID is out of bounds: " + biomeId + ", defaulting to 0 (Ocean)");
-        	biomes[i] = biomegenbase == null ? Biomes.OCEAN : biomegenbase;
+            biomes[i] = biomegenbase == null ? Biomes.OCEAN : biomegenbase;
         }
 
         return biomes;
     }
-    
+
     /**
-     *      REPLICATES method in WorldChunkManager (with higher performance!)
-     * Return a list of ints representing mapgen biomes at the specified coordinates. Args: listToReuse, x, y, width, height
-     * This is after all genlayers (oceans, islands, hills, rivers, etc)
+     * REPLICATES method in WorldChunkManager (with higher performance!) Return
+     * a list of ints representing mapgen biomes at the specified coordinates.
+     * Args: listToReuse, x, y, width, height This is after all genlayers
+     * (oceans, islands, hills, rivers, etc)
      */
     public int[] getBiomeGenAt(int[] listToReuse, int x, int z, int width, int height)
     {

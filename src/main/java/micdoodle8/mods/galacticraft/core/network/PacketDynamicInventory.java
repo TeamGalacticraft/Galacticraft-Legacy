@@ -1,10 +1,10 @@
 package micdoodle8.mods.galacticraft.core.network;
 
-import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.inventory.IInventorySettable;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityCrafting;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,8 +15,11 @@ import net.minecraft.util.math.BlockPos;
 
 import java.io.IOException;
 
+import io.netty.buffer.ByteBuf;
+
 public class PacketDynamicInventory extends PacketBase
 {
+
     private int type;
     private Object identifier;
     private ItemStack[] stacks;
@@ -44,7 +47,7 @@ public class PacketDynamicInventory extends PacketBase
     {
         super(GCCoreUtil.getDimensionID(tile.getWorld()));
         assert tile instanceof IInventory : "Tile does not implement " + IInventory.class.getSimpleName();
-        IInventory chest = ((IInventory) tile); 
+        IInventory chest = ((IInventory) tile);
         this.type = 1;
         this.identifier = tile.getPos();
         int size = chest.getSizeInventory();
@@ -52,8 +55,7 @@ public class PacketDynamicInventory extends PacketBase
         {
             this.stacks = new ItemStack[size + 1];
             this.stacks[size] = ((TileEntityCrafting) chest).getMemoryHeld();
-        }
-        else
+        } else
             this.stacks = new ItemStack[size];
 
         for (int i = 0; i < size; i++)
@@ -70,15 +72,15 @@ public class PacketDynamicInventory extends PacketBase
 
         switch (this.type)
         {
-        case 0:
-            buffer.writeInt((Integer) this.identifier);
-            break;
-        case 1:
-            BlockPos pos = (BlockPos) this.identifier;
-            buffer.writeInt(pos.getX());
-            buffer.writeInt(pos.getY());
-            buffer.writeInt(pos.getZ());
-            break;
+            case 0:
+                buffer.writeInt((Integer) this.identifier);
+                break;
+            case 1:
+                BlockPos pos = (BlockPos) this.identifier;
+                buffer.writeInt(pos.getX());
+                buffer.writeInt(pos.getY());
+                buffer.writeInt(pos.getZ());
+                break;
         }
 
         buffer.writeInt(this.stacks.length);
@@ -88,8 +90,7 @@ public class PacketDynamicInventory extends PacketBase
             try
             {
                 NetworkUtil.writeItemStack(this.stacks[i], buffer);
-            }
-            catch (IOException e)
+            } catch (IOException e)
             {
                 e.printStackTrace();
             }
@@ -104,12 +105,12 @@ public class PacketDynamicInventory extends PacketBase
 
         switch (this.type)
         {
-        case 0:
-            this.identifier = new Integer(buffer.readInt());
-            break;
-        case 1:
-            this.identifier = new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt());
-            break;
+            case 0:
+                this.identifier = new Integer(buffer.readInt());
+                break;
+            case 1:
+                this.identifier = new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt());
+                break;
         }
 
         this.stacks = new ItemStack[buffer.readInt()];
@@ -119,8 +120,7 @@ public class PacketDynamicInventory extends PacketBase
             try
             {
                 this.stacks[i] = NetworkUtil.readItemStack(buffer);
-            }
-            catch (IOException e)
+            } catch (IOException e)
             {
                 e.printStackTrace();
             }
@@ -137,28 +137,27 @@ public class PacketDynamicInventory extends PacketBase
 
         switch (this.type)
         {
-        case 0:
-            Entity entity = player.world.getEntityByID((Integer) this.identifier);
+            case 0:
+                Entity entity = player.world.getEntityByID((Integer) this.identifier);
 
-            if (entity instanceof IInventorySettable)
-            {
-                this.setInventoryStacks((IInventorySettable) entity);
-            }
+                if (entity instanceof IInventorySettable)
+                {
+                    this.setInventoryStacks((IInventorySettable) entity);
+                }
 
-            break;
-        case 1:
-            TileEntity tile = player.world.getTileEntity((BlockPos) this.identifier);
+                break;
+            case 1:
+                TileEntity tile = player.world.getTileEntity((BlockPos) this.identifier);
 
-            if (tile instanceof TileEntityCrafting)
-            {
-                ((TileEntityCrafting) tile).setStacksClientSide(this.stacks);
-            }
-            else if (tile instanceof IInventorySettable)
-            {
-                this.setInventoryStacks((IInventorySettable) tile);
-            }
+                if (tile instanceof TileEntityCrafting)
+                {
+                    ((TileEntityCrafting) tile).setStacksClientSide(this.stacks);
+                } else if (tile instanceof IInventorySettable)
+                {
+                    this.setInventoryStacks((IInventorySettable) tile);
+                }
 
-            break;
+                break;
         }
     }
 
@@ -167,24 +166,24 @@ public class PacketDynamicInventory extends PacketBase
     {
         switch (this.type)
         {
-        case 0:
-            Entity entity = player.world.getEntityByID((Integer) this.identifier);
+            case 0:
+                Entity entity = player.world.getEntityByID((Integer) this.identifier);
 
-            if (entity instanceof IInventorySettable)
-            {
-                GalacticraftCore.packetPipeline.sendTo(new PacketDynamicInventory(entity), (EntityPlayerMP) player);
-            }
+                if (entity instanceof IInventorySettable)
+                {
+                    GalacticraftCore.packetPipeline.sendTo(new PacketDynamicInventory(entity), (EntityPlayerMP) player);
+                }
 
-            break;
-        case 1:
-            TileEntity tile = player.world.getTileEntity((BlockPos) this.identifier);
+                break;
+            case 1:
+                TileEntity tile = player.world.getTileEntity((BlockPos) this.identifier);
 
-            if (tile instanceof IInventorySettable)
-            {
-                GalacticraftCore.packetPipeline.sendTo(new PacketDynamicInventory(tile), (EntityPlayerMP) player);
-            }
+                if (tile instanceof IInventorySettable)
+                {
+                    GalacticraftCore.packetPipeline.sendTo(new PacketDynamicInventory(tile), (EntityPlayerMP) player);
+                }
 
-            break;
+                break;
         }
     }
 

@@ -7,6 +7,7 @@ import net.minecraftforge.fluids.FluidTank;
 
 public class FluidTankGC extends FluidTank
 {
+
     public FluidTankGC(int capacity, TileEntity tile)
     {
         super(capacity);

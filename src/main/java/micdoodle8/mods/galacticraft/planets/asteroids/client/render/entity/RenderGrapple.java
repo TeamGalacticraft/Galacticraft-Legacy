@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.client.render.entity;
 
 import com.google.common.base.Function;
+
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
 import micdoodle8.mods.galacticraft.planets.asteroids.client.render.item.ItemModelGrapple;
@@ -24,6 +25,7 @@ import org.lwjgl.opengl.GL12;
 
 public class RenderGrapple extends Render<EntityGrapple>
 {
+
     private ItemModelGrapple grappleModel;
 
     public RenderGrapple(RenderManager manager)
@@ -95,8 +97,7 @@ public class RenderGrapple extends Render<EntityGrapple>
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }
@@ -119,7 +120,7 @@ public class RenderGrapple extends Render<EntityGrapple>
     {
         return new ResourceLocation("missing");
     }
-    
+
     @Override
     public boolean shouldRender(EntityGrapple entity, ICamera camera, double camX, double camY, double camZ)
     {

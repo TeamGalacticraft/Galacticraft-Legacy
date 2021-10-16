@@ -17,6 +17,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ContainerSchematicTier2Rocket extends Container
 {
+
     public InventorySchematicTier2Rocket craftMatrix = new InventorySchematicTier2Rocket(this);
     public IInventory craftResult = new InventoryCraftResult();
     private final World world;
@@ -135,8 +136,7 @@ public class ContainerSchematicTier2Rocket extends Container
                 {
                     var3.onSlotChange(var4, var2);
                 }
-            }
-            else
+            } else
             {
                 for (int i = 1; i < 19; i++)
                 {
@@ -171,37 +171,32 @@ public class ContainerSchematicTier2Rocket extends Container
                             {
                                 return ItemStack.EMPTY;
                             }
-                        }
-                        else if (!((Slot) this.inventorySlots.get(20)).getHasStack())
+                        } else if (!((Slot) this.inventorySlots.get(20)).getHasStack())
                         {
                             if (!this.mergeOneItem(var4, 20, 21, false))
                             {
                                 return ItemStack.EMPTY;
                             }
-                        }
-                        else if (!((Slot) this.inventorySlots.get(21)).getHasStack())
+                        } else if (!((Slot) this.inventorySlots.get(21)).getHasStack())
                         {
                             if (!this.mergeOneItem(var4, 21, 22, false))
                             {
                                 return ItemStack.EMPTY;
                             }
                         }
-                    }
-                    else if (par1 >= 22 && par1 < 49)
+                    } else if (par1 >= 22 && par1 < 49)
                     {
                         if (!this.mergeItemStack(var4, 49, 58, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (par1 >= 49 && par1 < 58)
+                    } else if (par1 >= 49 && par1 < 58)
                     {
                         if (!this.mergeItemStack(var4, 22, 49, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(var4, 22, 58, false))
+                    } else if (!this.mergeItemStack(var4, 22, 58, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -211,8 +206,7 @@ public class ContainerSchematicTier2Rocket extends Container
             if (var4.isEmpty())
             {
                 var3.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var3.onSlotChanged();
             }

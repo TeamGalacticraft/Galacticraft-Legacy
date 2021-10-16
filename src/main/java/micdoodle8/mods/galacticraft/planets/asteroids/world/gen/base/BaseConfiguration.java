@@ -1,14 +1,16 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.world.gen.base;
 
-import micdoodle8.mods.galacticraft.planets.asteroids.world.gen.base.BaseDeck.EnumBaseType;
-import micdoodle8.mods.galacticraft.planets.asteroids.world.gen.base.BaseRoom.EnumRoomType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.Random;
 
+import micdoodle8.mods.galacticraft.planets.asteroids.world.gen.base.BaseDeck.EnumBaseType;
+import micdoodle8.mods.galacticraft.planets.asteroids.world.gen.base.BaseRoom.EnumRoomType;
+
 public class BaseConfiguration
 {
+
     private final static int HANGAR_AIRLOCK_HEIGHT = 6;
     private final static int HANGAR_AIRLOCK_WIDTH = 7;
     private int yPosition;
@@ -41,7 +43,7 @@ public class BaseConfiguration
     private void createRandomRoomList(Random rand)
     {
         int range = this.roomTypes.length;
-        int size =  this.hangar ? 8 : this.roomsNo * 6;
+        int size = this.hangar ? 8 : this.roomsNo * 6;
         this.randomRoomTypes = new int[size];
         for (int i = 0; i < size; i++)
         {
@@ -51,13 +53,15 @@ public class BaseConfiguration
         for (int i = size - 1; i > 0; i--)
         {
             index = rand.nextInt(i + 1);
-            if (i == index) continue;
+            if (i == index)
+                continue;
             temp = this.randomRoomTypes[index];
             this.randomRoomTypes[index] = this.randomRoomTypes[i];
             this.randomRoomTypes[i] = temp;
         }
-        
-        //Make sure there's a Cargo Loader on lower tier (50/50 chance this causes one other room to be missed completely, that's OK!)
+
+        // Make sure there's a Cargo Loader on lower tier (50/50 chance this
+        // causes one other room to be missed completely, that's OK!)
         if (this.hangar)
         {
             boolean storeFound = false;
@@ -100,8 +104,7 @@ public class BaseConfiguration
             this.roomsNo = tagCompound.getInteger("rmN");
             this.roomHeight = BaseDeck.EnumBaseType.values()[this.baseType].height;
             this.wallBlock = BaseDeck.EnumBaseType.values()[this.baseType].wall;
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             System.err.println("Failed to read Abandoned Base configuration from NBT");
             System.err.println(tagCompound.toString());

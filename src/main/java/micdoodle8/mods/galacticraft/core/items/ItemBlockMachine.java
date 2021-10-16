@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.blocks.BlockMachine;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMachine2;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMachineBase;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockMachine extends ItemBlockDesc
 {
+
     public ItemBlockMachine(Block block)
     {
         super(block);
@@ -59,14 +61,14 @@ public class ItemBlockMachine extends ItemBlockDesc
 
         int typenum = stack.getItemDamage() & 12;
 
-        //The player could be a FakePlayer made by another mod e.g. LogisticsPipes
+        // The player could be a FakePlayer made by another mod e.g.
+        // LogisticsPipes
         if (player instanceof EntityPlayerSP)
         {
             if (this.getBlock() == GCBlocks.machineBase && typenum == BlockMachine.EnumMachineType.COMPRESSOR.getMetadata())
             {
                 ClientProxyCore.playerClientHandler.onBuild(1, (EntityPlayerSP) player);
-            }
-            else if (this.getBlock() == GCBlocks.machineBase2 && typenum == BlockMachine2.EnumMachineExtendedType.CIRCUIT_FABRICATOR.getMetadata())
+            } else if (this.getBlock() == GCBlocks.machineBase2 && typenum == BlockMachine2.EnumMachineExtendedType.CIRCUIT_FABRICATOR.getMetadata())
             {
                 ClientProxyCore.playerClientHandler.onBuild(2, (EntityPlayerSP) player);
             }

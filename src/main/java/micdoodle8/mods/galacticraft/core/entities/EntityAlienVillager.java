@@ -9,8 +9,24 @@ import micdoodle8.mods.galacticraft.core.items.ItemBasic;
 import micdoodle8.mods.galacticraft.core.items.ItemCanisterGeneric;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.PlayerGearData;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.IMerchant;
+import net.minecraft.entity.INpc;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.entity.ai.EntityAIMoveIndoors;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAIOpenDoor;
+import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -31,7 +47,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.village.MerchantRecipe;
@@ -47,6 +67,7 @@ import java.util.UUID;
 
 public class EntityAlienVillager extends EntityAgeable implements IMerchant, INpc, IEntityBreathable
 {
+
     private int randomTickDivider;
     private boolean isMating;
     private boolean isPlaying;
@@ -59,21 +80,63 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
     private UUID lastBuyingPlayerUuid;
     private boolean isLookingForHome;
     private InventoryBasic villagerInventory;
-    private static final EntityAlienVillager.ITradeList[] DEFAULT_TRADE_LIST_MAP = new EntityAlienVillager.ITradeList[] {
-            new EntityAlienVillager.ListItemForEmeralds(new ItemStack(GCItems.oxMask, 1, 0), new EntityAlienVillager.PriceInfo(1, 2)),
+    private static final EntityAlienVillager.ITradeList[] DEFAULT_TRADE_LIST_MAP = new EntityAlienVillager.ITradeList[]
+    {new EntityAlienVillager.ListItemForEmeralds(new ItemStack(GCItems.oxMask, 1, 0), new EntityAlienVillager.PriceInfo(1, 2)),
             new EntityAlienVillager.ListItemForEmeralds(new ItemStack(GCItems.oxTankLight, 1, 235), new EntityAlienVillager.PriceInfo(3, 4)),
             new EntityAlienVillager.ListItemForEmeralds(new ItemStack(GCItems.oxygenGear, 1, 0), new EntityAlienVillager.PriceInfo(3, 4)),
             new EntityAlienVillager.ListItemForEmeralds(new ItemStack(GCItems.fuelCanister, 1, 317), new EntityAlienVillager.PriceInfo(3, 4)),
             new EntityAlienVillager.ListItemForEmeralds(new ItemStack(GCItems.parachute, 1, 0), new EntityAlienVillager.PriceInfo(1, 2)),
             new EntityAlienVillager.ListItemForEmeralds(new ItemStack(GCItems.battery, 1, 58), new EntityAlienVillager.PriceInfo(2, 4)),
-            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.oilCanister, 1, ItemCanisterGeneric.EMPTY), new EntityAlienVillager.PriceInfo(1, 1), new ItemStack(GCItems.foodItem, 1, 1)), //carrots = also yields a tin!
+            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.oilCanister, 1, ItemCanisterGeneric.EMPTY), new EntityAlienVillager.PriceInfo(1, 1),
+                new ItemStack(GCItems.foodItem, 1, 1)), // carrots
+                                                        // =
+                                                        // also
+                                                        // yields
+                                                        // a
+                                                        // tin!
             new EntityAlienVillager.ListItemForEmeralds(new ItemStack(GCItems.basicItem, 1, ItemBasic.WAFER_BASIC), new EntityAlienVillager.PriceInfo(3, 4)),
-            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.schematic, 1, 0), new EntityAlienVillager.PriceInfo(3, 5), new ItemStack(GCItems.schematic, 1, 1)), //Exchange buggy and rocket schematics
-            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.schematic, 1, 1), new EntityAlienVillager.PriceInfo(3, 5), new ItemStack(GCItems.schematic, 1, 0)), //Exchange buggy and rocket schematics
-            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.basicItem, 2, 3), new EntityAlienVillager.PriceInfo(1, 1), new ItemStack(GCItems.basicItem, 1, 6)), //Compressed Tin - needed to craft a Fuel Loader
-            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.basicItem, 2, 4), new EntityAlienVillager.PriceInfo(1, 1), new ItemStack(GCItems.basicItem, 1, 7)), //Compressed Copper - needed to craft a Fuel Loader
-            new EntityAlienVillager.EmeraldForItems(new ItemStack(Blocks.SAPLING, 1, 3), new EntityAlienVillager.PriceInfo(11, 39)) //The one thing Alien Villagers don't have and can't get is jungle trees...
-            };
+            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.schematic, 1, 0), new EntityAlienVillager.PriceInfo(3, 5), new ItemStack(GCItems.schematic, 1, 1)), // Exchange
+                                                                                                                                                                                   // buggy
+                                                                                                                                                                                   // and
+                                                                                                                                                                                   // rocket
+                                                                                                                                                                                   // schematics
+            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.schematic, 1, 1), new EntityAlienVillager.PriceInfo(3, 5), new ItemStack(GCItems.schematic, 1, 0)), // Exchange
+                                                                                                                                                                                   // buggy
+                                                                                                                                                                                   // and
+                                                                                                                                                                                   // rocket
+                                                                                                                                                                                   // schematics
+            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.basicItem, 2, 3), new EntityAlienVillager.PriceInfo(1, 1), new ItemStack(GCItems.basicItem, 1, 6)), // Compressed
+                                                                                                                                                                                   // Tin
+                                                                                                                                                                                   // -
+                                                                                                                                                                                   // needed
+                                                                                                                                                                                   // to
+                                                                                                                                                                                   // craft
+                                                                                                                                                                                   // a
+                                                                                                                                                                                   // Fuel
+                                                                                                                                                                                   // Loader
+            new EntityAlienVillager.ItemAndEmeraldToItem(new ItemStack(GCItems.basicItem, 2, 4), new EntityAlienVillager.PriceInfo(1, 1), new ItemStack(GCItems.basicItem, 1, 7)), // Compressed
+                                                                                                                                                                                   // Copper
+                                                                                                                                                                                   // -
+                                                                                                                                                                                   // needed
+                                                                                                                                                                                   // to
+                                                                                                                                                                                   // craft
+                                                                                                                                                                                   // a
+                                                                                                                                                                                   // Fuel
+                                                                                                                                                                                   // Loader
+            new EntityAlienVillager.EmeraldForItems(new ItemStack(Blocks.SAPLING, 1, 3), new EntityAlienVillager.PriceInfo(11, 39)) // The
+                                                                                                                                    // one
+                                                                                                                                    // thing
+                                                                                                                                    // Alien
+                                                                                                                                    // Villagers
+                                                                                                                                    // don't
+                                                                                                                                    // have
+                                                                                                                                    // and
+                                                                                                                                    // can't
+                                                                                                                                    // get
+                                                                                                                                    // is
+                                                                                                                                    // jungle
+                                                                                                                                    // trees...
+    };
 
     public EntityAlienVillager(World worldIn)
     {
@@ -121,8 +184,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
             if (this.villageObj == null)
             {
                 this.detachHome();
-            }
-            else
+            } else
             {
                 BlockPos blockpos1 = this.villageObj.getCenter();
                 this.setHomePosAndDistance(blockpos1, (int) ((float) this.villageObj.getVillageRadius() * 1.0F));
@@ -184,8 +246,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
                 {
                     this.setCustomer(player);
                     player.displayVillagerTradeGui(this);
-                }
-                else
+                } else
                 {
                     if (player instanceof EntityPlayerMP)
                     {
@@ -202,8 +263,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
 
             player.addStat(StatList.TALKED_TO_VILLAGER);
             return true;
-        }
-        else
+        } else
         {
             return super.processInteract(player, hand);
         }
@@ -352,13 +412,11 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
                 if (entity instanceof EntityPlayer)
                 {
                     this.villageObj.modifyPlayerReputation(entity.getUniqueID(), -2);
-                }
-                else if (entity instanceof IMob)
+                } else if (entity instanceof IMob)
                 {
                     this.villageObj.endMatingSeason();
                 }
-            }
-            else
+            } else
             {
                 EntityPlayer entityplayer = this.world.getClosestPlayerToEntity(this, 16.0D);
 
@@ -404,11 +462,10 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
 
             if (this.buyingPlayer != null)
             {
-            	this.lastBuyingPlayerUuid = this.buyingPlayer.getUniqueID();
-            }
-            else
+                this.lastBuyingPlayerUuid = this.buyingPlayer.getUniqueID();
+            } else
             {
-            	this.lastBuyingPlayerUuid = null;
+                this.lastBuyingPlayerUuid = null;
             }
 
             i += 5;
@@ -435,8 +492,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
             if (!stack.isEmpty())
             {
                 this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
-            }
-            else
+            } else
             {
                 this.playSound(SoundEvents.ENTITY_VILLAGER_NO, this.getSoundVolume(), this.getSoundPitch());
             }
@@ -493,16 +549,13 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
         if (id == 12)
         {
             this.spawnParticles(EnumParticleTypes.HEART);
-        }
-        else if (id == 13)
+        } else if (id == 13)
         {
             this.spawnParticles(EnumParticleTypes.VILLAGER_ANGRY);
-        }
-        else if (id == 14)
+        } else if (id == 14)
         {
             this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
-        }
-        else
+        } else
         {
             super.handleStatusUpdate(id);
         }
@@ -516,7 +569,8 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
             double d0 = this.rand.nextGaussian() * 0.02D;
             double d1 = this.rand.nextGaussian() * 0.02D;
             double d2 = this.rand.nextGaussian() * 0.02D;
-            this.world.spawnParticle(particleType, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 1.0D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2, new int[0]);
+            this.world.spawnParticle(particleType, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width,
+                this.posY + 1.0D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2, new int[0]);
         }
     }
 
@@ -592,8 +646,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
             if (itemstack1.isEmpty())
             {
                 itemEntity.setDead();
-            }
-            else
+            } else
             {
                 itemstack.setCount(itemstack1.getCount());
             }
@@ -628,7 +681,8 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
 
             if (!itemstack.isEmpty())
             {
-                if (itemstack.getItem() == Items.BREAD && itemstack.getCount() >= 3 * multiplier || itemstack.getItem() == Items.POTATO && itemstack.getCount() >= 12 * multiplier || itemstack.getItem() == Items.CARROT && itemstack.getCount() >= 12 * multiplier)
+                if (itemstack.getItem() == Items.BREAD && itemstack.getCount() >= 3 * multiplier || itemstack.getItem() == Items.POTATO && itemstack.getCount() >= 12 * multiplier
+                    || itemstack.getItem() == Items.CARROT && itemstack.getCount() >= 12 * multiplier)
                 {
                     return true;
                 }
@@ -655,8 +709,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
         if (super.replaceItemInInventory(inventorySlot, itemStackIn))
         {
             return true;
-        }
-        else
+        } else
         {
             int i = inventorySlot - 300;
 
@@ -664,8 +717,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
             {
                 this.villagerInventory.setInventorySlotContents(i, itemStackIn);
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
@@ -674,6 +726,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
 
     public static class EmeraldForItems implements EntityAlienVillager.ITradeList
     {
+
         public ItemStack sellItem;
         public EntityAlienVillager.PriceInfo price;
 
@@ -692,7 +745,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
             {
                 i = this.price.getPrice(random);
             }
-            
+
             ItemStack tradeStack = this.sellItem.copy();
             tradeStack.setCount(i);
 
@@ -702,11 +755,13 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
 
     public interface ITradeList
     {
+
         void modifyMerchantRecipeList(MerchantRecipeList recipeList, Random random);
     }
 
     public static class ItemAndEmeraldToItem implements EntityAlienVillager.ITradeList
     {
+
         public ItemStack buyingItemStack;
         public EntityAlienVillager.PriceInfo buyingPriceInfo;
         public ItemStack sellingItemstack;
@@ -725,7 +780,6 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
             this.sellingItemstack = p_i45813_3_;
         }
 
-
         @Override
         public void modifyMerchantRecipeList(MerchantRecipeList recipeList, Random random)
         {
@@ -742,6 +796,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
 
     public static class ListItemForEmeralds implements EntityAlienVillager.ITradeList
     {
+
         public ItemStack itemToBuy;
         public EntityAlienVillager.PriceInfo priceInfo;
 
@@ -768,8 +823,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
             {
                 itemstack = new ItemStack(GCItems.itemBasicMoon, 1, 2);
                 itemstack1 = new ItemStack(this.itemToBuy.getItem(), -i, this.itemToBuy.getMetadata());
-            }
-            else
+            } else
             {
                 itemstack = new ItemStack(GCItems.itemBasicMoon, i, 2);
                 itemstack1 = new ItemStack(this.itemToBuy.getItem(), 1, this.itemToBuy.getMetadata());
@@ -781,6 +835,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
 
     public static class PriceInfo extends Tuple<Integer, Integer>
     {
+
         public PriceInfo(int p_i45810_1_, int p_i45810_2_)
         {
             super(Integer.valueOf(p_i45810_1_), Integer.valueOf(p_i45810_2_));
@@ -788,7 +843,8 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
 
         public int getPrice(Random rand)
         {
-            return ((Integer) this.getFirst()).intValue() >= ((Integer) this.getSecond()).intValue() ? ((Integer) this.getFirst()).intValue() : ((Integer) this.getFirst()).intValue() + rand.nextInt(((Integer) this.getSecond()).intValue() - ((Integer) this.getFirst()).intValue() + 1);
+            return ((Integer) this.getFirst()).intValue() >= ((Integer) this.getSecond()).intValue() ? ((Integer) this.getFirst()).intValue()
+                : ((Integer) this.getFirst()).intValue() + rand.nextInt(((Integer) this.getSecond()).intValue() - ((Integer) this.getFirst()).intValue() + 1);
         }
     }
 }

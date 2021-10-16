@@ -1,17 +1,19 @@
+package micdoodle8.mods.galacticraft.core.client.nei;
+
 //package micdoodle8.mods.galacticraft.core.client.nei;
 //
 //import codechicken.nei.api.API;
 //import codechicken.nei.api.IConfigureNEI;
 //import codechicken.nei.api.ItemInfo;
 //import codechicken.nei.api.stack.PositionedStack;
-//import micdoodle8.mods.galacticraft.api.recipe.CompressorRecipes;
-//import micdoodle8.mods.galacticraft.api.recipe.ShapedRecipesGC;
-//import micdoodle8.mods.galacticraft.api.recipe.ShapelessOreRecipeGC;
-//import micdoodle8.mods.galacticraft.core.Constants;
-//import micdoodle8.mods.galacticraft.core.GCBlocks;
-//import micdoodle8.mods.galacticraft.core.GCItems;
-//import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-//import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+//import galacticraft.api.recipe.CompressorRecipes;
+//import galacticraft.api.recipe.ShapedRecipesGC;
+//import galacticraft.api.recipe.ShapelessOreRecipeGC;
+//import galacticraft.core.Constants;
+//import galacticraft.core.GCBlocks;
+//import galacticraft.core.GCItems;
+//import galacticraft.core.GalacticraftCore;
+//import galacticraft.core.util.ConfigManagerCore;
 //import net.minecraft.block.Block;
 //import net.minecraft.init.Blocks;
 //import net.minecraft.init.Items;

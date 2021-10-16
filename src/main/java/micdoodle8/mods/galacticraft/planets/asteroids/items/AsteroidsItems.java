@@ -17,6 +17,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class AsteroidsItems
 {
+
     public static Item grapple;
     public static Item tier3Rocket;
     public static Item astroMiner;
@@ -25,7 +26,7 @@ public class AsteroidsItems
     public static Item methaneCanister;
     public static Item canisterLOX;
     public static Item canisterLN2;
-    //public static Item canisterLAr;
+    // public static Item canisterLAr;
     public static Item atmosphericValve;
     public static ItemHeavyNoseCone heavyNoseCone;
     public static Item orionDrive;
@@ -41,7 +42,8 @@ public class AsteroidsItems
     public static Item strangeSeed;
 
     public static Item.ToolMaterial TOOL_TITANIUM = EnumHelper.addToolMaterial("titanium", 4, 760, 14.0F, 4.0F, 16);
-    public static ItemArmor.ArmorMaterial ARMOR_TITANIUM = EnumHelper.addArmorMaterial("titanium", "", 26, new int[] { 5, 7, 10, 5 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0F);
+    public static ItemArmor.ArmorMaterial ARMOR_TITANIUM = EnumHelper.addArmorMaterial("titanium", "", 26, new int[]
+    {5, 7, 10, 5}, 20, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0F);
 
     public static void initItems()
     {
@@ -53,7 +55,8 @@ public class AsteroidsItems
         AsteroidsItems.methaneCanister = new ItemCanisterMethane("methane_canister_partial");
         AsteroidsItems.canisterLOX = new ItemCanisterLiquidOxygen("canister_partial_lox");
         AsteroidsItems.canisterLN2 = new ItemCanisterLiquidNitrogen("canister_partial_ln2");
-        //AsteroidsItems.canisterLAr = new ItemCanisterLiquidArgon("canisterPartialLAr");
+        // AsteroidsItems.canisterLAr = new
+        // ItemCanisterLiquidArgon("canisterPartialLAr");
         AsteroidsItems.atmosphericValve = new ItemAtmosphericValve("atmospheric_valve");
         AsteroidsItems.heavyNoseCone = new ItemHeavyNoseCone("heavy_nose_cone");
         AsteroidsItems.orionDrive = new ItemOrionDrive("orion_drive");
@@ -103,7 +106,7 @@ public class AsteroidsItems
         registerItem(AsteroidsItems.methaneCanister);
         registerItem(AsteroidsItems.canisterLOX);
         registerItem(AsteroidsItems.canisterLN2);
-        //registerItem(AsteroidsItems.canisterLAr);
+        // registerItem(AsteroidsItems.canisterLAr);
         registerItem(AsteroidsItems.atmosphericValve);
         registerItem(AsteroidsItems.heavyNoseCone);
         registerItem(AsteroidsItems.orionDrive);
@@ -117,9 +120,9 @@ public class AsteroidsItems
         registerItem(AsteroidsItems.titaniumHoe);
         registerItem(AsteroidsItems.titaniumSword);
         registerItem(AsteroidsItems.strangeSeed);
-        
+
         ARMOR_TITANIUM.setRepairItem(new ItemStack(AsteroidsItems.basicItem, 1, 0));
-        
+
         GCItems.canisterTypes.add((ItemCanisterGeneric) AsteroidsItems.canisterLOX);
         GCItems.canisterTypes.add((ItemCanisterGeneric) AsteroidsItems.methaneCanister);
         GCItems.canisterTypes.add((ItemCanisterGeneric) AsteroidsItems.canisterLN2);

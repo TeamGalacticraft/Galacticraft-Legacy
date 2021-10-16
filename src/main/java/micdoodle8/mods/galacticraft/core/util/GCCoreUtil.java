@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.core.util;
 
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
+
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.entities.EntityLanderBase;
@@ -7,6 +10,7 @@ import micdoodle8.mods.galacticraft.core.inventory.ContainerBuggy;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerParaChest;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -20,13 +24,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraft.util.text.translation.LanguageMap;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.translation.LanguageMap;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
@@ -56,11 +60,9 @@ import java.util.zip.ZipFile;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
-
 public class GCCoreUtil
 {
+
     public static int nextID = 0;
     private static boolean deobfuscated;
     private static String lastLang = "";
@@ -72,8 +74,7 @@ public class GCCoreUtil
         try
         {
             deobfuscated = Launch.classLoader.getClassBytes("net.minecraft.world.World") != null;
-        }
-        catch (final Exception e)
+        } catch (final Exception e)
         {
             e.printStackTrace();
         }
@@ -89,7 +90,8 @@ public class GCCoreUtil
         player.getNextWindowId();
         player.closeContainer();
         int id = player.currentWindowId;
-        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_PARACHEST_GUI, GCCoreUtil.getDimensionID(player.world), new Object[] { id, 0, 0 }), player);
+        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_PARACHEST_GUI, GCCoreUtil.getDimensionID(player.world), new Object[]
+        {id, 0, 0}), player);
         player.openContainer = new ContainerBuggy(player.inventory, buggyInv, type, player);
         player.openContainer.windowId = id;
         player.openContainer.addListener(player);
@@ -100,7 +102,8 @@ public class GCCoreUtil
         player.getNextWindowId();
         player.closeContainer();
         int windowId = player.currentWindowId;
-        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_PARACHEST_GUI, GCCoreUtil.getDimensionID(player.world), new Object[] { windowId, 1, landerInv.getEntityId() }), player);
+        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_PARACHEST_GUI, GCCoreUtil.getDimensionID(player.world), new Object[]
+        {windowId, 1, landerInv.getEntityId()}), player);
         player.openContainer = new ContainerParaChest(player.inventory, landerInv, player);
         player.openContainer.windowId = windowId;
         player.openContainer.addListener(player);
@@ -128,14 +131,14 @@ public class GCCoreUtil
     {
         int eggID = 255;
 
-        //Non-global entity IDs - for egg ID purposes - can be greater than 255
-        //The spawn egg will have this metadata.  Metadata up to 65535 is acceptable (see potions).
+        // Non-global entity IDs - for egg ID purposes - can be greater than 255
+        // The spawn egg will have this metadata. Metadata up to 65535 is
+        // acceptable (see potions).
 
         do
         {
             eggID++;
-        }
-        while (net.minecraftforge.registries.GameData.getEntityRegistry().getValue(eggID) != null);
+        } while (net.minecraftforge.registries.GameData.getEntityRegistry().getValue(eggID) != null);
 
         return eggID;
     }
@@ -233,10 +236,11 @@ public class GCCoreUtil
         BufferedReader br = new BufferedReader(new InputStreamReader(inputstream, StandardCharsets.UTF_8));
         String line;
         String supplemented = "entity." + assetprefix.toLowerCase() + ".";
-        
-        //TODO:  We could also load en_US here and have any language keys not in the other lang set to the en_US value
-        
-        while((line = br.readLine()) != null)
+
+        // TODO: We could also load en_US here and have any language keys not in
+        // the other lang set to the en_US value
+
+        while ((line = br.readLine()) != null)
         {
             line = line.trim();
             if (!line.isEmpty())
@@ -248,7 +252,7 @@ public class GCCoreUtil
                 }
             }
         }
-        
+
         ByteArrayOutputStream outputstream = new ByteArrayOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputstream, Charsets.UTF_8.newEncoder()));
         for (String outLine : langLines)
@@ -264,7 +268,8 @@ public class GCCoreUtil
         {
             langDisable = false;
         }
-        if (langDisable) return;
+        if (langDisable)
+            return;
         String langFile = "assets/" + assetPrefix + "/lang/" + langIdentifier.substring(0, 3).toLowerCase() + langIdentifier.substring(3).toUpperCase() + ".lang";
         InputStream stream = null;
         ZipFile zip = null;
@@ -273,29 +278,31 @@ public class GCCoreUtil
             if (source.isDirectory() && (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment"))
             {
                 stream = new FileInputStream(new File(source.toURI().resolve(langFile).getPath()));
-            }
-            else
+            } else
             {
                 zip = new ZipFile(source);
                 ZipEntry entry = zip.getEntry(langFile);
-                if(entry == null) throw new FileNotFoundException();
+                if (entry == null)
+                    throw new FileNotFoundException();
                 stream = zip.getInputStream(entry);
             }
             LanguageMap.inject(GCCoreUtil.supplementEntityKeys(stream, assetPrefix));
-        }
-        catch(FileNotFoundException fnf)
+        } catch (FileNotFoundException fnf)
         {
             langDisable = true;
-        }
-        catch(Exception ignore) { }
-        finally
+        } catch (Exception ignore)
         {
-            if (stream != null) IOUtils.closeQuietly(stream);
+        } finally
+        {
+            if (stream != null)
+                IOUtils.closeQuietly(stream);
             try
             {
-                if (zip != null) zip.close();
+                if (zip != null)
+                    zip.close();
+            } catch (IOException ignore)
+            {
             }
-            catch (IOException ignore) {}
         }
     }
 
@@ -323,16 +330,16 @@ public class GCCoreUtil
         }
         return new WorldServer[0];
     }
-    
+
     public static WorldServer[] getWorldServerList(World world)
     {
         if (world instanceof WorldServer)
         {
-            return ((WorldServer)world).getMinecraftServer().worlds;
+            return ((WorldServer) world).getMinecraftServer().worlds;
         }
         return GCCoreUtil.getWorldServerList();
     }
-    
+
     public static void sendToAllDimensions(EnumSimplePacket packetType, Object[] data)
     {
         for (WorldServer world : GCCoreUtil.getWorldServerList())
@@ -365,17 +372,18 @@ public class GCCoreUtil
     }
 
     /**
-     * Call this to obtain a seeded random which will be the SAME on
-     * client and server.  This means EntityItems won't jump position, for example.
+     * Call this to obtain a seeded random which will be the SAME on client and
+     * server. This means EntityItems won't jump position, for example.
      */
     public static Random getRandom(BlockPos pos)
     {
-        long blockSeed = ((pos.getY() << 28) + pos.getX() + 30000000 << 28) + pos.getZ() + 30000000;  
+        long blockSeed = ((pos.getY() << 28) + pos.getX() + 30000000 << 28) + pos.getZ() + 30000000;
         return new Random(blockSeed);
     }
-    
+
     /**
-     * Returns the angle of the compass (0 - 360 degrees) needed to reach the given position offset
+     * Returns the angle of the compass (0 - 360 degrees) needed to reach the
+     * given position offset
      */
     public static float getAngleForRelativePosition(double nearestX, double nearestZ)
     {
@@ -401,8 +409,11 @@ public class GCCoreUtil
         if (server == null)
         {
             // This may be called from a different thread e.g. MapUtil
-            // If on a different thread, FMLCommonHandler.instance().getMinecraftServerInstance() can return null on LAN servers
-            // (I think because the FMLCommonHandler wrongly picks the client proxy if it's not in the Integrated Server thread)
+            // If on a different thread,
+            // FMLCommonHandler.instance().getMinecraftServerInstance() can
+            // return null on LAN servers
+            // (I think because the FMLCommonHandler wrongly picks the client
+            // proxy if it's not in the Integrated Server thread)
             return serverCached;
         }
         return server;
@@ -423,77 +434,89 @@ public class GCCoreUtil
         return null;
     }
 
-    //For performance
+    // For performance
     public static List<BlockPos> getPositionsAdjoining(BlockPos pos)
     {
         LinkedList<BlockPos> result = new LinkedList<>();
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        if (y > 0) result.add(new BlockPos(x, y - 1, z));
-        if (y < 255) result.add(new BlockPos(x, y + 1, z));
+        if (y > 0)
+            result.add(new BlockPos(x, y - 1, z));
+        if (y < 255)
+            result.add(new BlockPos(x, y + 1, z));
         result.add(new BlockPos(x, y, z - 1));
         result.add(new BlockPos(x, y, z + 1));
         result.add(new BlockPos(x - 1, y, z));
         result.add(new BlockPos(x + 1, y, z));
         return result;
     }
-    
-    //For performance
+
+    // For performance
     public static void getPositionsAdjoining(int x, int y, int z, List<BlockPos> result)
     {
         result.clear();
-        if (y > 0) result.add(new BlockPos(x, y - 1, z));
-        if (y < 255) result.add(new BlockPos(x, y + 1, z));
+        if (y > 0)
+            result.add(new BlockPos(x, y - 1, z));
+        if (y < 255)
+            result.add(new BlockPos(x, y + 1, z));
         result.add(new BlockPos(x, y, z - 1));
         result.add(new BlockPos(x, y, z + 1));
         result.add(new BlockPos(x - 1, y, z));
         result.add(new BlockPos(x + 1, y, z));
     }
-    
+
     public static void getPositionsAdjoiningLoaded(int x, int y, int z, List<BlockPos> result, World world)
     {
         result.clear();
-        if (y > 0) result.add(new BlockPos(x, y - 1, z));
-        if (y < 255) result.add(new BlockPos(x, y + 1, z));
+        if (y > 0)
+            result.add(new BlockPos(x, y - 1, z));
+        if (y < 255)
+            result.add(new BlockPos(x, y + 1, z));
         BlockPos pos = new BlockPos(x, y, z - 1);
-        if ((z & 15) > 0 || world.isBlockLoaded(pos, false)) result.add(pos);
+        if ((z & 15) > 0 || world.isBlockLoaded(pos, false))
+            result.add(pos);
         pos = new BlockPos(x, y, z + 1);
-        if ((z & 15) < 15 || world.isBlockLoaded(pos, false)) result.add(pos);
+        if ((z & 15) < 15 || world.isBlockLoaded(pos, false))
+            result.add(pos);
         pos = new BlockPos(x - 1, y, z);
-        if ((x & 15) > 0 || world.isBlockLoaded(pos, false)) result.add(pos);
+        if ((x & 15) > 0 || world.isBlockLoaded(pos, false))
+            result.add(pos);
         pos = new BlockPos(x + 1, y, z);
-        if ((x & 15) < 15 || world.isBlockLoaded(pos, false)) result.add(pos);
+        if ((x & 15) < 15 || world.isBlockLoaded(pos, false))
+            result.add(pos);
     }
-    
-    //For performance
+
+    // For performance
     public static void getPositionsAdjoining(BlockPos pos, List<BlockPos> result)
     {
         result.clear();
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        if (y > 0) result.add(new BlockPos(x, y - 1, z));
-        if (y < 255) result.add(new BlockPos(x, y + 1, z));
+        if (y > 0)
+            result.add(new BlockPos(x, y - 1, z));
+        if (y < 255)
+            result.add(new BlockPos(x, y + 1, z));
         result.add(new BlockPos(x, y, z - 1));
         result.add(new BlockPos(x, y, z + 1));
         result.add(new BlockPos(x - 1, y, z));
         result.add(new BlockPos(x + 1, y, z));
     }
-    
+
     public static void spawnItem(World world, BlockPos pos, ItemStack stack)
     {
         float var = 0.7F;
         while (!stack.isEmpty())
         {
-	        double dx = world.rand.nextFloat() * var + (1.0F - var) * 0.5D;
-	        double dy = world.rand.nextFloat() * var + (1.0F - var) * 0.5D;
-	        double dz = world.rand.nextFloat() * var + (1.0F - var) * 0.5D;
-	        EntityItem entityitem = new EntityItem(world, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, stack.splitStack(world.rand.nextInt(21) + 10));
-	
-	        entityitem.setPickupDelay(10);
-	
-	        world.spawnEntity(entityitem);
+            double dx = world.rand.nextFloat() * var + (1.0F - var) * 0.5D;
+            double dy = world.rand.nextFloat() * var + (1.0F - var) * 0.5D;
+            double dz = world.rand.nextFloat() * var + (1.0F - var) * 0.5D;
+            EntityItem entityitem = new EntityItem(world, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, stack.splitStack(world.rand.nextInt(21) + 10));
+
+            entityitem.setPickupDelay(10);
+
+            world.spawnEntity(entityitem);
         }
     }
 

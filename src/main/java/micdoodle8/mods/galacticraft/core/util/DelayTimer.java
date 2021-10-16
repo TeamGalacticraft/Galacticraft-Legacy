@@ -4,6 +4,7 @@ import net.minecraft.world.World;
 
 public class DelayTimer
 {
+
     private long lastMark = Long.MIN_VALUE;
     private long internalDelay = 1;
 
@@ -30,13 +31,11 @@ public class DelayTimer
         {
             lastMark = currentTime;
             return false;
-        }
-        else if (lastMark + delay <= currentTime)
+        } else if (lastMark + delay <= currentTime)
         {
             lastMark = currentTime;
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 @Cancelable
 public class EventWakePlayer extends PlayerEvent
 {
+
     public EntityPlayer.SleepResult result = null;
     public final BlockPos pos;
     public final boolean immediately;

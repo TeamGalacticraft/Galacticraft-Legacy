@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.planets;
 
 public class GuiIdsPlanets
 {
+
     // MARS
     public static final int NASA_WORKBENCH_CARGO_ROCKET = 0;
     public static final int NASA_WORKBENCH_TIER_2_ROCKET = 1;

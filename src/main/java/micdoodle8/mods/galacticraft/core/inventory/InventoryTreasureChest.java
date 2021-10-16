@@ -9,6 +9,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 public class InventoryTreasureChest implements IInventory
 {
+
     private String name;
     private IInventory upperChest;
     private IInventory lowerChest;
@@ -37,7 +38,6 @@ public class InventoryTreasureChest implements IInventory
         return this.upperChest.getSizeInventory() + this.lowerChest.getSizeInventory();
     }
 
-
     @Override
     public String getName()
     {
@@ -59,13 +59,15 @@ public class InventoryTreasureChest implements IInventory
     @Override
     public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
     {
-        return p_70298_1_ >= this.upperChest.getSizeInventory() ? this.lowerChest.decrStackSize(p_70298_1_ - this.upperChest.getSizeInventory(), p_70298_2_) : this.upperChest.decrStackSize(p_70298_1_, p_70298_2_);
+        return p_70298_1_ >= this.upperChest.getSizeInventory() ? this.lowerChest.decrStackSize(p_70298_1_ - this.upperChest.getSizeInventory(), p_70298_2_)
+            : this.upperChest.decrStackSize(p_70298_1_, p_70298_2_);
     }
 
     @Override
     public ItemStack removeStackFromSlot(int p_70304_1_)
     {
-        return p_70304_1_ >= this.upperChest.getSizeInventory() ? this.lowerChest.removeStackFromSlot(p_70304_1_ - this.upperChest.getSizeInventory()) : this.upperChest.removeStackFromSlot(p_70304_1_);
+        return p_70304_1_ >= this.upperChest.getSizeInventory() ? this.lowerChest.removeStackFromSlot(p_70304_1_ - this.upperChest.getSizeInventory())
+            : this.upperChest.removeStackFromSlot(p_70304_1_);
     }
 
     @Override
@@ -74,8 +76,7 @@ public class InventoryTreasureChest implements IInventory
         if (p_70299_1_ >= this.upperChest.getSizeInventory())
         {
             this.lowerChest.setInventorySlotContents(p_70299_1_ - this.upperChest.getSizeInventory(), p_70299_2_);
-        }
-        else
+        } else
         {
             this.upperChest.setInventorySlotContents(p_70299_1_, p_70299_2_);
         }

@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.event;
 
+import org.lwjgl.opengl.GL11;
+
 import micdoodle8.mods.galacticraft.api.event.client.CelestialBodyRenderEvent;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.Constants;
@@ -21,10 +23,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import org.lwjgl.opengl.GL11;
-
 public class AsteroidsEventHandlerClient
 {
+
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
@@ -61,8 +62,7 @@ public class AsteroidsEventHandlerClient
             {
                 alpha = ((GuiCelestialSelection) screen).getAlpha(renderEvent.celestialBody);
                 GL11.glColor4f(0.7F, 0.0F, 0.0F, alpha / 2.0F);
-            }
-            else
+            } else
             {
                 GL11.glColor4f(0.3F, 0.1F, 0.1F, 1.0F);
             }

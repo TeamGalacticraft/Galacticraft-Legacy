@@ -10,21 +10,23 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.layer.IntCache;
 
-
 /**
- * A Biome Provider for Galacticraft planets (and other bodies!) which only have 1 biome
+ * A Biome Provider for Galacticraft planets (and other bodies!) which only have
+ * 1 biome
  * 
- * Makes use of Galacticraft's BiomeAdaptive so that only one Biome is registered in Forge
- * (this BiomeProvider in combination with BiomeAdaptive makes sure the correct actual biome is seen) 
+ * Makes use of Galacticraft's BiomeAdaptive so that only one Biome is
+ * registered in Forge (this BiomeProvider in combination with BiomeAdaptive
+ * makes sure the correct actual biome is seen)
  */
 public class BiomeProviderDefault extends BiomeProviderSpace
 {
+
     private static final Biome[] biomeCache = new Biome[256];
     private final List<Biome> biomesToSpawnIn;
 
     private BiomeGenBaseGC biomeTrue;
-    private CelestialBody body; 
-    
+    private CelestialBody body;
+
     static
     {
         for (int i = 0; i < 16; ++i)
@@ -36,7 +38,7 @@ public class BiomeProviderDefault extends BiomeProviderSpace
         System.arraycopy(biomeCache, 0, biomeCache, 64, 64);
         System.arraycopy(biomeCache, 0, biomeCache, 128, 128);
     }
-    
+
     public BiomeProviderDefault(CelestialBody theBody)
     {
         body = theBody;
@@ -44,14 +46,15 @@ public class BiomeProviderDefault extends BiomeProviderSpace
         this.biomesToSpawnIn = new ArrayList<Biome>();
         this.biomesToSpawnIn.add(this.getBiome());
     }
-    
+
     @Override
     public Biome getBiome()
     {
-        if (body != null) BiomeAdaptive.setBody(body);
+        if (body != null)
+            BiomeAdaptive.setBody(body);
         return BiomeAdaptive.biomeDefault;
     }
-    
+
     public Biome getBiomeTrue()
     {
         return biomeTrue;
@@ -102,8 +105,7 @@ public class BiomeProviderDefault extends BiomeProviderSpace
         if (size <= 256)
         {
             System.arraycopy(biomeCache, 0, listToReuse, 0, size);
-        }
-        else
+        } else
         {
             System.arraycopy(biomeCache, 0, listToReuse, 0, 256);
             for (int i = 256; i < size; i += i)

@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.perlin;
 
 public abstract class NoiseModule
 {
+
     public float frequencyX = 1;
     public float frequencyY = 1;
     public float frequencyZ = 1;

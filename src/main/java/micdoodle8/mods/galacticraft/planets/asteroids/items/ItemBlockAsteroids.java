@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockAsteroids extends ItemBlock
 {
+
     public ItemBlockAsteroids(Block block)
     {
         super(block);

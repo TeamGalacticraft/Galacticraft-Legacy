@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.world.gen;
 
 public class StructureVillagePieceWeightMoon
 {
+
     public Class<? extends StructureComponentVillage> villagePieceClass;
     public final int villagePieceWeight;
     public int villagePiecesSpawned;

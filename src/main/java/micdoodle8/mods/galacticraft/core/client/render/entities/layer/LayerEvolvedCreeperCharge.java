@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.client.render.entities.layer;
 import micdoodle8.mods.galacticraft.core.client.model.ModelEvolvedCreeper;
 import micdoodle8.mods.galacticraft.core.client.render.entities.RenderEvolvedCreeper;
 import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedCreeper;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class LayerEvolvedCreeperCharge implements LayerRenderer<EntityEvolvedCreeper>
 {
+
     private final RenderEvolvedCreeper render;
     private final ModelEvolvedCreeper creeperModel = new ModelEvolvedCreeper(2.0F);
 

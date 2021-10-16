@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.blocks.BlockMachineBase;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseUniversalElectricalSource;
 import micdoodle8.mods.galacticraft.core.inventory.IInventoryDefaults;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -20,19 +21,20 @@ import java.util.EnumSet;
 
 public class TileEntityCoalGenerator extends TileBaseUniversalElectricalSource implements IInventoryDefaults, ISidedInventory, IConnector
 {
-    //New energy rates:
+    // New energy rates:
     //
-    //Tier 1 machine typically consumes 600 gJ/s = 30 gJ/t
+    // Tier 1 machine typically consumes 600 gJ/s = 30 gJ/t
 
-    //Coal generator on max heat can power up to 4 Tier 1 machines
-    //(fewer if one of them is an Electric Furnace)
-    //Basic solar gen in full sun can power 1 Tier 1 machine
+    // Coal generator on max heat can power up to 4 Tier 1 machines
+    // (fewer if one of them is an Electric Furnace)
+    // Basic solar gen in full sun can power 1 Tier 1 machine
 
-    //1 lump of coal is equivalent to 38400 gJ
-    //because on max heat it produces 120 gJ/t over 320 ticks
+    // 1 lump of coal is equivalent to 38400 gJ
+    // because on max heat it produces 120 gJ/t over 320 ticks
 
-    //Below the min_generate, all heat is wasted
-    //At max generate, 100% efficient conversion coal energy -> electric makes 120 gJ/t
+    // Below the min_generate, all heat is wasted
+    // At max generate, 100% efficient conversion coal energy -> electric makes
+    // 120 gJ/t
     public static final int MAX_GENERATE_GJ_PER_TICK = 150;
     public static final int MIN_GENERATE_GJ_PER_TICK = 30;
 
@@ -40,11 +42,9 @@ public class TileEntityCoalGenerator extends TileBaseUniversalElectricalSource i
 
     public float prevGenerateWatts = 0;
 
-    @NetworkedField(targetSide = Side.CLIENT)
-    public float heatGJperTick = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public float heatGJperTick = 0;
 
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int itemCookTime = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public int itemCookTime = 0;
 
     public TileEntityCoalGenerator()
     {
@@ -78,8 +78,7 @@ public class TileEntityCoalGenerator extends TileBaseUniversalElectricalSource i
                 {
                     this.itemCookTime = 320;
                     this.decrStackSize(0, 1);
-                }
-                else if (this.getInventory().get(0).getItem() == Item.getItemFromBlock(Blocks.COAL_BLOCK) && this.getInventory().get(0).getCount() > 0)
+                } else if (this.getInventory().get(0).getItem() == Item.getItemFromBlock(Blocks.COAL_BLOCK) && this.getInventory().get(0).getCount() > 0)
                 {
                     this.itemCookTime = 320 * 10;
                     this.decrStackSize(0, 1);
@@ -136,7 +135,8 @@ public class TileEntityCoalGenerator extends TileBaseUniversalElectricalSource i
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[] { 0 };
+        return new int[]
+        {0};
     }
 
     @Override
@@ -163,13 +163,9 @@ public class TileEntityCoalGenerator extends TileBaseUniversalElectricalSource i
         return 0;
     }
 
-	/*
-    @Override
-	public float getRequest(EnumFacing direction)
-	{
-		return 0;
-	}
-	*/
+    /*
+     * @Override public float getRequest(EnumFacing direction) { return 0; }
+     */
 
     @Override
     public EnumSet<EnumFacing> getElectricalInputDirections()
@@ -185,7 +181,7 @@ public class TileEntityCoalGenerator extends TileBaseUniversalElectricalSource i
 
     public EnumFacing byIndex()
     {
-        return BlockMachineBase.byIndex(this.world.getBlockState(getPos())); 
+        return BlockMachineBase.byIndex(this.world.getBlockState(getPos()));
     }
 
     @Override

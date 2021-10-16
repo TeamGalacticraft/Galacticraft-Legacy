@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.api.transmission.grid;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.INetworkConnection;
 import micdoodle8.mods.galacticraft.api.transmission.tile.ITransmitter;
@@ -8,10 +12,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Check if a conductor connects with another.
  *
@@ -19,10 +19,12 @@ import java.util.Set;
  */
 public class PathfinderChecker extends Pathfinder
 {
+
     public PathfinderChecker(final World world, final INetworkConnection targetConnector, final NetworkType networkType, final INetworkConnection... ignoreConnector)
     {
         super(new IPathCallBack()
         {
+
             @Override
             public Set<BlockVec3> getConnectedNodes(Pathfinder finder, BlockVec3 currentNode)
             {

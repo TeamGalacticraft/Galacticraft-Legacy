@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.client.fx;
 
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
+
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -12,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class ParticleLaunchSmoke extends EntityFXLaunchParticle
 {
+
     float smokeParticleScale;
 
     public ParticleLaunchSmoke(World par1World, Vector3 position, Vector3 motion, float size, boolean launched)
@@ -33,8 +35,7 @@ public class ParticleLaunchSmoke extends EntityFXLaunchParticle
         if (launched)
         {
             this.particleMaxAge = (int) (this.particleMaxAge * size) + 10;
-        }
-        else
+        } else
         {
             this.motionX += par1World.rand.nextDouble() / 2 - 0.25;
             this.motionY += par1World.rand.nextDouble() / 20;

@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.core.world.gen;
 
-import micdoodle8.mods.galacticraft.core.entities.EntityAlienVillager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -12,15 +11,17 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 import java.util.List;
 import java.util.Random;
 
+import micdoodle8.mods.galacticraft.core.entities.EntityAlienVillager;
+
 public abstract class StructureComponentVillage extends StructureComponent
 {
+
     static
     {
         try
         {
             MapGenVillageMoon.initiateStructures();
-        }
-        catch (Throwable e)
+        } catch (Throwable e)
         {
 
         }
@@ -55,16 +56,20 @@ public abstract class StructureComponentVillage extends StructureComponent
     {
         switch (this.getCoordBaseMode().getHorizontalIndex())
         {
-        case 0:
-            return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY + par4, this.boundingBox.minZ + par5, EnumFacing.byHorizontalIndex(1), this.getComponentType());
-        case 1:
-            return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4, this.boundingBox.minZ - 1, EnumFacing.byHorizontalIndex(2), this.getComponentType());
-        case 2:
-            return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY + par4, this.boundingBox.minZ + par5, EnumFacing.byHorizontalIndex(1), this.getComponentType());
-        case 3:
-            return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4, this.boundingBox.minZ - 1, EnumFacing.byHorizontalIndex(2), this.getComponentType());
-        default:
-            return null;
+            case 0:
+                return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY + par4,
+                    this.boundingBox.minZ + par5, EnumFacing.byHorizontalIndex(1), this.getComponentType());
+            case 1:
+                return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4,
+                    this.boundingBox.minZ - 1, EnumFacing.byHorizontalIndex(2), this.getComponentType());
+            case 2:
+                return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY + par4,
+                    this.boundingBox.minZ + par5, EnumFacing.byHorizontalIndex(1), this.getComponentType());
+            case 3:
+                return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4,
+                    this.boundingBox.minZ - 1, EnumFacing.byHorizontalIndex(2), this.getComponentType());
+            default:
+                return null;
         }
     }
 
@@ -72,16 +77,20 @@ public abstract class StructureComponentVillage extends StructureComponent
     {
         switch (this.getCoordBaseMode().getHorizontalIndex())
         {
-        case 0:
-            return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY + par4, this.boundingBox.minZ + par5, EnumFacing.byHorizontalIndex(3), this.getComponentType());
-        case 1:
-            return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4, this.boundingBox.maxZ + 1, EnumFacing.byHorizontalIndex(0), this.getComponentType());
-        case 2:
-            return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY + par4, this.boundingBox.minZ + par5, EnumFacing.byHorizontalIndex(3), this.getComponentType());
-        case 3:
-            return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4, this.boundingBox.maxZ + 1, EnumFacing.byHorizontalIndex(0), this.getComponentType());
-        default:
-            return null;
+            case 0:
+                return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY + par4,
+                    this.boundingBox.minZ + par5, EnumFacing.byHorizontalIndex(3), this.getComponentType());
+            case 1:
+                return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4,
+                    this.boundingBox.maxZ + 1, EnumFacing.byHorizontalIndex(0), this.getComponentType());
+            case 2:
+                return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY + par4,
+                    this.boundingBox.minZ + par5, EnumFacing.byHorizontalIndex(3), this.getComponentType());
+            case 3:
+                return StructureVillagePiecesMoon.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4,
+                    this.boundingBox.maxZ + 1, EnumFacing.byHorizontalIndex(0), this.getComponentType());
+            default:
+                return null;
         }
     }
 
@@ -108,8 +117,7 @@ public abstract class StructureComponentVillage extends StructureComponent
         if (j == 0)
         {
             return -1;
-        }
-        else
+        } else
         {
             return i / j;
         }

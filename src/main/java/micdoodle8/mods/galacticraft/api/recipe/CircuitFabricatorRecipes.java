@@ -1,27 +1,29 @@
 package micdoodle8.mods.galacticraft.api.recipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import micdoodle8.mods.galacticraft.core.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CircuitFabricatorRecipes
 {
+
     private static List<NonNullList<Object>> recipeInputs = new ArrayList<>();
     private static List<ItemStack> recipeOutputs = new ArrayList<>();
 
     public static ArrayList<ArrayList<ItemStack>> slotValidItems = new ArrayList<>(5);
 
     /**
-     * Input list must be array with 5 elements matching the 5 slots in the machine.  Use null if no
-     * item is used in the slot.  Use a List<ItemStack> for Oredicted ingredients.
-     * <p/>
-     * 0: Diamond  1: Silicon  2: Silicon  3: Redstone dust  4: Recipe item
+     * Input list must be array with 5 elements matching the 5 slots in the
+     * machine. Use null if no item is used in the slot. Use a List<ItemStack>
+     * for Oredicted ingredients. <p/> 0: Diamond 1: Silicon 2: Silicon 3:
+     * Redstone dust 4: Recipe item
      *
-     * @param output  ItemStack
-     * @param inputList  Object array.  Must contain only null, ItemStack, or List<ItemStack>.
+     * @param output ItemStack
+     * @param inputList Object array. Must contain only null, ItemStack, or
+     *        List<ItemStack>.
      * 
      * @return
      */
@@ -37,7 +39,7 @@ public class CircuitFabricatorRecipes
             {
                 continue;
             }
-            if (o instanceof List<?> && ((List)o).size() > 0)
+            if (o instanceof List<?> && ((List) o).size() > 0)
             {
                 continue;
             }
@@ -51,13 +53,14 @@ public class CircuitFabricatorRecipes
         validateItems(inputList);
     }
 
-    /** Add the recipe ingredients to the valid items for each slot
+    /**
+     * Add the recipe ingredients to the valid items for each slot
      * 
      * @param inputList
      */
     private static void validateItems(List<Object> inputList)
     {
-        //First initialise the ArrayList if this is the first time it's used
+        // First initialise the ArrayList if this is the first time it's used
         if (CircuitFabricatorRecipes.slotValidItems.size() == 0)
         {
             for (int i = 0; i < 5; i++)
@@ -66,17 +69,17 @@ public class CircuitFabricatorRecipes
                 CircuitFabricatorRecipes.slotValidItems.add(entry);
             }
         }
-        //Now see if the recipe items are already valid for their slots, if not add them
+        // Now see if the recipe items are already valid for their slots, if not
+        // add them
         for (int i = 0; i < 5; i++)
         {
             Object input = inputList.get(i);
             if (input instanceof ItemStack)
             {
                 validateItem(i, (ItemStack) input);
-            }
-            else if (input instanceof List<?>)
+            } else if (input instanceof List<?>)
             {
-                for (ItemStack stack : (List<ItemStack>)input)
+                for (ItemStack stack : (List<ItemStack>) input)
                 {
                     validateItem(i, stack);
                 }
@@ -130,27 +133,25 @@ public class CircuitFabricatorRecipes
                 Object recipeStack = recipe.get(i);
                 ItemStack inputStack = inputList.get(i);
 
-                if (recipeStack instanceof ItemStack && ((ItemStack)recipeStack).isEmpty() || inputStack.isEmpty())
+                if (recipeStack instanceof ItemStack && ((ItemStack) recipeStack).isEmpty() || inputStack.isEmpty())
                 {
-                    if (!(recipeStack instanceof ItemStack && ((ItemStack)recipeStack).isEmpty()) || !inputStack.isEmpty())
+                    if (!(recipeStack instanceof ItemStack && ((ItemStack) recipeStack).isEmpty()) || !inputStack.isEmpty())
                     {
                         found = false;
                         break;
                     }
-                }
-                else if (recipeStack instanceof ItemStack)
+                } else if (recipeStack instanceof ItemStack)
                 {
-                    ItemStack stack = ((ItemStack) recipeStack); 
+                    ItemStack stack = ((ItemStack) recipeStack);
                     if (stack.getItem() != inputStack.getItem() || stack.getItemDamage() != inputStack.getItemDamage() || !RecipeUtil.areItemStackTagsEqual(stack, inputStack))
                     {
                         found = false;
                         break;
                     }
-                }
-                else if (recipeStack instanceof List<?>)
+                } else if (recipeStack instanceof List<?>)
                 {
                     boolean listMatchOne = false;
-                    for (ItemStack stack : (List<ItemStack>)recipeStack)
+                    for (ItemStack stack : (List<ItemStack>) recipeStack)
                     {
                         if (stack.getItem() == inputStack.getItem() && stack.getItemDamage() == inputStack.getItemDamage() && RecipeUtil.areItemStackTagsEqual(stack, inputStack))
                         {
@@ -170,25 +171,26 @@ public class CircuitFabricatorRecipes
             {
                 return recipeOutputs.get(count);
             }
-            
+
             count++;
         }
 
         return ItemStack.EMPTY;
     }
-    
+
     public static List<NonNullList<Object>> getRecipes()
     {
         return recipeInputs;
     }
-    
+
     public static ItemStack getOutput(int count)
     {
         return recipeOutputs.get(count);
     }
-    
+
     /**
-     * Caution: call this BEFORE the JEI plugin registers recipes - or else the removed recipe will still be shown in JEI.
+     * Caution: call this BEFORE the JEI plugin registers recipes - or else the
+     * removed recipe will still be shown in JEI.
      */
     public static void removeRecipe(ItemStack match)
     {
@@ -200,14 +202,15 @@ public class CircuitFabricatorRecipes
                 recipeInputs.remove(count);
                 recipeOutputs.remove(count);
                 // Do not increment count if we just removed the element!
-            }
-            else count++;
+            } else
+                count++;
         }
     }
-    
+
     public static void replaceRecipeIngredient(ItemStack ingredient, List<ItemStack> replacement)
     {
-        if (ingredient == null) return;
+        if (ingredient == null)
+            return;
         CircuitFabricatorRecipes.slotValidItems.clear();
         Object newIngredient = replacement;
 
@@ -223,16 +226,15 @@ public class CircuitFabricatorRecipes
 
                 if (recipeStack instanceof ItemStack)
                 {
-                    ItemStack stack = ((ItemStack) recipeStack); 
+                    ItemStack stack = ((ItemStack) recipeStack);
                     if (stack.getItem() == ingredient.getItem() && stack.getItemDamage() == ingredient.getItemDamage() && ItemStack.areItemStackTagsEqual(stack, ingredient))
                     {
                         recipe.set(i, newIngredient);
                     }
-                }
-                else if (recipeStack instanceof List<?>)
+                } else if (recipeStack instanceof List<?>)
                 {
                     boolean listMatchOne = false;
-                    for (ItemStack stack : (List<ItemStack>)recipeStack)
+                    for (ItemStack stack : (List<ItemStack>) recipeStack)
                     {
                         if (stack.getItem() == ingredient.getItem() && stack.getItemDamage() == ingredient.getItemDamage() && ItemStack.areItemStackTagsEqual(stack, ingredient))
                         {

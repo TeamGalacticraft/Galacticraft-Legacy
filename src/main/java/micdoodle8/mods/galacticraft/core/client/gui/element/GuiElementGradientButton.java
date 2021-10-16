@@ -1,14 +1,17 @@
 package micdoodle8.mods.galacticraft.core.client.gui.element;
 
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.OpenGlHelper;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiElementGradientButton extends GuiButton
 {
+
     public GuiElementGradientButton(int id, int x, int y, int width, int height, String buttonText)
     {
         super(id, x, y, width, height, buttonText);
@@ -33,13 +36,11 @@ public class GuiElementGradientButton extends GuiButton
                 if (this.hovered)
                 {
                     color = ColorUtil.to32BitColor(150, 30, 30, 30);
-                }
-                else
+                } else
                 {
                     color = ColorUtil.to32BitColor(150, 32, 32, 32);
                 }
-            }
-            else if (this.hovered)
+            } else if (this.hovered)
             {
                 color = ColorUtil.to32BitColor(150, 30, 30, 30);
             }
@@ -51,12 +52,10 @@ public class GuiElementGradientButton extends GuiButton
             if (this.packedFGColour != 0)
             {
                 l = this.packedFGColour;
-            }
-            else if (!this.enabled)
+            } else if (!this.enabled)
             {
                 l = 10526880;
-            }
-            else if (this.hovered)
+            } else if (this.hovered)
             {
                 l = 16777120;
             }

@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.TileEntitySolar;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -30,6 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockSolar extends BlockTileGC implements IShiftDescription, IPartialSealableBlock, ISortableBlock
 {
+
     public static final int BASIC_METADATA = 0;
     public static final int ADVANCED_METADATA = 4;
 
@@ -38,8 +40,11 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
 
     public enum EnumSolarType implements IStringSerializable
     {
-        BASIC_SOLAR(0, "basic_solar"),
-        ADVANCED_SOLAR(1, "advanced_solar"); // 3 for backwards compatibility
+
+        BASIC_SOLAR(0, "basic_solar"), ADVANCED_SOLAR(1, "advanced_solar"); // 3
+                                                                            // for
+                                                                            // backwards
+                                                                            // compatibility
 
         private final int meta;
         private final String name;
@@ -56,6 +61,7 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
         }
 
         private final static EnumSolarType[] values = values();
+
         public static EnumSolarType byMetadata(int meta)
         {
             return values[meta % values.length];
@@ -100,7 +106,7 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
                 for (int z = -1; z <= 1; z++)
                 {
                     BlockPos posAt = pos.add(y == 2 ? x : 0, y, y == 2 ? z : 0);
-                    IBlockState bs = worldIn.getBlockState(posAt); 
+                    IBlockState bs = worldIn.getBlockState(posAt);
 
                     if (bs.getMaterial() != Material.AIR && !bs.getBlock().isReplaceable(worldIn, posAt))
                     {
@@ -125,7 +131,8 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
         }
 
         return true;
-        // return new BlockVec3(x1, y1, z1).newVecSide(side ^ 1).getBlock(world) != GCBlocks.fakeBlock; TODO
+        // return new BlockVec3(x1, y1, z1).newVecSide(side ^ 1).getBlock(world)
+        // != GCBlocks.fakeBlock; TODO
     }
 
     @Override
@@ -137,8 +144,7 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
         if (stack.getItemDamage() >= ADVANCED_METADATA)
         {
             change += ADVANCED_METADATA;
-        }
-        else if (stack.getItemDamage() >= BASIC_METADATA)
+        } else if (stack.getItemDamage() >= BASIC_METADATA)
         {
             change += BASIC_METADATA;
         }
@@ -174,8 +180,7 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
         if (getMetaFromState(state) >= BlockSolar.ADVANCED_METADATA)
         {
             return BlockSolar.ADVANCED_METADATA;
-        }
-        else
+        } else
         {
             return BlockSolar.BASIC_METADATA;
         }
@@ -187,8 +192,7 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
         if (getMetaFromState(state) >= BlockSolar.ADVANCED_METADATA)
         {
             return new TileEntitySolar(2);
-        }
-        else
+        } else
         {
             return new TileEntitySolar(1);
         }
@@ -205,10 +209,10 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
     {
         switch (meta)
         {
-        case BASIC_METADATA:
-            return GCCoreUtil.translate("tile.solar_basic.description");
-        case ADVANCED_METADATA:
-            return GCCoreUtil.translate("tile.solar_adv.description");
+            case BASIC_METADATA:
+                return GCCoreUtil.translate("tile.solar_basic.description");
+            case ADVANCED_METADATA:
+                return GCCoreUtil.translate("tile.solar_adv.description");
         }
         return "";
     }

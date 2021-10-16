@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.api.item.IItemElectric;
 import micdoodle8.mods.galacticraft.api.tile.ILockable;
 import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseElectricBlock;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerCargoLoader extends Container
 {
+
     private TileBaseElectricBlock tileEntity;
     private boolean locked;
 
@@ -22,7 +24,7 @@ public class ContainerCargoLoader extends Container
         this.tileEntity = (TileBaseElectricBlock) cargoLoader;
         if (tileEntity instanceof ILockable)
         {
-            this.locked = ((ILockable)tileEntity).getLocked();
+            this.locked = ((ILockable) tileEntity).getLocked();
         }
 
         this.addSlotToContainer(new SlotSpecific(cargoLoader, 0, 10, 27, IItemElectric.class));
@@ -63,7 +65,7 @@ public class ContainerCargoLoader extends Container
         }
         return super.slotClick(slotId, dragType, clickTypeIn, player);
     }
-    
+
     @Override
     public boolean canInteractWith(EntityPlayer var1)
     {
@@ -87,8 +89,7 @@ public class ContainerCargoLoader extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(var5.getItem()))
                 {
@@ -96,15 +97,13 @@ public class ContainerCargoLoader extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (par2 < 42)
+                } else if (par2 < 42)
                 {
                     if ((this.locked || !this.mergeItemStack(var5, 1, 15, false)) && !this.mergeItemStack(var5, 42, 51, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if ((this.locked || !this.mergeItemStack(var5, 1, 15, false)) && !this.mergeItemStack(var5, 15, 42, false))
+                } else if ((this.locked || !this.mergeItemStack(var5, 1, 15, false)) && !this.mergeItemStack(var5, 15, 42, false))
                 {
                     return ItemStack.EMPTY;
                 }
@@ -113,8 +112,7 @@ public class ContainerCargoLoader extends Container
             if (var5.getCount() == 0)
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

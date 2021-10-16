@@ -16,12 +16,11 @@ import javax.annotation.Nonnull;
 
 public class AstroMinerRecipeCategory implements IRecipeCategory
 {
+
     private static final ResourceLocation astroMinerGuiTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/schematic_astro_miner.png");
 
-    @Nonnull
-    private final IDrawable background;
-    @Nonnull
-    private final String localizedName;
+    @Nonnull private final IDrawable background;
+    @Nonnull private final String localizedName;
 
     public AstroMinerRecipeCategory(IGuiHelper guiHelper)
     {

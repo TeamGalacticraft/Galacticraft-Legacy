@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 
 public class ModelAlienVillager extends ModelVillager
 {
+
     public ModelRenderer brain;
 
     public ModelAlienVillager(float par1)

@@ -1,13 +1,12 @@
 package micdoodle8.mods.galacticraft.core.client.render.entities;
 
-import java.util.Random;
-
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlaySensorGlasses;
 import micdoodle8.mods.galacticraft.core.client.model.ModelEvolvedEnderman;
 import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerEvolvedEndermanEyes;
 import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerEvolvedEndermanHeldBlock;
 import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedEnderman;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -15,9 +14,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Random;
+
 @SideOnly(Side.CLIENT)
 public class RenderEvolvedEnderman extends RenderLiving<EntityEvolvedEnderman>
 {
+
     private static final ResourceLocation endermanTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/evolved_enderman.png");
     private ModelEvolvedEnderman endermanModel;
     private Random rnd = new Random();
@@ -26,7 +28,7 @@ public class RenderEvolvedEnderman extends RenderLiving<EntityEvolvedEnderman>
     public RenderEvolvedEnderman(RenderManager manager)
     {
         super(manager, new ModelEvolvedEnderman(), 0.5F);
-        this.endermanModel = (ModelEvolvedEnderman)super.mainModel;
+        this.endermanModel = (ModelEvolvedEnderman) super.mainModel;
         this.addLayer(new LayerEvolvedEndermanEyes(this));
         this.addLayer(new LayerEvolvedEndermanHeldBlock(this));
     }
@@ -59,7 +61,7 @@ public class RenderEvolvedEnderman extends RenderLiving<EntityEvolvedEnderman>
             OverlaySensorGlasses.postRenderMobs();
         }
     }
-    
+
     @Override
     protected void preRenderCallback(EntityEvolvedEnderman entity, float partialTickTime)
     {

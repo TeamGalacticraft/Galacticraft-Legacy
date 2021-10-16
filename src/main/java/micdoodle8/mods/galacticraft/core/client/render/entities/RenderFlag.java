@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.client.render.entities;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.model.ModelFlag;
 import micdoodle8.mods.galacticraft.core.entities.EntityFlag;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderFlag extends Render<EntityFlag>
 {
+
     public static ResourceLocation flagTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/flag.png");
 
     protected ModelFlag modelFlag;
@@ -50,7 +52,7 @@ public class RenderFlag extends Render<EntityFlag>
         this.modelFlag.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
         GlStateManager.popMatrix();
     }
-    
+
     @Override
     public boolean shouldRender(EntityFlag lander, ICamera camera, double camX, double camY, double camZ)
     {

@@ -1,11 +1,13 @@
 package micdoodle8.mods.galacticraft.core.entities;
 
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class EntityAIThrowPlayer extends EntityAIBase
 {
+
     EntitySkeletonBoss skeletonBoss;
 
     EntityPlayer targetPlayer;
@@ -24,8 +26,7 @@ public class EntityAIThrowPlayer extends EntityAIBase
         if (player == null)
         {
             return false;
-        }
-        else
+        } else
         {
             this.targetPlayer = player;
             return true;

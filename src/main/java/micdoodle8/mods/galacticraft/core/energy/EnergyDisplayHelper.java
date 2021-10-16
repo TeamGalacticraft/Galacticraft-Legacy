@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.energy;
 
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 public class EnergyDisplayHelper
 {
+
     public static void getEnergyDisplayTooltip(float energyVal, float maxEnergy, List<String> strList)
     {
         strList.add(TextFormatting.GREEN + GCCoreUtil.translate("gui.message.energy") + ": " + getEnergyDisplayS(energyVal));
@@ -19,16 +21,13 @@ public class EnergyDisplayHelper
         if (EnergyConfigHandler.displayEnergyUnitsIC2)
         {
             return getEnergyDisplayIC2(energyVal * EnergyConfigHandler.TO_IC2_RATIOdisp);
-        }
-        else if (EnergyConfigHandler.displayEnergyUnitsBC)
+        } else if (EnergyConfigHandler.displayEnergyUnitsBC)
         {
             return getEnergyDisplayBC(energyVal * EnergyConfigHandler.TO_BC_RATIOdisp);
-        }
-        else if (EnergyConfigHandler.displayEnergyUnitsMek)
+        } else if (EnergyConfigHandler.displayEnergyUnitsMek)
         {
             return getEnergyDisplayMek(energyVal * EnergyConfigHandler.TO_MEKANISM_RATIOdisp);
-        }
-        else if (EnergyConfigHandler.displayEnergyUnitsRF)
+        } else if (EnergyConfigHandler.displayEnergyUnitsRF)
         {
             return getEnergyDisplayRF(energyVal * EnergyConfigHandler.TO_RF_RATIOdisp);
         }
@@ -77,13 +76,11 @@ public class EnergyDisplayHelper
         {
             String val = String.valueOf(getEnergyDisplayI(energyVal));
             return val + " J";
-        }
-        else if (energyVal < 1000000)
+        } else if (energyVal < 1000000)
         {
             String val = getEnergyDisplay1DP(energyVal / 1000);
             return val + " kJ";
-        }
-        else
+        } else
         {
             String val = getEnergyDisplay1DP(energyVal / 1000000);
             return val + " MJ";

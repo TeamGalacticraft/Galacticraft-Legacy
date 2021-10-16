@@ -14,6 +14,7 @@ import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.FlagData;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,6 +24,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.WorldServer;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +32,7 @@ import java.util.Set;
 
 public class SpaceRaceManager
 {
+
     private static final Set<SpaceRace> spaceRaces = Sets.newHashSet();
 
     public static SpaceRace addSpaceRace(SpaceRace spaceRace)
@@ -50,7 +53,7 @@ public class SpaceRaceManager
         {
             boolean playerOnline = false;
 
-            for (EntityPlayerMP player: PlayerUtil.getPlayersOnline())
+            for (EntityPlayerMP player : PlayerUtil.getPlayersOnline())
             {
                 if (race.getPlayerNames().contains(PlayerUtil.getName(player)))
                 {
@@ -144,12 +147,12 @@ public class SpaceRaceManager
             {
                 GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_SPACE_RACE_DATA, GCCoreUtil.getDimensionID(toPlayer.world), objList), toPlayer);
                 spaceRace.updatePlayerSchematics(toPlayer);
-            }
-            else
+            } else
             {
                 for (WorldServer server : theServer.worlds)
                 {
-                    GalacticraftCore.packetPipeline.sendToDimension(new PacketSimple(EnumSimplePacket.C_UPDATE_SPACE_RACE_DATA, GCCoreUtil.getDimensionID(server), objList), GCCoreUtil.getDimensionID(server));
+                    GalacticraftCore.packetPipeline.sendToDimension(new PacketSimple(EnumSimplePacket.C_UPDATE_SPACE_RACE_DATA, GCCoreUtil.getDimensionID(server), objList),
+                        GCCoreUtil.getDimensionID(server));
                 }
             }
         }
@@ -168,7 +171,8 @@ public class SpaceRaceManager
 
             if (memberObj != null)
             {
-                memberObj.sendMessage(new TextComponentString(EnumColor.DARK_AQUA + GCCoreUtil.translateWithFormat("gui.space_race.chat.remove_success", EnumColor.RED + player + EnumColor.DARK_AQUA)).setStyle(new Style().setColor(TextFormatting.DARK_AQUA)));
+                memberObj.sendMessage(new TextComponentString(EnumColor.DARK_AQUA + GCCoreUtil.translateWithFormat("gui.space_race.chat.remove_success", EnumColor.RED + player + EnumColor.DARK_AQUA))
+                    .setStyle(new Style().setColor(TextFormatting.DARK_AQUA)));
             }
         }
 
@@ -183,22 +187,23 @@ public class SpaceRaceManager
             SpaceRaceManager.sendSpaceRaceData(server, playerToRemove, race);
         }
     }
-    
+
     public static void teamUnlockSchematic(EntityPlayerMP player, ItemStack stack)
     {
         SpaceRace race = SpaceRaceManager.getSpaceRaceFromPlayer(PlayerUtil.getName(player));
-        if (race == null) return;
+        if (race == null)
+            return;
         MinecraftServer server = player.server;
         for (String member : race.getPlayerNames())
         {
-            if (player.getName().equalsIgnoreCase(member)) continue;
-            
+            if (player.getName().equalsIgnoreCase(member))
+                continue;
+
             EntityPlayerMP memberObj = PlayerUtil.getPlayerForUsernameVanilla(server, member);
             if (memberObj != null)
             {
                 SchematicRegistry.unlockNewPage(memberObj, stack);
-            }
-            else
+            } else
             {
                 race.addNewSchematic(member, stack);
             }

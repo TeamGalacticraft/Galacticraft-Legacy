@@ -1,7 +1,5 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
-import java.util.Random;
-
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.inventory.IInventoryDefaults;
 import micdoodle8.mods.galacticraft.core.inventory.IInventorySettable;
@@ -9,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.inventory.PersistantInventoryCrafting;
 import micdoodle8.mods.galacticraft.core.network.PacketDynamicInventory;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.RecipeUtil;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,18 +17,29 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 
+import java.util.Random;
+
 public class TileEntityCrafting extends TileEntity implements IInventoryDefaults, ISidedInventory, IInventorySettable
 {
+
     private static final int SIZEINVENTORY = 9;
     public PersistantInventoryCrafting craftMatrix = new PersistantInventoryCrafting();
     public NonNullList<ItemStack> memory = NonNullList.withSize(SIZEINVENTORY, ItemStack.EMPTY);
-    private ItemStack hiddenOutputBuffer = ItemStack.EMPTY;   //Used for Buildcraft pipes and other inventory-slot setters which do not fully clear the results slot - see setInventorySlotContents()
+    private ItemStack hiddenOutputBuffer = ItemStack.EMPTY; // Used for
+                                                            // Buildcraft pipes
+                                                            // and other
+                                                            // inventory-slot
+                                                            // setters which do
+                                                            // not fully clear
+                                                            // the results slot
+                                                            // - see
+                                                            // setInventorySlotContents()
     private Boolean overriddenStatus;
     private ItemStack memoryResult;
 
@@ -42,7 +52,7 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
     {
         if (this.world.isRemote)
         {
-            //Request size + contents information from server
+            // Request size + contents information from server
             GalacticraftCore.packetPipeline.sendToServer(new PacketDynamicInventory(this));
         }
     }
@@ -55,7 +65,8 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
 
     public void updateMemory(ItemStack craftingResult)
     {
-        if (CraftingManager.findMatchingResult(this.craftMatrix, this.getWorld()) == ItemStack.EMPTY) return;
+        if (CraftingManager.findMatchingResult(this.craftMatrix, this.getWorld()) == ItemStack.EMPTY)
+            return;
         this.setMemoryHeld(craftingResult);
         for (int i = 0; i < SIZEINVENTORY; i++)
         {
@@ -63,8 +74,7 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
             if (stack.isEmpty())
             {
                 this.memory.set(i, ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 ItemStack stack2 = stack.copy();
                 stack2.setCount(1);
@@ -72,7 +82,7 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
             }
         }
     }
-    
+
     public ItemStack getMemory(int i)
     {
         return this.memory.get(i);
@@ -90,18 +100,24 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
         if (par1 < SIZEINVENTORY)
             return this.craftMatrix.getStackInSlot(par1);
 
-        //Results slot
-        //First, try to clear the hidden output buffer before generating new results items
+        // Results slot
+        // First, try to clear the hidden output buffer before generating new
+        // results items
         if (!this.hiddenOutputBuffer.isEmpty())
         {
             return this.hiddenOutputBuffer;
         }
-        
-        // Crafting Manager can produce concurrent modification exception in single player
-        // if a server-side tick (e.g. from a Hopper) calls this while client-side is still initialising recipes
-        try {
+
+        // Crafting Manager can produce concurrent modification exception in
+        // single player
+        // if a server-side tick (e.g. from a Hopper) calls this while
+        // client-side is still initialising recipes
+        try
+        {
             return CraftingManager.findMatchingResult(this.craftMatrix, this.getWorld());
-        } catch (Exception ignore) { }
+        } catch (Exception ignore)
+        {
+        }
         return ItemStack.EMPTY;
     }
 
@@ -114,8 +130,7 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
             this.markDirty();
             this.updateOverriddenStatus();
             return result;
-        }
-        else if (par1 == SIZEINVENTORY)
+        } else if (par1 == SIZEINVENTORY)
         {
             if (!this.hiddenOutputBuffer.isEmpty())
             {
@@ -130,7 +145,8 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
                     this.markDirty();
                     this.updateOverriddenStatus();
                     ItemStack result = craftingResult.splitStack(par2);
-                    this.hiddenOutputBuffer = craftingResult;  //save any balance
+                    this.hiddenOutputBuffer = craftingResult; // save any
+                                                              // balance
                     return result;
                 }
             }
@@ -158,10 +174,10 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
                 if (this.craftMatrix.getStackInSlot(i).isEmpty())
                 {
                     this.craftMatrix.setInventorySlotContents(i, itemstack1);
-                }
-                else
+                } else
                 {
-                    //TODO - things like buckets which can't go back into this - drop?
+                    // TODO - things like buckets which can't go back into this
+                    // - drop?
                 }
             }
         }
@@ -207,8 +223,7 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
             this.markDirty();
             this.updateOverriddenStatus();
             return this.craftMatrix.removeStackFromSlot(par1);
-        }
-        else
+        } else
         {
             return ItemStack.EMPTY;
         }
@@ -220,21 +235,29 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
         if (par1 >= 0 && par1 < SIZEINVENTORY)
         {
             this.craftMatrix.setInventorySlotContents(par1, stack);
-        }
-        else if (par1 == SIZEINVENTORY)
+        } else if (par1 == SIZEINVENTORY)
         {
             if (stack.isEmpty())
             {
                 if (this.hiddenOutputBuffer.isEmpty())
                 {
-                    //Standard behaviour: hiddenOutputBuffer not in use
+                    // Standard behaviour: hiddenOutputBuffer not in use
                     this.craftOutput();
                 }
-            }
-            else
-            //Buildcraft pipes and some other extractors may not fully clear the results slot, but instead set it to partial contents
+            } else
+            // Buildcraft pipes and some other extractors may not fully clear
+            // the results slot, but instead set it to partial contents
             {
-                if (!stack.isItemEqual(this.hiddenOutputBuffer))  //also true if hiddenOutputBuffer is empty, e.g. craft 9 new items and pipe takes 4, setting output stack to 5 items
+                if (!stack.isItemEqual(this.hiddenOutputBuffer)) // also true if
+                                                                 // hiddenOutputBuffer
+                                                                 // is empty,
+                                                                 // e.g. craft 9
+                                                                 // new items
+                                                                 // and pipe
+                                                                 // takes 4,
+                                                                 // setting
+                                                                 // output stack
+                                                                 // to 5 items
                 {
                     this.dropHiddenOutputBuffer(this.world, this.pos);
                     this.craftOutput();
@@ -290,8 +313,7 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
                     if (slot < SIZEINVENTORY)
                     {
                         this.craftMatrix.setInventorySlotContents(slot, new ItemStack(var4));
-                    }
-                    else if (slot < 18)
+                    } else if (slot < 18)
                     {
                         this.memory.set(slot - SIZEINVENTORY, new ItemStack(var4));
                     }
@@ -365,44 +387,56 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        return new int[]
+        {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     }
 
     @Override
     public boolean canInsertItem(int index, ItemStack stack, EnumFacing direction)
     {
-        if (index >= SIZEINVENTORY || stack.isEmpty()) return false;
+        if (index >= SIZEINVENTORY || stack.isEmpty())
+            return false;
         boolean override = this.overriddenMemory();
         ItemStack target = override ? this.craftMatrix.getStackInSlot(index) : this.memory.get(index);
-        
-		if (!target.isEmpty() && sameItem(target, stack))
+
+        if (!target.isEmpty() && sameItem(target, stack))
         {
             ItemStack is3 = this.getStackInSlot(index);
-            if (is3.isEmpty()) return true;
+            if (is3.isEmpty())
+                return true;
             int currentSize = is3.getCount();
-            
-            //If any other slot matching this item has a smaller stacksize, return false (and hopefully that slot will be filled instead)
+
+            // If any other slot matching this item has a smaller stacksize,
+            // return false (and hopefully that slot will be filled instead)
             for (int i = 0; i < SIZEINVENTORY; i++)
             {
-                if (i == index) continue;
+                if (i == index)
+                    continue;
                 ItemStack targetOther = override ? this.craftMatrix.getStackInSlot(i) : this.memory.get(i);
 
-                //It's another memory slot matching this item, and may be a more suitable recipient if the stack count is lower
+                // It's another memory slot matching this item, and may be a
+                // more suitable recipient if the stack count is lower
                 if (!targetOther.isEmpty() && sameItem(targetOther, stack))
                 {
                     ItemStack itemstack2;
-                    if (override) {
-                        itemstack2 = targetOther;   //Performance shortcut as we already know that targetOther is not empty
-                    } else {
+                    if (override)
+                    {
+                        itemstack2 = targetOther; // Performance shortcut as we
+                                                  // already know that
+                                                  // targetOther is not empty
+                    } else
+                    {
                         itemstack2 = this.craftMatrix.getStackInSlot(i);
                         if (itemstack2.isEmpty())
-                            return false;    //A totally empty slot in the recipe needs this item
+                            return false; // A totally empty slot in the recipe
+                                          // needs this item
                     }
 
                     if (override || sameItem(stack, itemstack2))
                     {
                         if (itemstack2.getCount() < currentSize)
-                            return false;    //A less well-filled slot in the recipe needs this item
+                            return false; // A less well-filled slot in the
+                                          // recipe needs this item
                     }
                 }
             }
@@ -436,22 +470,25 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
                 allEmpty = false;
                 break;
             }
-        }        
-        if (allEmpty) return false;
+        }
+        if (allEmpty)
+            return false;
         if (!CraftingManager.findMatchingResult(this.craftMatrix, this.getWorld()).isEmpty())
         {
-            //Valid recipe on the table.  Does it fuzzy match this tile's memory (empty slots which should have recipe components are OK)
+            // Valid recipe on the table. Does it fuzzy match this tile's memory
+            // (empty slots which should have recipe components are OK)
             boolean fuzzyMatch = true;
             for (int i = 0; i < 9; i++)
             {
-               if (!this.craftMatrix.getStackInSlot(i).isEmpty() && !matchingStacks(this.craftMatrix.getStackInSlot(i), this.getMemory(i)))
-               {
-                   fuzzyMatch = false;
-                   break;
-               }
+                if (!this.craftMatrix.getStackInSlot(i).isEmpty() && !matchingStacks(this.craftMatrix.getStackInSlot(i), this.getMemory(i)))
+                {
+                    fuzzyMatch = false;
+                    break;
+                }
             }
-            
-            //If it's a valid recipe and CAN'T match the memory, then override the remembered recipe
+
+            // If it's a valid recipe and CAN'T match the memory, then override
+            // the remembered recipe
             if (!fuzzyMatch)
             {
                 for (int i = 0; i < 9; i++)
@@ -469,34 +506,37 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
         }
         return false;
     }
-    
+
     public boolean overriddenMemory()
     {
-        if (this.overriddenStatus != null) return this.overriddenStatus;
+        if (this.overriddenStatus != null)
+            return this.overriddenStatus;
         if (!CraftingManager.findMatchingResult(this.craftMatrix, this.getWorld()).isEmpty())
         {
-            //Valid recipe on the table.  Does it fuzzy match this tile's memory (empty slots which should have recipe components are OK)
+            // Valid recipe on the table. Does it fuzzy match this tile's memory
+            // (empty slots which should have recipe components are OK)
             for (int i = 0; i < 9; i++)
             {
-               if (!this.craftMatrix.getStackInSlot(i).isEmpty() && !matchingStacks(this.craftMatrix.getStackInSlot(i), this.getMemory(i)))
-               {
-                   this.overriddenStatus = true;
-                   return true;
-               }
+                if (!this.craftMatrix.getStackInSlot(i).isEmpty() && !matchingStacks(this.craftMatrix.getStackInSlot(i), this.getMemory(i)))
+                {
+                    this.overriddenStatus = true;
+                    return true;
+                }
             }
         }
         this.overriddenStatus = false;
         return false;
     }
-    
+
     private void updateOverriddenStatus()
     {
         this.overriddenStatus = null;
     }
-    
+
     private boolean matchingStacks(ItemStack stack, ItemStack target)
     {
-        return !target.isEmpty() && target.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == target.getMetadata()) && RecipeUtil.areItemStackTagsEqual(stack, target) && target.isStackable() && target.getCount() < target.getMaxStackSize();
+        return !target.isEmpty() && target.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == target.getMetadata()) && RecipeUtil.areItemStackTagsEqual(stack, target)
+            && target.isStackable() && target.getCount() < target.getMaxStackSize();
     }
 
     public void dropHiddenOutputBuffer(World worldIn, BlockPos pos)
@@ -522,7 +562,7 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
             }
         }
     }
-    
+
     public void setMemoryHeld(ItemStack stack)
     {
         this.memoryResult = stack.copy();
@@ -532,7 +572,7 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
     {
         return this.memoryResult == null ? ItemStack.EMPTY : this.memoryResult;
     }
-    
+
     private void updateMemoryItem()
     {
         PersistantInventoryCrafting memCopy = new PersistantInventoryCrafting();
@@ -541,7 +581,8 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
             memCopy.setInventorySlotContents(i, this.getMemory(i));
         }
         ItemStack stack = CraftingManager.findMatchingResult(memCopy, this.getWorld());
-        if (!stack.isEmpty()) this.setMemoryHeld(stack);
+        if (!stack.isEmpty())
+            this.setMemoryHeld(stack);
     }
 
     public void setStacksClientSide(ItemStack[] stacks)
@@ -550,12 +591,13 @@ public class TileEntityCrafting extends TileEntity implements IInventoryDefaults
         {
             this.setInventorySlotContents(i, stacks[i]);
         }
-        if (stacks.length > SIZEINVENTORY) this.setMemoryHeld(stacks[SIZEINVENTORY]);
+        if (stacks.length > SIZEINVENTORY)
+            this.setMemoryHeld(stacks[SIZEINVENTORY]);
     }
 
     @Override
     public void setSizeInventory(int size)
     {
-        //Intentionally no operation
+        // Intentionally no operation
     }
 }

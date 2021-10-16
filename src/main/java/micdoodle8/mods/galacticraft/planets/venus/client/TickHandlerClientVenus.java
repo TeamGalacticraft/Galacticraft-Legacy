@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.venus.client;
 
 import com.google.common.collect.Maps;
+
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.client.CloudRenderer;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
@@ -27,6 +28,7 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class TickHandlerClientVenus
 {
+
     private Map<BlockPos, Integer> lightning = Maps.newHashMap();
 
     @SubscribeEvent
@@ -53,7 +55,8 @@ public class TickHandlerClientVenus
             {
                 Map.Entry<BlockPos, Integer> entry = it.next();
                 long seed = entry.getValue() / 10 + entry.getKey().getX() + entry.getKey().getZ();
-                FakeLightningBoltRenderer.renderBolt(seed, entry.getKey().getX() - ClientProxyCore.playerPosX, entry.getKey().getY() - ClientProxyCore.playerPosY, entry.getKey().getZ() - ClientProxyCore.playerPosZ);
+                FakeLightningBoltRenderer.renderBolt(seed, entry.getKey().getX() - ClientProxyCore.playerPosX, entry.getKey().getY() - ClientProxyCore.playerPosY,
+                    entry.getKey().getZ() - ClientProxyCore.playerPosZ);
             }
         }
     }
@@ -107,8 +110,7 @@ public class TickHandlerClientVenus
                     if (val - 1 <= 0)
                     {
                         it.remove();
-                    }
-                    else
+                    } else
                     {
                         entry.setValue(val - 1);
                     }
@@ -123,7 +125,8 @@ public class TickHandlerClientVenus
                     double posX = player.posX + dX;
                     double posY = 70;
                     double posZ = player.posZ + dZ;
-                    minecraft.world.playSound(player, posX, posY, posZ, SoundEvents.ENTITY_LIGHTNING_THUNDER, SoundCategory.WEATHER, 500.0F + player.getRNG().nextFloat() * 500F, 1.0F + player.getRNG().nextFloat() * 0.2F);
+                    minecraft.world.playSound(player, posX, posY, posZ, SoundEvents.ENTITY_LIGHTNING_THUNDER, SoundCategory.WEATHER, 500.0F + player.getRNG().nextFloat() * 500F,
+                        1.0F + player.getRNG().nextFloat() * 0.2F);
                     lightning.put(new BlockPos(posX, posY, posZ), 20);
                 }
             }

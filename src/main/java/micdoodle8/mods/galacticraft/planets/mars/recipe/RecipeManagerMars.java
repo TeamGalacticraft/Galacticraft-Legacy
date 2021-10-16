@@ -16,7 +16,8 @@ import java.util.HashMap;
 
 public class RecipeManagerMars
 {
-	public static void loadCompatibilityRecipes()
+
+    public static void loadCompatibilityRecipes()
     {
     }
 
@@ -109,7 +110,6 @@ public class RecipeManagerMars
             input2.put(21, woodChest);
             MarsUtil.addRocketBenchT2Recipe(new ItemStack(MarsItems.rocketMars, 1, 3), input2);
         }
-
 
         //
 

@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.inventory;
 
 import micdoodle8.mods.galacticraft.core.tile.TileEntityCoalGenerator;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerCoalGenerator extends Container
 {
+
     private TileEntityCoalGenerator tileEntity;
 
     public ContainerCoalGenerator(InventoryPlayer par1InventoryPlayer, TileEntityCoalGenerator tileEntity)
@@ -69,21 +71,18 @@ public class ContainerCoalGenerator extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (par1 >= 28)
+                } else if (par1 >= 28)
                 {
                     if (!this.mergeItemStack(var4, 1, 28, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (!this.mergeItemStack(var4, 28, 37, false))
+                } else if (!this.mergeItemStack(var4, 28, 37, false))
                 {
                     return ItemStack.EMPTY;
                 }
 
-            }
-            else if (!this.mergeItemStack(var4, 1, 37, false))
+            } else if (!this.mergeItemStack(var4, 1, 37, false))
             {
                 return ItemStack.EMPTY;
             }
@@ -91,8 +90,7 @@ public class ContainerCoalGenerator extends Container
             if (var4.getCount() == 0)
             {
                 var3.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var3.onSlotChanged();
             }

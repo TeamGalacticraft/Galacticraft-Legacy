@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Tier2RocketRecipeMaker
 {
+
     public static List<INasaWorkbenchRecipe> getRecipesList()
     {
         List<INasaWorkbenchRecipe> recipes = new ArrayList<>();
@@ -16,7 +17,7 @@ public class Tier2RocketRecipeMaker
         int chestCount = -1;
         for (INasaWorkbenchRecipe recipe : GalacticraftRegistry.getRocketT2Recipes())
         {
-            int chests = Tier1RocketRecipeMaker.countChests(recipe); 
+            int chests = Tier1RocketRecipeMaker.countChests(recipe);
             if (chests == chestCount)
                 continue;
             chestCount = chests;

@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class MapGenCavernMars extends MapGenBaseMeta
 {
+
     @Override
     public void generate(World world, int chunkX, int chunkZ, ChunkPrimer primer)
     {
@@ -82,8 +83,7 @@ public class MapGenCavernMars extends MapGenBaseMeta
             if (var28)
             {
                 par14 *= 0.92F;
-            }
-            else
+            } else
             {
                 par14 *= 0.7F;
             }
@@ -241,8 +241,7 @@ public class MapGenCavernMars extends MapGenBaseMeta
                                                         modifier--;
                                                         block = primer.getBlockState(var42, var50 + modifier, var45).getBlock();
                                                     }
-                                                }
-                                                else if (blockBelow == MarsBlocks.marsBlock && this.rand.nextInt(200) == 0)
+                                                } else if (blockBelow == MarsBlocks.marsBlock && this.rand.nextInt(200) == 0)
                                                 {
                                                     primer.setBlockState(var42, var50, var45, MarsBlocks.blockSludge.getStateFromMeta(0));
 //                                                    arrayOfIDs[coords] = MarsBlocks.blockSludge;

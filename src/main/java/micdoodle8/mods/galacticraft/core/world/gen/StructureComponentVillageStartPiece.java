@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class StructureComponentVillageStartPiece extends StructureComponentVillageWell
 {
+
     public BiomeProvider biomeProvider;
     public int terrainType;
     public StructureVillagePieceWeightMoon structVillagePieceWeight;

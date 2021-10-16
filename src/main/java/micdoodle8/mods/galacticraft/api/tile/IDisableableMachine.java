@@ -5,11 +5,12 @@ package micdoodle8.mods.galacticraft.api.tile;
  */
 public interface IDisableableMachine
 {
+
     /**
      * Sets the machine to disabled or enabled
      *
-     * @param disabled whether or not the machine should be set to the enabled or
-     *                 disabled state
+     * @param disabled whether or not the machine should be set to the enabled
+     *        or disabled state
      */
     void setDisabled(int index, boolean disabled);
 

@@ -45,10 +45,12 @@ import java.util.Random;
 
 public class BlockBasicVenus extends Block implements IDetectableResource, IPlantableBlock, ITerraformableBlock, ISortableBlock
 {
+
     public static final PropertyEnum<EnumBlockBasicVenus> BASIC_TYPE_VENUS = PropertyEnum.create("basictypevenus", EnumBlockBasicVenus.class);
 
     public enum EnumBlockBasicVenus implements IStringSerializable
     {
+
         ROCK_SOFT(0, "venus_rock_0"),
         ROCK_HARD(1, "venus_rock_1"),
         ROCK_MAGMA(2, "venus_rock_2"),
@@ -79,6 +81,7 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
         }
 
         private final static EnumBlockBasicVenus[] values = values();
+
         public static EnumBlockBasicVenus byMetadata(int meta)
         {
             return values[meta % values.length];
@@ -129,8 +132,7 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
             {
                 spawnAsEntity(worldIn, pos, is);
             }
-        }
-        else
+        } else
         {
             int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, tool);
             harvesters.set(player);
@@ -151,15 +153,11 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
         if (type == EnumBlockBasicVenus.ROCK_HARD)
         {
             return 6.0F;
-        }
-        else if (type == EnumBlockBasicVenus.DUNGEON_BRICK_1 || type == EnumBlockBasicVenus.DUNGEON_BRICK_2)
+        } else if (type == EnumBlockBasicVenus.DUNGEON_BRICK_1 || type == EnumBlockBasicVenus.DUNGEON_BRICK_2)
         {
             return 40.0F;
-        }
-        else if (type == EnumBlockBasicVenus.ORE_ALUMINUM || type == EnumBlockBasicVenus.ORE_COPPER ||
-                type == EnumBlockBasicVenus.ORE_GALENA || type == EnumBlockBasicVenus.ORE_QUARTZ ||
-                type == EnumBlockBasicVenus.ORE_SILICON || type == EnumBlockBasicVenus.ORE_TIN ||
-                type == EnumBlockBasicVenus.ORE_SOLAR_DUST)
+        } else if (type == EnumBlockBasicVenus.ORE_ALUMINUM || type == EnumBlockBasicVenus.ORE_COPPER || type == EnumBlockBasicVenus.ORE_GALENA || type == EnumBlockBasicVenus.ORE_QUARTZ
+            || type == EnumBlockBasicVenus.ORE_SILICON || type == EnumBlockBasicVenus.ORE_TIN || type == EnumBlockBasicVenus.ORE_SOLAR_DUST)
         {
             return 3.0F;
         }
@@ -187,10 +185,8 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
             return 4.0F;
         }
 
-        if (type == EnumBlockBasicVenus.ORE_ALUMINUM || type == EnumBlockBasicVenus.ORE_COPPER ||
-                type == EnumBlockBasicVenus.ORE_GALENA || type == EnumBlockBasicVenus.ORE_QUARTZ ||
-                type == EnumBlockBasicVenus.ORE_SILICON || type == EnumBlockBasicVenus.ORE_TIN ||
-                type == EnumBlockBasicVenus.ORE_SOLAR_DUST)
+        if (type == EnumBlockBasicVenus.ORE_ALUMINUM || type == EnumBlockBasicVenus.ORE_COPPER || type == EnumBlockBasicVenus.ORE_GALENA || type == EnumBlockBasicVenus.ORE_QUARTZ
+            || type == EnumBlockBasicVenus.ORE_SILICON || type == EnumBlockBasicVenus.ORE_TIN || type == EnumBlockBasicVenus.ORE_SOLAR_DUST)
         {
             return 5.0F;
         }
@@ -204,14 +200,14 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
         EnumBlockBasicVenus type = ((EnumBlockBasicVenus) state.getValue(BASIC_TYPE_VENUS));
         switch (type)
         {
-        case ORE_SILICON:
-            return GCItems.basicItem;
-        case ORE_QUARTZ:
-            return Items.QUARTZ;
-        case ORE_SOLAR_DUST:
-            return VenusItems.basicItem;
-        default:
-            return Item.getItemFromBlock(this);
+            case ORE_SILICON:
+                return GCItems.basicItem;
+            case ORE_QUARTZ:
+                return Items.QUARTZ;
+            case ORE_SOLAR_DUST:
+                return VenusItems.basicItem;
+            default:
+                return Item.getItemFromBlock(this);
         }
     }
 
@@ -221,14 +217,14 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
         EnumBlockBasicVenus type = ((EnumBlockBasicVenus) state.getValue(BASIC_TYPE_VENUS));
         switch (type)
         {
-        case ORE_SILICON:
-            return 2;
-        case ORE_QUARTZ:
-            return 0;
-        case ORE_SOLAR_DUST:
-            return 4;
-        default:
-            return getMetaFromState(state);
+            case ORE_SILICON:
+                return 2;
+            case ORE_QUARTZ:
+                return 0;
+            case ORE_SOLAR_DUST:
+                return 4;
+            default:
+                return getMetaFromState(state);
         }
     }
 
@@ -238,20 +234,20 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
         EnumBlockBasicVenus type = ((EnumBlockBasicVenus) state.getValue(BASIC_TYPE_VENUS));
         switch (type)
         {
-        case ORE_SILICON:
-            if (fortune > 0)
-            {
-                int j = random.nextInt(fortune + 2) - 1;
-
-                if (j < 0)
+            case ORE_SILICON:
+                if (fortune > 0)
                 {
-                    j = 0;
-                }
+                    int j = random.nextInt(fortune + 2) - 1;
 
-                return this.quantityDropped(random) * (j + 1);
-            }
-        default:
-            return this.quantityDropped(random);
+                    if (j < 0)
+                    {
+                        j = 0;
+                    }
+
+                    return this.quantityDropped(random) * (j + 1);
+                }
+            default:
+                return this.quantityDropped(random);
         }
     }
 
@@ -259,20 +255,20 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
     public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
     {
         EnumBlockBasicVenus type = ((EnumBlockBasicVenus) state.getValue(BASIC_TYPE_VENUS));
-        Random rand = world instanceof World ? ((World)world).rand : new Random();
+        Random rand = world instanceof World ? ((World) world).rand : new Random();
         if (this.getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this))
         {
             int i;
 
             switch (type)
             {
-            case ORE_QUARTZ:
-            case ORE_SILICON:
-                i = MathHelper.getInt(rand, 2, 5);
-                break;
-            default:
-                i = 0;
-                break;
+                case ORE_QUARTZ:
+                case ORE_SILICON:
+                    i = MathHelper.getInt(rand, 2, 5);
+                    break;
+                default:
+                    i = 0;
+                    break;
             }
 
             return i;
@@ -302,16 +298,16 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
         EnumBlockBasicVenus type = ((EnumBlockBasicVenus) state.getValue(BASIC_TYPE_VENUS));
         switch (type)
         {
-        case ORE_ALUMINUM:
-        case ORE_COPPER:
-        case ORE_GALENA:
-        case ORE_QUARTZ:
-        case ORE_SILICON:
-        case ORE_TIN:
-        case ORE_SOLAR_DUST:
-            return true;
-        default:
-            return false;
+            case ORE_ALUMINUM:
+            case ORE_COPPER:
+            case ORE_GALENA:
+            case ORE_QUARTZ:
+            case ORE_SILICON:
+            case ORE_TIN:
+            case ORE_SOLAR_DUST:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -341,7 +337,7 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
         if (type == EnumBlockBasicVenus.ROCK_HARD || type == EnumBlockBasicVenus.ROCK_SOFT)
         {
             BlockPos above = pos.offset(EnumFacing.UP);
-            IBlockState stateAbove = world.getBlockState(above); 
+            IBlockState stateAbove = world.getBlockState(above);
             return stateAbove.getBlock().isAir(stateAbove, world, above);
         }
 
@@ -379,21 +375,21 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
         EnumBlockBasicVenus type = ((EnumBlockBasicVenus) getStateFromMeta(meta).getValue(BASIC_TYPE_VENUS));
         switch (type)
         {
-        case ORE_ALUMINUM:
-        case ORE_COPPER:
-        case ORE_GALENA:
-        case ORE_QUARTZ:
-        case ORE_SILICON:
-        case ORE_TIN:
-        case ORE_SOLAR_DUST:
-            return EnumSortCategoryBlock.ORE;
-        case DUNGEON_BRICK_1:
-        case DUNGEON_BRICK_2:
-            return EnumSortCategoryBlock.BRICKS;
-        case LEAD_BLOCK:
-            return EnumSortCategoryBlock.INGOT_BLOCK;
-        default:
-            return EnumSortCategoryBlock.GENERAL;
+            case ORE_ALUMINUM:
+            case ORE_COPPER:
+            case ORE_GALENA:
+            case ORE_QUARTZ:
+            case ORE_SILICON:
+            case ORE_TIN:
+            case ORE_SOLAR_DUST:
+                return EnumSortCategoryBlock.ORE;
+            case DUNGEON_BRICK_1:
+            case DUNGEON_BRICK_2:
+                return EnumSortCategoryBlock.BRICKS;
+            case LEAD_BLOCK:
+                return EnumSortCategoryBlock.INGOT_BLOCK;
+            default:
+                return EnumSortCategoryBlock.GENERAL;
         }
     }
 }

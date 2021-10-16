@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.tile.TileEntityFluidTank;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.FluidUtil;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -32,6 +33,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockFluidTank extends Block implements IShiftDescription, ISortableBlock, ITileEntityProvider
 {
+
     public static final PropertyBool UP = PropertyBool.create("up");
     public static final PropertyBool DOWN = PropertyBool.create("down");
     private static final AxisAlignedBB BOUNDS = new AxisAlignedBB(0.05F, 0.0F, 0.05F, 0.95F, 1.0F, 0.95F);
@@ -181,7 +183,7 @@ public class BlockFluidTank extends Block implements IShiftDescription, ISortabl
 
         if (hand == EnumHand.OFF_HAND)
         {
-        	return false;
+            return false;
         }
 
         ItemStack current = playerIn.inventory.getCurrentItem();
@@ -198,12 +200,12 @@ public class BlockFluidTank extends Block implements IShiftDescription, ISortabl
                 FluidActionResult forgeResult = FluidUtil.interactWithFluidHandler(current, tank.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null), playerIn);
                 if (forgeResult.isSuccess())
                 {
-                	playerIn.inventory.setInventorySlotContents(slot, forgeResult.result);
-            		if (playerIn.inventoryContainer != null)
-            		{
-            			playerIn.inventoryContainer.detectAndSendChanges();
-            		}
-            		return true;
+                    playerIn.inventory.setInventorySlotContents(slot, forgeResult.result);
+                    if (playerIn.inventoryContainer != null)
+                    {
+                        playerIn.inventoryContainer.detectAndSendChanges();
+                    }
+                    return true;
                 }
 
                 return false;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class AtmosphereInfo
 {
+
     private final Boolean isBreathable;
     private final boolean hasPrecipitation;
     private final boolean isCorrosive;
@@ -11,17 +12,21 @@ public class AtmosphereInfo
     private final float windLevel;
     private final float density;
     public ArrayList<EnumAtmosphericGas> composition = new ArrayList<>();
-    
+
     /**
-     * @param breathable - supply null here to have the AtmosphereInfo object test the atmospheric composition for oxygen and CO2, or true or false to override
+     * @param breathable - supply null here to have the AtmosphereInfo object
+     *        test the atmospheric composition for oxygen and CO2, or true or
+     *        false to override
      * @param precipitation - true for rain etc, false for none
      * @param corrosive - true for atmosphere which can corrode armor
-     * @param relativeTemperature - the thermal level relative to Overworld: 0.0F is default
+     * @param relativeTemperature - the thermal level relative to Overworld:
+     *        0.0F is default
      * @param windLevel - the wind level
-     * @param density - the atmospheric density (affects sounds and meteor frequency): 1.0F is like Overworld
+     * @param density - the atmospheric density (affects sounds and meteor
+     *        frequency): 1.0F is like Overworld
      */
     public AtmosphereInfo(Boolean breathable, boolean precipitation, boolean corrosive, float relativeTemperature, float windLevel, float density)
-    {    
+    {
         this.isBreathable = breathable;
         this.hasPrecipitation = precipitation;
         this.isCorrosive = corrosive;
@@ -29,7 +34,7 @@ public class AtmosphereInfo
         this.windLevel = windLevel;
         this.density = density;
     }
-    
+
     public boolean isBreathable()
     {
         if (this.isBreathable == null)
@@ -38,7 +43,7 @@ public class AtmosphereInfo
         }
         return this.isBreathable;
     }
-    
+
     public boolean hasPrecipitation()
     {
         return this.hasPrecipitation;

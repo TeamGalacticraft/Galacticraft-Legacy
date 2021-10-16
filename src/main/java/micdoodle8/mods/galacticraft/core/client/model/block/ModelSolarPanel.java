@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 
 public class ModelSolarPanel extends ModelBase
 {
+
     ModelRenderer panelMain;
     ModelRenderer sideHorizontal0;
     ModelRenderer sideVertical0;

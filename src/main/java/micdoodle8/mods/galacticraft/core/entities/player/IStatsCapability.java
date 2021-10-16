@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.entities.player;
 import micdoodle8.mods.galacticraft.api.recipe.ISchematicPage;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.inventory.InventoryExtended;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 
 public interface IStatsCapability
 {
+
     void saveNBTData(NBTTagCompound nbt);
 
     void loadNBTData(NBTTagCompound nbt);

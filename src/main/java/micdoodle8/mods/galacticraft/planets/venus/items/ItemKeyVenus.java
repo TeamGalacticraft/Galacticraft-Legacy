@@ -15,6 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemKeyVenus extends Item implements IKeyItem, ISortableItem
 {
+
     public ItemKeyVenus(String name)
     {
         super();

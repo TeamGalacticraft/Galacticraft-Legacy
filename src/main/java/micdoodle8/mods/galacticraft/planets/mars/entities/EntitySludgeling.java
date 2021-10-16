@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 
 public class EntitySludgeling extends EntityMob implements IEntityBreathable
 {
+
     public EntitySludgeling(World par1World)
     {
         super(par1World);
@@ -128,8 +129,7 @@ public class EntitySludgeling extends EntityMob implements IEntityBreathable
         {
             EntityPlayer var1 = this.world.getClosestPlayerToEntity(this, 5.0D);
             return var1 == null;
-        }
-        else
+        } else
         {
             return false;
         }

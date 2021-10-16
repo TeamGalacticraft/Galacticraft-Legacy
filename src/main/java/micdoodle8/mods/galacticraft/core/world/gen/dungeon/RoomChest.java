@@ -14,7 +14,9 @@ import java.util.Random;
 
 public class RoomChest extends RoomEmpty
 {
+
     private boolean generated = false;
+
     public RoomChest()
     {
     }
@@ -27,7 +29,8 @@ public class RoomChest extends RoomEmpty
     @Override
     public boolean addComponentParts(World worldIn, Random rand, StructureBoundingBox boundingBox)
     {
-        if (CompatibilityManager.isSpongeLoaded() && generated) return true;
+        if (CompatibilityManager.isSpongeLoaded() && generated)
+            return true;
 
         if (super.addComponentParts(worldIn, rand, boundingBox))
         {
@@ -44,7 +47,7 @@ public class RoomChest extends RoomEmpty
                 ResourceLocation chesttype = RoomTreasure.MOONCHEST;
                 if (worldIn.provider instanceof IGalacticraftWorldProvider)
                 {
-                    chesttype = ((IGalacticraftWorldProvider)worldIn.provider).getDungeonChestType();
+                    chesttype = ((IGalacticraftWorldProvider) worldIn.provider).getDungeonChestType();
                 }
                 chest.setLootTable(chesttype, rand.nextLong());
             }

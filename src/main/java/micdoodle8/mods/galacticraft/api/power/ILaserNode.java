@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public interface ILaserNode extends IEnergyHandlerGC
 {
+
     Vector3 getInputPoint();
 
     Vector3 getOutputPoint(boolean offset);

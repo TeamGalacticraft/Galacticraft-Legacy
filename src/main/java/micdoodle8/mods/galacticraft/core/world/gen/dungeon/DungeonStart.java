@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class DungeonStart extends EntranceCrater
 {
+
     public List<StructureComponent> attachedComponents = Lists.newArrayList();
     public List<StructureBoundingBox> componentBounds = Lists.newArrayList();
 
@@ -46,8 +47,8 @@ public class DungeonStart extends EntranceCrater
 
                 next = next.getNextPiece(this, rand);
             }
-            if (attachedComponents.size() >= 3 && attachedComponents.get(attachedComponents.size() - 1) instanceof RoomTreasure &&
-                    attachedComponents.get(attachedComponents.size() - 3) instanceof RoomBoss)
+            if (attachedComponents.size() >= 3 && attachedComponents.get(attachedComponents.size() - 1) instanceof RoomTreasure
+                && attachedComponents.get(attachedComponents.size() - 3) instanceof RoomBoss)
             {
                 validAttempt = true;
             }

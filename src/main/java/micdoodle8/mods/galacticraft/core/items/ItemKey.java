@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.api.item.IKeyItem;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemKey extends Item implements IKeyItem, ISortableItem
 {
+
     public ItemKey(String assetName)
     {
         super();

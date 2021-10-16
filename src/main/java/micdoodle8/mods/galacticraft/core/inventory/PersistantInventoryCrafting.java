@@ -2,8 +2,8 @@ package micdoodle8.mods.galacticraft.core.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 
 public class PersistantInventoryCrafting extends InventoryCrafting
 {
+
     public NonNullList<ItemStack> stacks;
 
     private int inventoryWidth;

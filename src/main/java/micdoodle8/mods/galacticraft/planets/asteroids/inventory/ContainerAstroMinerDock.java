@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerAstroMinerDock extends Container
 {
+
     private TileEntityMinerBase tileEntity;
 
     public ContainerAstroMinerDock(InventoryPlayer par1InventoryPlayer, IInventory tile)
@@ -71,8 +72,7 @@ public class ContainerAstroMinerDock extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(var5.getItem()))
                 {
@@ -80,15 +80,13 @@ public class ContainerAstroMinerDock extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (par2 < b + 27)
+                } else if (par2 < b + 27)
                 {
                     if (!this.mergeItemStack(var5, 1, b, false) && !this.mergeItemStack(var5, b + 27, b + 36, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (!this.mergeItemStack(var5, 1, b, false) && !this.mergeItemStack(var5, b, b + 27, false))
+                } else if (!this.mergeItemStack(var5, 1, b, false) && !this.mergeItemStack(var5, b, b + 27, false))
                 {
                     return ItemStack.EMPTY;
                 }
@@ -97,8 +95,7 @@ public class ContainerAstroMinerDock extends Container
             if (var5.isEmpty())
             {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

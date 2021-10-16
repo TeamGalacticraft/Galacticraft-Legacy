@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.blocks;
 import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.SoundType;
@@ -24,6 +25,7 @@ import java.util.Random;
 
 public class BlockAirLockWall extends BlockBreakable implements IPartialSealableBlock, ISortableBlock
 {
+
     public static final PropertyEnum<EnumAirLockSealConnection> CONNECTION_TYPE = PropertyEnum.create("connection", EnumAirLockSealConnection.class);
     protected static final AxisAlignedBB AABB_X = new AxisAlignedBB(0.25, 0.0, 0.0, 0.75, 1.0, 1.0);
     protected static final AxisAlignedBB AABB_Z = new AxisAlignedBB(0.0, 0.0, 0.25, 1.0, 1.0, 0.75);
@@ -31,9 +33,8 @@ public class BlockAirLockWall extends BlockBreakable implements IPartialSealable
 
     public enum EnumAirLockSealConnection implements IStringSerializable
     {
-        X("x"),
-        Z("z"),
-        FLAT("flat");
+
+        X("x"), Z("z"), FLAT("flat");
 
         private final String name;
 
@@ -63,13 +64,13 @@ public class BlockAirLockWall extends BlockBreakable implements IPartialSealable
     {
         switch (getConnection(source, pos))
         {
-        case X:
-            return AABB_X;
-        case Z:
-            return AABB_Z;
-        default:
-        case FLAT:
-            return AABB_FLAT;
+            case X:
+                return AABB_X;
+            case Z:
+                return AABB_Z;
+            default:
+            case FLAT:
+                return AABB_FLAT;
         }
     }
 
@@ -103,7 +104,6 @@ public class BlockAirLockWall extends BlockBreakable implements IPartialSealable
 //            break;
 //        }
 //    }
-
 
     @Override
     public boolean isOpaqueCube(IBlockState state)
@@ -179,8 +179,7 @@ public class BlockAirLockWall extends BlockBreakable implements IPartialSealable
         if (idXMin != frameID && idXMax != frameID && idXMin != sealID && idXMax != sealID)
         {
             connection = EnumAirLockSealConnection.X;
-        }
-        else
+        } else
         {
             int adjacentCount = 0;
 
@@ -197,8 +196,7 @@ public class BlockAirLockWall extends BlockBreakable implements IPartialSealable
             if (adjacentCount == 4)
             {
                 connection = EnumAirLockSealConnection.FLAT;
-            }
-            else
+            } else
             {
                 connection = EnumAirLockSealConnection.Z;
             }

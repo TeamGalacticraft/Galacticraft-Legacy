@@ -7,6 +7,7 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
 import micdoodle8.mods.galacticraft.core.Constants;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
@@ -16,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class GenericTrigger implements ICriterionTrigger
 {
+
     private final ResourceLocation id;
     private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
 
@@ -84,6 +86,7 @@ public abstract class GenericTrigger implements ICriterionTrigger
 
     public static abstract class Instance extends AbstractCriterionInstance
     {
+
         public Instance(ResourceLocation resourceLocation)
         {
             super(resourceLocation);
@@ -94,6 +97,7 @@ public abstract class GenericTrigger implements ICriterionTrigger
 
     static class Listeners
     {
+
         private final PlayerAdvancements playerAdvancements;
         private final Set<ICriterionTrigger.Listener> listeners = Sets.newHashSet();
 

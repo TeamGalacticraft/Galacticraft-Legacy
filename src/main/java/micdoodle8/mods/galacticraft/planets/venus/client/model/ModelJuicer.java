@@ -8,6 +8,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class ModelJuicer extends ModelBase
 {
+
     private ModelRenderer body1;
     private ModelRenderer body2;
     private ModelRenderer head;
@@ -318,10 +319,10 @@ public class ModelJuicer extends ModelBase
         this.tail0.rotationPointY = -1.5F;
         this.tail0.offsetY = 0.0F;
 //        this.tail0.rotateAngleX = MathHelper.cos(movement) * 0.2F + 0.5205006F;
-        this.tail0.rotateAngleX = juicer.attackingPlayer != null ? 0.52F : 0.1F;
+        this.tail0.rotateAngleX = juicer.getAttackingEntity() != null ? 0.52F : 0.1F;
         this.tail0.rotateAngleY = 0.0F;
         this.tail0.rotateAngleZ = 0.0F;
-        this.tail1.rotateAngleX = juicer.attackingPlayer != null ? 2.659407F : 2.7F;
+        this.tail1.rotateAngleX = juicer.getAttackingEntity() != null ? 2.659407F : 2.7F;
         this.tail1.rotationPointZ = 4 * (MathHelper.sin(this.tail0.rotateAngleZ) + MathHelper.cos(this.tail0.rotateAngleY));
         this.tail1.rotationPointY = 0.5F;
         this.tail1.rotationPointX = 0.0F;

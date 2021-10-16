@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.items;
 
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockLandingPad extends ItemBlockDesc
 {
+
     public ItemBlockLandingPad(Block block)
     {
         super(block);
@@ -26,15 +28,15 @@ public class ItemBlockLandingPad extends ItemBlockDesc
 
         switch (par1ItemStack.getItemDamage())
         {
-        case 0:
-            name = "landing_pad";
-            break;
-        case 1:
-            name = "buggy_fueler";
-            break;
-        case 2:
-            name = "cargo_pad";
-            break;
+            case 0:
+                name = "landing_pad";
+                break;
+            case 1:
+                name = "buggy_fueler";
+                break;
+            case 2:
+                name = "cargo_pad";
+                break;
         }
 
         return this.getBlock().getTranslationKey() + "." + name;

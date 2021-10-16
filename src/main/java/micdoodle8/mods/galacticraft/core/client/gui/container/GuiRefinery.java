@@ -10,12 +10,14 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityRefinery;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -24,15 +26,19 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiRefinery extends GuiContainerGC
 {
+
     private static final ResourceLocation refineryTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/refinery.png");
 
     private final TileEntityRefinery tileEntity;
 
     private GuiButton buttonDisable;
 
-    private GuiElementInfoRegion fuelTankRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 153, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
-    private GuiElementInfoRegion oilTankRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 7, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
-    private GuiElementInfoRegion electricInfoRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 62, (this.height - this.ySize) / 2 + 16, 56, 9, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion fuelTankRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 153, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion oilTankRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 7, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion electricInfoRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 62, (this.height - this.ySize) / 2 + 16, 56, 9, new ArrayList<String>(), this.width, this.height, this);
 
     public GuiRefinery(InventoryPlayer par1InventoryPlayer, TileEntityRefinery tileEntity)
     {
@@ -79,7 +85,8 @@ public class GuiRefinery extends GuiContainerGC
         this.infoRegions.add(new GuiElementInfoRegion((this.width - this.xSize) / 2 + 152, (this.height - this.ySize) / 2 + 6, 18, 18, fuelSlotDesc, this.width, this.height, this));
         List<String> electricityDesc = new ArrayList<String>();
         electricityDesc.add(GCCoreUtil.translate("gui.energy_storage.desc.0"));
-        electricityDesc.add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1") + ((int) Math.floor(this.tileEntity.getEnergyStoredGC()) + " / " + (int) Math.floor(this.tileEntity.getMaxEnergyStoredGC())));
+        electricityDesc.add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1")
+            + ((int) Math.floor(this.tileEntity.getEnergyStoredGC()) + " / " + (int) Math.floor(this.tileEntity.getMaxEnergyStoredGC())));
         this.electricInfoRegion.tooltipStrings = electricityDesc;
         this.electricInfoRegion.xPosition = (this.width - this.xSize) / 2 + 62;
         this.electricInfoRegion.yPosition = (this.height - this.ySize) / 2 + 16;
@@ -94,9 +101,10 @@ public class GuiRefinery extends GuiContainerGC
     {
         switch (par1GuiButton.id)
         {
-        case 0:
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.mc.world), new Object[] { this.tileEntity.getPos(), 0 }));
-            break;
+            case 0:
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.mc.world), new Object[]
+                {this.tileEntity.getPos(), 0}));
+                break;
         }
     }
 
@@ -110,7 +118,7 @@ public class GuiRefinery extends GuiContainerGC
         String missingInput = null;
         if (this.tileEntity.oilTank.getFluid() == null || this.tileEntity.oilTank.getFluidAmount() == 0)
         {
-            missingInput= EnumColor.RED + GCCoreUtil.translate("gui.status.nooil.name");
+            missingInput = EnumColor.RED + GCCoreUtil.translate("gui.status.nooil.name");
         }
         String activeString = this.tileEntity.canProcess() ? EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.status.refining.name") : null;
         displayText = this.tileEntity.getGUIstatus(missingInput, activeString, false);
@@ -119,8 +127,10 @@ public class GuiRefinery extends GuiContainerGC
         this.buttonDisable.displayString = this.tileEntity.processTicks == 0 ? GCCoreUtil.translate("gui.button.refine.name") : GCCoreUtil.translate("gui.button.stoprefine.name");
         this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.status.name") + ": ", 60, 45 + 23 + yOffset, 4210752);
         this.fontRenderer.drawString(displayText, 60, 45 + 34 + yOffset, 4210752);
-        //		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.ueWattsPerTick * 20, ElectricUnit.WATT), 72, 56 + 23 + yOffset, 4210752);
-        //		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 72, 68 + 23 + yOffset, 4210752);
+        // this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.ueWattsPerTick
+        // * 20, ElectricUnit.WATT), 72, 56 + 23 + yOffset, 4210752);
+        // this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(),
+        // ElectricUnit.VOLTAGE), 72, 68 + 23 + yOffset, 4210752);
         this.fontRenderer.drawString(GCCoreUtil.translate("container.inventory"), 8, this.ySize - 118 + 2 + 23, 4210752);
     }
 

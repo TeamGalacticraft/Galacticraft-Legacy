@@ -1,6 +1,10 @@
 package micdoodle8.mods.galacticraft.planets.venus.world.gen;
 
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.world.BiomeGenBaseGC;
+import micdoodle8.mods.galacticraft.api.world.DataBuilder;
+import micdoodle8.mods.galacticraft.api.world.DataBuilder.BiomeData;
 import micdoodle8.mods.galacticraft.planets.venus.VenusBlocks;
 import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockBasicVenus;
 import net.minecraft.block.material.Material;
@@ -11,15 +15,14 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
 
-import java.util.Random;
-
 public class BiomeVenus extends BiomeGenBaseGC
 {
-    public static final Biome venusFlat = new BiomeGenFlatVenus(new BiomeProperties("Venus Flat").setRainfall(0.0F).setRainDisabled().setBaseHeight(0.5F).setHeightVariation(0.4F).setTemperature(4.0F));
-    public static final Biome venusMountain = new BiomeGenVenusMountain(new BiomeProperties("Venus Mountain").setRainfall(0.0F).setRainDisabled().setBaseHeight(2.0F).setHeightVariation(1.0F).setTemperature(4.0F));
-    public static final Biome venusValley = new BiomeGenVenusValley(new BiomeProperties("Venus Valley").setRainfall(0.0F).setRainDisabled().setBaseHeight(-0.4F).setHeightVariation(0.2F).setTemperature(4.0F));
 
-    BiomeVenus(BiomeProperties properties)
+    public static final Biome venusFlat = new BiomeGenFlatVenus(new DataBuilder("Venus Flat").baseHeight(0.5F).heightVariation(0.4F).temp(4.0F).build());
+    public static final Biome venusMountain = new BiomeGenVenusMountain(new DataBuilder("Venus Mountain").baseHeight(2.0F).heightVariation(1.0F).temp(4.0F).build());
+    public static final Biome venusValley = new BiomeGenVenusValley(new DataBuilder("Venus Valley").baseHeight(-0.4F).heightVariation(0.2F).temp(4.0F).build());
+
+    BiomeVenus(BiomeData properties)
     {
         super(properties, true);
     }
@@ -48,7 +51,7 @@ public class BiomeVenus extends BiomeGenBaseGC
         IBlockState fillerBlock = this.fillerBlock;
         IBlockState stoneBlock = VenusBlocks.venusBlock.getDefaultState().withProperty(BlockBasicVenus.BASIC_TYPE_VENUS, BlockBasicVenus.EnumBlockBasicVenus.ROCK_HARD);
         int j = -1;
-        int k = (int)(p_180628_6_ / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
+        int k = (int) (p_180628_6_ / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
         int l = p_180628_4_ & 15;
         int i1 = p_180628_5_ & 15;
 
@@ -57,16 +60,14 @@ public class BiomeVenus extends BiomeGenBaseGC
             if (j1 <= rand.nextInt(5))
             {
                 chunkPrimerIn.setBlockState(i1, j1, l, Blocks.BEDROCK.getDefaultState());
-            }
-            else
+            } else
             {
                 IBlockState iblockstate2 = chunkPrimerIn.getBlockState(i1, j1, l);
 
                 if (iblockstate2.getMaterial() == Material.AIR)
                 {
                     j = -1;
-                }
-                else if (iblockstate2.getBlock() == VenusBlocks.venusBlock)
+                } else if (iblockstate2.getBlock() == VenusBlocks.venusBlock)
                 {
                     if (j == -1)
                     {
@@ -74,8 +75,7 @@ public class BiomeVenus extends BiomeGenBaseGC
                         {
                             topBlock = null;
                             fillerBlock = stoneBlock;
-                        }
-                        else if (j1 >= i - 4 && j1 <= i + 1)
+                        } else if (j1 >= i - 4 && j1 <= i + 1)
                         {
                             topBlock = this.topBlock;
                             fillerBlock = this.fillerBlock;
@@ -86,18 +86,15 @@ public class BiomeVenus extends BiomeGenBaseGC
                         if (j1 >= i - 1)
                         {
                             chunkPrimerIn.setBlockState(i1, j1, l, topBlock);
-                        }
-                        else if (j1 < i - 7 - k)
+                        } else if (j1 < i - 7 - k)
                         {
                             topBlock = null;
                             fillerBlock = stoneBlock;
-                        }
-                        else
+                        } else
                         {
                             chunkPrimerIn.setBlockState(i1, j1, l, fillerBlock);
                         }
-                    }
-                    else if (j > 0)
+                    } else if (j > 0)
                     {
                         --j;
                         chunkPrimerIn.setBlockState(i1, j1, l, fillerBlock);

@@ -29,6 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityCryogenicChamber extends TileEntityMulti implements IMultiBlock
 {
+
     public boolean isOccupied;
     private boolean initialised;
 
@@ -56,16 +57,17 @@ public class TileEntityCryogenicChamber extends TileEntityMulti implements IMult
 
         switch (enumstatus)
         {
-        case OK:
-            ((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, entityPlayer.rotationYaw, entityPlayer.rotationPitch);
-            GalacticraftCore.packetPipeline.sendTo(new PacketSimpleMars(EnumSimplePacketMars.C_BEGIN_CRYOGENIC_SLEEP, GCCoreUtil.getDimensionID(entityPlayer.world), new Object[] { this.getPos() }), (EntityPlayerMP) entityPlayer);
-            return true;
-        case NOT_POSSIBLE_NOW:
-            GCPlayerStats stats = GCPlayerStats.get(entityPlayer);
-            entityPlayer.sendMessage(new TextComponentString(GCCoreUtil.translateWithFormat("gui.cryogenic.chat.cant_use", stats.getCryogenicChamberCooldown() / 20)));
-            return false;
-        default:
-            return false;
+            case OK:
+                ((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, entityPlayer.rotationYaw, entityPlayer.rotationPitch);
+                GalacticraftCore.packetPipeline.sendTo(new PacketSimpleMars(EnumSimplePacketMars.C_BEGIN_CRYOGENIC_SLEEP, GCCoreUtil.getDimensionID(entityPlayer.world), new Object[]
+                {this.getPos()}), (EntityPlayerMP) entityPlayer);
+                return true;
+            case NOT_POSSIBLE_NOW:
+                GCPlayerStats stats = GCPlayerStats.get(entityPlayer);
+                entityPlayer.sendMessage(new TextComponentString(GCCoreUtil.translateWithFormat("gui.cryogenic.chat.cant_use", stats.getCryogenicChamberCooldown() / 20)));
+                return false;
+            default:
+                return false;
         }
     }
 
@@ -135,7 +137,7 @@ public class TileEntityCryogenicChamber extends TileEntityMulti implements IMult
         this.getPositions(placedPosition, positions);
         ((BlockMulti) GCBlocks.fakeBlock).makeFakeBlock(world, positions, placedPosition, this.getMultiType());
     }
-    
+
     @Override
     public BlockMulti.EnumBlockMultiType getMultiType()
     {

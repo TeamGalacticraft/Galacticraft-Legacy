@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.tile.IMachineSides;
 import micdoodle8.mods.galacticraft.core.tile.IMachineSidesProperties;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityElectricFurnace;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityEnergyStorageModule;
+
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
@@ -17,6 +18,7 @@ import net.minecraft.world.World;
 
 public class BlockMachineTiered extends BlockMachineBase
 {
+
     public static final PropertyEnum<EnumTieredMachineType> TYPE = PropertyEnum.create("type", EnumTieredMachineType.class);
     public static IMachineSidesProperties MACHINESIDES_RENDERTYPE = IMachineSidesProperties.TWOFACES_HORIZ;
     public static final PropertyEnum SIDES = MACHINESIDES_RENDERTYPE.asProperty;
@@ -24,6 +26,7 @@ public class BlockMachineTiered extends BlockMachineBase
 
     public enum EnumTieredMachineType implements EnumMachineBase, IStringSerializable
     {
+
         STORAGE_MODULE(0, "energy_storage", TileEntityEnergyStorageModule::new, "tile.energy_storage_module_tier1.description", "tile.machine.1"),
         ELECTRIC_FURNACE(4, "electric_furnace", TileEntityElectricFurnace::new, "tile.electric_furnace_tier1.description", "tile.machine.2"),
         STORAGE_CLUSTER(8, "cluster_storage", TileEntityEnergyStorageModule::new, "tile.energy_storage_module_tier2.description", "tile.machine.8"),
@@ -51,29 +54,34 @@ public class BlockMachineTiered extends BlockMachineBase
         }
 
         private final static EnumTieredMachineType[] values = values();
+
         @Override
         public EnumMachineBase fromMetadata(int meta)
         {
             return values[(meta / 4) % values.length];
         }
-        
+
         @Override
         public String getName()
         {
             return this.name;
         }
-        
+
         @Override
         public TileEntity tileConstructor()
         {
             int tier = this.meta / 8 + 1;
             return this.tile.create(tier);
         }
-        
+
         @FunctionalInterface
         private static interface TileConstructor
         {
-              TileEntity create(int tier);  //Note this variant picks up the new TileEntityStorageModule(int tier) constructor, and forces the ::new above to that
+
+            TileEntity create(int tier); // Note this variant picks up the new
+                                         // TileEntityStorageModule(int tier)
+                                         // constructor, and forces the ::new
+                                         // above to that
         }
 
         @Override
@@ -140,7 +148,8 @@ public class BlockMachineTiered extends BlockMachineBase
             return state.withProperty(FILL_VALUE, 0);
         }
         int energyLevel = ((TileEntityEnergyStorageModule) tile).scaledEnergyLevel;
-        if (state.getValue(TYPE) == EnumTieredMachineType.STORAGE_CLUSTER) energyLevel += 17;
+        if (state.getValue(TYPE) == EnumTieredMachineType.STORAGE_CLUSTER)
+            energyLevel += 17;
         return state.withProperty(FILL_VALUE, energyLevel);
     }
 }

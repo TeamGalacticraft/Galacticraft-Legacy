@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderCargoRocket extends Render<EntityCargoRocket>
 {
+
     private ItemModelCargoRocket rocketModel;
 
     public RenderCargoRocket(RenderManager renderManager)
@@ -61,8 +62,7 @@ public class RenderCargoRocket extends Render<EntityCargoRocket>
         if (Minecraft.isAmbientOcclusionEnabled())
         {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        }
-        else
+        } else
         {
             GlStateManager.shadeModel(GL11.GL_FLAT);
         }

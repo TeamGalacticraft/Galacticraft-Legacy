@@ -21,12 +21,14 @@ import java.util.List;
 
 public class GuiGeothermal extends GuiContainerGC
 {
+
     private static final ResourceLocation backgroundTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/geothermal.png");
 
     private final TileEntityGeothermalGenerator geothermalGenerator;
 
     private GuiButton buttonEnableSolar;
-    private GuiElementInfoRegion electricInfoRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 107, (this.height - this.ySize) / 2 + 101, 56, 9, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion electricInfoRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 107, (this.height - this.ySize) / 2 + 101, 56, 9, new ArrayList<String>(), this.width, this.height, this);
 
     public GuiGeothermal(InventoryPlayer par1InventoryPlayer, TileEntityGeothermalGenerator geothermalGenerator)
     {
@@ -41,9 +43,10 @@ public class GuiGeothermal extends GuiContainerGC
     {
         switch (par1GuiButton.id)
         {
-        case 0:
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.mc.world), new Object[] { this.geothermalGenerator.getPos(), 0 }));
-            break;
+            case 0:
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.mc.world), new Object[]
+                {this.geothermalGenerator.getPos(), 0}));
+                break;
         }
     }
 
@@ -53,7 +56,8 @@ public class GuiGeothermal extends GuiContainerGC
         super.initGui();
         List<String> electricityDesc = new ArrayList<String>();
         electricityDesc.add(GCCoreUtil.translate("gui.energy_storage.desc.0"));
-        electricityDesc.add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1") + ((int) Math.floor(this.geothermalGenerator.getEnergyStoredGC()) + " / " + (int) Math.floor(this.geothermalGenerator.getMaxEnergyStoredGC())));
+        electricityDesc.add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1")
+            + ((int) Math.floor(this.geothermalGenerator.getEnergyStoredGC()) + " / " + (int) Math.floor(this.geothermalGenerator.getMaxEnergyStoredGC())));
         this.electricInfoRegion.tooltipStrings = electricityDesc;
         this.electricInfoRegion.xPosition = (this.width - this.xSize) / 2 + 96;
         this.electricInfoRegion.yPosition = (this.height - this.ySize) / 2 + 24;
@@ -83,13 +87,18 @@ public class GuiGeothermal extends GuiContainerGC
         this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 45 + 23 - 46 + offsetY, 4210752);
         displayString = this.getStatus2();
         this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 56 + 23 - 46 + offsetY, 4210752);
-        displayString = GCCoreUtil.translate("gui.message.generating.name") + ": " + (this.geothermalGenerator.generateWatts > 0 ? EnergyDisplayHelper.getEnergyDisplayS(this.geothermalGenerator.generateWatts) + "/t" : GCCoreUtil.translate("gui.status.not_generating.name"));
+        displayString = GCCoreUtil.translate("gui.message.generating.name") + ": " + (this.geothermalGenerator.generateWatts > 0
+            ? EnergyDisplayHelper.getEnergyDisplayS(this.geothermalGenerator.generateWatts) + "/t" : GCCoreUtil.translate("gui.status.not_generating.name"));
         this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 34 + 23 - 46 + offsetY, 4210752);
 //        float boost = Math.round((this.geothermalGenerator.getSolarBoost() - 1) * 1000) / 10.0F;
 //        displayString = GCCoreUtil.translate("gui.message.environment.name") + ": " + boost + "%";
 //        this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 56 + 23 - 46 + offsetY, 4210752);
-        //		displayString = ElectricityDisplay.getDisplay(this.geothermalGenerator.getVoltage(), ElectricUnit.VOLTAGE);
-        //		this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 68 + 23 - 46 + offsetY, 4210752);
+        // displayString =
+        // ElectricityDisplay.getDisplay(this.geothermalGenerator.getVoltage(),
+        // ElectricUnit.VOLTAGE);
+        // this.fontRenderer.drawString(displayString, this.xSize / 2 -
+        // this.fontRenderer.getStringWidth(displayString) / 2, 68 + 23 - 46 +
+        // offsetY, 4210752);
         this.fontRenderer.drawString(GCCoreUtil.translate("container.inventory"), 8, this.ySize - 94, 4210752);
     }
 

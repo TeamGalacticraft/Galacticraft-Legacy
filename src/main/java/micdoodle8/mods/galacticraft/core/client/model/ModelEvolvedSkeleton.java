@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 
 public class ModelEvolvedSkeleton extends ModelBiped
 {
+
     ModelRenderer leftOxygenTank;
     ModelRenderer rightOxygenTank;
     ModelRenderer tubeRight2;
@@ -211,7 +212,8 @@ public class ModelEvolvedSkeleton extends ModelBiped
         copyModelAngles(this.bipedHead, this.oxygenMask);
     }
 
-    //    public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity)
+    // public void setRotationAngles(float par1, float par2, float par3, float
+    // par4, float par5, float par6, Entity entity)
 //    {
 //        this.bipedHead.rotateAngleY = par4 / Constants.RADIANS_TO_DEGREES;
 //        this.bipedHead.rotateAngleX = par5 / Constants.RADIANS_TO_DEGREES;

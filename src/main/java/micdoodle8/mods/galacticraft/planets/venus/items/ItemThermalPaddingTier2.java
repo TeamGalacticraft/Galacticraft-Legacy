@@ -28,7 +28,9 @@ import javax.annotation.Nullable;
 
 public class ItemThermalPaddingTier2 extends Item implements IItemThermal, ISortableItem
 {
-    public static String[] names = { "thermal_helm_t2", "thermal_chestplate_t2", "thermal_leggings_t2", "thermal_boots_t2" };
+
+    public static String[] names =
+    {"thermal_helm_t2", "thermal_chestplate_t2", "thermal_leggings_t2", "thermal_boots_t2"};
 
     public ItemThermalPaddingTier2(String assetName)
     {
@@ -126,24 +128,21 @@ public class ItemThermalPaddingTier2 extends Item implements IItemThermal, ISort
                     stats.getExtendedInventory().setInventorySlotContents(6, itemStack.copy());
                     itemStack.setCount(0);
                 }
-            }
-            else if (itemStack.getItemDamage() == 1)
+            } else if (itemStack.getItemDamage() == 1)
             {
                 if (gear1.isEmpty())
                 {
                     stats.getExtendedInventory().setInventorySlotContents(7, itemStack.copy());
                     itemStack.setCount(0);
                 }
-            }
-            else if (itemStack.getItemDamage() == 2)
+            } else if (itemStack.getItemDamage() == 2)
             {
                 if (gear2.isEmpty())
                 {
                     stats.getExtendedInventory().setInventorySlotContents(8, itemStack.copy());
                     itemStack.setCount(0);
                 }
-            }
-            else if (itemStack.getItemDamage() == 3)
+            } else if (itemStack.getItemDamage() == 3)
             {
                 if (gear3.isEmpty())
                 {

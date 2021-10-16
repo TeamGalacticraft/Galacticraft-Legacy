@@ -9,16 +9,17 @@ import net.minecraft.util.EnumFacing;
  */
 public interface IKeyable
 {
+
     /**
      * @return -1 for any tier, or return tier required for key activated to
-     * pass
+     *         pass
      */
     int getTierOfKeyRequired();
 
     /**
      * called when key of correct tier is clicked
      *
-     * @param key  the key itemstack
+     * @param key the key itemstack
      * @param face the block face clicked
      * @return true if something was done, false if not
      */

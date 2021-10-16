@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.inventory.ContainerDeconstructor;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityDeconstructor;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,6 +21,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiDeconstructor extends GuiContainerGC
 {
+
     private static final ResourceLocation guiTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/deconstructor.png");
     private TileEntityDeconstructor tileEntity;
     private GuiElementInfoRegion electricInfoRegion = new GuiElementInfoRegion(0, 0, 56, 9, null, 0, 0, this);
@@ -47,8 +49,8 @@ public class GuiDeconstructor extends GuiContainerGC
         batterySlotDesc.add(GCCoreUtil.translate("gui.battery_slot.desc.1"));
         this.infoRegions.add(new GuiElementInfoRegion((this.width - this.xSize) / 2 + 54, (this.height - this.ySize) / 2 + 74, 18, 18, batterySlotDesc, this.width, this.height, this));
         this.processInfoRegion.tooltipStrings = new ArrayList<String>();
-        this.processInfoRegion.xPosition = (this.width - this.xSize) / 2 + 53;//77
-        this.processInfoRegion.yPosition = (this.height - this.ySize) / 2 + 28;//30
+        this.processInfoRegion.xPosition = (this.width - this.xSize) / 2 + 53;// 77
+        this.processInfoRegion.yPosition = (this.height - this.ySize) / 2 + 28;// 30
         this.processInfoRegion.parentWidth = this.width;
         this.processInfoRegion.parentHeight = this.height;
         this.infoRegions.add(this.processInfoRegion);
@@ -63,8 +65,7 @@ public class GuiDeconstructor extends GuiContainerGC
         if (this.tileEntity.processTicks > 0)
         {
             displayText = EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.status.running.name");
-        }
-        else
+        } else
         {
             displayText = EnumColor.ORANGE + GCCoreUtil.translate("gui.status.idle.name");
         }
@@ -101,8 +102,7 @@ public class GuiDeconstructor extends GuiContainerGC
         if (this.tileEntity.processTicks > 0)
         {
             scale = (int) ((double) this.tileEntity.processTicks / (double) this.tileEntity.processTimeRequired * 100);
-        }
-        else
+        } else
         {
             scale = 0;
         }

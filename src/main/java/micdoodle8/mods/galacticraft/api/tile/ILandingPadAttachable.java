@@ -10,12 +10,13 @@ import net.minecraft.world.IBlockAccess;
  */
 public interface ILandingPadAttachable
 {
+
     /**
      * Determines if this tile can connect to the landing pad at the provided
      * coordinates.
      *
      * @param world World the tiles are located in
-     * @param pos   Coordinate the landing pad is located at
+     * @param pos Coordinate the landing pad is located at
      * @return True if the block can attach to the landing pad, false if not
      */
     boolean canAttachToLandingPad(IBlockAccess world, BlockPos pos);

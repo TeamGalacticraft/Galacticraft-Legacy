@@ -4,8 +4,10 @@ import net.minecraft.util.text.translation.I18n;
 
 public interface IRocketType
 {
+
     enum EnumRocketType
     {
+
         DEFAULT(0, "", false, 2),
         INVENTORY27(1, I18n.translateToLocal("gui.rocket_type.0"), false, 20),
         INVENTORY36(2, I18n.translateToLocal("gui.rocket_type.1"), false, 38),

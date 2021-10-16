@@ -1,10 +1,12 @@
 package micdoodle8.mods.galacticraft.core.command;
 
 import com.google.common.collect.Sets;
+
 import micdoodle8.mods.galacticraft.core.dimension.SpaceStationWorldData;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -14,10 +16,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class CommandSpaceStationRemoveOwner extends CommandBase
 {
+
     @Override
     public String getUsage(ICommandSender var1)
     {
@@ -63,8 +70,7 @@ public class CommandSpaceStationRemoveOwner extends CommandBase
                     if (stats.getSpaceStationDimensionData().isEmpty())
                     {
                         throw new WrongUsageException(GCCoreUtil.translate("commands.ssinvite.not_found"), new Object[0]);
-                    }
-                    else
+                    } else
                     {
                         for (Map.Entry<Integer, Integer> e : stats.getSpaceStationDimensionData().entrySet())
                         {
@@ -84,22 +90,19 @@ public class CommandSpaceStationRemoveOwner extends CommandBase
                             {
                                 data.getAllowedPlayers().remove(str);
                                 data.markDirty();
-                            }
-                            else
+                            } else
                             {
                                 throw new CommandException(GCCoreUtil.translateWithFormat("commands.ssuninvite.no_player", "\"" + var3 + "\""), new Object[0]);
                             }
                         }
                     }
                 }
-            }
-            catch (final Exception var6)
+            } catch (final Exception var6)
             {
                 throw new CommandException(var6.getMessage(), new Object[0]);
             }
 
-        }
-        else
+        } else
         {
             throw new WrongUsageException(GCCoreUtil.translateWithFormat("commands.ssinvite.wrong_usage", this.getUsage(sender)), new Object[0]);
         }
@@ -109,7 +112,6 @@ public class CommandSpaceStationRemoveOwner extends CommandBase
             playerBase.sendMessage(new TextComponentString(GCCoreUtil.translateWithFormat("gui.spacestation.removesuccess", var3)));
         }
     }
-
 
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
@@ -127,8 +129,9 @@ public class CommandSpaceStationRemoveOwner extends CommandBase
             if (!stats.getSpaceStationDimensionData().isEmpty())
             {
                 String[] allNames = server.getOnlinePlayerNames();
-                //data.getAllowedPlayers may include some in lowercase
-                //Convert to correct case at least for those players who are online
+                // data.getAllowedPlayers may include some in lowercase
+                // Convert to correct case at least for those players who are
+                // online
                 HashSet<String> allowedNames = Sets.newHashSet();
 
                 for (Map.Entry<Integer, Integer> e : stats.getSpaceStationDimensionData().entrySet())
@@ -151,14 +154,15 @@ public class CommandSpaceStationRemoveOwner extends CommandBase
                         }
                     }
                 }
-                //This does the conversion to correct case
+                // This does the conversion to correct case
                 allowedNames.addAll(replaceNames);
                 String[] rvsize = new String[allowedNames.size()];
                 return allowedNames.toArray(rvsize);
             }
         }
 
-        String[] returnvalue = { "" };
+        String[] returnvalue =
+        {""};
         return returnvalue;
     }
 

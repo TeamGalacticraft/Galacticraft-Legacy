@@ -1,5 +1,12 @@
 package micdoodle8.mods.galacticraft.api.prefab.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.base.Predicate;
+
 import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.entity.IIgnoreShift;
@@ -40,24 +47,15 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import org.lwjgl.opengl.GL11;
-
-import com.google.common.base.Predicate;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Do not include this prefab class in your released mod download.
  */
 public abstract class EntitySpaceshipBase extends Entity implements IPacketReceiver, IIgnoreShift, ITelemetry
 {
+
     public static enum EnumLaunchPhase
     {
-        UNIGNITED,
-        IGNITED,
-        LAUNCHED,
-        LANDING
+        UNIGNITED, IGNITED, LAUNCHED, LANDING
     }
 
     public int launchPhase;
@@ -67,15 +65,15 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
     public int timeUntilLaunch;
     public float timeSinceLaunch;
     public float rollAmplitude;
-    public float shipDamage; 
+    public float shipDamage;
     private ArrayList<BlockVec3Dim> telemetryList = new ArrayList<BlockVec3Dim>();
     private boolean addToTelemetry = false;
     public FluidTank fuelTank = new FluidTank(this.getFuelTankCapacity() * ConfigManagerCore.rocketFuelFactor);
-    private double syncAdjustX = 0D; 
-    private double syncAdjustY = 0D; 
+    private double syncAdjustX = 0D;
+    private double syncAdjustY = 0D;
     private double syncAdjustZ = 0D;
     private boolean syncAdjustFlag = false;
-    
+
     public EntitySpaceshipBase(World par1World)
     {
         super(par1World);
@@ -140,13 +138,12 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
     {
         if (!this.world.isRemote && !this.isDead)
         {
-            Entity e = par1DamageSource.getTrueSource(); 
-			boolean flag = e instanceof EntityPlayer && ((EntityPlayer) e).capabilities.isCreativeMode;
+            Entity e = par1DamageSource.getTrueSource();
+            boolean flag = e instanceof EntityPlayer && ((EntityPlayer) e).capabilities.isCreativeMode;
             if (this.isEntityInvulnerable(par1DamageSource) || this.posY > 300 || (e instanceof EntityLivingBase && !(e instanceof EntityPlayer)))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.rollAmplitude = 10;
                 this.markVelocityChanged();
@@ -161,22 +158,20 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
                 {
                     this.removePassengers();
 
-					if (flag)
-					{
-						this.setDead();
-					}
-					else
-					{
-						this.setDead();
-						this.dropShipAsItem();
-					}
+                    if (flag)
+                    {
+                        this.setDead();
+                    } else
+                    {
+                        this.setDead();
+                        this.dropShipAsItem();
+                    }
                     return true;
                 }
 
                 return true;
             }
-        }
-        else
+        } else
         {
             return true;
         }
@@ -230,16 +225,16 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
 
         if (this.addToTelemetry)
         {
-        	this.addToTelemetry = false;
-			for (BlockVec3Dim vec : new ArrayList<BlockVec3Dim>(this.telemetryList))
-			{
-				TileEntity t1 = vec.getTileEntityNoLoad();
-				if (t1 instanceof TileEntityTelemetry && !t1.isInvalid())
-				{
-					if (((TileEntityTelemetry)t1).linkedEntity == this)
-						((TileEntityTelemetry)t1).addTrackedEntity(this);
-				}		
-			}
+            this.addToTelemetry = false;
+            for (BlockVec3Dim vec : new ArrayList<BlockVec3Dim>(this.telemetryList))
+            {
+                TileEntity t1 = vec.getTileEntityNoLoad();
+                if (t1 instanceof TileEntityTelemetry && !t1.isInvalid())
+                {
+                    if (((TileEntityTelemetry) t1).linkedEntity == this)
+                        ((TileEntityTelemetry) t1).addTrackedEntity(this);
+                }
+            }
         }
 
         for (Entity e : this.getPassengers())
@@ -266,12 +261,12 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
 
         if (!this.world.isRemote)
         {
-	        if (this.posY < 0.0D)
-	        {
-	            this.setDead();
-	        }
-	        else if (this.posY > (this.world.provider instanceof IExitHeight ? ((IExitHeight) this.world.provider).getYCoordinateToTeleport() : 1200) + (this.launchPhase == EnumLaunchPhase.LANDING.ordinal() ? 355 : 100))
-	        {
+            if (this.posY < 0.0D)
+            {
+                this.setDead();
+            } else if (this.posY > (this.world.provider instanceof IExitHeight ? ((IExitHeight) this.world.provider).getYCoordinateToTeleport() : 1200)
+                + (this.launchPhase == EnumLaunchPhase.LANDING.ordinal() ? 355 : 100))
+            {
                 for (Entity e : this.getPassengers())
                 {
                     if (e instanceof EntityPlayerMP)
@@ -281,8 +276,7 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
                         {
                             this.setDead();
                         }
-                    }
-                    else
+                    } else
                         this.setDead();
                 }
             }
@@ -292,7 +286,7 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
                 this.failRocket();
             }
         }
-        
+
         if (this.launchPhase == EnumLaunchPhase.UNIGNITED.ordinal())
         {
             this.timeUntilLaunch = this.getPreLaunchWait();
@@ -301,8 +295,7 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
         if (this.launchPhase >= EnumLaunchPhase.LAUNCHED.ordinal())
         {
             this.timeSinceLaunch++;
-        }
-        else
+        } else
         {
             this.timeSinceLaunch = 0;
         }
@@ -361,8 +354,7 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
             {
                 this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             }
-        }
-        else
+        } else
         {
             this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         }
@@ -388,7 +380,9 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
 
         if (this.launchPhase >= EnumLaunchPhase.LAUNCHED.ordinal())
         {
-            if (getPassengers().size() >= 1) //When the screen changes to the map, the player is not riding the rocket anymore.
+            if (getPassengers().size() >= 1) // When the screen changes to the
+                                             // map, the player is not riding
+                                             // the rocket anymore.
             {
                 if (getPassengers().get(0) instanceof EntityPlayerMP)
                 {
@@ -412,7 +406,7 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
         {
             new Exception().printStackTrace();
         }
-        int newLaunchPhase = buffer.readInt(); 
+        int newLaunchPhase = buffer.readInt();
         if (this.launchPhase != newLaunchPhase)
         {
             this.setLaunchPhase(EnumLaunchPhase.values()[newLaunchPhase]);
@@ -420,12 +414,14 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
             {
                 this.syncAdjustFlag = true;
             }
-        }
-        else if (this.hasValidFuel())
+        } else if (this.hasValidFuel())
         {
-            if (Math.abs(this.syncAdjustX - this.posX) > 0.2D) this.motionX += (this.syncAdjustX - this.posX) / 40D;
-            if (Math.abs(this.syncAdjustY - this.posY) > 0.2D) this.motionY += (this.syncAdjustY - this.posY) / 40D;
-            if (Math.abs(this.syncAdjustZ - this.posZ) > 0.2D) this.motionZ += (this.syncAdjustZ - this.posZ) / 40D;
+            if (Math.abs(this.syncAdjustX - this.posX) > 0.2D)
+                this.motionX += (this.syncAdjustX - this.posX) / 40D;
+            if (Math.abs(this.syncAdjustY - this.posY) > 0.2D)
+                this.motionY += (this.syncAdjustY - this.posY) / 40D;
+            if (Math.abs(this.syncAdjustZ - this.posZ) > 0.2D)
+                this.motionZ += (this.syncAdjustZ - this.posZ) / 40D;
         }
         this.timeSinceLaunch = buffer.readFloat();
         this.timeUntilLaunch = buffer.readInt();
@@ -482,15 +478,19 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
             {
                 if (!this.world.loadedEntityList.contains(this))
                 {
-                    try {
+                    try
+                    {
                         this.world.loadedEntityList.add(this);
-                    } catch (Exception e) { e.printStackTrace(); }
+                    } catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
 
                 this.posX = x;
                 this.posY = y;
                 this.posZ = z;
-                
+
                 int cx = MathHelper.floor(x / 16.0D);
                 int cz = MathHelper.floor(z / 16.0D);
 
@@ -504,14 +504,13 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
                     this.addedToChunk = true;
                     this.world.getChunk(cx, cz).addEntity(this);
                 }
-                
+
                 this.syncAdjustX = 0D;
                 this.syncAdjustY = 0D;
                 this.syncAdjustZ = 0D;
                 this.syncAdjustFlag = false;
             }
-        }
-        else
+        } else
         {
             this.syncAdjustX = x;
             this.syncAdjustY = y;
@@ -577,13 +576,12 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
             {
                 this.setLaunchPhase(EnumLaunchPhase.UNIGNITED);
             }
-        }
-        else
+        } else
         {
             this.setLaunchPhase(EnumLaunchPhase.values()[nbt.getInteger("launchPhase") - 1]);
         }
 
-        //Update all Telemetry Units which are still tracking this rocket
+        // Update all Telemetry Units which are still tracking this rocket
         this.telemetryList.clear();
         if (nbt.hasKey("telemetryList"))
         {
@@ -623,10 +621,10 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
     {
         return -0.9D;
     }
-    
+
     public double getOnPadYOffset()
     {
-    	return 0D;
+        return 0D;
     }
 
     public void onLaunch()
@@ -667,6 +665,7 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
 
     public static class RocketLaunchEvent extends EntityEvent
     {
+
         public final EntitySpaceshipBase rocket;
 
         public RocketLaunchEvent(EntitySpaceshipBase entity)
@@ -676,62 +675,64 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
         }
     }
 
-	public void addTelemetry(TileEntityTelemetry tile)
-	{
-		this.telemetryList.add(new BlockVec3Dim(tile));
-	}
+    public void addTelemetry(TileEntityTelemetry tile)
+    {
+        this.telemetryList.add(new BlockVec3Dim(tile));
+    }
 
-	public ArrayList<TileEntityTelemetry> getTelemetry()
-	{
-		ArrayList<TileEntityTelemetry> returnList = new ArrayList<TileEntityTelemetry>();
-		for (BlockVec3Dim vec : new ArrayList<BlockVec3Dim>(this.telemetryList))
-		{
-			TileEntity t1 = vec.getTileEntity();
-			if (t1 instanceof TileEntityTelemetry && !t1.isInvalid())
-			{
-				if (((TileEntityTelemetry)t1).linkedEntity == this)
-					returnList.add((TileEntityTelemetry)t1);
-			}		
-		}
-		return returnList;
-	}
-	
+    public ArrayList<TileEntityTelemetry> getTelemetry()
+    {
+        ArrayList<TileEntityTelemetry> returnList = new ArrayList<TileEntityTelemetry>();
+        for (BlockVec3Dim vec : new ArrayList<BlockVec3Dim>(this.telemetryList))
+        {
+            TileEntity t1 = vec.getTileEntity();
+            if (t1 instanceof TileEntityTelemetry && !t1.isInvalid())
+            {
+                if (((TileEntityTelemetry) t1).linkedEntity == this)
+                    returnList.add((TileEntityTelemetry) t1);
+            }
+        }
+        return returnList;
+    }
+
     @Override
     public void transmitData(int[] data)
     {
-		data[0] = this.timeUntilLaunch;
-		data[1] = (int) this.posY;
-		//data[2] is entity speed already set as default by TileEntityTelemetry
-		data[3] = this.getScaledFuelLevel(100);
-		data[4] = (int) this.rotationPitch;
+        data[0] = this.timeUntilLaunch;
+        data[1] = (int) this.posY;
+        // data[2] is entity speed already set as default by TileEntityTelemetry
+        data[3] = this.getScaledFuelLevel(100);
+        data[4] = (int) this.rotationPitch;
     }
-	
+
     @Override
     public void receiveData(int[] data, String[] str)
     {
-		//Spaceships:
-		//  data0 = launch countdown
-		//  data1 = height
-		//  data2 = speed
-		//  data3 = fuel remaining
-		//  data4 = pitch angle
-		int countdown = data[0];
-		str[0] = "";
-		str[1] = (countdown == 400) ? GCCoreUtil.translate("gui.rocket.on_launchpad") : ((countdown > 0) ? GCCoreUtil.translate("gui.rocket.countdown") + ": " + countdown / 20 : GCCoreUtil.translate("gui.rocket.launched"));
-		str[2] = GCCoreUtil.translate("gui.rocket.height") + ": " + data[1];
-		str[3] = GameScreenText.makeSpeedString(data[2]);
-		str[4] = GCCoreUtil.translate("gui.message.fuel.name") + ": " + data[3] + "%";
+        // Spaceships:
+        // data0 = launch countdown
+        // data1 = height
+        // data2 = speed
+        // data3 = fuel remaining
+        // data4 = pitch angle
+        int countdown = data[0];
+        str[0] = "";
+        str[1] = (countdown == 400) ? GCCoreUtil.translate("gui.rocket.on_launchpad")
+            : ((countdown > 0) ? GCCoreUtil.translate("gui.rocket.countdown") + ": " + countdown / 20 : GCCoreUtil.translate("gui.rocket.launched"));
+        str[2] = GCCoreUtil.translate("gui.rocket.height") + ": " + data[1];
+        str[3] = GameScreenText.makeSpeedString(data[2]);
+        str[4] = GCCoreUtil.translate("gui.message.fuel.name") + ": " + data[3] + "%";
     }
 
     @Override
     public void adjustDisplay(int[] data)
     {
-		GL11.glRotatef(data[4], -1, 0, 0);
-		GL11.glTranslatef(0, this.height / 4, 0);
+        GL11.glRotatef(data[4], -1, 0, 0);
+        GL11.glTranslatef(0, this.height / 4, 0);
     }
 
     /**
-     * Used in RenderTier1Rocket for standard rendering. Ignore if using a custom renderer.
+     * Used in RenderTier1Rocket for standard rendering. Ignore if using a
+     * custom renderer.
      *
      * @return Y-axis offset for rendering at correct position
      */
@@ -742,19 +743,21 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
 
     public static final Predicate<Entity> rocketSelector = new Predicate<Entity>()
     {
+
         @Override
         public boolean apply(Entity e)
         {
             return e instanceof EntitySpaceshipBase && e.isEntityAlive();
         }
     };
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public int getBrightnessForRender()
     {
-        double height = this.posY + (double)this.getEyeHeight();
-        if (height > 255D) height = 255D;
+        double height = this.posY + (double) this.getEyeHeight();
+        if (height > 255D)
+            height = 255D;
         BlockPos blockpos = new BlockPos(this.posX, height, this.posZ);
         return this.world.isBlockLoaded(blockpos) ? this.world.getCombinedLight(blockpos, 0) : 0;
     }

@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 
 public abstract class InventoryEntity extends NetworkedEntity implements IInventory
 {
+
     protected NonNullList<ItemStack> stacks = NonNullList.withSize(0, ItemStack.EMPTY);
 
     public InventoryEntity(World par1World)
@@ -101,13 +102,14 @@ public abstract class InventoryEntity extends NetworkedEntity implements IInvent
     {
         return true;
     }
-    //We don't use these because we use forge containers
+
+    // We don't use these because we use forge containers
     @Override
     public void openInventory(EntityPlayer player)
     {
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void closeInventory(EntityPlayer player)
     {

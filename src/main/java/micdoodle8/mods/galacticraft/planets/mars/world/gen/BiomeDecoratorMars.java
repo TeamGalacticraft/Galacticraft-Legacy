@@ -10,6 +10,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class BiomeDecoratorMars extends BiomeDecoratorSpace
 {
+
     private WorldGenerator dirtGen;
     private WorldGenerator deshGen;
     private WorldGenerator tinGen;

@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class SlotSchematicTier3Rocket extends Slot
 {
+
     private final int index;
     private final BlockPos pos;
     private final EntityPlayer player;
@@ -34,7 +35,8 @@ public class SlotSchematicTier3Rocket extends Slot
         if (this.player instanceof EntityPlayerMP)
         {
             int dimID = GCCoreUtil.getDimensionID(this.player.world);
-            GCCoreUtil.sendToAllAround(new PacketSimple(EnumSimplePacket.C_SPAWN_SPARK_PARTICLES, dimID, new Object[] { this.pos }), this.player.world, dimID, this.pos, 20);
+            GCCoreUtil.sendToAllAround(new PacketSimple(EnumSimplePacket.C_SPAWN_SPARK_PARTICLES, dimID, new Object[]
+            {this.pos}), this.player.world, dimID, this.pos, 20);
         }
     }
 

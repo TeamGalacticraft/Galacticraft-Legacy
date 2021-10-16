@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.inventory;
 
 import micdoodle8.mods.galacticraft.api.entity.IRocketType.EnumRocketType;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -9,6 +10,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerRocketInventory extends Container
 {
+
     private final IInventory lowerChestInventory;
     private final IInventory spaceshipInv;
     private final EnumRocketType rocketType;
@@ -22,18 +24,18 @@ public class ContainerRocketInventory extends Container
 
         switch (rocketType.getInventorySpace() - 2)
         {
-        case 0:
-            this.addSlotsNoInventory();
-            break;
-        case 18:
-            this.addSlotsWithInventory(rocketType.getInventorySpace());
-            break;
-        case 36:
-            this.addSlotsWithInventory(rocketType.getInventorySpace());
-            break;
-        case 54:
-            this.addSlotsWithInventory(rocketType.getInventorySpace());
-            break;
+            case 0:
+                this.addSlotsNoInventory();
+                break;
+            case 18:
+                this.addSlotsWithInventory(rocketType.getInventorySpace());
+                break;
+            case 36:
+                this.addSlotsWithInventory(rocketType.getInventorySpace());
+                break;
+            case 54:
+                this.addSlotsWithInventory(rocketType.getInventorySpace());
+                break;
         }
     }
 
@@ -109,8 +111,7 @@ public class ContainerRocketInventory extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 0, b, false))
+            } else if (!this.mergeItemStack(var5, 0, b, false))
             {
                 return ItemStack.EMPTY;
             }
@@ -118,8 +119,7 @@ public class ContainerRocketInventory extends Container
             if (var5.getCount() == 0)
             {
                 var4.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var4.onSlotChanged();
             }

@@ -17,6 +17,7 @@ import java.util.Random;
 
 public class RoomBossVenus extends SizedPieceVenus
 {
+
     private EnumFacing exitDirection;
     private BlockPos chestPos;
 
@@ -51,7 +52,6 @@ public class RoomBossVenus extends SizedPieceVenus
             tagCompound.setInteger("direction_exit", this.exitDirection.ordinal());
         }
 
-
         tagCompound.setBoolean("chestPosNull", this.chestPos == null);
         if (this.chestPos != null)
         {
@@ -69,8 +69,7 @@ public class RoomBossVenus extends SizedPieceVenus
         if (tagCompound.hasKey("direction_exit"))
         {
             this.exitDirection = EnumFacing.byIndex(tagCompound.getInteger("direction_exit"));
-        }
-        else
+        } else
         {
             this.exitDirection = null;
         }
@@ -84,7 +83,8 @@ public class RoomBossVenus extends SizedPieceVenus
     @Override
     public boolean addComponentParts(World worldIn, Random random, StructureBoundingBox chunkBox)
     {
-        StructureBoundingBox box = new StructureBoundingBox(new int[] { Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE });
+        StructureBoundingBox box = new StructureBoundingBox(new int[]
+        {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE});
 
         for (int i = 0; i <= this.sizeX; i++)
         {
@@ -101,8 +101,7 @@ public class RoomBossVenus extends SizedPieceVenus
                     if (j == 0)
                     {
                         this.setBlockState(worldIn, this.configuration.getBrickBlockFloor(), i, j, k, chunkBox);
-                    }
-                    else if (j < f)
+                    } else if (j < f)
                     {
                         this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, chunkBox);
 
@@ -115,8 +114,7 @@ public class RoomBossVenus extends SizedPieceVenus
                                 if (j0 == distFromFloor + 1)
                                 {
                                     webType = BlockTorchWeb.EnumWebType.WEB_1;
-                                }
-                                else
+                                } else
                                 {
                                     webType = BlockTorchWeb.EnumWebType.WEB_0;
                                 }
@@ -148,8 +146,7 @@ public class RoomBossVenus extends SizedPieceVenus
                         {
                             box.maxZ = k;
                         }
-                    }
-                    else
+                    } else
                     {
                         boolean placeBlock = true;
 
@@ -184,8 +181,7 @@ public class RoomBossVenus extends SizedPieceVenus
                         if (placeBlock)
                         {
                             this.setBlockState(worldIn, this.configuration.getBrickBlock(), i, j, k, chunkBox);
-                        }
-                        else
+                        } else
                         {
                             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, chunkBox);
                         }
@@ -198,7 +194,7 @@ public class RoomBossVenus extends SizedPieceVenus
         int spawnerY = 1;
         int spawnerZ = this.sizeZ / 2;
         BlockPos blockpos = new BlockPos(this.getXWithOffset(spawnerX, spawnerZ), this.getYWithOffset(spawnerY), this.getZWithOffset(spawnerX, spawnerZ));
-        //Is this position inside the chunk currently being generated?
+        // Is this position inside the chunk currently being generated?
         if (chunkBox.isVecInside(blockpos))
         {
             worldIn.setBlockState(blockpos, VenusBlocks.bossSpawner.getDefaultState(), 2);
@@ -207,11 +203,11 @@ public class RoomBossVenus extends SizedPieceVenus
             {
                 if (box.getXSize() > 10000 || box.getYSize() > 10000 || box.getZSize() > 10000)
                 {
-                    GCLog.severe("Failed to set correct boss room size. This is a bug!");
-                }
-                else
+                    GCLog.error("Failed to set correct boss room size. This is a bug!");
+                } else
                 {
-                    spawner.setRoom(new Vector3(box.minX + this.boundingBox.minX, box.minY + this.boundingBox.minY, box.minZ + this.boundingBox.minZ), new Vector3(box.maxX - box.minX + 1, box.maxY - box.minY + 1, box.maxZ - box.minZ + 1));
+                    spawner.setRoom(new Vector3(box.minX + this.boundingBox.minX, box.minY + this.boundingBox.minY, box.minZ + this.boundingBox.minZ),
+                        new Vector3(box.maxX - box.minX + 1, box.maxY - box.minY + 1, box.maxZ - box.minZ + 1));
                     spawner.setChestPos(this.chestPos);
                 }
             }

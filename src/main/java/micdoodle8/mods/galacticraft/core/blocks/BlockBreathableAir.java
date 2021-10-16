@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.blocks;
 
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.fluid.OxygenPressureProtocol;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.EnumPushReaction;
@@ -19,8 +20,9 @@ import java.util.Random;
 
 public class BlockBreathableAir extends BlockAir
 {
+
     public static final PropertyBool THERMAL = PropertyBool.create("thermal");
-    
+
     public BlockBreathableAir(String assetName)
     {
         this.setResistance(1000.0F);
@@ -54,8 +56,7 @@ public class BlockBreathableAir extends BlockAir
         if (block == this || block == GCBlocks.brightBreatheableAir)
         {
             return false;
-        }
-        else
+        } else
         {
             return block instanceof BlockAir;
         }
@@ -65,15 +66,20 @@ public class BlockBreathableAir extends BlockAir
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block oldBlock, BlockPos fromPos)
     {
         if (Blocks.AIR != oldBlock)
-        //Do no check if replacing breatheableAir with a solid block, although that could be dividing a sealed space
+        // Do no check if replacing breatheableAir with a solid block, although
+        // that could be dividing a sealed space
         {
-            // Check if replacing a passthrough breathable block, like a torch - if so replace with BreathableAir not Air
+            // Check if replacing a passthrough breathable block, like a torch -
+            // if so replace with BreathableAir not Air
             if (Blocks.AIR == state.getBlock())
             {
                 EnumFacing side;
-                if (pos.getX() != fromPos.getX()) side = pos.getX() > fromPos.getX() ? EnumFacing.EAST : EnumFacing.WEST; 
-                else if (pos.getY() != fromPos.getY()) side = pos.getY() > fromPos.getY() ? EnumFacing.UP : EnumFacing.DOWN; 
-                else side = pos.getZ() > fromPos.getZ() ? EnumFacing.SOUTH : EnumFacing.NORTH; 
+                if (pos.getX() != fromPos.getX())
+                    side = pos.getX() > fromPos.getX() ? EnumFacing.EAST : EnumFacing.WEST;
+                else if (pos.getY() != fromPos.getY())
+                    side = pos.getY() > fromPos.getY() ? EnumFacing.UP : EnumFacing.DOWN;
+                else
+                    side = pos.getZ() > fromPos.getZ() ? EnumFacing.SOUTH : EnumFacing.NORTH;
                 if (OxygenPressureProtocol.canBlockPassAir(worldIn, state, fromPos, side))
                 {
                     worldIn.setBlockState(fromPos, GCBlocks.breatheableAir.getDefaultState(), 6);
@@ -101,7 +107,7 @@ public class BlockBreathableAir extends BlockAir
     {
         return (state.getValue(THERMAL) ? 1 : 0);
     }
-    
+
     @Override
     public int getLightOpacity(IBlockState state)
     {

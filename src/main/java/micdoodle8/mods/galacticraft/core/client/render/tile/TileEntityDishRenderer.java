@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.client.render.tile;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityDish;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
+
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -13,9 +14,9 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-
 public class TileEntityDishRenderer extends TileEntitySpecialRenderer<TileEntityDish>
 {
+
     private static final ResourceLocation textureSupport = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/telesupport.png");
     private static final ResourceLocation textureFork = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/telefork.png");
     private static final ResourceLocation textureDish = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/teledish.png");
@@ -33,8 +34,7 @@ public class TileEntityDishRenderer extends TileEntitySpecialRenderer<TileEntity
                 modelDish = ClientUtil.modelFromOBJ(new ResourceLocation(Constants.ASSET_PREFIX, "teledish.obj"));
                 modelFork = ClientUtil.modelFromOBJ(new ResourceLocation(Constants.ASSET_PREFIX, "telefork.obj"));
                 modelSupport = ClientUtil.modelFromOBJ(new ResourceLocation(Constants.ASSET_PREFIX, "telesupport.obj"));
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -48,7 +48,7 @@ public class TileEntityDishRenderer extends TileEntitySpecialRenderer<TileEntity
         TileEntityDish dish = (TileEntityDish) tile;
         float hour = dish.rotation(partialTickTime) % 360F;
         float declination = dish.elevation(partialTickTime) % 360F;
-        
+
         final EntityPlayer player = FMLClientHandler.instance().getClient().player;
 
         GL11.glPushMatrix();

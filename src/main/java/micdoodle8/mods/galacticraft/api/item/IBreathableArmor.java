@@ -8,12 +8,10 @@ import net.minecraft.item.ItemStack;
  */
 public interface IBreathableArmor
 {
+
     enum EnumGearType
     {
-        HELMET,
-        GEAR,
-        TANK1,
-        TANK2
+        HELMET, GEAR, TANK1, TANK2
     }
 
     /**
@@ -25,11 +23,11 @@ public interface IBreathableArmor
     /**
      * Determines if armor item is currently valid for breathing
      *
-     * @param helmetInSlot  The armor itemstack
+     * @param helmetInSlot The armor itemstack
      * @param playerWearing The player wearing the armor
-     * @param type          The oxygen gear type @see EnumGearType
+     * @param type The oxygen gear type @see EnumGearType
      * @return true if this armor item is valid for the provided oxygen gear
-     * type
+     *         type
      */
     boolean canBreathe(ItemStack helmetInSlot, EntityPlayer playerWearing, EnumGearType type);
 }

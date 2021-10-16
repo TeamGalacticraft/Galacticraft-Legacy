@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.client.sounds.GCSounds;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -19,26 +20,18 @@ import java.util.List;
 
 public class TileEntityAirLockController extends TileEntityAirLock
 {
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean redstoneActivation;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean playerDistanceActivation = true;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int playerDistanceSelection;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean playerNameMatches;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public String playerToOpenFor = "";
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean invertSelection;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean horizontalModeEnabled;
-    public boolean lastHorizontalModeEnabled;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public String ownerName = "";
 
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean active;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean redstoneActivation;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean playerDistanceActivation = true;
+    @NetworkedField(targetSide = Side.CLIENT) public int playerDistanceSelection;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean playerNameMatches;
+    @NetworkedField(targetSide = Side.CLIENT) public String playerToOpenFor = "";
+    @NetworkedField(targetSide = Side.CLIENT) public boolean invertSelection;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean horizontalModeEnabled;
+    public boolean lastHorizontalModeEnabled;
+    @NetworkedField(targetSide = Side.CLIENT) public String ownerName = "";
+
+    @NetworkedField(targetSide = Side.CLIENT) public boolean active;
     public boolean lastActive;
     private int otherAirLocks;
     private int lastOtherAirLocks;
@@ -70,18 +63,18 @@ public class TileEntityAirLockController extends TileEntityAirLock
 
                 switch (this.playerDistanceSelection)
                 {
-                case 0:
-                    distance = 1.0D;
-                    break;
-                case 1:
-                    distance = 2.0D;
-                    break;
-                case 2:
-                    distance = 5.0D;
-                    break;
-                case 3:
-                    distance = 10.0D;
-                    break;
+                    case 0:
+                        distance = 1.0D;
+                        break;
+                    case 1:
+                        distance = 2.0D;
+                        break;
+                    case 2:
+                        distance = 5.0D;
+                        break;
+                    case 3:
+                        distance = 10.0D;
+                        break;
                 }
 
                 Vector3 minPos = new Vector3(this).translate(0.5D - distance);
@@ -101,8 +94,7 @@ public class TileEntityAirLockController extends TileEntityAirLock
                         }
                     }
                     this.active = foundPlayer;
-                }
-                else
+                } else
                 {
                     this.active = !playersWithin.isEmpty();
                 }
@@ -123,8 +115,7 @@ public class TileEntityAirLockController extends TileEntityAirLock
                 if (this.horizontalModeEnabled != this.lastHorizontalModeEnabled)
                 {
                     this.unsealAirLock();
-                }
-                else if (this.active || this.lastActive)
+                } else if (this.active || this.lastActive)
                 {
                     this.lastOtherAirLocks = this.otherAirLocks;
                     this.otherAirLocks = this.protocol.calculate(this.horizontalModeEnabled);
@@ -139,8 +130,7 @@ public class TileEntityAirLockController extends TileEntityAirLock
                                 this.sealAirLock();
                             }
                         }
-                    }
-                    else
+                    } else
                     {
                         if (this.lastActive)
                         {
@@ -189,8 +179,7 @@ public class TileEntityAirLockController extends TileEntityAirLock
                     }
                 }
             }
-        }
-        else
+        } else
         {
             if (this.protocol.minX != this.protocol.maxX)
             {
@@ -205,8 +194,7 @@ public class TileEntityAirLockController extends TileEntityAirLock
                         }
                     }
                 }
-            }
-            else if (this.protocol.minZ != this.protocol.maxZ)
+            } else if (this.protocol.minZ != this.protocol.maxZ)
             {
                 for (z = this.protocol.minZ + 1; z <= this.protocol.maxZ - 1; z++)
                 {
@@ -274,7 +262,8 @@ public class TileEntityAirLockController extends TileEntityAirLock
                             }
                         }
                     }
-                    if (sealedSide) break;
+                    if (sealedSide)
+                        break;
                 }
                 // Now replace the airlock blocks with either air, or sealed air
                 for (x = this.protocol.minX + 1; x <= this.protocol.maxX - 1; x++)
@@ -292,8 +281,7 @@ public class TileEntityAirLockController extends TileEntityAirLock
                     }
                 }
             }
-        }
-        else
+        } else
         {
             if (this.lastProtocol.minX != this.lastProtocol.maxX)
             {
@@ -323,7 +311,8 @@ public class TileEntityAirLockController extends TileEntityAirLock
                             }
                         }
                     }
-                    if (sealedSide) break;
+                    if (sealedSide)
+                        break;
                 }
                 // Now replace the airlock blocks with either air, or sealed air
                 for (x = this.lastProtocol.minX + 1; x <= this.lastProtocol.maxX - 1; x++)
@@ -340,8 +329,7 @@ public class TileEntityAirLockController extends TileEntityAirLock
                         }
                     }
                 }
-            }
-            else if (this.lastProtocol.minZ != this.lastProtocol.maxZ)
+            } else if (this.lastProtocol.minZ != this.lastProtocol.maxZ)
             {
                 // First test if there is sealed air to either side
                 for (z = this.lastProtocol.minZ + 1; z <= this.lastProtocol.maxZ - 1; z++)
@@ -369,7 +357,8 @@ public class TileEntityAirLockController extends TileEntityAirLock
                             }
                         }
                     }
-                    if (sealedSide) break;
+                    if (sealedSide)
+                        break;
                 }
                 // Now replace the airlock blocks with either air, or sealed air
                 for (z = this.lastProtocol.minZ + 1; z <= this.lastProtocol.maxZ - 1; z++)

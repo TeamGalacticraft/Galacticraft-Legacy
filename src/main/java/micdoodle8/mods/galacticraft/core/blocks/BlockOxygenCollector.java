@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenCollector;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -28,6 +29,7 @@ import java.util.Random;
 
 public class BlockOxygenCollector extends BlockAdvancedTile implements IShiftDescription, ISortableBlock
 {
+
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockOxygenCollector(String assetName)
@@ -93,14 +95,14 @@ public class BlockOxygenCollector extends BlockAdvancedTile implements IShiftDes
                     {
                         x2 = pos.getX() + 0.5D + 0.25D * dir;
                         mX = rand.nextFloat() * 2.0F * dir;
-                    }
-                    else
+                    } else
                     {
                         z2 = pos.getZ() + 0.5D + 0.25D * dir;
                         mZ = rand.nextFloat() * 2.0F * dir;
                     }
 
-                    GalacticraftCore.proxy.spawnParticle("oxygen", new Vector3(x2, y2, z2), new Vector3(mX, mY, mZ), new Object[] { new Vector3(0.7D, 0.7D, 1.0D) });
+                    GalacticraftCore.proxy.spawnParticle("oxygen", new Vector3(x2, y2, z2), new Vector3(mX, mY, mZ), new Object[]
+                    {new Vector3(0.7D, 0.7D, 1.0D)});
                 }
             }
         }

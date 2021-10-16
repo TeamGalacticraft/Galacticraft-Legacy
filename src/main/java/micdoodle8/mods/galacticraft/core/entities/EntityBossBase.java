@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityDungeonSpawner;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityTreasureChest;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,13 +25,14 @@ import java.util.Random;
 
 public abstract class EntityBossBase extends EntityMob implements IBoss
 {
+
     protected TileEntityDungeonSpawner<?> spawner;
     public int deathTicks = 0;
 
     public int entitiesWithin;
     public int entitiesWithinLast;
 
-    private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(this.getDisplayName(), getHealthBarColor(), BossInfo.Overlay.PROGRESS));
+    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), getHealthBarColor(), BossInfo.Overlay.PROGRESS));
 
     public EntityBossBase(World world)
     {
@@ -72,7 +74,8 @@ public abstract class EntityBossBase extends EntityMob implements IBoss
         {
             if (this.deathTicks >= 180 && this.deathTicks % 5 == 0)
             {
-                GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(PacketSimple.EnumSimplePacket.C_PLAY_SOUND_EXPLODE, GCCoreUtil.getDimensionID(this.world), new Object[] {}), new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID(this.world), this.posX, this.posY, this.posZ, 40.0D));
+                GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(PacketSimple.EnumSimplePacket.C_PLAY_SOUND_EXPLODE, GCCoreUtil.getDimensionID(this.world), new Object[]
+                {}), new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID(this.world), this.posX, this.posY, this.posZ, 40.0D));
             }
 
             if (this.deathTicks > 150 && this.deathTicks % 5 == 0)
@@ -152,7 +155,7 @@ public abstract class EntityBossBase extends EntityMob implements IBoss
 
             if (this.spawner != null)
             {
-                //Note: spawner.isBossDefeated is true, so it's properly dead
+                // Note: spawner.isBossDefeated is true, so it's properly dead
                 this.spawner.isBossDefeated = true;
                 this.spawner.boss = null;
                 this.spawner.spawned = false;
@@ -189,7 +192,8 @@ public abstract class EntityBossBase extends EntityMob implements IBoss
                 }
 
                 this.setDead();
-                //Note: spawner.isBossDefeated is false, so the boss will respawn if any player comes back inside the room
+                // Note: spawner.isBossDefeated is false, so the boss will
+                // respawn if any player comes back inside the room
 
                 return;
             }

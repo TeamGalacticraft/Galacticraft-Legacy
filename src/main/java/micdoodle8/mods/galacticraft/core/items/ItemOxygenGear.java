@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemOxygenGear extends Item implements ISortableItem, IClickableItem
 {
+
     public ItemOxygenGear(String assetName)
     {
         super();
@@ -53,7 +55,7 @@ public class ItemOxygenGear extends Item implements ISortableItem, IClickableIte
         {
             if (itemStack.getItem() instanceof IClickableItem)
             {
-                itemStack = ((IClickableItem)itemStack.getItem()).onItemRightClick(itemStack, worldIn, player);
+                itemStack = ((IClickableItem) itemStack.getItem()).onItemRightClick(itemStack, worldIn, player);
             }
 
             if (itemStack.isEmpty())
@@ -63,7 +65,7 @@ public class ItemOxygenGear extends Item implements ISortableItem, IClickableIte
         }
         return new ActionResult<>(EnumActionResult.PASS, itemStack);
     }
-    
+
     public ItemStack onItemRightClick(ItemStack itemStack, World worldIn, EntityPlayer player)
     {
         GCPlayerStats stats = GCPlayerStats.get(player);
@@ -74,7 +76,7 @@ public class ItemOxygenGear extends Item implements ISortableItem, IClickableIte
             stats.getExtendedInventory().setInventorySlotContents(1, itemStack.copy());
             itemStack = ItemStack.EMPTY;
         }
-        
+
         return itemStack;
     }
 }

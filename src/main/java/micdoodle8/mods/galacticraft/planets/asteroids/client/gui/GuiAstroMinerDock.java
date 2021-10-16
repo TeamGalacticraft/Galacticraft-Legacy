@@ -27,10 +27,12 @@ import java.util.List;
 
 public class GuiAstroMinerDock extends GuiContainerGC
 {
+
     private static final ResourceLocation dockGui = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/gui_astro_miner_dock.png");
     private final TileEntityMinerBase tile;
     private GuiButton recallButton;
-    private GuiElementInfoRegion electricInfoRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 233, (this.height - this.ySize) / 2 + 31, 10, 68, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion electricInfoRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 233, (this.height - this.ySize) / 2 + 31, 10, 68, new ArrayList<String>(), this.width, this.height, this);
     private boolean extraLines;
 
     public GuiAstroMinerDock(InventoryPlayer playerInventory, TileEntityMinerBase dock)
@@ -49,8 +51,7 @@ public class GuiAstroMinerDock extends GuiContainerGC
         if (this.tile.linkedMinerID == null)
         {
             this.recallButton.enabled = false;
-        }
-        else
+        } else
         {
             if (this.tile.linkedMinerDataAIState < EntityAstroMiner.AISTATE_TRAVELLING || this.tile.linkedMinerDataAIState == EntityAstroMiner.AISTATE_DOCKING)
             {
@@ -69,7 +70,8 @@ public class GuiAstroMinerDock extends GuiContainerGC
         int yPos = (this.height - this.ySize) / 2;
         List<String> electricityDesc = new ArrayList<>();
         electricityDesc.add(GCCoreUtil.translate("gui.energy_storage.desc.0"));
-        electricityDesc.add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1") + ((int) Math.floor(this.tile.getEnergyStoredGC()) + " / " + (int) Math.floor(this.tile.getMaxEnergyStoredGC())));
+        electricityDesc
+            .add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1") + ((int) Math.floor(this.tile.getEnergyStoredGC()) + " / " + (int) Math.floor(this.tile.getMaxEnergyStoredGC())));
         this.electricInfoRegion.tooltipStrings = electricityDesc;
         this.electricInfoRegion.xPosition = xPos + 233;
         this.electricInfoRegion.yPosition = yPos + 29;
@@ -90,11 +92,12 @@ public class GuiAstroMinerDock extends GuiContainerGC
         {
             switch (button.id)
             {
-            case 0:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.mc.world), new Object[] { this.tile.getPos(), 0 }));
-                break;
-            default:
-                break;
+                case 0:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.mc.world), new Object[]
+                    {this.tile.getPos(), 0}));
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -135,28 +138,28 @@ public class GuiAstroMinerDock extends GuiContainerGC
 
         switch (this.tile.linkedMinerDataAIState)
         {
-        case -3:  //no linked miner
-            return "";
-        case -2:
-            return EnumColor.ORANGE + GCCoreUtil.translate("gui.miner.out_of_range");
-        case EntityAstroMiner.AISTATE_OFFLINE:
-            return EnumColor.ORANGE + GCCoreUtil.translate("gui.miner.offline");
-        case EntityAstroMiner.AISTATE_STUCK:
-            this.extraLines = true;
-            return EnumColor.RED + GCCoreUtil.translate("gui.miner.stuck");
-        case EntityAstroMiner.AISTATE_ATBASE:
-            return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.docked");
-        case EntityAstroMiner.AISTATE_TRAVELLING:
-            this.extraLines = true;
-            return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.travelling");
-        case EntityAstroMiner.AISTATE_MINING:
-            this.extraLines = true;
-            return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.mining");
-        case EntityAstroMiner.AISTATE_RETURNING:
-            this.extraLines = true;
-            return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.returning");
-        case EntityAstroMiner.AISTATE_DOCKING:
-            return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.docking");
+            case -3: // no linked miner
+                return "";
+            case -2:
+                return EnumColor.ORANGE + GCCoreUtil.translate("gui.miner.out_of_range");
+            case EntityAstroMiner.AISTATE_OFFLINE:
+                return EnumColor.ORANGE + GCCoreUtil.translate("gui.miner.offline");
+            case EntityAstroMiner.AISTATE_STUCK:
+                this.extraLines = true;
+                return EnumColor.RED + GCCoreUtil.translate("gui.miner.stuck");
+            case EntityAstroMiner.AISTATE_ATBASE:
+                return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.docked");
+            case EntityAstroMiner.AISTATE_TRAVELLING:
+                this.extraLines = true;
+                return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.travelling");
+            case EntityAstroMiner.AISTATE_MINING:
+                this.extraLines = true;
+                return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.mining");
+            case EntityAstroMiner.AISTATE_RETURNING:
+                this.extraLines = true;
+                return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.returning");
+            case EntityAstroMiner.AISTATE_DOCKING:
+                return EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.miner.docking");
         }
         return "";
     }

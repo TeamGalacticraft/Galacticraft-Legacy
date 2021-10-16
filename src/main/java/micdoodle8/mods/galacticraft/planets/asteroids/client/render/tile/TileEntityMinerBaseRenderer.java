@@ -27,6 +27,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class TileEntityMinerBaseRenderer extends TileEntitySpecialRenderer<TileEntityMinerBase>
 {
+
     public static OBJModel.OBJBakedModel minerBaseModelBaked;
 
     public IBakedModel getBakedModel()
@@ -38,8 +39,7 @@ public class TileEntityMinerBaseRenderer extends TileEntitySpecialRenderer<TileE
             {
                 minerBaseModel = (OBJModel) OBJLoaderGC.instance.loadModel(new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "minerbase0.obj"));
                 minerBaseModel = (OBJModel) minerBaseModel.process(ImmutableMap.of("ambient", "false"));
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -92,17 +92,17 @@ public class TileEntityMinerBaseRenderer extends TileEntitySpecialRenderer<TileE
 
         switch (tile.facing)
         {
-        case SOUTH:
-            GL11.glRotatef(180F, 0, 1F, 0);
-            break;
-        case WEST:
-            GL11.glRotatef(90F, 0, 1F, 0);
-            break;
-        case NORTH:
-            break;
-        case EAST:
-            GL11.glRotatef(270F, 0, 1F, 0);
-            break;
+            case SOUTH:
+                GL11.glRotatef(180F, 0, 1F, 0);
+                break;
+            case WEST:
+                GL11.glRotatef(90F, 0, 1F, 0);
+                break;
+            case NORTH:
+                break;
+            case EAST:
+                GL11.glRotatef(270F, 0, 1F, 0);
+                break;
         }
 
         RenderHelper.disableStandardItemLighting();
@@ -111,7 +111,8 @@ public class TileEntityMinerBaseRenderer extends TileEntitySpecialRenderer<TileE
         Tessellator tessellator = Tessellator.getInstance();
         tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
         GlStateManager.translate(-tile.getPos().getX(), -tile.getPos().getY(), -tile.getPos().getZ());
-        Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(tile.getWorld(), getBakedModel(), tile.getWorld().getBlockState(tile.getPos()), tile.getPos(), tessellator.getBuffer(), false);
+        Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(tile.getWorld(), getBakedModel(), tile.getWorld().getBlockState(tile.getPos()), tile.getPos(),
+            tessellator.getBuffer(), false);
         tessellator.draw();
 
         RenderHelper.enableStandardItemLighting();

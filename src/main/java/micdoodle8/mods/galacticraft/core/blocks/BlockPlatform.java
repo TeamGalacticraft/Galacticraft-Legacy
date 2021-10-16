@@ -1,9 +1,5 @@
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
 import micdoodle8.mods.galacticraft.api.world.IZeroGDimension;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
@@ -12,6 +8,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityPlatform;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -33,8 +30,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 public class BlockPlatform extends BlockAdvancedTile implements IPartialSealableBlock, IShiftDescription, ISortableBlock
 {
+
     public static final PropertyEnum<EnumCorner> CORNER = PropertyEnum.create("type", EnumCorner.class);
     public static final float HEIGHT = 0.875F;
     protected static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0D, 6 / 16.0D, 0.0D, 1.0D, HEIGHT, 1.0D);
@@ -43,12 +45,10 @@ public class BlockPlatform extends BlockAdvancedTile implements IPartialSealable
 
     public enum EnumCorner implements IStringSerializable
     {
-        NONE(0, "none"),
-        NW(1, "sw"),
-        SW(2, "nw"),
-        NE(3, "se"),
-        SE(4, "ne");
-        // Yes these labels are the wrong way round, n should be s!  But the BlockState model is hard-coded to work with this as it is.
+
+        NONE(0, "none"), NW(1, "sw"), SW(2, "nw"), NE(3, "se"), SE(4, "ne");
+        // Yes these labels are the wrong way round, n should be s! But the
+        // BlockState model is hard-coded to work with this as it is.
 
         private final int meta;
         private final String name;
@@ -65,6 +65,7 @@ public class BlockPlatform extends BlockAdvancedTile implements IPartialSealable
         }
 
         private final static EnumCorner[] values = values();
+
         public static EnumCorner byMetadata(int meta)
         {
             return values[meta % values.length];
@@ -98,7 +99,7 @@ public class BlockPlatform extends BlockAdvancedTile implements IPartialSealable
         int sameCount = 0;
         for (int i = 1; i <= 2; i++)
         {
-            IBlockState bs = worldIn.getBlockState(pos.offset(facing, i)); 
+            IBlockState bs = worldIn.getBlockState(pos.offset(facing, i));
             if (bs.getBlock() == block && bs.getValue(BlockPlatform.CORNER) == BlockPlatform.EnumCorner.NONE)
             {
                 sameCount++;
@@ -113,10 +114,8 @@ public class BlockPlatform extends BlockAdvancedTile implements IPartialSealable
     {
         final Block id = GCBlocks.platform;
 
-        if (checkAxis(worldIn, pos, id, EnumFacing.EAST) ||
-                checkAxis(worldIn, pos, id, EnumFacing.WEST) ||
-                checkAxis(worldIn, pos, id, EnumFacing.NORTH) ||
-                checkAxis(worldIn, pos, id, EnumFacing.SOUTH))
+        if (checkAxis(worldIn, pos, id, EnumFacing.EAST) || checkAxis(worldIn, pos, id, EnumFacing.WEST) || checkAxis(worldIn, pos, id, EnumFacing.NORTH)
+            || checkAxis(worldIn, pos, id, EnumFacing.SOUTH))
         {
             return false;
         }
@@ -124,8 +123,7 @@ public class BlockPlatform extends BlockAdvancedTile implements IPartialSealable
         if (worldIn.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock() == GCBlocks.platform && side == EnumFacing.UP)
         {
             return false;
-        }
-        else
+        } else
         {
             return this.canPlaceBlockAt(worldIn, pos);
         }
@@ -241,15 +239,17 @@ public class BlockPlatform extends BlockAdvancedTile implements IPartialSealable
     {
         return EnumSortCategoryBlock.DECORATION;
     }
-    
+
     @Override
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB mask, List<AxisAlignedBB> list, @Nullable Entity entityIn, boolean p_185477_7_)
     {
-        if (ignoreCollisionTests) return;
+        if (ignoreCollisionTests)
+            return;
         TileEntity te = worldIn.getTileEntity(pos);
         if (te instanceof TileEntityPlatform)
         {
-            if (((TileEntityPlatform) te).noCollide()) return;
+            if (((TileEntityPlatform) te).noCollide())
+                return;
         }
         AxisAlignedBB axisalignedbb = this.getCollisionBoundingBox(state, worldIn, pos).offset(pos);
 
@@ -258,7 +258,7 @@ public class BlockPlatform extends BlockAdvancedTile implements IPartialSealable
             list.add(axisalignedbb);
         }
     }
-    
+
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos)
     {
@@ -277,9 +277,10 @@ public class BlockPlatform extends BlockAdvancedTile implements IPartialSealable
             if (((TileEntityPlatform) te).noCollide())
             {
                 if (bs.getBlock() == this && bs.getValue(BlockPlatform.CORNER) == BlockPlatform.EnumCorner.SE)
-                    return new AxisAlignedBB((double)pos.getX() + 9/16D, (double)pos.getY(), (double)pos.getZ() + 9/16D, (double)pos.getX() + 1.0D, (double)pos.getY() + HEIGHT, (double)pos.getZ() + 1.0D);
+                    return new AxisAlignedBB((double) pos.getX() + 9 / 16D, (double) pos.getY(), (double) pos.getZ() + 9 / 16D, (double) pos.getX() + 1.0D, (double) pos.getY() + HEIGHT,
+                        (double) pos.getZ() + 1.0D);
                 else
-                    return new AxisAlignedBB((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), (double)pos.getX() + 7/16D, (double)pos.getY() + HEIGHT, (double)pos.getZ() + 7/16D);
+                    return new AxisAlignedBB((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), (double) pos.getX() + 7 / 16D, (double) pos.getY() + HEIGHT, (double) pos.getZ() + 7 / 16D);
             }
         }
         return super.getSelectedBoundingBox(bs, worldIn, pos);

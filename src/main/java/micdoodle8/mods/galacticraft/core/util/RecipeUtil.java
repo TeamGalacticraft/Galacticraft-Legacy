@@ -1,11 +1,11 @@
 package micdoodle8.mods.galacticraft.core.util;
 
-import ic2.api.item.IC2Items;
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
 import micdoodle8.mods.galacticraft.core.inventory.InventoryBuggyBench;
 import micdoodle8.mods.galacticraft.core.inventory.InventoryRocketBench;
 import micdoodle8.mods.galacticraft.core.recipe.NasaWorkbenchRecipe;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -15,12 +15,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.registries.GameData;
-import javax.annotation.Nonnull;
 
 import java.util.HashMap;
 
+import javax.annotation.Nonnull;
+
+import ic2.api.item.IC2Items;
+
 public class RecipeUtil
 {
+
     @Nonnull
     public static ItemStack findMatchingBuggy(InventoryBuggyBench benchStacks)
     {
@@ -87,21 +91,21 @@ public class RecipeUtil
     {
         return IC2Items.getItem(indentifier, variant);
     }
-    
+
     /**
-     * An extended version of areItemStackTagsEqual which ignores LevelUp's "NoPlacing" tag on mined blocks
+     * An extended version of areItemStackTagsEqual which ignores LevelUp's
+     * "NoPlacing" tag on mined blocks
      */
     public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB)
     {
         if (ItemStack.areItemStackTagsEqual(stackA, stackB))
             return true;
-        
+
         NBTTagCompound query = null;
         if (stackA.getTagCompound() == null && stackB.getTagCompound() != null)
         {
             query = stackB.getTagCompound();
-        }
-        else if (stackA.getTagCompound() != null && stackB.getTagCompound() == null)
+        } else if (stackA.getTagCompound() != null && stackB.getTagCompound() == null)
         {
             query = stackA.getTagCompound();
         }
@@ -111,9 +115,9 @@ public class RecipeUtil
                 return true;
         }
 
-       return false;
+        return false;
     }
-    
+
     /**
      * 
      * @param itemstack - it is assumed this one is not null in calling code
@@ -122,6 +126,7 @@ public class RecipeUtil
      */
     public static boolean stacksMatch(ItemStack itemstack, ItemStack itemstack1)
     {
-        return !itemstack1.isEmpty() && itemstack1.getItem() == itemstack.getItem() && (!itemstack.getHasSubtypes() || itemstack.getItemDamage() == itemstack1.getItemDamage()) && RecipeUtil.areItemStackTagsEqual(itemstack, itemstack1);
+        return !itemstack1.isEmpty() && itemstack1.getItem() == itemstack.getItem() && (!itemstack.getHasSubtypes() || itemstack.getItemDamage() == itemstack1.getItemDamage())
+            && RecipeUtil.areItemStackTagsEqual(itemstack, itemstack1);
     }
 }

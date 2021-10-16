@@ -10,16 +10,17 @@ import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemHangingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -32,6 +33,7 @@ import javax.annotation.Nullable;
 
 public class ItemSchematic extends ItemHangingEntity implements ISchematicItem, ISortableItem
 {
+
     public ItemSchematic(String assetName)
     {
         super(EntityHangingSchematic.class);
@@ -78,17 +80,17 @@ public class ItemSchematic extends ItemHangingEntity implements ISchematicItem, 
     {
         switch (par1ItemStack.getItemDamage())
         {
-        case 0:
-            tooltip.add(GCCoreUtil.translate("schematic.moonbuggy.name"));
-            break;
-        case 1:
-            tooltip.add(GCCoreUtil.translate("schematic.rocket_t2.name"));
+            case 0:
+                tooltip.add(GCCoreUtil.translate("schematic.moonbuggy.name"));
+                break;
+            case 1:
+                tooltip.add(GCCoreUtil.translate("schematic.rocket_t2.name"));
 
-            if (!GalacticraftCore.isPlanetsLoaded)
-            {
-                tooltip.add(EnumColor.DARK_AQUA + "\"Galacticraft: Planets\" Not Installed!");
-            }
-            break;
+                if (!GalacticraftCore.isPlanetsLoaded)
+                {
+                    tooltip.add(EnumColor.DARK_AQUA + "\"Galacticraft: Planets\" Not Installed!");
+                }
+                break;
         }
     }
 
@@ -121,8 +123,7 @@ public class ItemSchematic extends ItemHangingEntity implements ISchematicItem, 
             }
 
             return EnumActionResult.SUCCESS;
-        }
-        else
+        } else
         {
             return EnumActionResult.FAIL;
         }
@@ -132,15 +133,15 @@ public class ItemSchematic extends ItemHangingEntity implements ISchematicItem, 
     {
         return new EntityHangingSchematic(worldIn, pos, clickedSide, index);
     }
-    
+
     /**
-    *  Higher tiers should override - see ItemSchematicTier2 for example
-    **/
+     * Higher tiers should override - see ItemSchematicTier2 for example
+     **/
     protected int getIndex(int damage)
     {
         return damage;
     }
-    
+
     /**
      * Make sure the number of these will match the index values
      */
@@ -149,11 +150,11 @@ public class ItemSchematic extends ItemHangingEntity implements ISchematicItem, 
         SchematicRegistry.registerSchematicItem(new ItemStack(GCItems.schematic, 1, 0));
         SchematicRegistry.registerSchematicItem(new ItemStack(GCItems.schematic, 1, 1));
     }
-    
+
     /**
      * Make sure the order of these will match the index values
      */
-    @SideOnly(value=Side.CLIENT)
+    @SideOnly(value = Side.CLIENT)
     public static void registerTextures()
     {
         SchematicRegistry.registerTexture(new ResourceLocation(Constants.ASSET_PREFIX, "textures/items/schematic_buggy.png"));

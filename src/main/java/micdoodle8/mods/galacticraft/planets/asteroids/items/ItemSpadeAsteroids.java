@@ -13,11 +13,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSpadeAsteroids extends ItemSpade implements ISortableItem
 {
+
     public ItemSpadeAsteroids(String assetName)
     {
         super(AsteroidsItems.TOOL_TITANIUM);
         this.setTranslationKey(assetName);
-        //this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + assetName);
+        // this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + assetName);
     }
 
     @Override

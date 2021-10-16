@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.inventory;
 
 import micdoodle8.mods.galacticraft.api.item.IItemElectric;
 import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,7 @@ import java.util.Arrays;
  */
 public class SlotSpecific extends Slot
 {
+
     public ItemStack[] validItemStacks = new ItemStack[0];
     public Class[] validClasses = new Class[0];
 
@@ -57,8 +59,7 @@ public class SlotSpecific extends Slot
                     existing.add(mekanism.api.energy.IEnergizedItem.class);
                     validClasses = existing.toArray(new Class[existing.size()]);
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
             }

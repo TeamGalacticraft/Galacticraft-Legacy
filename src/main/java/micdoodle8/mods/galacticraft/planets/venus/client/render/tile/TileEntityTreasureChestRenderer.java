@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL12;
 @SideOnly(Side.CLIENT)
 public class TileEntityTreasureChestRenderer extends TileEntitySpecialRenderer<TileEntityTreasureChestVenus>
 {
+
     private static final ResourceLocation treasureChestTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/model/treasure_venus.png");
 
     private final ModelTreasureChest chestModel = new ModelTreasureChest();
@@ -26,8 +27,7 @@ public class TileEntityTreasureChestRenderer extends TileEntitySpecialRenderer<T
         if (!chest.hasWorld())
         {
             var9 = 0;
-        }
-        else
+        } else
         {
             var9 = chest.getBlockMetadata();
         }

@@ -1,15 +1,18 @@
 package micdoodle8.mods.galacticraft.core.client.jei;
 
+import micdoodle8.mods.galacticraft.core.inventory.ContainerCrafting;
+
+import net.minecraft.inventory.Slot;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.inventory.Slot;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferInfo;
-import micdoodle8.mods.galacticraft.core.inventory.ContainerCrafting;
 
 public class MagneticCraftingTransferInfo implements IRecipeTransferInfo<ContainerCrafting>
 {
+
     @Override
     public Class getContainerClass()
     {
@@ -29,7 +32,7 @@ public class MagneticCraftingTransferInfo implements IRecipeTransferInfo<Contain
         List<Slot> slots = new ArrayList<>();
         for (int i = 1; i < 10; i++)
         {
-          slots.add(container.getSlot(i));
+            slots.add(container.getSlot(i));
         }
         return slots;
     }
@@ -41,7 +44,7 @@ public class MagneticCraftingTransferInfo implements IRecipeTransferInfo<Contain
         List<Slot> slots = new ArrayList<>();
         for (int i = 10; i < container.inventorySlots.size(); i++)
         {
-          slots.add(container.getSlot(i));
+            slots.add(container.getSlot(i));
         }
         return slots;
     }

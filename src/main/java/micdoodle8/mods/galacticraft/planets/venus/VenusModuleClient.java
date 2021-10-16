@@ -4,7 +4,6 @@ import micdoodle8.mods.galacticraft.api.client.IItemMeshDefinitionCustom;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
-import micdoodle8.mods.galacticraft.core.wrappers.ModelTransformWrapper;
 import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
 import micdoodle8.mods.galacticraft.planets.GuiIdsPlanets;
 import micdoodle8.mods.galacticraft.planets.IPlanetsModuleClient;
@@ -25,7 +24,11 @@ import micdoodle8.mods.galacticraft.planets.venus.entities.EntityEntryPodVenus;
 import micdoodle8.mods.galacticraft.planets.venus.entities.EntityJuicer;
 import micdoodle8.mods.galacticraft.planets.venus.entities.EntitySpiderQueen;
 import micdoodle8.mods.galacticraft.planets.venus.entities.EntityWebShot;
-import micdoodle8.mods.galacticraft.planets.venus.tile.*;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityCrashedProbe;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityGeothermalGenerator;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityLaserTurret;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntitySolarArrayController;
+import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityTreasureChestVenus;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
@@ -44,7 +47,6 @@ import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -59,6 +61,7 @@ import java.util.List;
 
 public class VenusModuleClient implements IPlanetsModuleClient
 {
+
     private static ModelResourceLocation sulphuricAcidLocation = new ModelResourceLocation(GalacticraftPlanets.TEXTURE_PREFIX + "sulphuric_acid", "fluid");
 
     @Override
@@ -85,7 +88,8 @@ public class VenusModuleClient implements IPlanetsModuleClient
     @Override
     public void registerVariants()
     {
-        addPlanetVariants("venus", "venus_rock_0", "venus_rock_1", "venus_rock_2", "venus_rock_3", "dungeon_brick_venus_1", "dungeon_brick_venus_2", "venus_ore_aluminum", "venus_ore_copper", "venus_ore_galena", "venus_ore_quartz", "venus_ore_silicon", "venus_ore_tin", "lead_block", "venus_ore_solar");
+        addPlanetVariants("venus", "venus_rock_0", "venus_rock_1", "venus_rock_2", "venus_rock_3", "dungeon_brick_venus_1", "dungeon_brick_venus_2", "venus_ore_aluminum", "venus_ore_copper",
+            "venus_ore_galena", "venus_ore_quartz", "venus_ore_silicon", "venus_ore_tin", "lead_block", "venus_ore_solar");
         addPlanetVariants("thermal_padding_t2", "thermal_helm_t2", "thermal_chestplate_t2", "thermal_leggings_t2", "thermal_boots_t2");
         addPlanetVariants("basic_item_venus", "shield_controller", "ingot_lead", "radioisotope_core", "thermal_fabric", "solar_dust", "solar_module_2", "thin_solar_wafer");
         addPlanetVariants("web_torch", "web_torch_0", "web_torch_1");
@@ -95,6 +99,7 @@ public class VenusModuleClient implements IPlanetsModuleClient
         ModelLoader.setCustomMeshDefinition(sludge, IItemMeshDefinitionCustom.create((ItemStack stack) -> sulphuricAcidLocation));
         ModelLoader.setCustomStateMapper(VenusBlocks.sulphuricAcid, new StateMapperBase()
         {
+
             @Override
             protected ModelResourceLocation getModelResourceLocation(IBlockState state)
             {
@@ -130,11 +135,6 @@ public class VenusModuleClient implements IPlanetsModuleClient
     @SideOnly(Side.CLIENT)
     public void onModelBakeEvent(ModelBakeEvent event)
     {
-    }
-
-    private void replaceModelDefault(ModelBakeEvent event, String resLoc, String objLoc, List<String> visibleGroups, Class<? extends ModelTransformWrapper> clazz, IModelState parentState, String... variants)
-    {
-        ClientUtil.replaceModel(GalacticraftPlanets.ASSET_PREFIX, event, resLoc, objLoc, visibleGroups, clazz, parentState, variants);
     }
 
     @Override
@@ -197,16 +197,13 @@ public class VenusModuleClient implements IPlanetsModuleClient
                 if (tile instanceof TileEntityGeothermalGenerator)
                 {
                     return new GuiGeothermal(player.inventory, (TileEntityGeothermalGenerator) tile);
-                }
-                else if (tile instanceof TileEntityCrashedProbe)
+                } else if (tile instanceof TileEntityCrashedProbe)
                 {
                     return new GuiCrashedProbe(player.inventory, (TileEntityCrashedProbe) tile);
-                }
-                else if (tile instanceof TileEntitySolarArrayController)
+                } else if (tile instanceof TileEntitySolarArrayController)
                 {
                     return new GuiSolarArrayController(player.inventory, (TileEntitySolarArrayController) tile);
-                }
-                else if (tile instanceof TileEntityLaserTurret)
+                } else if (tile instanceof TileEntityLaserTurret)
                 {
                     return new GuiLaserTurret(player.inventory, (TileEntityLaserTurret) tile);
                 }

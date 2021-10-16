@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -16,11 +17,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemArmorGC extends ItemArmor implements ISortableItem
 {
+
     public ItemArmorGC(EntityEquipmentSlot armorIndex, String assetSuffix)
     {
         super(GCItems.ARMOR_STEEL, 0, armorIndex);
         this.setTranslationKey("steel_" + assetSuffix);
-        //this.setTextureName(Constants.TEXTURE_PREFIX + "steel_" + assetSuffix);
+        // this.setTextureName(Constants.TEXTURE_PREFIX + "steel_" +
+        // assetSuffix);
     }
 
     @Override
@@ -44,12 +47,10 @@ public class ItemArmorGC extends ItemArmor implements ISortableItem
             if (stack.getItem() == GCItems.steelHelmet)
             {
                 return Constants.TEXTURE_PREFIX + "textures/model/armor/steel_1.png";
-            }
-            else if (stack.getItem() == GCItems.steelChestplate || stack.getItem() == GCItems.steelBoots)
+            } else if (stack.getItem() == GCItems.steelChestplate || stack.getItem() == GCItems.steelBoots)
             {
                 return Constants.TEXTURE_PREFIX + "textures/model/armor/steel_2.png";
-            }
-            else if (stack.getItem() == GCItems.steelLeggings)
+            } else if (stack.getItem() == GCItems.steelLeggings)
             {
                 return Constants.TEXTURE_PREFIX + "textures/model/armor/steel_3.png";
             }
@@ -63,7 +64,7 @@ public class ItemArmorGC extends ItemArmor implements ISortableItem
     {
         return EnumSortCategoryItem.ARMOR;
     }
-    
+
     @Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {

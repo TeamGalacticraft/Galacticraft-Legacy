@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.items;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import micdoodle8.mods.galacticraft.core.items.ItemBlockDesc;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
@@ -8,12 +12,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 public class ItemBlockShortRangeTelepad extends ItemBlockDesc
 {
+
     public ItemBlockShortRangeTelepad(Block block)
     {
         super(block);

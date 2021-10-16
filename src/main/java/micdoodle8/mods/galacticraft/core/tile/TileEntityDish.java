@@ -10,6 +10,7 @@ import micdoodle8.mods.galacticraft.core.energy.item.ItemElectricBase;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseUniversalElectrical;
 import micdoodle8.mods.galacticraft.core.inventory.IInventoryDefaults;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -33,12 +34,11 @@ import java.util.List;
 
 public class TileEntityDish extends TileBaseUniversalElectrical implements IMultiBlock, IDisableableMachine, IInventoryDefaults, ISidedInventory, IConnector
 {
+
     public float targetAngle;
     public float currentAngle;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public boolean disabled = false;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int disableCooldown = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public boolean disabled = false;
+    @NetworkedField(targetSide = Side.CLIENT) public int disableCooldown = 0;
 
     private boolean initialised = false;
     private AxisAlignedBB renderAABB;
@@ -50,7 +50,7 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
         this.setTierGC(1);
         inventory = NonNullList.withSize(1, ItemStack.EMPTY);
     }
-    
+
     public float rotation(float partial)
     {
         return (this.ticks + partial) / 12;
@@ -90,16 +90,13 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
                 float difference = this.targetAngle - celestialAngle;
 
                 this.targetAngle -= difference / 20.0F;
-            }
-            else if (!this.world.isDaytime() || this.world.isRaining() || this.world.isThundering())
+            } else if (!this.world.isDaytime() || this.world.isRaining() || this.world.isThundering())
             {
                 this.targetAngle = 77.5F + 180.0F;
-            }
-            else if (celestialAngle < 50)
+            } else if (celestialAngle < 50)
             {
                 this.targetAngle = 50;
-            }
-            else if (celestialAngle > 150)
+            } else if (celestialAngle > 150)
             {
                 this.targetAngle = 150;
             }
@@ -112,9 +109,11 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
 
     protected boolean initialiseMultiTiles(BlockPos pos, World world)
     {
-        //Client can create its own fake blocks and tiles - no need for networking in 1.8+
-        if (world.isRemote) this.onCreate(world, pos);
-        
+        // Client can create its own fake blocks and tiles - no need for
+        // networking in 1.8+
+        if (world.isRemote)
+            this.onCreate(world, pos);
+
         List<BlockPos> positions = new ArrayList<>();
         this.getPositions(pos, positions);
         boolean result = true;
@@ -124,8 +123,7 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
             if (tile instanceof TileEntityMulti)
             {
                 ((TileEntityMulti) tile).mainBlockPosition = pos;
-            }
-            else
+            } else
             {
                 result = false;
             }
@@ -153,7 +151,7 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
     {
         return EnumBlockMultiType.DISH_LARGE;
     }
-    
+
     @Override
     public void getPositions(BlockPos placedPosition, List<BlockPos> positions)
     {
@@ -210,7 +208,8 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
         {
             for (int z = -3; z < 4; z++)
             {
-                if (Math.abs(x) + Math.abs(z) == 6) continue;
+                if (Math.abs(x) + Math.abs(z) == 6)
+                    continue;
                 positions.add(new BlockPos(placedPosition.getX() + x, y, placedPosition.getZ() + z));
             }
         }
@@ -223,7 +222,8 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
         {
             for (int z = -3; z < 4; z++)
             {
-                if (Math.abs(x) + Math.abs(z) == 6) continue;
+                if (Math.abs(x) + Math.abs(z) == 6)
+                    continue;
                 positions.add(new BlockPos(placedPosition.getX() + x, y, placedPosition.getZ() + z));
             }
         }
@@ -236,7 +236,8 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
         {
             for (int z = -2; z < 3; z++)
             {
-                if (Math.abs(x) + Math.abs(z) == 4) continue;
+                if (Math.abs(x) + Math.abs(z) == 4)
+                    continue;
                 positions.add(new BlockPos(placedPosition.getX() + x, y, placedPosition.getZ() + z));
             }
         }
@@ -358,6 +359,7 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[] { 0 };
+        return new int[]
+        {0};
     }
 }

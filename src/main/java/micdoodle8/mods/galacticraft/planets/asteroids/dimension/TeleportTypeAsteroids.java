@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.dimension;
 
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.api.entity.IRocketType;
 import micdoodle8.mods.galacticraft.api.recipe.SchematicRegistry;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
@@ -33,10 +35,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.ChunkProviderServer;
 
-import java.util.Random;
-
 public class TeleportTypeAsteroids implements ITeleportType
 {
+
     @Override
     public boolean useParachute()
     {
@@ -58,9 +59,8 @@ public class TeleportTypeAsteroids implements ITeleportType
                 {
                     z *= limit / x;
                     x = limit;
-                }
-                else if (x < -limit)
-                {   
+                } else if (x < -limit)
+                {
                     z *= -limit / x;
                     x = -limit;
                 }
@@ -68,18 +68,18 @@ public class TeleportTypeAsteroids implements ITeleportType
                 {
                     x *= limit / z;
                     z = limit;
-                }
-                else if (z < -limit)
+                } else if (z < -limit)
                 {
-                    x *= - limit / z;
+                    x *= -limit / z;
                     z = -limit;
                 }
             }
 
             int attemptCount = 0;
 
-            //Small pre-generate with a chunk loading radius of 3, to make sure some asteroids get generated
-            //(if the world is already generated here, this will be very quick)
+            // Small pre-generate with a chunk loading radius of 3, to make sure
+            // some asteroids get generated
+            // (if the world is already generated here, this will be very quick)
             this.preGenChunks(world, x >> 4, z >> 4);
 
             do
@@ -92,7 +92,8 @@ public class TeleportTypeAsteroids implements ITeleportType
 
                 if (bv3 != null)
                 {
-                    //Check whether the returned asteroid is too far from the desired entry location in which case, give up
+                    // Check whether the returned asteroid is too far from the
+                    // desired entry location in which case, give up
                     if (bv3.distanceSquared(new BlockVec3(x, 128, z)) > 25600)
                     {
                         break;
@@ -126,7 +127,8 @@ public class TeleportTypeAsteroids implements ITeleportType
                         return new Vector3(bv3.x - 2, 310, bv3.z + 2);
                     }
 
-                    //Failed to find an asteroid even though there should be one there
+                    // Failed to find an asteroid even though there should be
+                    // one there
                     if (ConfigManagerCore.enableDebug)
                     {
                         GCLog.info("Removing drilled out asteroid at x" + (bv3.x) + " z" + (bv3.z));
@@ -135,15 +137,14 @@ public class TeleportTypeAsteroids implements ITeleportType
                 }
 
                 attemptCount++;
-            }
-            while (attemptCount < 5);
+            } while (attemptCount < 5);
 
             GCLog.info("Failed to find good large asteroid landing spot! Falling back to making a small one.");
             this.makeSmallLandingSpot(world, x, z);
             return new Vector3(x, 310, z);
         }
 
-        GCLog.severe("Null player when teleporting to Asteroids!");
+        GCLog.error("Null player when teleporting to Asteroids!");
         return new Vector3(0, 310, 0);
     }
 
@@ -157,7 +158,8 @@ public class TeleportTypeAsteroids implements ITeleportType
                 {
                     continue;
                 }
-                //Clear the downward path of small asteroids and any other asteroid rock
+                // Clear the downward path of small asteroids and any other
+                // asteroid rock
                 for (int y = k + 2; y < 256; y++)
                 {
                     if (world.getBlockState(new BlockPos(x, y, z)).getBlock() == AsteroidBlocks.blockBasic)
@@ -230,8 +232,7 @@ public class TeleportTypeAsteroids implements ITeleportType
                 cp.loadChunk(x >> 4, (z + i) >> 4);
                 cp.loadChunk((x + i) >> 4, (z + i) >> 4);
             }
-        }
-        else if ((z + i) >> 4 != z >> 4)
+        } else if ((z + i) >> 4 != z >> 4)
         {
             cp.loadChunk(x >> 4, (z + i) >> 4);
         }
@@ -345,9 +346,24 @@ public class TeleportTypeAsteroids implements ITeleportType
     public void setupAdventureSpawn(EntityPlayerMP player)
     {
         GCPlayerStats stats = GCPlayerStats.get(player);
-        SchematicRegistry.unlockNewPage(player, new ItemStack(GCItems.schematic, 1, 1)); //Knows how to build T2 rocket
-        SchematicRegistry.unlockNewPage(player, new ItemStack(MarsItems.schematic, 1, 0)); //Knows how to build T3 rocket
-        SchematicRegistry.unlockNewPage(player, new ItemStack(MarsItems.schematic, 1, 2)); //Knows how to build Astro Miner
+        SchematicRegistry.unlockNewPage(player, new ItemStack(GCItems.schematic, 1, 1)); // Knows
+                                                                                         // how
+                                                                                         // to
+                                                                                         // build
+                                                                                         // T2
+                                                                                         // rocket
+        SchematicRegistry.unlockNewPage(player, new ItemStack(MarsItems.schematic, 1, 0)); // Knows
+                                                                                           // how
+                                                                                           // to
+                                                                                           // build
+                                                                                           // T3
+                                                                                           // rocket
+        SchematicRegistry.unlockNewPage(player, new ItemStack(MarsItems.schematic, 1, 2)); // Knows
+                                                                                           // how
+                                                                                           // to
+                                                                                           // build
+                                                                                           // Astro
+                                                                                           // Miner
         NonNullList<ItemStack> rocketStacks = NonNullList.create();
         stats.setFuelLevel(1000);
         rocketStacks.add(new ItemStack(GCItems.oxMask));
@@ -361,18 +377,24 @@ public class TeleportTypeAsteroids implements ITeleportType
         rocketStacks.add(new ItemStack(AsteroidsItems.basicItem, 32, 7));
         rocketStacks.add(new ItemStack(Blocks.GLASS_PANE, 16));
         rocketStacks.add(new ItemStack(Blocks.PLANKS, 32, 2));
-        rocketStacks.add(new ItemStack(MarsItems.marsItemBasic, 16, 2)); //Desh ingot
-        rocketStacks.add(new ItemStack(GCItems.basicItem, 8, 13)); //Basic Wafer
-        rocketStacks.add(new ItemStack(GCItems.basicItem, 2, 1)); //Solar Panels
-        rocketStacks.add(new ItemStack(GCItems.foodItem, 16, 0));  //Canned food
+        rocketStacks.add(new ItemStack(MarsItems.marsItemBasic, 16, 2)); // Desh
+                                                                         // ingot
+        rocketStacks.add(new ItemStack(GCItems.basicItem, 8, 13)); // Basic
+                                                                   // Wafer
+        rocketStacks.add(new ItemStack(GCItems.basicItem, 2, 1)); // Solar
+                                                                  // Panels
+        rocketStacks.add(new ItemStack(GCItems.foodItem, 16, 0)); // Canned food
         rocketStacks.add(new ItemStack(Items.EGG, 12));
 
         ItemStack spawnEgg = new ItemStack(Items.SPAWN_EGG, 2);
         ResourceLocation name = EntityList.getKey(EntityCow.class);
         ItemMonsterPlacer.applyEntityIdToItemStack(spawnEgg, name);
         rocketStacks.add(spawnEgg);
-        rocketStacks.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM, 4), PotionTypes.LONG_NIGHT_VISION)); //Night Vision Potion
-        rocketStacks.add(new ItemStack(MarsBlocks.machine, 1, 4)); //Cryogenic Chamber
+        rocketStacks.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM, 4), PotionTypes.LONG_NIGHT_VISION)); // Night
+                                                                                                                               // Vision
+                                                                                                                               // Potion
+        rocketStacks.add(new ItemStack(MarsBlocks.machine, 1, 4)); // Cryogenic
+                                                                   // Chamber
         rocketStacks.add(new ItemStack(MarsItems.rocketMars, 1, IRocketType.EnumRocketType.INVENTORY36.ordinal()));
         stats.setRocketStacks(rocketStacks);
     }

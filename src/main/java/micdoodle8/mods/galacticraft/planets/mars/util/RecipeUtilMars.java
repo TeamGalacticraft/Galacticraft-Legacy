@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 
 public class RecipeUtilMars
 {
+
     @Nonnull
     public static ItemStack findMatchingSpaceshipT2Recipe(InventorySchematicTier2Rocket inventoryRocketBench)
     {

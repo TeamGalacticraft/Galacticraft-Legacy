@@ -8,6 +8,7 @@ import micdoodle8.mods.galacticraft.core.tile.TileEntityFuelLoader;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -28,6 +29,7 @@ import net.minecraft.world.World;
 
 public class BlockFuelLoader extends BlockAdvancedTile implements IShiftDescription, ISortableBlock
 {
+
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static IMachineSidesProperties MACHINESIDES_RENDERTYPE = IMachineSidesProperties.TWOFACES_HORIZ;
     public static final PropertyEnum SIDES = MACHINESIDES_RENDERTYPE.asProperty;
@@ -118,14 +120,14 @@ public class BlockFuelLoader extends BlockAdvancedTile implements IShiftDescript
     {
         return EnumSortCategoryBlock.MACHINE;
     }
-    
+
     @Override
     public boolean onSneakUseWrench(World world, BlockPos pos, EntityPlayer entityPlayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof IMachineSides)
         {
-            ((IMachineSides)tile).nextSideConfiguration(tile);
+            ((IMachineSides) tile).nextSideConfiguration(tile);
             return true;
         }
         return false;

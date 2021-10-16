@@ -5,6 +5,7 @@ import net.minecraft.world.biome.Biome;
 
 public class BiomeProviderMars extends BiomeProviderSpace
 {
+
     @Override
     public Biome getBiome()
     {

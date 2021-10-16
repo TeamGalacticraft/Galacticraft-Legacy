@@ -9,6 +9,7 @@ import java.util.Random;
 
 public abstract class DirectionalPiece extends Piece
 {
+
     private EnumFacing direction;
 
     public DirectionalPiece()
@@ -47,8 +48,7 @@ public abstract class DirectionalPiece extends Piece
         if (nbt.hasKey("direction"))
         {
             this.direction = EnumFacing.byIndex(nbt.getInteger("direction"));
-        }
-        else
+        } else
         {
             this.direction = EnumFacing.NORTH;
         }
@@ -67,7 +67,8 @@ public abstract class DirectionalPiece extends Piece
         do
         {
             randomDir = EnumFacing.byHorizontalIndex((getDirection().getOpposite().getHorizontalIndex() + 1 + randDir) % 4);
-            StructureBoundingBox extension = getExtension(randomDir, this.configuration.getHallwayLengthMin() + rand.nextInt(this.configuration.getHallwayLengthMax() - this.configuration.getHallwayLengthMin()), 3);
+            StructureBoundingBox extension =
+                getExtension(randomDir, this.configuration.getHallwayLengthMin() + rand.nextInt(this.configuration.getHallwayLengthMax() - this.configuration.getHallwayLengthMin()), 3);
             blockX = extension.minX;
             blockZ = extension.minZ;
             sizeX = extension.maxX - extension.minX;
@@ -75,8 +76,7 @@ public abstract class DirectionalPiece extends Piece
             valid = !startPiece.checkIntersection(extension);
             attempts--;
             randDir++;
-        }
-        while (!valid && attempts > 0);
+        } while (!valid && attempts > 0);
 
         if (!valid)
         {

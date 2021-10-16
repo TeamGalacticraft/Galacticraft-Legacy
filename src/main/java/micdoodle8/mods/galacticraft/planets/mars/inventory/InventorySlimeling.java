@@ -15,6 +15,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 public class InventorySlimeling implements IInventory
 {
+
     private NonNullList<ItemStack> stacks = NonNullList.withSize(30, ItemStack.EMPTY);
     private EntitySlimeling slimeling;
     public Container currentContainer;
@@ -23,8 +24,6 @@ public class InventorySlimeling implements IInventory
     {
         this.slimeling = slimeling;
     }
-
-
 
     @Override
     public int getSizeInventory()
@@ -53,8 +52,7 @@ public class InventorySlimeling implements IInventory
             this.stacks.set(par1, ItemStack.EMPTY);
             this.markDirty();
             return var2;
-        }
-        else
+        } else
         {
             return ItemStack.EMPTY;
         }
@@ -64,7 +62,7 @@ public class InventorySlimeling implements IInventory
     {
         if (this.currentContainer instanceof ContainerSlimeling)
         {
-        	ContainerSlimeling.removeSlots((ContainerSlimeling) this.currentContainer);
+            ContainerSlimeling.removeSlots((ContainerSlimeling) this.currentContainer);
         }
 
         for (int i = 2; i < this.stacks.size(); i++)
@@ -80,34 +78,33 @@ public class InventorySlimeling implements IInventory
             }
         }
     }
-    
+
     @Override
     public ItemStack decrStackSize(int par1, int par2)
     {
-    	if (!this.stacks.get(par1).isEmpty())
+        if (!this.stacks.get(par1).isEmpty())
         {
             ItemStack var3;
 
-            //It's a removal of the Slimeling Inventory Bag
+            // It's a removal of the Slimeling Inventory Bag
             if (par1 == 1 && this.stacks.get(par1).getCount() <= par2)
             {
-            	this.removeInventoryBagContents();
+                this.removeInventoryBagContents();
                 var3 = this.stacks.get(par1);
                 this.stacks.set(par1, ItemStack.EMPTY);
                 this.markDirty();
                 return var3;
-            }
-            else
-            //Normal case of decrStackSize for a slot
+            } else
+            // Normal case of decrStackSize for a slot
             {
                 var3 = this.stacks.get(par1).splitStack(par2);
 
                 if (this.stacks.get(par1).isEmpty())
                 {
-                	//Not sure if this is necessary again, given the above?
-                	if (par1 == 1)
+                    // Not sure if this is necessary again, given the above?
+                    if (par1 == 1)
                     {
-                		this.removeInventoryBagContents();
+                        this.removeInventoryBagContents();
                     }
 
                     this.stacks.set(par1, ItemStack.EMPTY);
@@ -116,8 +113,7 @@ public class InventorySlimeling implements IInventory
                 this.markDirty();
                 return var3;
             }
-        }
-        else
+        } else
         {
             return ItemStack.EMPTY;
         }
@@ -212,13 +208,13 @@ public class InventorySlimeling implements IInventory
         return false;
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void openInventory(EntityPlayer player)
     {
     }
 
-    //We don't use these because we use forge containers
+    // We don't use these because we use forge containers
     @Override
     public void closeInventory(EntityPlayer player)
     {

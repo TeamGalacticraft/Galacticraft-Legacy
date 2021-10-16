@@ -7,6 +7,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class ModelSpiderQueen extends ModelBase
 {
+
     ModelRendererGC head;
     ModelRendererGC body;
     ModelRendererGC[] leg1 = new ModelRendererGC[3];
@@ -326,7 +327,8 @@ public class ModelSpiderQueen extends ModelBase
 
         float updist = -0.5F;
 
-        // Move legs up if they are being moved forward. dx/dy of cos(movement) is -sin(movement)
+        // Move legs up if they are being moved forward. dx/dy of cos(movement)
+        // is -sin(movement)
         movement = f1;
         if (-MathHelper.sin(movement) * 0.2 > 0.0F)
         {

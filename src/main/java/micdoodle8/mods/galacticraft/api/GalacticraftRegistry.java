@@ -9,6 +9,8 @@ import micdoodle8.mods.galacticraft.api.recipe.SpaceStationRecipe;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.api.world.ITeleportType;
 import micdoodle8.mods.galacticraft.api.world.SpaceStationType;
+import micdoodle8.mods.galacticraft.core.util.GCLog;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +18,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldProviderSurface;
-import net.minecraftforge.fml.relauncher.FMLRelaunchLog;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,10 +28,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Level;
-
 public class GalacticraftRegistry
 {
+
     private static Map<Class<? extends WorldProvider>, ITeleportType> teleportTypeMap = new HashMap<Class<? extends WorldProvider>, ITeleportType>();
     private static List<SpaceStationType> spaceStations = new ArrayList<SpaceStationType>();
     private static List<INasaWorkbenchRecipe> rocketBenchT1Recipes = new ArrayList<INasaWorkbenchRecipe>();
@@ -52,9 +52,9 @@ public class GalacticraftRegistry
      * Register a new Teleport type for the world provider passed
      *
      * @param clazz the world provider class that you wish to customize
-     *              teleportation for
-     * @param type  an ITeleportType-implemented class that will be used for the
-     *              provided world type
+     *        teleportation for
+     * @param type an ITeleportType-implemented class that will be used for the
+     *        provided world type
      */
     public static void registerTeleportType(Class<? extends WorldProvider> clazz, ITeleportType type)
     {
@@ -68,7 +68,7 @@ public class GalacticraftRegistry
      * Link a world provider to a gui texture. This texture will be shown on the
      * left-side of the screen while the player is in the rocket.
      *
-     * @param clazz     The World Provider class
+     * @param clazz The World Provider class
      * @param rocketGui Resource Location for the gui texture
      */
     public static void registerRocketGui(Class<? extends WorldProvider> clazz, ResourceLocation rocketGui)
@@ -84,7 +84,7 @@ public class GalacticraftRegistry
      * but it is guaranteed that one will always spawn
      *
      * @param tier Tier of dungeon chest to add loot to. For example Moon is 1
-     *             and Mars is 2
+     *        and Mars is 2
      * @param loot The itemstack to add to the possible list of items
      */
     public static void addDungeonLoot(int tier, ItemStack loot)
@@ -95,8 +95,7 @@ public class GalacticraftRegistry
         {
             dungeonStacks = GalacticraftRegistry.dungeonLootMap.get(tier);
             dungeonStacks.add(loot);
-        }
-        else
+        } else
         {
             dungeonStacks = new ArrayList<ItemStack>();
             dungeonStacks.add(loot);
@@ -134,7 +133,7 @@ public class GalacticraftRegistry
     {
         GalacticraftRegistry.astroMinerRecipes.add(recipe);
     }
-    
+
     public static void removeT1RocketRecipe(INasaWorkbenchRecipe recipe)
     {
         GalacticraftRegistry.rocketBenchT1Recipes.remove(recipe);
@@ -164,7 +163,7 @@ public class GalacticraftRegistry
     {
         GalacticraftRegistry.astroMinerRecipes.remove(recipe);
     }
-    
+
     public static void removeAllT1RocketRecipes()
     {
         GalacticraftRegistry.rocketBenchT1Recipes.clear();
@@ -263,12 +262,12 @@ public class GalacticraftRegistry
         return GalacticraftRegistry.buggyBenchRecipes;
     }
 
-	public static List<INasaWorkbenchRecipe> getAstroMinerRecipes()
-	{
+    public static List<INasaWorkbenchRecipe> getAstroMinerRecipes()
+    {
         return GalacticraftRegistry.astroMinerRecipes;
-	}   
+    }
 
-	@SideOnly(Side.CLIENT)
+    @SideOnly(Side.CLIENT)
     public static ResourceLocation getResouceLocationForDimension(Class<? extends WorldProvider> clazz)
     {
         if (!IGalacticraftWorldProvider.class.isAssignableFrom(clazz))
@@ -282,7 +281,7 @@ public class GalacticraftRegistry
     {
         return GalacticraftRegistry.dungeonLootMap.get(tier);
     }
-    
+
     /***
      * Register a Galacticraft dimension
      */
@@ -300,36 +299,36 @@ public class GalacticraftRegistry
         GalacticraftRegistry.dimensionTypeIDs.add(type == null ? 0 : id);
         if (type == null)
         {
-            FMLRelaunchLog.log("Galacticraft", Level.ERROR, "Problem registering dimension type " + id + ".  May be fixable by changing config.");
+            GCLog.error("Problem registering dimension type " + id + ".  May be fixable by changing config.");
         }
-        
+
         return type;
     }
 
     public static int getDimensionTypeID(int index)
     {
-    	return GalacticraftRegistry.dimensionTypeIDs.get(index);
+        return GalacticraftRegistry.dimensionTypeIDs.get(index);
     }
-    
+
     public static boolean isDimensionTypeIDRegistered(int typeId)
     {
         return GalacticraftRegistry.dimensionTypeIDs.contains(typeId);
     }
-    
+
     /**
      * Register an IGameScreen so the Display Screen can access it
      * 
-     * @param screen  The IGameScreen to be registered
-     * @return   The type ID assigned to this screen type
+     * @param screen The IGameScreen to be registered
+     * @return The type ID assigned to this screen type
      */
     public static int registerScreen(IGameScreen screen)
     {
-    	GalacticraftRegistry.gameScreens.add(screen);
+        GalacticraftRegistry.gameScreens.add(screen);
         maxScreenTypes++;
-    	screen.setFrameSize(0.098F);
-    	return maxScreenTypes - 1;
+        screen.setFrameSize(0.098F);
+        return maxScreenTypes - 1;
     }
-    
+
     public static void registerScreensServer(int maxTypes)
     {
         maxScreenTypes = maxTypes;
@@ -342,7 +341,7 @@ public class GalacticraftRegistry
 
     public static IGameScreen getGameScreen(int type)
     {
-    	return GalacticraftRegistry.gameScreens.get(type);
+        return GalacticraftRegistry.gameScreens.get(type);
     }
 
     /**
@@ -350,9 +349,11 @@ public class GalacticraftRegistry
      *
      * Gear IDs must be unique, and should be configurable for user convenience
      *
-     * Please do not use values less than 100, to avoid conflicts with future Galacticraft core additions
+     * Please do not use values less than 100, to avoid conflicts with future
+     * Galacticraft core additions
      *
-     * @param gearID Unique ID for this gear item, please use values greater than 100
+     * @param gearID Unique ID for this gear item, please use values greater
+     *        than 100
      * @param type Slot this item can be placed in
      * @param item Item to register, not metadata-sensitive
      */
@@ -366,9 +367,11 @@ public class GalacticraftRegistry
      *
      * Gear IDs must be unique, and should be configurable for user convenience
      *
-     * Please do not use values less than 100, to avoid conflicts with future Galacticraft core additions
+     * Please do not use values less than 100, to avoid conflicts with future
+     * Galacticraft core additions
      *
-     * @param gearID Unique ID for this gear item, please use values greater than 100
+     * @param gearID Unique ID for this gear item, please use values greater
+     *        than 100
      * @param type Slot this item can be placed in
      * @param itemStack ItemStack to register, metadata-sensitive
      */
@@ -385,8 +388,7 @@ public class GalacticraftRegistry
             {
                 GalacticraftRegistry.gearMap.get(gearID).add(obj);
             }
-        }
-        else
+        } else
         {
             List<Object> gear = Lists.newArrayList();
             gear.add(obj);
@@ -399,15 +401,14 @@ public class GalacticraftRegistry
             {
                 GalacticraftRegistry.gearSlotMap.get(gearID).add(type);
             }
-        }
-        else
+        } else
         {
             List<EnumExtendedInventorySlot> gearType = Lists.newArrayList();
             gearType.add(type);
             GalacticraftRegistry.gearSlotMap.put(gearID, gearType);
         }
     }
-    
+
     public static List<ItemStack> listAllGearForSlot(EnumExtendedInventorySlot slotType)
     {
         List<ItemStack> result = new LinkedList<>();
@@ -422,10 +423,9 @@ public class GalacticraftRegistry
                     if (o instanceof ItemStack)
                     {
                         result.add((ItemStack) o);
-                    }
-                    else if (o instanceof Item)
+                    } else if (o instanceof Item)
                     {
-                        result.add(new ItemStack((Item)o));
+                        result.add(new ItemStack((Item) o));
                     }
                 }
             }
@@ -453,8 +453,7 @@ public class GalacticraftRegistry
                     {
                         return entry.getKey();
                     }
-                }
-                else if (o instanceof ItemStack)
+                } else if (o instanceof ItemStack)
                 {
                     if (stack.getItem() == ((ItemStack) o).getItem() && stack.getItemDamage() == ((ItemStack) o).getItemDamage())
                     {
@@ -471,9 +470,11 @@ public class GalacticraftRegistry
     {
         return GalacticraftRegistry.gearSlotMap.get(gearID);
     }
-    
+
     @Deprecated
-    /** Grating will now register fluids automatically if they extend BlockFluidBase
+    /**
+     * Grating will now register fluids automatically if they extend
+     * BlockFluidBase
      * 
      */
     public static void registerGratingFluid(Block fluidBlock)

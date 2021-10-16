@@ -1,7 +1,5 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
-import mekanism.api.gas.Gas;
-import mekanism.api.gas.GasStack;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IOxygenReceiver;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IOxygenStorage;
@@ -17,6 +15,7 @@ import micdoodle8.mods.galacticraft.core.wrappers.FluidHandlerWrapper;
 import micdoodle8.mods.galacticraft.core.wrappers.IFluidHandlerWrapper;
 import micdoodle8.mods.miccore.Annotations;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -29,11 +28,14 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.EnumSet;
 
+import mekanism.api.gas.Gas;
+import mekanism.api.gas.GasStack;
+
 public abstract class TileEntityOxygen extends TileBaseElectricBlock implements IOxygenReceiver, IOxygenStorage, IFluidHandlerWrapper
 {
+
     public int oxygenPerTick;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public FluidTankGC tank;
+    @NetworkedField(targetSide = Side.CLIENT) public FluidTankGC tank;
     public float lastStoredOxygen;
     public static int timeSinceOxygenRequest;
 
@@ -47,29 +49,29 @@ public abstract class TileEntityOxygen extends TileBaseElectricBlock implements 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
     {
-    	if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-    		return true;
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+            return true;
 
-    	if (EnergyUtil.checkMekGasHandler(capability))
-    		return true;
+        if (EnergyUtil.checkMekGasHandler(capability))
+            return true;
 
-    	return super.hasCapability(capability, facing);  
+        return super.hasCapability(capability, facing);
     }
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing)
     {
-    	if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-    	{
-    		return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, facing));
-    	}
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+        {
+            return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, facing));
+        }
 
-    	if (EnergyUtil.checkMekGasHandler(capability))
-    	{
-    		return (T) this;
-    	}
+        if (EnergyUtil.checkMekGasHandler(capability))
+        {
+            return (T) this;
+        }
 
-    	return super.getCapability(capability, facing);
+        return super.getCapability(capability, facing);
     }
 
     public int getScaledOxygenLevel(int scale)
@@ -118,14 +120,12 @@ public abstract class TileEntityOxygen extends TileBaseElectricBlock implements 
         if (nbt.hasKey("storedOxygen"))
         {
             this.tank.setFluid(new FluidStack(GCFluids.fluidOxygenGas, nbt.getInteger("storedOxygen")));
-        }
-        else if (nbt.hasKey("storedOxygenF"))
+        } else if (nbt.hasKey("storedOxygenF"))
         {
             int oxygen = (int) nbt.getFloat("storedOxygenF");
             oxygen = Math.min(this.tank.getCapacity(), oxygen);
             this.tank.setFluid(new FluidStack(GCFluids.fluidOxygenGas, oxygen));
-        }
-        else
+        } else
         {
             this.tank.readFromNBT(nbt);
         }
@@ -144,7 +144,7 @@ public abstract class TileEntityOxygen extends TileBaseElectricBlock implements 
     {
         return this.writeToNBT(new NBTTagCompound());
     }
-    
+
     @Override
     public void setOxygenStored(int oxygen)
     {
@@ -186,7 +186,7 @@ public abstract class TileEntityOxygen extends TileBaseElectricBlock implements 
             return this.getOxygenInputDirections().contains(direction) || this.getOxygenOutputDirections().contains(direction);
         }
         if (type == NetworkType.POWER)
-        //			return this.nodeAvailable(new EnergySourceAdjacent(direction));
+        // return this.nodeAvailable(new EnergySourceAdjacent(direction));
         {
             return super.canConnect(direction, type);
         }
@@ -291,8 +291,7 @@ public abstract class TileEntityOxygen extends TileBaseElectricBlock implements 
                     this.drawOxygen(usedGas, true);
                     return true;
                 }
-            }
-            else if (outputTile instanceof IOxygenReceiver)
+            } else if (outputTile instanceof IOxygenReceiver)
             {
                 float requestedOxygen = ((IOxygenReceiver) outputTile).getOxygenRequest(outputDirection.getOpposite());
 
@@ -331,8 +330,7 @@ public abstract class TileEntityOxygen extends TileBaseElectricBlock implements 
         if (this.shouldPullOxygen())
         {
             return Math.min(this.oxygenPerTick * 2, this.getMaxOxygenStored() - this.getOxygenStored());
-        }
-        else
+        } else
         {
             return 0;
         }
@@ -345,9 +343,9 @@ public abstract class TileEntityOxygen extends TileBaseElectricBlock implements 
     }
 
     /**
-     * Make sure this does not exceed the oxygen stored.
-     * This should return 0 if no oxygen is stored.
-     * Implementing tiles must respect this or you will generate infinite oxygen.
+     * Make sure this does not exceed the oxygen stored. This should return 0 if
+     * no oxygen is stored. Implementing tiles must respect this or you will
+     * generate infinite oxygen.
      */
     @Override
     public int getOxygenProvide(EnumFacing direction)
@@ -451,9 +449,11 @@ public abstract class TileEntityOxygen extends TileBaseElectricBlock implements 
     {
         if (canConnect(from, NetworkType.FLUID))
         {
-            return new FluidTankInfo[] { this.tank.getInfo() };
+            return new FluidTankInfo[]
+            {this.tank.getInfo()};
         }
 
-        return new FluidTankInfo[] {};
+        return new FluidTankInfo[]
+        {};
     }
 }

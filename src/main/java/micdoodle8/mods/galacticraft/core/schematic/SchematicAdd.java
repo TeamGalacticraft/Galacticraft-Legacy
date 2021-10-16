@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.client.gui.GuiIdsCore;
 import micdoodle8.mods.galacticraft.core.client.gui.container.GuiSchematicInput;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerSchematic;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SchematicAdd extends SchematicPage
 {
+
     @Override
     public int getPageID()
     {
@@ -30,7 +32,8 @@ public class SchematicAdd extends SchematicPage
     @Override
     public ItemStack getRequiredItem()
     {
-        return null;  //This null is OK, it's used only as a flag by SchematicRegistry calling code
+        return null; // This null is OK, it's used only as a flag by
+                     // SchematicRegistry calling code
     }
 
     @SideOnly(Side.CLIENT)

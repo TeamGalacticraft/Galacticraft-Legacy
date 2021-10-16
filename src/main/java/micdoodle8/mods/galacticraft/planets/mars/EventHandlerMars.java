@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.mars;
 
+import org.lwjgl.opengl.GL11;
+
 import micdoodle8.mods.galacticraft.api.event.wgen.GCCoreEventPopulate;
 import micdoodle8.mods.galacticraft.api.tile.IFuelDock;
 import micdoodle8.mods.galacticraft.api.tile.ILandingPadAttachable;
@@ -38,10 +40,10 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 public class EventHandlerMars
 {
+
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event)
     {
@@ -59,7 +61,8 @@ public class EventHandlerMars
     @SubscribeEvent
     public void onLivingAttacked(LivingAttackEvent event)
     {
-        if (!event.getEntity().isEntityInvulnerable(event.getSource()) && !event.getEntity().world.isRemote && event.getEntityLiving().getHealth() <= 0.0F && !(event.getSource().isFireDamage() && event.getEntityLiving().isPotionActive(MobEffects.FIRE_RESISTANCE)))
+        if (!event.getEntity().isEntityInvulnerable(event.getSource()) && !event.getEntity().world.isRemote && event.getEntityLiving().getHealth() <= 0.0F
+            && !(event.getSource().isFireDamage() && event.getEntityLiving().isPotionActive(MobEffects.FIRE_RESISTANCE)))
         {
             Entity entity = event.getSource().getTrueSource();
 
@@ -89,15 +92,14 @@ public class EventHandlerMars
             if (!event.immediately && event.updateWorld && event.setSpawn)
             {
                 event.result = EntityPlayer.SleepResult.NOT_POSSIBLE_HERE;
-            }
-            else if (!event.immediately && !event.updateWorld && event.setSpawn)
+            } else if (!event.immediately && !event.updateWorld && event.setSpawn)
             {
                 if (!player.world.isRemote)
                 {
                     player.heal(5.0F);
                     GCPlayerStats.get(player).setCryogenicChamberCooldown(6000);
 
-                    WorldServer ws = (WorldServer)player.world;
+                    WorldServer ws = (WorldServer) player.world;
                     ws.updateAllPlayersSleepingFlag();
                     if (ws.areAllPlayersAsleep() && ws.getGameRules().getBoolean("doDaylightCycle"))
                     {
@@ -180,18 +182,18 @@ public class EventHandlerMars
 
                 switch (tile.getBlockMetadata() & 3)
                 {
-                case 0:
-                    GL11.glTranslatef(-0.4F, -0.5F, 4.1F);
-                    break;
-                case 1:
-                    GL11.glTranslatef(0, -0.5F, 4.1F);
-                    break;
-                case 2:
-                    GL11.glTranslatef(0, -0.5F, 4.1F);
-                    break;
-                case 3:
-                    GL11.glTranslatef(0.0F, -0.5F, 4.1F);
-                    break;
+                    case 0:
+                        GL11.glTranslatef(-0.4F, -0.5F, 4.1F);
+                        break;
+                    case 1:
+                        GL11.glTranslatef(0, -0.5F, 4.1F);
+                        break;
+                    case 2:
+                        GL11.glTranslatef(0, -0.5F, 4.1F);
+                        break;
+                    case 3:
+                        GL11.glTranslatef(0.0F, -0.5F, 4.1F);
+                        break;
                 }
 
                 GL11.glRotatef(-180, 0.0F, 1.0F, 0.0F);
@@ -217,9 +219,9 @@ public class EventHandlerMars
                 {
                     final TileEntityLaunchController launchController = (TileEntityLaunchController) connectedTile;
                     if (launchController.getEnergyStoredGC() > 0.0F && launchController.launchPadRemovalDisabled && !launchController.getDisabled(0))
-                {
-                    	event.allow = false;
-                    	return;
+                    {
+                        event.allow = false;
+                        return;
                     }
                     break;
                 }

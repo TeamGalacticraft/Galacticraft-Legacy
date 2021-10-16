@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockBasicVenus extends ItemBlock
 {
+
     public ItemBlockBasicVenus(Block block)
     {
         super(block);
@@ -38,8 +39,8 @@ public class ItemBlockBasicVenus extends ItemBlock
 
         switch (itemstack.getItemDamage())
         {
-        default:
-            name = BlockBasicVenus.EnumBlockBasicVenus.values()[itemstack.getItemDamage()].getName();
+            default:
+                name = BlockBasicVenus.EnumBlockBasicVenus.values()[itemstack.getItemDamage()].getName();
         }
 
         return this.getBlock().getTranslationKey() + "." + name;

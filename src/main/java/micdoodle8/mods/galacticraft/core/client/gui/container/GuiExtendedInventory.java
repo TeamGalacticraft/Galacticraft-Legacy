@@ -6,6 +6,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.gui.screen.InventoryTabGalacticraft;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerExtendedInventory;
 import micdoodle8.mods.galacticraft.core.inventory.InventoryExtended;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -18,6 +19,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiExtendedInventory extends InventoryEffectRenderer
 {
+
     private static final ResourceLocation inventoryTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/inventory.png");
     private int potionOffsetLast;
     private static float rotation = 0.0F;
@@ -58,12 +60,12 @@ public class GuiExtendedInventory extends InventoryEffectRenderer
     {
         switch (button.id)
         {
-        case 0:
-            GuiExtendedInventory.rotation += 10.0F;
-            break;
-        case 1:
-            GuiExtendedInventory.rotation -= 10.0F;
-            break;
+            case 0:
+                GuiExtendedInventory.rotation += 10.0F;
+                break;
+            case 1:
+                GuiExtendedInventory.rotation -= 10.0F;
+                break;
         }
     }
 
@@ -138,26 +140,25 @@ public class GuiExtendedInventory extends InventoryEffectRenderer
         GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
 
-    //Instanced method of this to have the instance field initWithPotion
+    // Instanced method of this to have the instance field initWithPotion
     public int getPotionOffset()
     {
-        /*Disabled in 1.12.2 because a vanilla bug means potion offsets are currently not a thing
-         *The vanilla bug is that GuiInventory.initGui() resets GuiLeft to the recipe book version of GuiLeft,
-         *and in GuiRecipeBook.updateScreenPosition() it takes no account of potion offset even if the recipe book is inactive.
-
-        // If at least one potion is active...
-        if (this.hasActivePotionEffects)
-        {
-            this.initWithPotion = true;
-            return 60 + TabRegistry.getPotionOffsetJEI() + getPotionOffsetNEI();
-        }
+        /*
+         * Disabled in 1.12.2 because a vanilla bug means potion offsets are
+         * currently not a thing The vanilla bug is that GuiInventory.initGui()
+         * resets GuiLeft to the recipe book version of GuiLeft, and in
+         * GuiRecipeBook.updateScreenPosition() it takes no account of potion
+         * offset even if the recipe book is inactive. // If at least one potion
+         * is active... if (this.hasActivePotionEffects) { this.initWithPotion =
+         * true; return 60 + TabRegistry.getPotionOffsetJEI() +
+         * getPotionOffsetNEI(); }
          */
         // No potions, no offset needed
         this.initWithPotion = false;
         return 0;
     }
 
-    //Instanced method of this to use the instance field initWithPotion
+    // Instanced method of this to use the instance field initWithPotion
     public int getPotionOffsetNEI()
     {
         if (this.initWithPotion && TabRegistry.clazzNEIConfig != null)
@@ -172,18 +173,18 @@ public class GuiExtendedInventory extends InventoryEffectRenderer
                 {
                     if ((Boolean) hidden || !((Boolean) enabled))
                     {
-                        // If NEI is disabled or hidden, offset the tabs by the standard 60
+                        // If NEI is disabled or hidden, offset the tabs by the
+                        // standard 60
                         return 0;
                     }
-                    //Active NEI undoes the standard potion offset
+                    // Active NEI undoes the standard potion offset
                     return -60;
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
             }
         }
-        //No NEI, no change
+        // No NEI, no change
         return 0;
     }
 }

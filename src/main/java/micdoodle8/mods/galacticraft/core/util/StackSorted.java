@@ -1,12 +1,14 @@
 package micdoodle8.mods.galacticraft.core.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+
 public class StackSorted
 {
+
     private final Item item;
     private final int meta;
 
@@ -44,19 +46,13 @@ public class StackSorted
         }
 
         StackSorted other = (StackSorted) obj;
-        return new EqualsBuilder()
-                .append(item, other.item)
-                .append(meta, other.meta)
-                .isEquals();
+        return new EqualsBuilder().append(item, other.item).append(meta, other.meta).isEquals();
     }
 
     @Override
     public int hashCode()
     {
-        return new HashCodeBuilder()
-                .append(item)
-                .append(meta)
-                .toHashCode();
+        return new HashCodeBuilder().append(item).append(meta).toHashCode();
     }
 
     @Override

@@ -1,3 +1,5 @@
+package micdoodle8.mods.galacticraft.core.recipe.craftguide;
+
 //package micdoodle8.mods.galacticraft.core.recipe.craftguide;
 //
 //import java.lang.reflect.Method;

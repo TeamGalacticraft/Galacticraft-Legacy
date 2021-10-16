@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.planets.venus.tile;
 
-import micdoodle8.mods.galacticraft.core.tile.TileEntityInventory;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ItemStackHelper;
@@ -17,8 +16,11 @@ import net.minecraft.world.storage.loot.LootTable;
 
 import java.util.Random;
 
+import micdoodle8.mods.galacticraft.core.tile.TileEntityInventory;
+
 public class TileEntityCrashedProbe extends TileEntityInventory
 {
+
     private boolean hasCoreToDrop;
     protected ResourceLocation lootTable;
     protected long lootTableSeed;
@@ -40,13 +42,12 @@ public class TileEntityCrashedProbe extends TileEntityInventory
             if (this.lootTableSeed == 0L)
             {
                 random = new Random();
-            }
-            else
+            } else
             {
                 random = new Random(this.lootTableSeed);
             }
 
-            LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer)this.world);
+            LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer) this.world);
 
             if (player != null)
             {
@@ -70,10 +71,10 @@ public class TileEntityCrashedProbe extends TileEntityInventory
         if (nbt.hasKey("ctd"))
         {
             this.hasCoreToDrop = nbt.getBoolean("ctd");
-        }
-        else
+        } else
         {
-            this.hasCoreToDrop = true;   //Legacy compatibility with worlds generated before this key used
+            this.hasCoreToDrop = true; // Legacy compatibility with worlds
+                                       // generated before this key used
         }
 
         if (!this.checkLootAndRead(nbt))
@@ -105,8 +106,8 @@ public class TileEntityCrashedProbe extends TileEntityInventory
     @Override
     public ItemStack getStackInSlot(int slot)
     {
-    	this.fillWithLoot(null);
-    	return super.getStackInSlot(slot);
+        this.fillWithLoot(null);
+        return super.getStackInSlot(slot);
     }
 
     @Override
@@ -159,8 +160,7 @@ public class TileEntityCrashedProbe extends TileEntityInventory
             this.lootTable = new ResourceLocation(compound.getString("LootTable"));
             this.lootTableSeed = compound.getLong("LootTableSeed");
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -178,8 +178,7 @@ public class TileEntityCrashedProbe extends TileEntityInventory
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

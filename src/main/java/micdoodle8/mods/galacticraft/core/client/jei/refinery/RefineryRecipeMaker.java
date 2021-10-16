@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.client.jei.refinery;
 
 import micdoodle8.mods.galacticraft.core.GCItems;
+
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 public class RefineryRecipeMaker
 {
+
     public static List<RefineryRecipeWrapper> getRecipesList()
     {
         List<RefineryRecipeWrapper> recipes = new ArrayList<>();

@@ -1,6 +1,7 @@
 package micdoodle8.mods.galacticraft.core.blocks;
 
 import com.google.common.base.Predicate;
+
 import micdoodle8.mods.galacticraft.api.block.IDetectableResource;
 import micdoodle8.mods.galacticraft.api.block.IPlantableBlock;
 import micdoodle8.mods.galacticraft.api.block.ITerraformableBlock;
@@ -11,6 +12,7 @@ import micdoodle8.mods.galacticraft.core.tick.TickHandlerServer;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.Footprint;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
@@ -43,10 +45,12 @@ import java.util.Random;
 
 public class BlockBasicMoon extends Block implements IDetectableResource, IPlantableBlock, ITerraformableBlock, ISortableBlock
 {
+
     public static final PropertyEnum<EnumBlockBasicMoon> BASIC_TYPE_MOON = PropertyEnum.create("basictypemoon", EnumBlockBasicMoon.class);
 
     public enum EnumBlockBasicMoon implements IStringSerializable
     {
+
         ORE_COPPER_MOON(0, "ore_copper_moon"),
         ORE_TIN_MOON(1, "ore_tin_moon"),
         ORE_CHEESE_MOON(2, "ore_cheese_moon"),
@@ -71,13 +75,14 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
         }
 
         private final static EnumBlockBasicMoon[] values = values();
+
         public static EnumBlockBasicMoon byMetadata(int meta)
         {
             if (meta < 7)
             {
                 return values[meta];
             }
-            
+
             return MOON_DUNGEON_BRICK;
         }
 
@@ -112,13 +117,10 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
         if (type == EnumBlockBasicMoon.MOON_DUNGEON_BRICK)
         {
             return 40.0F;
-        }
-        else if (type == EnumBlockBasicMoon.MOON_STONE)
+        } else if (type == EnumBlockBasicMoon.MOON_STONE)
         {
             return 6.0F;
-        }
-        else if (type == EnumBlockBasicMoon.ORE_COPPER_MOON || type == EnumBlockBasicMoon.ORE_TIN_MOON ||
-                type == EnumBlockBasicMoon.ORE_SAPPHIRE || type == EnumBlockBasicMoon.ORE_CHEESE_MOON)
+        } else if (type == EnumBlockBasicMoon.ORE_COPPER_MOON || type == EnumBlockBasicMoon.ORE_TIN_MOON || type == EnumBlockBasicMoon.ORE_SAPPHIRE || type == EnumBlockBasicMoon.ORE_CHEESE_MOON)
         {
             return 3.0F;
         }
@@ -158,7 +160,8 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
     public boolean canHarvestBlock(IBlockAccess world, BlockPos pos, EntityPlayer player)
     {
         IBlockState bs = world.getBlockState(pos);
-        if (bs.getBlock() != this) return false;
+        if (bs.getBlock() != this)
+            return false;
         EnumBlockBasicMoon type = (EnumBlockBasicMoon) bs.getValue(BASIC_TYPE_MOON);
         if (type == EnumBlockBasicMoon.MOON_DIRT || type == EnumBlockBasicMoon.MOON_TURF)
         {
@@ -174,12 +177,12 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
         EnumBlockBasicMoon type = ((EnumBlockBasicMoon) state.getValue(BASIC_TYPE_MOON));
         switch (type)
         {
-        case ORE_CHEESE_MOON:
-            return GCItems.cheeseCurd;
-        case ORE_SAPPHIRE:
-            return GCItems.itemBasicMoon;
-        default:
-            return Item.getItemFromBlock(this);
+            case ORE_CHEESE_MOON:
+                return GCItems.cheeseCurd;
+            case ORE_SAPPHIRE:
+                return GCItems.itemBasicMoon;
+            default:
+                return Item.getItemFromBlock(this);
         }
     }
 
@@ -190,12 +193,10 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
         if (type == EnumBlockBasicMoon.ORE_CHEESE_MOON)
         {
             return 0;
-        }
-        else if (type == EnumBlockBasicMoon.ORE_SAPPHIRE)
+        } else if (type == EnumBlockBasicMoon.ORE_SAPPHIRE)
         {
             return 2;
-        }
-        else
+        } else
         {
             return getMetaFromState(state);
         }
@@ -207,14 +208,14 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
         EnumBlockBasicMoon type = ((EnumBlockBasicMoon) state.getValue(BASIC_TYPE_MOON));
         switch (type)
         {
-        case ORE_CHEESE_MOON:
-            if (fortune >= 1)
-            {
-                return (random.nextFloat() < fortune * 0.29F - 0.25F) ? 2 : 1;
-            }
-            return 1;
-        default:
-            return 1;
+            case ORE_CHEESE_MOON:
+                if (fortune >= 1)
+                {
+                    return (random.nextFloat() < fortune * 0.29F - 0.25F) ? 2 : 1;
+                }
+                return 1;
+            default:
+                return 1;
         }
     }
 
@@ -234,13 +235,13 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
         EnumBlockBasicMoon type = ((EnumBlockBasicMoon) state.getValue(BASIC_TYPE_MOON));
         switch (type)
         {
-        case ORE_CHEESE_MOON:
-        case ORE_COPPER_MOON:
-        case ORE_SAPPHIRE:
-        case ORE_TIN_MOON:
-            return true;
-        default:
-            return false;
+            case ORE_CHEESE_MOON:
+            case ORE_COPPER_MOON:
+            case ORE_SAPPHIRE:
+            case ORE_TIN_MOON:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -280,7 +281,7 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
         if (type == EnumBlockBasicMoon.MOON_TURF)
         {
             BlockPos above = pos.offset(EnumFacing.UP);
-            IBlockState stateAbove = world.getBlockState(above); 
+            IBlockState stateAbove = world.getBlockState(above);
             return stateAbove.getBlock().isAir(stateAbove, world, above);
         }
 
@@ -314,8 +315,7 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
 
                     for (Footprint footprint : footprintList)
                     {
-                        if (footprint.position.x > pos.getX() && footprint.position.x < pos.getX() + 1 &&
-                                footprint.position.z > pos.getZ() && footprint.position.z < pos.getZ() + 1)
+                        if (footprint.position.x > pos.getX() && footprint.position.x < pos.getX() + 1 && footprint.position.z > pos.getZ() && footprint.position.z < pos.getZ() + 1)
                         {
                             toRemove.add(footprint);
                         }
@@ -363,27 +363,28 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
         EnumBlockBasicMoon type = ((EnumBlockBasicMoon) getStateFromMeta(meta).getValue(BASIC_TYPE_MOON));
         switch (type)
         {
-        	case ORE_CHEESE_MOON:
-        	case ORE_COPPER_MOON:
-        	case ORE_SAPPHIRE:
-        	case ORE_TIN_MOON:
-        		return EnumSortCategoryBlock.ORE;
-        	case MOON_DUNGEON_BRICK:
-        		return EnumSortCategoryBlock.BRICKS;
-			default:
-				return EnumSortCategoryBlock.GENERAL;
+            case ORE_CHEESE_MOON:
+            case ORE_COPPER_MOON:
+            case ORE_SAPPHIRE:
+            case ORE_TIN_MOON:
+                return EnumSortCategoryBlock.ORE;
+            case MOON_DUNGEON_BRICK:
+                return EnumSortCategoryBlock.BRICKS;
+            default:
+                return EnumSortCategoryBlock.GENERAL;
         }
     }
 
     @Override
     public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
     {
-        if (state.getBlock() != this) return 0;
+        if (state.getBlock() != this)
+            return 0;
 
         EnumBlockBasicMoon type = state.getValue(BASIC_TYPE_MOON);
         if (type == EnumBlockBasicMoon.ORE_CHEESE_MOON || type == EnumBlockBasicMoon.ORE_SAPPHIRE)
         {
-            Random rand = world instanceof World ? ((World)world).rand : new Random();
+            Random rand = world instanceof World ? ((World) world).rand : new Random();
             return MathHelper.getInt(rand, 2, 5) + (type == EnumBlockBasicMoon.ORE_SAPPHIRE ? 1 : 0);
         }
         return 0;

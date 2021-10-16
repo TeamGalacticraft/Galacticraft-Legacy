@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class MapGenDungeonVenus extends MapGenStructure
 {
+
     private static boolean initialized;
     private DungeonConfigurationVenus configuration;
 
@@ -22,8 +23,7 @@ public class MapGenDungeonVenus extends MapGenStructure
         try
         {
             MapGenDungeonVenus.initiateStructures();
-        }
-        catch (Throwable e)
+        } catch (Throwable e)
         {
 
         }
@@ -81,6 +81,7 @@ public class MapGenDungeonVenus extends MapGenStructure
 
     public static class Start extends StructureStart
     {
+
         private DungeonConfigurationVenus configuration;
 
         public Start()

@@ -7,6 +7,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class ModelSludgeling extends ModelBase
 {
+
     ModelRenderer tail4;
     ModelRenderer body;
     ModelRenderer tail1;

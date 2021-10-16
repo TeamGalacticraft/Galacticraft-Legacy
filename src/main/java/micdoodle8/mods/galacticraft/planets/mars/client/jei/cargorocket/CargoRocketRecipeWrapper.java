@@ -10,8 +10,8 @@ import javax.annotation.Nonnull;
 
 public class CargoRocketRecipeWrapper implements IRecipeWrapper
 {
-    @Nonnull
-    private final INasaWorkbenchRecipe recipe;
+
+    @Nonnull private final INasaWorkbenchRecipe recipe;
 
     public CargoRocketRecipeWrapper(@Nonnull INasaWorkbenchRecipe recipe)
     {

@@ -1,7 +1,9 @@
 package micdoodle8.mods.galacticraft.core.entities.player;
 
 import com.mojang.authlib.GameProfile;
+
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -11,13 +13,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.WorldServer;
 
 /**
- * This class provides various hooks which are missing from Forge or don't quite do what we need.
- * </p>
- * Do not reference this or test 'instance of' this in your code:
- * if PlayerAPI is installed, GCEntityPlayerMP will not be used.
+ * This class provides various hooks which are missing from Forge or don't quite
+ * do what we need. </p> Do not reference this or test 'instance of' this in
+ * your code: if PlayerAPI is installed, GCEntityPlayerMP will not be used.
  */
 public class GCEntityPlayerMP extends EntityPlayerMP
 {
+
     public GCEntityPlayerMP(MinecraftServer server, WorldServer world, GameProfile profile, PlayerInteractionManager interactionManager)
     {
         super(server, world, profile, interactionManager);
@@ -80,12 +82,9 @@ public class GCEntityPlayerMP extends EntityPlayerMP
         return GalacticraftCore.proxy.player.isSpectator(this) || super.isSpectator();
     }
 
-    /*@Override
-    public void setInPortal()
-    {
-    	if (!(this.world.provider instanceof IGalacticraftWorldProvider))
-    	{
-    		super.setInPortal();
-    	}
-    } TODO Fix disable of portal */
+    /*
+     * @Override public void setInPortal() { if (!(this.world.provider
+     * instanceof IGalacticraftWorldProvider)) { super.setInPortal(); } } TODO
+     * Fix disable of portal
+     */
 }

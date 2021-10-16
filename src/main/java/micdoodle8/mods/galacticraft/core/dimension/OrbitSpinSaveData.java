@@ -2,12 +2,14 @@ package micdoodle8.mods.galacticraft.core.dimension;
 
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
 
 public class OrbitSpinSaveData extends WorldSavedData
 {
+
     public static final String saveDataID = Constants.GCDATAFOLDER + "GCSpinData";
     public NBTTagCompound datacompound;
     private NBTTagCompound alldata;
@@ -23,7 +25,8 @@ public class OrbitSpinSaveData extends WorldSavedData
     public void readFromNBT(NBTTagCompound nbt)
     {
         this.alldata = nbt;
-        //world.loadData calls this but can't extract from alldata until we know the dimension ID
+        // world.loadData calls this but can't extract from alldata until we
+        // know the dimension ID
     }
 
     @Override
@@ -51,8 +54,7 @@ public class OrbitSpinSaveData extends WorldSavedData
                 ((WorldProviderSpaceStation) world.provider).getSpinManager().writeToNBT(worldData.datacompound);
             }
             worldData.markDirty();
-        }
-        else if (world.provider instanceof WorldProviderSpaceStation)
+        } else if (world.provider instanceof WorldProviderSpaceStation)
         {
             worldData.dim = GCCoreUtil.getDimensionID(world);
 

@@ -4,6 +4,7 @@ import net.minecraft.util.EnumFacing;
 
 public class TileEntityAirLock extends TileEntityAdvanced
 {
+
     public TileEntityAirLock()
     {
         super("tile.air_lock_seal.name");

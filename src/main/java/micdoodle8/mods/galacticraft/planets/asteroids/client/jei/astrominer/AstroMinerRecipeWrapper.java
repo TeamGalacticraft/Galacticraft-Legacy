@@ -10,8 +10,8 @@ import javax.annotation.Nonnull;
 
 public class AstroMinerRecipeWrapper implements IRecipeWrapper
 {
-    @Nonnull
-    private final INasaWorkbenchRecipe recipe;
+
+    @Nonnull private final INasaWorkbenchRecipe recipe;
 
     public AstroMinerRecipeWrapper(@Nonnull INasaWorkbenchRecipe recipe)
     {

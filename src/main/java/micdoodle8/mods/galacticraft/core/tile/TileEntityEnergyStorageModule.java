@@ -4,11 +4,12 @@ import micdoodle8.mods.galacticraft.api.item.IItemElectricBase;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IConnector;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.blocks.BlockMachineTiered;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMachineBase;
+import micdoodle8.mods.galacticraft.core.blocks.BlockMachineTiered;
 import micdoodle8.mods.galacticraft.core.energy.item.ItemElectricBase;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseUniversalElectricalSource;
 import micdoodle8.mods.galacticraft.core.inventory.IInventoryDefaults;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -23,6 +24,7 @@ import java.util.Set;
 
 public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSource implements ISidedInventory, IInventoryDefaults, IConnector, IMachineSides
 {
+
     private final static float BASE_CAPACITY = 500000;
     private final static float TIER2_CAPACITY = 2500000;
 
@@ -39,7 +41,7 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
     }
 
     /*
-     * @param tier: 1 = Electric Furnace  2 = Electric Arc Furnace
+     * @param tier: 1 = Electric Furnace 2 = Electric Arc Furnace
      */
     public TileEntityEnergyStorageModule(int tier)
     {
@@ -48,7 +50,8 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
         this.inventory = NonNullList.withSize(2, ItemStack.EMPTY);
         if (tier == 1)
         {
-            //Designed so that Tier 1 Energy Storage can power up to 10 Tier 1 machines
+            // Designed so that Tier 1 Energy Storage can power up to 10 Tier 1
+            // machines
             this.storage.setCapacity(BASE_CAPACITY);
             this.storage.setMaxExtract(300);
             return;
@@ -71,13 +74,12 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
         {
             int metadata = this.getBlockMetadata();
 
-            //for version update compatibility
+            // for version update compatibility
             Block b = this.world.getBlockState(this.getPos()).getBlock();
             if (b == GCBlocks.machineBase)
             {
                 this.world.setBlockState(this.getPos(), GCBlocks.machineTiered.getDefaultState(), 2);
-            }
-            else if (metadata >= 8)
+            } else if (metadata >= 8)
             {
                 this.setTier2();
             }
@@ -89,7 +91,7 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
         {
             if (this.lastEnergy - energy > this.storage.getMaxExtract() - 1)
             {
-                //Deplete faster if being drained at maximum output
+                // Deplete faster if being drained at maximum output
                 this.storage.extractEnergyGC(25, false);
             }
         }
@@ -126,13 +128,12 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
         {
             this.setTier2();
             this.initialised = true;
-        }
-        else
+        } else
         {
             this.initialised = false;
         }
-        
-        this.readMachineSidesFromNBT(nbt);  //Needed by IMachineSides
+
+        this.readMachineSidesFromNBT(nbt); // Needed by IMachineSides
     }
 
     @Override
@@ -145,7 +146,7 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
 
         super.writeToNBT(nbt);
 
-        this.addMachineSidesToNBT(nbt);  //Needed by IMachineSides
+        this.addMachineSidesToNBT(nbt); // Needed by IMachineSides
 
         return nbt;
     }
@@ -182,8 +183,7 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
             if (slotID == 0)
             {
                 return ((IItemElectricBase) itemstack.getItem()).getTransfer(itemstack) > 0;
-            }
-            else if (slotID == 1)
+            } else if (slotID == 1)
             {
                 return ((IItemElectricBase) itemstack.getItem()).getElectricityStored(itemstack) > 0;
             }
@@ -199,8 +199,7 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
             if (slotID == 0)
             {
                 return ((IItemElectricBase) itemstack.getItem()).getTransfer(itemstack) <= 0;
-            }
-            else if (slotID == 1)
+            } else if (slotID == 1)
             {
                 return ((IItemElectricBase) itemstack.getItem()).getElectricityStored(itemstack) <= 0 || this.getEnergyStoredGC() >= this.getMaxEnergyStoredGC();
             }
@@ -232,11 +231,11 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
 
         return getElectricalInputDirections().contains(direction) || getElectricalOutputDirections().contains(direction);
     }
-    
+
     @Override
     public EnumFacing byIndex()
     {
-        return BlockMachineBase.byIndex(this.world.getBlockState(getPos())); 
+        return BlockMachineBase.byIndex(this.world.getBlockState(getPos()));
     }
 
     @Override
@@ -244,17 +243,17 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
     {
         switch (this.getSide(MachineSide.ELECTRIC_IN))
         {
-        case LEFT:
-            return byIndex().rotateY();
-        case REAR:
-            return byIndex().getOpposite();
-        case TOP:
-            return EnumFacing.UP;
-        case BOTTOM:
-            return EnumFacing.DOWN;
-        case RIGHT:
-        default:
-            return byIndex().rotateYCCW();
+            case LEFT:
+                return byIndex().rotateY();
+            case REAR:
+                return byIndex().getOpposite();
+            case TOP:
+                return EnumFacing.UP;
+            case BOTTOM:
+                return EnumFacing.DOWN;
+            case RIGHT:
+            default:
+                return byIndex().rotateYCCW();
         }
     }
 
@@ -263,33 +262,35 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
     {
         switch (this.getSide(MachineSide.ELECTRIC_OUT))
         {
-        case RIGHT:
-            return byIndex().rotateYCCW();
-        case REAR:
-            return byIndex().getOpposite();
-        case TOP:
-            return EnumFacing.UP;
-        case BOTTOM:
-            return EnumFacing.DOWN;
-        case LEFT:
-        default:
-            return byIndex().rotateY();
+            case RIGHT:
+                return byIndex().rotateYCCW();
+            case REAR:
+                return byIndex().getOpposite();
+            case TOP:
+                return EnumFacing.UP;
+            case BOTTOM:
+                return EnumFacing.DOWN;
+            case LEFT:
+            default:
+                return byIndex().rotateY();
         }
     }
 
-    //------------------
-    //Added these methods and field to implement IMachineSides properly 
-    //------------------
+    // ------------------
+    // Added these methods and field to implement IMachineSides properly
+    // ------------------
     @Override
     public MachineSide[] listConfigurableSides()
     {
-        return new MachineSide[] { MachineSide.ELECTRIC_IN, MachineSide.ELECTRIC_OUT };
+        return new MachineSide[]
+        {MachineSide.ELECTRIC_IN, MachineSide.ELECTRIC_OUT};
     }
 
     @Override
     public Face[] listDefaultFaces()
     {
-        return new Face[] { Face.RIGHT, Face.LEFT };
+        return new Face[]
+        {Face.RIGHT, Face.LEFT};
     }
 
     private MachineSidePack[] machineSides;
@@ -310,17 +311,17 @@ public class TileEntityEnergyStorageModule extends TileBaseUniversalElectricalSo
     {
         this.machineSides = new MachineSidePack[length];
     }
-    
+
     @Override
     public void onLoad()
     {
         this.clientOnLoad();
     }
-    
+
     @Override
     public IMachineSidesProperties getConfigurationType()
     {
         return BlockMachineTiered.MACHINESIDES_RENDERTYPE;
     }
-    //------------------END OF IMachineSides implementation
+    // ------------------END OF IMachineSides implementation
 }

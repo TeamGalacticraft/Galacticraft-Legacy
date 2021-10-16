@@ -6,18 +6,21 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.entities.IBubbleProvider;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
+
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 @Deprecated
 public class TileEntityBubbleProviderRenderer<E extends TileEntity & IBubbleProvider> extends TileEntitySpecialRenderer<E>
 {
+
     private static IBakedModel sphere;
 
     private final float colorRed;
@@ -38,8 +41,7 @@ public class TileEntityBubbleProviderRenderer<E extends TileEntity & IBubbleProv
             try
             {
                 sphere = ClientUtil.modelFromOBJ(new ResourceLocation(Constants.ASSET_PREFIX, "sphere.obj"), ImmutableList.of("Sphere"));
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -78,7 +80,7 @@ public class TileEntityBubbleProviderRenderer<E extends TileEntity & IBubbleProv
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
         GL11.glScalef(provider.getBubbleSize(), provider.getBubbleSize(), provider.getBubbleSize());
 
-        int color = ColorUtil.to32BitColor(30, (int)(this.colorBlue / 2.0F * 255), (int)(this.colorGreen / 2.0F * 255), (int)(this.colorRed / 2.0F * 255));
+        int color = ColorUtil.to32BitColor(30, (int) (this.colorBlue / 2.0F * 255), (int) (this.colorGreen / 2.0F * 255), (int) (this.colorRed / 2.0F * 255));
         ClientUtil.drawBakedModelColored(sphere, color);
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

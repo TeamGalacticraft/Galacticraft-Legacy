@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class EntranceCrater extends SizedPiece
 {
+
     private final int range = 16;
 
     public EntranceCrater()

@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 
 public class PathNavigateCeiling extends PathNavigate
 {
+
     protected WalkNodeProcessorCeiling nodeProcessor;
 
     public PathNavigateCeiling(EntityJuicer entity, World worldIn)
@@ -38,12 +39,12 @@ public class PathNavigateCeiling extends PathNavigate
     @Override
     protected Vec3d getEntityPosition()
     {
-        return new Vec3d(this.entity.posX, (double)this.getPathablePosY(), this.entity.posZ);
+        return new Vec3d(this.entity.posX, (double) this.getPathablePosY(), this.entity.posZ);
     }
 
     private int getPathablePosY()
     {
-        return (int)(this.entity.getEntityBoundingBox().minY + 0.5D);
+        return (int) (this.entity.getEntityBoundingBox().minY + 0.5D);
     }
 
     @Override
@@ -58,8 +59,7 @@ public class PathNavigateCeiling extends PathNavigate
         if (d2 < 1.0E-8D)
         {
             return false;
-        }
-        else
+        } else
         {
             double d3 = 1.0D / Math.sqrt(d2);
             d0 = d0 * d3;
@@ -67,18 +67,17 @@ public class PathNavigateCeiling extends PathNavigate
             sizeX = sizeX + 2;
             sizeZ = sizeZ + 2;
 
-            if (!this.isSafeToStandAt(i, (int)current.y, j, sizeX, sizeY, sizeZ, current, d0, d1))
+            if (!this.isSafeToStandAt(i, (int) current.y, j, sizeX, sizeY, sizeZ, current, d0, d1))
             {
                 return false;
-            }
-            else
+            } else
             {
                 sizeX = sizeX - 2;
                 sizeZ = sizeZ - 2;
                 double d4 = 1.0D / Math.abs(d0);
                 double d5 = 1.0D / Math.abs(d1);
-                double d6 = (double)(i) - current.x;
-                double d7 = (double)(j) - current.z;
+                double d6 = (double) (i) - current.x;
+                double d7 = (double) (j) - current.z;
 
                 if (d0 >= 0.0D)
                 {
@@ -106,15 +105,14 @@ public class PathNavigateCeiling extends PathNavigate
                         d6 += d4;
                         i += k;
                         k1 = i1 - i;
-                    }
-                    else
+                    } else
                     {
                         d7 += d5;
                         j += l;
                         l1 = j1 - j;
                     }
 
-                    if (!this.isSafeToStandAt(i, (int)current.y, j, sizeX, sizeY, sizeZ, current, d0, d1))
+                    if (!this.isSafeToStandAt(i, (int) current.y, j, sizeX, sizeY, sizeZ, current, d0, d1))
                     {
                         return false;
                     }
@@ -133,15 +131,14 @@ public class PathNavigateCeiling extends PathNavigate
         if (!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, currentPos, distanceX, distanceZ))
         {
             return false;
-        }
-        else
+        } else
         {
             for (int k = i; k < i + sizeX; ++k)
             {
                 for (int l = j; l < j + sizeZ; ++l)
                 {
-                    double d0 = (double)k + 0.5D - currentPos.x;
-                    double d1 = (double)l + 0.5D - currentPos.z;
+                    double d0 = (double) k + 0.5D - currentPos.x;
+                    double d1 = (double) l + 0.5D - currentPos.z;
 
                     if (d0 * distanceX + d1 * distanceZ >= 0.0D)
                     {
@@ -174,8 +171,8 @@ public class PathNavigateCeiling extends PathNavigate
     {
         for (BlockPos blockpos : BlockPos.getAllInBox(new BlockPos(minX, minY, minZ), new BlockPos(minX + sizeX - 1, minY + sizeY - 1, minZ + sizeZ - 1)))
         {
-            double d0 = (double)blockpos.getX() + 0.5D - currentPos.x;
-            double d1 = (double)blockpos.getZ() + 0.5D - currentPos.z;
+            double d0 = (double) blockpos.getX() + 0.5D - currentPos.x;
+            double d1 = (double) blockpos.getZ() + 0.5D - currentPos.z;
 
             if (d0 * distanceX + d1 * distanceZ >= 0.0D)
             {

@@ -3,8 +3,8 @@ package micdoodle8.mods.galacticraft.planets.mars.client.gui;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.gui.container.GuiContainerGC;
 import micdoodle8.mods.galacticraft.core.client.gui.element.GuiElementCheckbox;
-import micdoodle8.mods.galacticraft.core.client.gui.element.GuiElementCheckbox.ICheckBoxCallback;
 import micdoodle8.mods.galacticraft.core.client.gui.element.GuiElementInfoRegion;
+import micdoodle8.mods.galacticraft.core.client.gui.element.GuiElementCheckbox.ICheckBoxCallback;
 import micdoodle8.mods.galacticraft.core.energy.EnergyDisplayHelper;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
@@ -26,6 +26,7 @@ import java.util.List;
 
 public class GuiTerraformer extends GuiContainerGC implements ICheckBoxCallback
 {
+
     private static final ResourceLocation terraformerGui = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/terraformer.png");
     private TileEntityTerraformer terraformer;
     private GuiButton enableTreesButton;
@@ -48,15 +49,16 @@ public class GuiTerraformer extends GuiContainerGC implements ICheckBoxCallback
         {
             this.enableTreesButton.enabled = false;
             this.enableGrassButton.enabled = false;
-        }
-        else
+        } else
         {
             this.enableTreesButton.enabled = true;
             this.enableGrassButton.enabled = true;
         }
 
-        this.enableTreesButton.displayString = GCCoreUtil.translate(this.terraformer.treesDisabled ? "gui.button.enable.name" : "gui.button.disable.name") + " " + GCCoreUtil.translate("gui.message.trees.name");
-        this.enableGrassButton.displayString = GCCoreUtil.translate(this.terraformer.grassDisabled ? "gui.button.enable.name" : "gui.button.disable.name") + " " + GCCoreUtil.translate("gui.message.grass.name");
+        this.enableTreesButton.displayString =
+            GCCoreUtil.translate(this.terraformer.treesDisabled ? "gui.button.enable.name" : "gui.button.disable.name") + " " + GCCoreUtil.translate("gui.message.trees.name");
+        this.enableGrassButton.displayString =
+            GCCoreUtil.translate(this.terraformer.grassDisabled ? "gui.button.enable.name" : "gui.button.disable.name") + " " + GCCoreUtil.translate("gui.message.grass.name");
 
         super.drawScreen(par1, par2, par3);
     }
@@ -102,16 +104,18 @@ public class GuiTerraformer extends GuiContainerGC implements ICheckBoxCallback
         {
             switch (par1GuiButton.id)
             {
-            case 0:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(mc.world), new Object[] { this.terraformer.getPos(), 0 }));
-                break;
-            case 1:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(mc.world), new Object[] { this.terraformer.getPos(), 1 }));
-                break;
-            case 2:
-                break;
-            default:
-                break;
+                case 0:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                    {this.terraformer.getPos(), 0}));
+                    break;
+                case 1:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                    {this.terraformer.getPos(), 1}));
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -123,8 +127,10 @@ public class GuiTerraformer extends GuiContainerGC implements ICheckBoxCallback
         this.fontRenderer.drawString(displayString, this.xSize / 2 - this.fontRenderer.getStringWidth(displayString) / 2, 5, 4210752);
         this.fontRenderer.drawString(GCCoreUtil.translate("container.inventory"), 8, 144, 4210752);
         this.fontRenderer.drawSplitString(this.getStatus(), 105, 24, this.xSize - 105, 4210752);
-        //		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.terraformer.ueWattsPerTick * 20, ElectricUnit.WATT), 105, 56, 4210752);
-        //		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.terraformer.getVoltage(), ElectricUnit.VOLTAGE), 105, 68, 4210752);
+        // this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.terraformer.ueWattsPerTick
+        // * 20, ElectricUnit.WATT), 105, 56, 4210752);
+        // this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.terraformer.getVoltage(),
+        // ElectricUnit.VOLTAGE), 105, 68, 4210752);
     }
 
     private String getStatus()
@@ -172,8 +178,7 @@ public class GuiTerraformer extends GuiContainerGC implements ICheckBoxCallback
         if (!this.terraformer.treesDisabled && this.terraformer.grassBlocksListSize <= 0)
         {
             return EnumColor.RED + GCCoreUtil.translate("gui.message.trees.name") + ": " + GCCoreUtil.translate("gui.message.no_valid_blocks.name");
-        }
-        else if (!this.terraformer.grassDisabled && this.terraformer.terraformableBlocksListSize <= 0)
+        } else if (!this.terraformer.grassDisabled && this.terraformer.terraformableBlocksListSize <= 0)
         {
             return EnumColor.RED + GCCoreUtil.translate("gui.message.grass.name") + ": " + GCCoreUtil.translate("gui.message.no_valid_blocks.name");
         }
@@ -215,7 +220,8 @@ public class GuiTerraformer extends GuiContainerGC implements ICheckBoxCallback
     public void onSelectionChanged(GuiElementCheckbox checkbox, boolean newSelected)
     {
         this.terraformer.shouldRenderBubble = newSelected;
-        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_ON_ADVANCED_GUI_CLICKED_INT, GCCoreUtil.getDimensionID(mc.world), new Object[] { 6, this.terraformer.getPos(), newSelected ? 1 : 0 }));
+        GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_ON_ADVANCED_GUI_CLICKED_INT, GCCoreUtil.getDimensionID(mc.world), new Object[]
+        {6, this.terraformer.getPos(), newSelected ? 1 : 0}));
     }
 
     @Override

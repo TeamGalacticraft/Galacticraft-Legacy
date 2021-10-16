@@ -10,9 +10,11 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityCargoLoader;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -20,12 +22,14 @@ import java.util.List;
 
 public class GuiCargoLoader extends GuiContainerGC
 {
+
     public static final ResourceLocation loaderTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/cargo_loader.png");
 
     private final TileEntityCargoLoader cargoLoader;
 
     private GuiButton buttonLoadItems;
-    private GuiElementInfoRegion electricInfoRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 107, (this.height - this.ySize) / 2 + 101, 56, 9, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion electricInfoRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 107, (this.height - this.ySize) / 2 + 101, 56, 9, new ArrayList<String>(), this.width, this.height, this);
 
     public GuiCargoLoader(InventoryPlayer par1InventoryPlayer, TileEntityCargoLoader par2TileEntityAirDistributor)
     {
@@ -39,9 +43,10 @@ public class GuiCargoLoader extends GuiContainerGC
     {
         switch (par1GuiButton.id)
         {
-        case 0:
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.cargoLoader.getWorld()), new Object[] { this.cargoLoader.getPos(), 0 }));
-            break;
+            case 0:
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.cargoLoader.getWorld()), new Object[]
+                {this.cargoLoader.getPos(), 0}));
+                break;
         }
     }
 
@@ -51,7 +56,8 @@ public class GuiCargoLoader extends GuiContainerGC
         super.initGui();
         List<String> electricityDesc = new ArrayList<String>();
         electricityDesc.add(GCCoreUtil.translate("gui.energy_storage.desc.0"));
-        electricityDesc.add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1") + ((int) Math.floor(this.cargoLoader.getEnergyStoredGC()) + " / " + (int) Math.floor(this.cargoLoader.getMaxEnergyStoredGC())));
+        electricityDesc.add(EnumColor.YELLOW + GCCoreUtil.translate("gui.energy_storage.desc.1")
+            + ((int) Math.floor(this.cargoLoader.getEnergyStoredGC()) + " / " + (int) Math.floor(this.cargoLoader.getMaxEnergyStoredGC())));
         this.electricInfoRegion.tooltipStrings = electricityDesc;
         this.electricInfoRegion.xPosition = (this.width - this.xSize) / 2 + 107;
         this.electricInfoRegion.yPosition = (this.height - this.ySize) / 2 + 101;
@@ -74,7 +80,9 @@ public class GuiCargoLoader extends GuiContainerGC
         this.buttonLoadItems.enabled = this.cargoLoader.disableCooldown == 0;
         this.buttonLoadItems.displayString = !this.cargoLoader.getDisabled(0) ? GCCoreUtil.translate("gui.button.stoploading.name") : GCCoreUtil.translate("gui.button.loaditems.name");
         this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.status.name") + ": " + this.getStatus(), 28 + offsetX, 45 + 23 - 46 + offsetY, 4210752);
-        //this.fontRenderer.drawString("" + this.cargoLoader.storage.getMaxExtract(), 28 + offsetX, 56 + 23 - 46 + offsetY, 4210752);
+        // this.fontRenderer.drawString("" +
+        // this.cargoLoader.storage.getMaxExtract(), 28 + offsetX, 56 + 23 - 46
+        // + offsetY, 4210752);
         this.fontRenderer.drawString(GCCoreUtil.translate("container.inventory"), 8, this.ySize - 90, 4210752);
     }
 

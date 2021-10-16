@@ -9,10 +9,12 @@ import micdoodle8.mods.galacticraft.core.inventory.ContainerSchematic;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.List;
 
 public class GuiSchematicInput extends GuiPositionedContainer implements ISchematicResultPage
 {
+
     private static final ResourceLocation schematicInputTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/schematicpage.png");
 
     private int pageIndex;
@@ -53,15 +56,16 @@ public class GuiSchematicInput extends GuiPositionedContainer implements ISchema
         {
             switch (par1GuiButton.id)
             {
-            case 0:
-                SchematicRegistry.flipToLastPage(this, this.pageIndex);
-                break;
-            case 1:
-                SchematicRegistry.flipToNextPage(this, this.pageIndex);
-                break;
-            case 2:
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UNLOCK_NEW_SCHEMATIC, GCCoreUtil.getDimensionID(mc.world), new Object[] {}));
-                break;
+                case 0:
+                    SchematicRegistry.flipToLastPage(this, this.pageIndex);
+                    break;
+                case 1:
+                    SchematicRegistry.flipToNextPage(this, this.pageIndex);
+                    break;
+                case 2:
+                    GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UNLOCK_NEW_SCHEMATIC, GCCoreUtil.getDimensionID(mc.world), new Object[]
+                    {}));
+                    break;
             }
         }
     }

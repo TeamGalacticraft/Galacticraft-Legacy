@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.network;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
@@ -19,14 +23,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 public class PacketSimpleAsteroids extends PacketBase
 {
+
     public static enum EnumSimplePacketAsteroids
     {
+
         // SERVER
         S_UPDATE_ADVANCED_GUI(Side.SERVER, Integer.class, BlockPos.class, Integer.class),
         // CLIENT
@@ -88,8 +90,7 @@ public class PacketSimpleAsteroids extends PacketBase
         try
         {
             NetworkUtil.encodeData(buffer, this.data);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -121,25 +122,25 @@ public class PacketSimpleAsteroids extends PacketBase
         TileEntity tile;
         switch (this.type)
         {
-        case C_TELEPAD_SEND:
-            Entity entity = playerBaseClient.world.getEntityByID((Integer) this.data.get(1));
+            case C_TELEPAD_SEND:
+                Entity entity = playerBaseClient.world.getEntityByID((Integer) this.data.get(1));
 
-            if (entity != null && entity instanceof EntityLivingBase)
-            {
-                BlockVec3 pos = (BlockVec3) this.data.get(0);
-                entity.setPosition(pos.x + 0.5, pos.y + 2.2, pos.z + 0.5);
-            }
-            break;
-        case C_UPDATE_GRAPPLE_POS:
-            entity = playerBaseClient.world.getEntityByID((Integer) this.data.get(0));
-            if (entity != null && entity instanceof EntityGrapple)
-            {
-                Vector3 vec = (Vector3) this.data.get(1);
-                entity.setPosition(vec.x, vec.y, vec.z);
-            }
-            break;
-        default:
-            break;
+                if (entity != null && entity instanceof EntityLivingBase)
+                {
+                    BlockVec3 pos = (BlockVec3) this.data.get(0);
+                    entity.setPosition(pos.x + 0.5, pos.y + 2.2, pos.z + 0.5);
+                }
+                break;
+            case C_UPDATE_GRAPPLE_POS:
+                entity = playerBaseClient.world.getEntityByID((Integer) this.data.get(0));
+                if (entity != null && entity instanceof EntityGrapple)
+                {
+                    Vector3 vec = (Vector3) this.data.get(1);
+                    entity.setPosition(vec.x, vec.y, vec.z);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -150,31 +151,31 @@ public class PacketSimpleAsteroids extends PacketBase
 
         switch (this.type)
         {
-        case S_UPDATE_ADVANCED_GUI:
-            TileEntity tile = player.world.getTileEntity((BlockPos) this.data.get(1));
+            case S_UPDATE_ADVANCED_GUI:
+                TileEntity tile = player.world.getTileEntity((BlockPos) this.data.get(1));
 
-            switch ((Integer) this.data.get(0))
-            {
-            case 0:
-                if (tile instanceof TileEntityShortRangeTelepad)
+                switch ((Integer) this.data.get(0))
                 {
-                    TileEntityShortRangeTelepad launchController = (TileEntityShortRangeTelepad) tile;
-                    launchController.setAddress((Integer) this.data.get(2));
-                }
-                break;
-            case 1:
-                if (tile instanceof TileEntityShortRangeTelepad)
-                {
-                    TileEntityShortRangeTelepad launchController = (TileEntityShortRangeTelepad) tile;
-                    launchController.setTargetAddress((Integer) this.data.get(2));
+                    case 0:
+                        if (tile instanceof TileEntityShortRangeTelepad)
+                        {
+                            TileEntityShortRangeTelepad launchController = (TileEntityShortRangeTelepad) tile;
+                            launchController.setAddress((Integer) this.data.get(2));
+                        }
+                        break;
+                    case 1:
+                        if (tile instanceof TileEntityShortRangeTelepad)
+                        {
+                            TileEntityShortRangeTelepad launchController = (TileEntityShortRangeTelepad) tile;
+                            launchController.setTargetAddress((Integer) this.data.get(2));
+                        }
+                        break;
+                    default:
+                        break;
                 }
                 break;
             default:
                 break;
-            }
-            break;
-        default:
-            break;
         }
     }
 }

@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.venus.tile;
 
+import java.util.EnumSet;
+
 import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IConnector;
@@ -21,22 +23,18 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.EnumSet;
-
 public class TileEntityGeothermalGenerator extends TileBaseUniversalElectricalSource implements IInventoryDefaults, ISidedInventory, IConnector, IDisableableMachine
 {
+
     public static final int MAX_GENERATE_GJ_PER_TICK = 200;
     public static final int MIN_GENERATE_GJ_PER_TICK = 30;
 
     private boolean validSpout;
 
-    @Annotations.NetworkedField(targetSide = Side.CLIENT)
-    public boolean disabled = false;
-    @Annotations.NetworkedField(targetSide = Side.CLIENT)
-    public int disableCooldown = 0;
+    @Annotations.NetworkedField(targetSide = Side.CLIENT) public boolean disabled = false;
+    @Annotations.NetworkedField(targetSide = Side.CLIENT) public int disableCooldown = 0;
 
-    @Annotations.NetworkedField(targetSide = Side.CLIENT)
-    public int generateWatts = 0;
+    @Annotations.NetworkedField(targetSide = Side.CLIENT) public int generateWatts = 0;
 
     public TileEntityGeothermalGenerator()
     {
@@ -73,8 +71,7 @@ public class TileEntityGeothermalGenerator extends TileBaseUniversalElectricalSo
                     {
                         this.validSpout = true;
                         break;
-                    }
-                    else if (!state.getBlock().isAir(this.world.getBlockState(pos1), this.world, pos1))
+                    } else if (!state.getBlock().isAir(this.world.getBlockState(pos1), this.world, pos1))
                     {
                         // Not valid
                         break;
@@ -100,10 +97,9 @@ public class TileEntityGeothermalGenerator extends TileBaseUniversalElectricalSo
             }
 
             this.generateWatts = Math.min(Math.max(this.getGenerate(), 0), TileEntityGeothermalGenerator.MAX_GENERATE_GJ_PER_TICK);
-        }
-        else
+        } else
         {
-            if (this.generateWatts > 0 && this.ticks % ((int) ((float)MAX_GENERATE_GJ_PER_TICK / (this.generateWatts + 1)) * 5 + 1) == 0)
+            if (this.generateWatts > 0 && this.ticks % ((int) ((float) MAX_GENERATE_GJ_PER_TICK / (this.generateWatts + 1)) * 5 + 1) == 0)
             {
                 double posX = pos.getX() + 0.5;
                 double posY = pos.getY() + 1.0;
@@ -158,7 +154,7 @@ public class TileEntityGeothermalGenerator extends TileBaseUniversalElectricalSo
 
     public EnumFacing byIndex()
     {
-        IBlockState state = this.world.getBlockState(getPos()); 
+        IBlockState state = this.world.getBlockState(getPos());
         if (state.getBlock() instanceof BlockGeothermalGenerator)
         {
             return state.getValue(BlockGeothermalGenerator.FACING);
@@ -221,7 +217,8 @@ public class TileEntityGeothermalGenerator extends TileBaseUniversalElectricalSo
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[] { 0 };
+        return new int[]
+        {0};
     }
 
     @Override

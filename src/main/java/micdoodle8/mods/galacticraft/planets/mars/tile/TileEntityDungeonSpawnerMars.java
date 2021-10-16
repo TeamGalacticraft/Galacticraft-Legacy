@@ -15,6 +15,7 @@ import java.util.List;
 
 public class TileEntityDungeonSpawnerMars extends TileEntityDungeonSpawner<EntityCreeperBoss>
 {
+
     public TileEntityDungeonSpawnerMars()
     {
         super(EntityCreeperBoss.class);

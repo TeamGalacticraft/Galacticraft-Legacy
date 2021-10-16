@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class RoomChestVenus extends RoomEmptyVenus
 {
+
     public RoomChestVenus()
     {
     }
@@ -41,7 +42,7 @@ public class RoomChestVenus extends RoomEmptyVenus
                 ResourceLocation chesttype = RoomTreasureVenus.VENUSCHEST;
                 if (worldIn.provider instanceof IGalacticraftWorldProvider)
                 {
-                    chesttype = ((IGalacticraftWorldProvider)worldIn.provider).getDungeonChestType();
+                    chesttype = ((IGalacticraftWorldProvider) worldIn.provider).getDungeonChestType();
                 }
                 chest.setLootTable(RoomTreasureVenus.VENUSCHEST, rand.nextLong());
             }

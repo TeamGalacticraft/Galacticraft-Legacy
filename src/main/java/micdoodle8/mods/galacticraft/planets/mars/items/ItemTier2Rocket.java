@@ -42,6 +42,7 @@ import javax.annotation.Nullable;
 
 public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableItem
 {
+
     public ItemTier2Rocket()
     {
         super();
@@ -74,8 +75,7 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
         if (world.isRemote)
         {
             return EnumActionResult.PASS;
-        }
-        else
+        } else
         {
             float centerX = -1;
             float centerY = -1;
@@ -121,8 +121,7 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
                     stack.shrink(1);
                 }
                 return EnumActionResult.SUCCESS;
-            }
-            else
+            } else
             {
                 return EnumActionResult.PASS;
             }
@@ -131,15 +130,14 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
 
     public static boolean placeRocketOnPad(ItemStack stack, World world, TileEntity tile, float centerX, float centerY, float centerZ)
     {
-        //Check whether there is already a rocket on the pad
+        // Check whether there is already a rocket on the pad
         if (tile instanceof TileEntityLandingPad)
         {
             if (((TileEntityLandingPad) tile).getDockedEntity() != null)
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -149,8 +147,7 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
         if (stack.getItemDamage() < 10)
         {
             rocket = new EntityTier2Rocket(world, centerX, centerY, centerZ, EnumRocketType.values()[stack.getItemDamage()]);
-        }
-        else
+        } else
         {
             rocket = new EntityCargoRocket(world, centerX, centerY, centerZ, EnumRocketType.values()[stack.getItemDamage() - 10]);
         }
@@ -163,13 +160,11 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
             if (rocket instanceof EntityTieredRocket)
             {
                 ((EntityTieredRocket) rocket).fuelTank.fill(new FluidStack(GCFluids.fluidFuel, rocket.getMaxFuel()), true);
-            }
-            else
+            } else
             {
                 ((EntityCargoRocket) rocket).fuelTank.fill(new FluidStack(GCFluids.fluidFuel, rocket.getMaxFuel()), true);
             }
-        }
-        else if (stack.hasTagCompound() && stack.getTagCompound().hasKey("RocketFuel"))
+        } else if (stack.hasTagCompound() && stack.getTagCompound().hasKey("RocketFuel"))
         {
             rocket.fuelTank.fill(new FluidStack(GCFluids.fluidFuel, stack.getTagCompound().getInteger("RocketFuel")), true);
         }
@@ -186,7 +181,7 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
             {
                 list.add(new ItemStack(this, 1, i));
             }
-    
+
             for (int i = 11; i < 10 + EnumRocketType.values().length; i++)
             {
                 list.add(new ItemStack(this, 1, i));
@@ -203,8 +198,7 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
         if (par1ItemStack.getItemDamage() < 10)
         {
             type = EnumRocketType.values()[par1ItemStack.getItemDamage()];
-        }
-        else
+        } else
         {
             type = EnumRocketType.values()[par1ItemStack.getItemDamage() - 10];
         }
@@ -226,8 +220,7 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
             if (par1ItemStack.getItemDamage() < 10)
             {
                 rocket = new EntityTier2Rocket(FMLClientHandler.instance().getWorldClient(), 0, 0, 0, EnumRocketType.values()[par1ItemStack.getItemDamage()]);
-            }
-            else
+            } else
             {
                 rocket = new EntityCargoRocket(FMLClientHandler.instance().getWorldClient(), 0, 0, 0, EnumRocketType.values()[par1ItemStack.getItemDamage() - 10]);
             }

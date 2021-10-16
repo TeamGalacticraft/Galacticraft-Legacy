@@ -17,6 +17,7 @@ import java.util.Random;
 
 public class WorldGenTerraformTree extends WorldGenerator
 {
+
     private final int minTreeHeight;
     private final boolean vinesGrow;
     private final int metaWood;
@@ -71,8 +72,7 @@ public class WorldGenTerraformTree extends WorldGenerator
                             {
                                 flag = false;
                             }
-                        }
-                        else
+                        } else
                         {
                             flag = false;
                         }
@@ -83,8 +83,7 @@ public class WorldGenTerraformTree extends WorldGenerator
             if (!flag)
             {
                 return false;
-            }
-            else
+            } else
             {
                 BlockPos down = position.down();
                 Block block1 = worldIn.getBlockState(down).getBlock();
@@ -230,14 +229,12 @@ public class WorldGenTerraformTree extends WorldGenerator
                     }
 
                     return true;
-                }
-                else
+                } else
                 {
                     return false;
                 }
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -258,13 +255,15 @@ public class WorldGenTerraformTree extends WorldGenerator
 
     private void func_181652_a(World p_181652_1_, int p_181652_2_, BlockPos p_181652_3_, EnumFacing p_181652_4_)
     {
-        this.setBlockAndNotifyAdequately(p_181652_1_, p_181652_3_, Blocks.COCOA.getDefaultState().withProperty(BlockCocoa.AGE, Integer.valueOf(p_181652_2_)).withProperty(BlockCocoa.FACING, p_181652_4_));
+        this.setBlockAndNotifyAdequately(p_181652_1_, p_181652_3_,
+            Blocks.COCOA.getDefaultState().withProperty(BlockCocoa.AGE, Integer.valueOf(p_181652_2_)).withProperty(BlockCocoa.FACING, p_181652_4_));
     }
 
     protected boolean func_150523_a(IBlockState state)
     {
         Block block = state.getBlock();
-        return block.getMaterial(state) == Material.AIR || block.getMaterial(state) == Material.LEAVES || block == Blocks.GRASS || block == Blocks.DIRT || block == Blocks.LOG || block == Blocks.LOG2 || block == Blocks.SAPLING || block == Blocks.VINE;
+        return block.getMaterial(state) == Material.AIR || block.getMaterial(state) == Material.LEAVES || block == Blocks.GRASS || block == Blocks.DIRT || block == Blocks.LOG || block == Blocks.LOG2
+            || block == Blocks.SAPLING || block == Blocks.VINE;
     }
 
     public boolean isReplaceable(World world, BlockPos pos)

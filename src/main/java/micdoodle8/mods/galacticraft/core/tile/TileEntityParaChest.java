@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
-import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.blocks.BlockParaChest;
 import micdoodle8.mods.galacticraft.core.entities.IScaleableFuelLevel;
@@ -9,6 +8,7 @@ import micdoodle8.mods.galacticraft.core.inventory.IInventorySettable;
 import micdoodle8.mods.galacticraft.core.network.PacketDynamicInventory;
 import micdoodle8.mods.galacticraft.core.util.FluidUtil;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.ItemStackHelper;
@@ -25,18 +25,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import java.util.Iterator;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+
 public class TileEntityParaChest extends TileEntityAdvanced implements IInventorySettable, IScaleableFuelLevel
 {
+
     private final int tankCapacity = 5000;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public FluidTank fuelTank = new FluidTank(this.tankCapacity);
+    @NetworkedField(targetSide = Side.CLIENT) public FluidTank fuelTank = new FluidTank(this.tankCapacity);
 
     public boolean adjacentChestChecked = false;
     public float lidAngle;
     public float prevLidAngle;
     public int numUsingPlayers;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public EnumDyeColor color = EnumDyeColor.RED;
+    @NetworkedField(targetSide = Side.CLIENT) public EnumDyeColor color = EnumDyeColor.RED;
 
     public TileEntityParaChest()
     {
@@ -50,7 +51,7 @@ public class TileEntityParaChest extends TileEntityAdvanced implements IInventor
     {
         if (this.world.isRemote)
         {
-            //Request size + contents information from server
+            // Request size + contents information from server
             GalacticraftCore.packetPipeline.sendToServer(new PacketDynamicInventory(this));
         }
     }
@@ -147,7 +148,8 @@ public class TileEntityParaChest extends TileEntityAdvanced implements IInventor
         {
             this.numUsingPlayers = 0;
             f = 5.0F;
-            List<?> list = this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.getPos().getX() - f, this.getPos().getY() - f, this.getPos().getZ() - f, this.getPos().getX() + 1 + f, this.getPos().getY() + 1 + f, this.getPos().getZ() + 1 + f));
+            List<?> list = this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.getPos().getX() - f, this.getPos().getY() - f, this.getPos().getZ() - f,
+                this.getPos().getX() + 1 + f, this.getPos().getY() + 1 + f, this.getPos().getZ() + 1 + f));
             Iterator<?> iterator = list.iterator();
 
             while (iterator.hasNext())
@@ -180,8 +182,7 @@ public class TileEntityParaChest extends TileEntityAdvanced implements IInventor
             if (this.numUsingPlayers > 0)
             {
                 this.lidAngle += f;
-            }
-            else
+            } else
             {
                 this.lidAngle -= f;
             }
@@ -225,8 +226,7 @@ public class TileEntityParaChest extends TileEntityAdvanced implements IInventor
         {
             this.numUsingPlayers = par2;
             return true;
-        }
-        else
+        } else
         {
             return super.receiveClientEvent(par1, par2);
         }

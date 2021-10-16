@@ -18,7 +18,18 @@ import micdoodle8.mods.galacticraft.core.items.ItemOxygenGear;
 import micdoodle8.mods.galacticraft.core.items.ItemOxygenMask;
 import micdoodle8.mods.galacticraft.core.items.ItemOxygenTank;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenDistributor;
-import net.minecraft.block.*;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockEnchantmentTable;
+import net.minecraft.block.BlockFarmland;
+import net.minecraft.block.BlockGlass;
+import net.minecraft.block.BlockGravel;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.BlockPistonBase;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockSponge;
+import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiChat;
@@ -44,6 +55,7 @@ import java.util.HashSet;
 
 public class OxygenUtil
 {
+
     private static HashSet<BlockPos> checked;
 
     @SideOnly(Side.CLIENT)
@@ -83,18 +95,21 @@ public class OxygenUtil
         double sy = entity.getEntityBoundingBox().maxY - entity.getEntityBoundingBox().minY;
         double sz = entity.getEntityBoundingBox().maxZ - entity.getEntityBoundingBox().minZ;
 
-        //A good first estimate of head size is that it's the smallest of the entity's 3 dimensions (e.g. front to back, for Steve)
+        // A good first estimate of head size is that it's the smallest of the
+        // entity's 3 dimensions (e.g. front to back, for Steve)
         double smin = Math.min(sx, Math.min(sy, sz)) / 2;
         double offsetXZ = 0.0;
 
         // If entity is within air lock wall, check adjacent blocks for oxygen
-        // The value is equal to the max distance from an adjacent oxygen block to the edge of a sealer wall
+        // The value is equal to the max distance from an adjacent oxygen block
+        // to the edge of a sealer wall
         if (entity.world.getBlockState(entity.getPosition()).getBlock() == GCBlocks.airLockSeal)
         {
             offsetXZ = 0.75F;
         }
 
-        return OxygenUtil.isAABBInBreathableAirBlock(entity.world, new AxisAlignedBB(x - smin - offsetXZ, y - smin, z - smin - offsetXZ, x + smin + offsetXZ, y + smin, z + smin + offsetXZ), testThermal);
+        return OxygenUtil.isAABBInBreathableAirBlock(entity.world, new AxisAlignedBB(x - smin - offsetXZ, y - smin, z - smin - offsetXZ, x + smin + offsetXZ, y + smin, z + smin + offsetXZ),
+            testThermal);
     }
 
     public static boolean isAABBInBreathableAirBlock(World world, AxisAlignedBB bb)
@@ -173,7 +188,11 @@ public class OxygenUtil
                     {
                         BlockPos pos = new BlockPos(x, y, z);
                         Block block = world.getBlockState(pos).getBlock();
-                        if (OxygenUtil.testContactWithBreathableAir(world, block, pos, 0) == 1) // Thermal air has metadata 1
+                        if (OxygenUtil.testContactWithBreathableAir(world, block, pos, 0) == 1) // Thermal
+                                                                                                // air
+                                                                                                // has
+                                                                                                // metadata
+                                                                                                // 1
                         {
                             return true;
                         }
@@ -186,9 +205,9 @@ public class OxygenUtil
     }
 
     /*
-     * A simplified version of the breathable air check which checks
-     * all 6 sides of the given block (because a torch can pass air on all sides)
-     * Used in BlockUnlitTorch.
+     * A simplified version of the breathable air check which checks all 6 sides
+     * of the given block (because a torch can pass air on all sides) Used in
+     * BlockUnlitTorch.
      */
     public static boolean checkTorchHasOxygen(World world, BlockPos pos)
     {
@@ -211,12 +230,11 @@ public class OxygenUtil
     }
 
     /*
-     * Test whether the given block at (x,y,z) coordinates is either:
-     * - breathable air (returns true)
-     * - solid, or air which is not breathable (returns false)
-     * - an air-permeable block, for example a torch, in which case test the surrounding
-     * air-reachable blocks (up to 5 blocks away) and return true if breathable air is found
-     * in one of them, or false if not.
+     * Test whether the given block at (x,y,z) coordinates is either: -
+     * breathable air (returns true) - solid, or air which is not breathable
+     * (returns false) - an air-permeable block, for example a torch, in which
+     * case test the surrounding air-reachable blocks (up to 5 blocks away) and
+     * return true if breathable air is found in one of them, or false if not.
      */
     private static synchronized int testContactWithBreathableAir(World world, Block block, BlockPos pos, int limitCount)
     {
@@ -232,7 +250,7 @@ public class OxygenUtil
             return -1;
         }
 
-        //Test for non-sided permeable or solid blocks first
+        // Test for non-sided permeable or solid blocks first
         boolean permeableFlag = false;
         if (!(block instanceof BlockLeaves))
         {
@@ -241,21 +259,17 @@ public class OxygenUtil
                 if (block instanceof BlockGravel || block.getMaterial(state) == Material.CLOTH || block instanceof BlockSponge)
                 {
                     permeableFlag = true;
-                }
-                else
+                } else
                 {
                     return -1;
                 }
-            }
-            else if (block instanceof BlockGlass || block instanceof BlockStainedGlass)
+            } else if (block instanceof BlockGlass || block instanceof BlockStainedGlass)
             {
                 return -1;
-            }
-            else if (block instanceof BlockLiquid)
+            } else if (block instanceof BlockLiquid)
             {
                 return -1;
-            }
-            else if (OxygenPressureProtocol.nonPermeableBlocks.containsKey(block))
+            } else if (OxygenPressureProtocol.nonPermeableBlocks.containsKey(block))
             {
                 ArrayList<Integer> metaList = OxygenPressureProtocol.nonPermeableBlocks.get(block);
                 if (metaList.contains(-1) || metaList.contains(state.getBlock().getMetaFromState(state)))
@@ -263,13 +277,12 @@ public class OxygenUtil
                     return -1;
                 }
             }
-        }
-        else
+        } else
         {
             permeableFlag = true;
         }
 
-        //Testing a non-air, permeable block (for example a torch or a ladder)
+        // Testing a non-air, permeable block (for example a torch or a ladder)
         if (limitCount < 5)
         {
             for (EnumFacing side : EnumFacing.VALUES)
@@ -292,9 +305,11 @@ public class OxygenUtil
 
         return -1;
     }
-    //TODO - performance, could add a 'safe' version of this code (inside world borders)
+    // TODO - performance, could add a 'safe' version of this code (inside world
+    // borders)
 
-    //TODO - add more performance increase, these sided checks could be done once only
+    // TODO - add more performance increase, these sided checks could be done
+    // once only
     private static boolean canBlockPassAirOnSide(World world, Block block, BlockPos vec, EnumFacing side)
     {
         if (block instanceof IPartialSealableBlock)
@@ -302,7 +317,8 @@ public class OxygenUtil
             return !((IPartialSealableBlock) block).isSealed(world, vec, side);
         }
 
-        //Half slab seals on the top side or the bottom side according to its metadata
+        // Half slab seals on the top side or the bottom side according to its
+        // metadata
         if (block instanceof BlockSlab)
         {
             IBlockState state = world.getBlockState(vec);
@@ -310,7 +326,7 @@ public class OxygenUtil
             return !(side == EnumFacing.DOWN && (meta & 8) == 8 || side == EnumFacing.UP && (meta & 8) == 0);
         }
 
-        //Farmland etc only seals on the solid underside
+        // Farmland etc only seals on the solid underside
         if (block instanceof BlockFarmland || block instanceof BlockEnchantmentTable || block instanceof BlockLiquid)
         {
             return side != EnumFacing.UP;
@@ -443,13 +459,13 @@ public class OxygenUtil
     {
         switch (slotIndex)
         {
-        case 0:
-            return stack.getItem() instanceof ItemOxygenMask;
-        case 1:
-            return stack.getItem() instanceof ItemOxygenGear;
-        case 2:
-        case 3:
-            return stack.getItem() instanceof ItemOxygenTank || stack.getItem() instanceof ItemCanisterOxygenInfinite;
+            case 0:
+                return stack.getItem() instanceof ItemOxygenMask;
+            case 1:
+                return stack.getItem() instanceof ItemOxygenGear;
+            case 2:
+            case 3:
+                return stack.getItem() instanceof ItemOxygenTank || stack.getItem() instanceof ItemCanisterOxygenInfinite;
         }
 
         return false;
@@ -479,16 +495,15 @@ public class OxygenUtil
             boolean connectable = false;
             if (tileEntity instanceof IConnector)
             {
-            	connectable = ignoreConnect || ((IConnector) tileEntity).canConnect(direction.getOpposite(), NetworkType.FLUID);
-            }
-            else if (tileEntity != null)
+                connectable = ignoreConnect || ((IConnector) tileEntity).canConnect(direction.getOpposite(), NetworkType.FLUID);
+            } else if (tileEntity != null)
             {
-            	connectable = tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, direction.getOpposite()) != null;
+                connectable = tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, direction.getOpposite()) != null;
             }
 
             if (connectable)
             {
-            	adjacentConnections[direction.ordinal()] = tileEntity;
+                adjacentConnections[direction.ordinal()] = tileEntity;
             }
         }
 

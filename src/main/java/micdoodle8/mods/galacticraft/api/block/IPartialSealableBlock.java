@@ -6,5 +6,6 @@ import net.minecraft.world.World;
 
 public interface IPartialSealableBlock
 {
+
     boolean isSealed(World world, BlockPos pos, EnumFacing direction);
 }

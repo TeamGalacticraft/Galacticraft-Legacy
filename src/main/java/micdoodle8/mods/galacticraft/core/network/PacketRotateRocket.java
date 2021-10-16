@@ -1,12 +1,15 @@
 package micdoodle8.mods.galacticraft.core.network;
 
-import io.netty.buffer.ByteBuf;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
+import io.netty.buffer.ByteBuf;
+
 public class PacketRotateRocket extends PacketBase
 {
+
     private int entityID;
     private float entityPitch;
     private float entityYaw;

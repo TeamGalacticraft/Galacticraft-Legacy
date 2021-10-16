@@ -8,6 +8,7 @@ import micdoodle8.mods.galacticraft.core.tile.TileEntityBuggyFuelerSingle;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityLandingPadSingle;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -30,13 +31,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockLandingPad extends BlockAdvancedTile implements IPartialSealableBlock, IShiftDescription, ISortableBlock
 {
+
     public static final PropertyEnum<EnumLandingPadType> PAD_TYPE = PropertyEnum.create("type", EnumLandingPadType.class);
     protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.1875, 1.0);
 
     public enum EnumLandingPadType implements IStringSerializable
     {
-        ROCKET_PAD(0, "rocket"),
-        BUGGY_PAD(1, "buggy");
+
+        ROCKET_PAD(0, "rocket"), BUGGY_PAD(1, "buggy");
 
         private final int meta;
         private final String name;
@@ -53,6 +55,7 @@ public class BlockLandingPad extends BlockAdvancedTile implements IPartialSealab
         }
 
         private final static EnumLandingPadType[] values = values();
+
         public static EnumLandingPadType byMetadata(int meta)
         {
             return values[meta % values.length];
@@ -115,10 +118,8 @@ public class BlockLandingPad extends BlockAdvancedTile implements IPartialSealab
     {
         final Block id = GCBlocks.landingPad;
 
-        if (!checkAxis(worldIn, pos, id, EnumFacing.EAST) ||
-                !checkAxis(worldIn, pos, id, EnumFacing.WEST) ||
-                !checkAxis(worldIn, pos, id, EnumFacing.NORTH) ||
-                !checkAxis(worldIn, pos, id, EnumFacing.SOUTH))
+        if (!checkAxis(worldIn, pos, id, EnumFacing.EAST) || !checkAxis(worldIn, pos, id, EnumFacing.WEST) || !checkAxis(worldIn, pos, id, EnumFacing.NORTH)
+            || !checkAxis(worldIn, pos, id, EnumFacing.SOUTH))
         {
             return false;
         }
@@ -126,8 +127,7 @@ public class BlockLandingPad extends BlockAdvancedTile implements IPartialSealab
         if (worldIn.getBlockState(pos.offset(EnumFacing.DOWN)).getBlock() == GCBlocks.landingPad && side == EnumFacing.UP)
         {
             return false;
-        }
-        else
+        } else
         {
             return this.canPlaceBlockAt(worldIn, pos);
         }
@@ -156,12 +156,12 @@ public class BlockLandingPad extends BlockAdvancedTile implements IPartialSealab
     {
         switch (meta)
         {
-        case 0:
-            return new TileEntityLandingPadSingle();
-        case 1:
-            return new TileEntityBuggyFuelerSingle();
-        default:
-            return null;
+            case 0:
+                return new TileEntityLandingPadSingle();
+            case 1:
+                return new TileEntityBuggyFuelerSingle();
+            default:
+                return null;
         }
     }
 

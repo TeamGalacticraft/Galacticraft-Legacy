@@ -22,6 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSwordAsteroids extends ItemSword implements ISortableItem
 {
+
     private double attackDamageD;
 
     public ItemSwordAsteroids(String assetName)
@@ -29,7 +30,7 @@ public class ItemSwordAsteroids extends ItemSword implements ISortableItem
         super(AsteroidsItems.TOOL_TITANIUM);
         this.setTranslationKey(assetName);
         this.attackDamageD = 9.0D;
-        //this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + assetName);
+        // this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + assetName);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class ItemSwordAsteroids extends ItemSword implements ISortableItem
     @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
     {
-        float hardness = state.getBlockHardness(worldIn, pos); 
+        float hardness = state.getBlockHardness(worldIn, pos);
         if (hardness > 0F)
         {
             stack.damageItem(hardness > 0.2001F ? 2 : 1, entityLiving);

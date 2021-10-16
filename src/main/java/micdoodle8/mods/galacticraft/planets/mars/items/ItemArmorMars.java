@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemArmorMars extends ItemArmor implements ISortableItem
 {
+
     private final ArmorMaterial material;
 
     public ItemArmorMars(ArmorMaterial par2EnumArmorMaterial, int par3, EntityEquipmentSlot par4)
@@ -24,13 +25,11 @@ public class ItemArmorMars extends ItemArmor implements ISortableItem
         this.material = par2EnumArmorMaterial;
     }
 
-    /*@Override
-    public Item setTranslationKey(String par1Str)
-    {
-//        super.setTextureName(par1Str);
-        super.setTranslationKey(par1Str);
-        return this;
-    }*/
+    /*
+     * @Override public Item setTranslationKey(String par1Str) { //
+     * super.setTextureName(par1Str); super.setTranslationKey(par1Str); return
+     * this; }
+     */
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
@@ -40,12 +39,10 @@ public class ItemArmorMars extends ItemArmor implements ISortableItem
             if (stack.getItem() == MarsItems.deshHelmet)
             {
                 return GalacticraftPlanets.TEXTURE_PREFIX + "textures/model/armor/desh_1.png";
-            }
-            else if (stack.getItem() == MarsItems.deshChestplate || stack.getItem() == MarsItems.deshBoots)
+            } else if (stack.getItem() == MarsItems.deshChestplate || stack.getItem() == MarsItems.deshBoots)
             {
                 return GalacticraftPlanets.TEXTURE_PREFIX + "textures/model/armor/desh_2.png";
-            }
-            else if (stack.getItem() == MarsItems.deshLeggings)
+            } else if (stack.getItem() == MarsItems.deshLeggings)
             {
                 return GalacticraftPlanets.TEXTURE_PREFIX + "textures/model/armor/desh_3.png";
             }
@@ -73,7 +70,7 @@ public class ItemArmorMars extends ItemArmor implements ISortableItem
     {
         return EnumSortCategoryItem.ARMOR;
     }
-    
+
     @Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {

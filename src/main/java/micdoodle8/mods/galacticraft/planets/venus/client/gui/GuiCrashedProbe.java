@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiCrashedProbe extends GuiContainerGC
 {
+
     private static final ResourceLocation guiTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/crashed_probe.png");
 
     private final TileEntityCrashedProbe geothermalGenerator;

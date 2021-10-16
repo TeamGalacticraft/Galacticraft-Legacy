@@ -1,14 +1,13 @@
 package micdoodle8.mods.galacticraft.api.galaxies;
 
-import micdoodle8.mods.galacticraft.api.vector.Vector3;
-
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.text.translation.I18n;
-
 import java.util.Locale;
+
+import micdoodle8.mods.galacticraft.api.vector.Vector3;
+import net.minecraft.util.text.translation.I18n;
 
 public class SolarSystem
 {
+
     protected final String systemName;
     protected String translationKey;
     protected Vector3 mapPosition = null;
@@ -37,13 +36,14 @@ public class SolarSystem
         String s = this.getTranslationKey();
         return s == null ? "" : I18n.translateToLocal(s);
     }
-    
+
     /**
      * Use {@link SolarSystem#getTranslationKey()}
      */
     @Deprecated
-    public String getUnlocalizedName() {
-    	return getTranslationKey();
+    public String getUnlocalizedName()
+    {
+        return getTranslationKey();
     }
 
     public String getTranslationKey()
@@ -58,7 +58,7 @@ public class SolarSystem
 
     public SolarSystem setMapPosition(Vector3 mapPosition)
     {
-    	mapPosition.scale(500D);
+        mapPosition.scale(500D);
         this.mapPosition = mapPosition;
         return this;
     }

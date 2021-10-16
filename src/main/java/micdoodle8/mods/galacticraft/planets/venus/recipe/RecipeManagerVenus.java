@@ -13,7 +13,8 @@ import java.util.Arrays;
 
 public class RecipeManagerVenus
 {
-	public static void loadCompatibilityRecipes()
+
+    public static void loadCompatibilityRecipes()
     {
     }
 
@@ -30,7 +31,7 @@ public class RecipeManagerVenus
         FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(VenusBlocks.venusBlock, 1, 11), new ItemStack(GCItems.basicItem, 1, 4), 0.5F);
 
         ItemStack solarPanels = new ItemStack(VenusItems.basicItem, 3, 6);
-        ItemStack silicon =  new ItemStack(GCItems.basicItem, 1, 2);
+        ItemStack silicon = new ItemStack(GCItems.basicItem, 1, 2);
         CircuitFabricatorRecipes.addRecipe(solarPanels, Arrays.asList(new ItemStack(Items.DIAMOND), silicon, silicon, new ItemStack(Items.REDSTONE), new ItemStack(VenusItems.basicItem, 1, 4)));
     }
 }

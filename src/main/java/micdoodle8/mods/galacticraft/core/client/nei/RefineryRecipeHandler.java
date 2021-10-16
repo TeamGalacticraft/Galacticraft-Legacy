@@ -1,12 +1,14 @@
+package micdoodle8.mods.galacticraft.core.client.nei;
+
 //package micdoodle8.mods.galacticraft.core.nei;
 //
 //import codechicken.lib.gui.GuiDraw;
 //import codechicken.nei.api.stack.PositionedStack;
 //import codechicken.nei.recipe.TemplateRecipeHandler;
 //import codechicken.nei.util.NEIServerUtils;
-//import micdoodle8.mods.galacticraft.core.Constants;
-//import micdoodle8.mods.galacticraft.core.GCItems;
-//import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+//import galacticraft.core.Constants;
+//import galacticraft.core.GCItems;
+//import galacticraft.core.util.GCCoreUtil;
 //import net.minecraft.item.ItemStack;
 //import net.minecraft.util.ResourceLocation;
 //import org.lwjgl.opengl.GL11;

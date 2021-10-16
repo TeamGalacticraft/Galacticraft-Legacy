@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 
 public class ModelEvolvedWitch extends ModelWitch
 {
+
     ModelRenderer tank1;
     ModelRenderer tank2;
     ModelRenderer oxygenMask;

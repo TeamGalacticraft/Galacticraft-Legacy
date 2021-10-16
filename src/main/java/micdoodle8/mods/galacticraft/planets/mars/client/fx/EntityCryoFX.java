@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class EntityCryoFX extends Particle
 {
+
     float oSize;
 
     public EntityCryoFX(World worldIn, Vector3 position, Vector3 motion)

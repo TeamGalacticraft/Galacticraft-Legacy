@@ -1,19 +1,19 @@
 package micdoodle8.mods.galacticraft.core.client.jei.circuitfabricator;
 
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
-
-import javax.annotation.Nonnull;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IRecipeWrapper;
+
 public class CircuitFabricatorRecipeWrapper implements IRecipeWrapper
 {
-    @Nonnull
-    private final List<Object> input;
-    @Nonnull
-    private final ItemStack output;
+
+    @Nonnull private final List<Object> input;
+    @Nonnull private final ItemStack output;
 
     public CircuitFabricatorRecipeWrapper(@Nonnull List<Object> objects, @Nonnull ItemStack output)
     {
@@ -27,12 +27,12 @@ public class CircuitFabricatorRecipeWrapper implements IRecipeWrapper
         ingredients.setInputs(ItemStack.class, this.input);
         ingredients.setOutput(ItemStack.class, this.output);
     }
-    
+
     public boolean equals(Object o)
     {
         if (o instanceof CircuitFabricatorRecipeWrapper)
         {
-            CircuitFabricatorRecipeWrapper match = (CircuitFabricatorRecipeWrapper)o;
+            CircuitFabricatorRecipeWrapper match = (CircuitFabricatorRecipeWrapper) o;
             if (!ItemStack.areItemStacksEqual(match.output, this.output))
                 return false;
             for (int i = 0; i < this.input.size(); i++)
@@ -41,20 +41,19 @@ public class CircuitFabricatorRecipeWrapper implements IRecipeWrapper
                 Object b = match.input.get(i);
                 if (a == null && b == null)
                     continue;
-                
+
                 if (a instanceof ItemStack)
                 {
                     if (!(b instanceof ItemStack))
                         return false;
                     if (!ItemStack.areItemStacksEqual((ItemStack) a, (ItemStack) b))
                         return false;
-                }
-                else if (a instanceof List<?>)
+                } else if (a instanceof List<?>)
                 {
                     if (!(b instanceof List<?>))
                         return false;
-                    List aa = ((List)a);
-                    List bb = ((List)b);
+                    List aa = ((List) a);
+                    List bb = ((List) b);
                     if (aa.size() != bb.size())
                         return false;
                     for (int j = 0; j < aa.size(); j++)
@@ -63,7 +62,7 @@ public class CircuitFabricatorRecipeWrapper implements IRecipeWrapper
                         ItemStack d = (ItemStack) bb.get(j);
                         if (!ItemStack.areItemStacksEqual((ItemStack) c, (ItemStack) d))
                             return false;
-                    }                    
+                    }
                 }
             }
             return true;

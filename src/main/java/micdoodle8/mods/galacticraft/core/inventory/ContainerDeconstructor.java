@@ -3,6 +3,7 @@ package micdoodle8.mods.galacticraft.core.inventory;
 import micdoodle8.mods.galacticraft.api.item.IItemElectric;
 import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityDeconstructor;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerDeconstructor extends Container
 {
+
     private TileEntityDeconstructor tileEntity;
 
     public ContainerDeconstructor(InventoryPlayer par1InventoryPlayer, TileEntityDeconstructor tileEntity)
@@ -81,8 +83,7 @@ public class ContainerDeconstructor extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(var4.getItem()))
                 {
@@ -90,15 +91,13 @@ public class ContainerDeconstructor extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (par1 < 38)
+                } else if (par1 < 38)
                 {
                     if (!this.mergeItemStack(var4, 1, 2, false) && !this.mergeItemStack(var4, 38, 47, false))
                     {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (!this.mergeItemStack(var4, 1, 2, false) && !this.mergeItemStack(var4, 11, 38, false))
+                } else if (!this.mergeItemStack(var4, 1, 2, false) && !this.mergeItemStack(var4, 11, 38, false))
                 {
                     return ItemStack.EMPTY;
                 }
@@ -107,8 +106,7 @@ public class ContainerDeconstructor extends Container
             if (var4.getCount() == 0)
             {
                 var3.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var3.onSlotChanged();
             }

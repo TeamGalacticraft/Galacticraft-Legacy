@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.blocks;
 
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -21,12 +22,14 @@ import java.lang.reflect.Method;
  */
 public abstract class BlockAdvanced extends Block
 {
+
     public BlockAdvanced(Material material)
     {
         super(material);
         this.setHardness(0.6f);
         this.setResistance(2.5F);
-        //A default blast resistance for GC machines and tiles, similar to a bookshelf
+        // A default blast resistance for GC machines and tiles, similar to a
+        // bookshelf
     }
 
     @Override
@@ -113,7 +116,7 @@ public abstract class BlockAdvanced extends Block
             Item item = itemStack.getItem();
             if (item == GCItems.wrench)
                 return false;
-            
+
             Class<? extends Item> wrenchClass = item.getClass();
 
             /**
@@ -123,20 +126,18 @@ public abstract class BlockAdvanced extends Block
             {
                 Method methodCanWrench = wrenchClass.getMethod("canWrench", EntityPlayer.class, BlockPos.class);
                 return (Boolean) methodCanWrench.invoke(item, entityPlayer, pos);
-            }
-            catch (NoClassDefFoundError e)
+            } catch (NoClassDefFoundError e)
             {
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
             }
 
             if (CompatibilityManager.isIc2Loaded())
             {
-            /**
-             * Industrialcraft
-             */
-                if (wrenchClass == CompatibilityManager.classIC2wrench || wrenchClass == CompatibilityManager.classIC2wrenchElectric )
+                /**
+                 * Industrialcraft
+                 */
+                if (wrenchClass == CompatibilityManager.classIC2wrench || wrenchClass == CompatibilityManager.classIC2wrenchElectric)
                 {
                     return itemStack.getItemDamage() < itemStack.getMaxDamage();
                 }
@@ -166,8 +167,7 @@ public abstract class BlockAdvanced extends Block
                 Method methodWrenchUsed = wrenchClass.getMethod("wrenchUsed", EntityPlayer.class, BlockPos.class);
                 methodWrenchUsed.invoke(itemStack.getItem(), entityPlayer, pos);
                 return true;
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
             }
 
@@ -176,14 +176,13 @@ public abstract class BlockAdvanced extends Block
              */
             try
             {
-                if (wrenchClass == CompatibilityManager.classIC2wrench || wrenchClass == CompatibilityManager.classIC2wrenchElectric )
+                if (wrenchClass == CompatibilityManager.classIC2wrench || wrenchClass == CompatibilityManager.classIC2wrenchElectric)
                 {
                     Method methodWrenchDamage = wrenchClass.getMethod("damage", ItemStack.class, Integer.TYPE, EntityPlayer.class);
                     methodWrenchDamage.invoke(itemStack.getItem(), itemStack, 1, entityPlayer);
                     return true;
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
             }
         }

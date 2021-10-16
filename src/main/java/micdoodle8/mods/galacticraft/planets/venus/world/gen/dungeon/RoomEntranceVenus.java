@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class RoomEntranceVenus extends SizedPieceVenus
 {
+
     public RoomEntranceVenus()
     {
     }
@@ -20,7 +21,8 @@ public class RoomEntranceVenus extends SizedPieceVenus
         int sX = this.sizeX / 2;
         int sZ = this.sizeZ / 2;
 
-        this.boundingBox = new StructureBoundingBox(blockPosX - sX, configuration.getYPosition(), blockPosZ - sZ, blockPosX - sX + this.sizeX, configuration.getYPosition() + this.sizeY, blockPosZ - sZ + this.sizeZ);
+        this.boundingBox =
+            new StructureBoundingBox(blockPosX - sX, configuration.getYPosition(), blockPosZ - sZ, blockPosX - sX + this.sizeX, configuration.getYPosition() + this.sizeY, blockPosZ - sZ + this.sizeZ);
     }
 
     @Override
@@ -32,11 +34,13 @@ public class RoomEntranceVenus extends SizedPieceVenus
             {
                 for (int k = 0; k <= this.sizeZ; k++)
                 {
-                    if (i == 0 || i == this.sizeX || j == 0 /*|| j == this.sizeY*/ || k == 0 || k == this.sizeZ)
+                    if (i == 0 || i == this.sizeX
+                        || j == 0 /*
+                                   * || j == this.sizeY
+                                   */ || k == 0 || k == this.sizeZ)
                     {
                         this.setBlockState(worldIn, this.configuration.getBrickBlock(), i, j, k, boundingBox);
-                    }
-                    else
+                    } else
                     {
                         this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, boundingBox);
                     }

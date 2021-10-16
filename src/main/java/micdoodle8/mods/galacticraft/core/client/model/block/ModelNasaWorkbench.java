@@ -1,12 +1,14 @@
 package micdoodle8.mods.galacticraft.core.client.model.block;
 
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelNasaWorkbench extends ModelBase
 {
+
     ModelRenderer base1a;
     ModelRenderer baseAux1;
     ModelRenderer base1b;

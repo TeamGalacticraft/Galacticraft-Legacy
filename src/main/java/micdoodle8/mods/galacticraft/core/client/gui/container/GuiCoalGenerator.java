@@ -5,15 +5,18 @@ import micdoodle8.mods.galacticraft.core.energy.EnergyDisplayHelper;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerCoalGenerator;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityCoalGenerator;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiCoalGenerator extends GuiContainerGC
 {
+
     private static final ResourceLocation coalGeneratorTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/coal_generator.png");
 
     private TileEntityCoalGenerator tileEntity;
@@ -40,8 +43,7 @@ public class GuiCoalGenerator extends GuiContainerGC
         if (this.tileEntity.heatGJperTick < TileEntityCoalGenerator.MIN_GENERATE_GJ_PER_TICK)
         {
             displayText = GCCoreUtil.translate("gui.status.hull_heat.name") + ": " + (int) (this.tileEntity.heatGJperTick / TileEntityCoalGenerator.MIN_GENERATE_GJ_PER_TICK * 100) + "%";
-        }
-        else
+        } else
         {
             displayText = EnergyDisplayHelper.getEnergyDisplayS(this.tileEntity.heatGJperTick - TileEntityCoalGenerator.MIN_GENERATE_GJ_PER_TICK) + "/t";
         }

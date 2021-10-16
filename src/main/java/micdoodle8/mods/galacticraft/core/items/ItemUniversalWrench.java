@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.miccore.Annotations;
+
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
@@ -34,13 +35,14 @@ import java.util.Map;
 
 public class ItemUniversalWrench extends Item implements ISortableItem
 {
+
     public ItemUniversalWrench(String assetName)
     {
         super();
         this.setTranslationKey(assetName);
         this.setMaxStackSize(1);
         this.setMaxDamage(256);
-        //this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
+        // this.setTextureName(Constants.TEXTURE_PREFIX + assetName);
     }
 
     @Annotations.RuntimeInterface(clazz = "buildcraft.api.tools.IToolWrench", modID = CompatibilityManager.modidBuildcraft)
@@ -132,8 +134,9 @@ public class ItemUniversalWrench extends Item implements ISortableItem
                 {
                     boolean done = false;
                     EnumFacing currentFacing = state.getValue(property);
-                    
-                    // Special case: horizontal facings should be rotated around the Y axis - this includes most of GC's own blocks
+
+                    // Special case: horizontal facings should be rotated around
+                    // the Y axis - this includes most of GC's own blocks
                     if (values.size() == 4 && !values.contains(EnumFacing.UP) && !values.contains(EnumFacing.DOWN))
                     {
                         EnumFacing newFacing = currentFacing.rotateY();
@@ -145,7 +148,8 @@ public class ItemUniversalWrench extends Item implements ISortableItem
                     }
                     if (!done)
                     {
-                        // General case: rotation will follow the order in FACING (may be a bit jumpy)
+                        // General case: rotation will follow the order in
+                        // FACING (may be a bit jumpy)
                         List<EnumFacing> list = Arrays.asList(values.toArray(new EnumFacing[0]));
                         int i = list.indexOf(currentFacing) + 1;
                         EnumFacing newFacing = list.get(i >= list.size() ? 0 : i);

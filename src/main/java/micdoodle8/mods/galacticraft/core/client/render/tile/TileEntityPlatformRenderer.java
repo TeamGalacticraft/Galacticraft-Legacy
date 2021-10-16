@@ -1,29 +1,36 @@
 package micdoodle8.mods.galacticraft.core.client.render.tile;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.blocks.BlockPlatform;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityPlatform;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class TileEntityPlatformRenderer extends TileEntitySpecialRenderer<TileEntityPlatform>
 {
+
     public class ModelPlatform extends ModelBase
     {
+
         ModelRenderer panelMain;
 
         public ModelPlatform()
@@ -52,7 +59,7 @@ public class TileEntityPlatformRenderer extends TileEntitySpecialRenderer<TileEn
 
         public void render()
         {
-            this.panelMain.render(1.125F/44F);
+            this.panelMain.render(1.125F / 44F);
         }
     }
 
@@ -96,11 +103,10 @@ public class TileEntityPlatformRenderer extends TileEntitySpecialRenderer<TileEn
                 if (tileEntity.isMoving())
                 {
                     OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, tileEntity.getMeanLightX(yOffset), tileEntity.getMeanLightZ(yOffset));
-                }
-                else
+                } else
                 {
                     int light = tileEntity.getBlendedLight();
-                    OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)(light % 65536), (float)(light / 65536));
+                    OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) (light % 65536), (float) (light / 65536));
                 }
                 GlStateManager.translate(0F, 0.79F + yOffset, 0F);
                 this.bindTexture(TileEntityPlatformRenderer.platformTexture);
@@ -120,7 +126,7 @@ public class TileEntityPlatformRenderer extends TileEntitySpecialRenderer<TileEn
                 BufferBuilder worldRenderer = tess.getBuffer();
                 float frameA, frameB, frameC, frameD;
 
-                // Draw the moving platform side-lights 
+                // Draw the moving platform side-lights
                 if (tileEntity.isMoving() && renderPlatformForThisTE)
                 {
                     GlStateManager.pushMatrix();
@@ -197,19 +203,21 @@ public class TileEntityPlatformRenderer extends TileEntitySpecialRenderer<TileEn
                     worldRenderer.pos(-frameRadius, frameD, frameC).endVertex();
                     worldRenderer.pos(-frameRadius, frameA, frameC).endVertex();
                     tess.draw();
-                    
+
                     GlStateManager.popMatrix();
                 }
 
-                // Draw the activation lights 
+                // Draw the activation lights
                 if (tileEntity.lightEnabled())
                 {
                     float greyLevel = 125F / 255F;
                     switch (tileEntity.lightColor())
                     {
-                    case 1: GlStateManager.color(1.0F, 115F/255F, 115F/255F, 1.0F);
-                    break;
-                    default: GlStateManager.color(greyLevel, 1.0F, greyLevel, 1.0F);
+                        case 1:
+                            GlStateManager.color(1.0F, 115F / 255F, 115F / 255F, 1.0F);
+                            break;
+                        default:
+                            GlStateManager.color(greyLevel, 1.0F, greyLevel, 1.0F);
                     }
 
                     float frameY = 0.9376F;
@@ -248,7 +256,7 @@ public class TileEntityPlatformRenderer extends TileEntitySpecialRenderer<TileEn
 
                 // Restore the lighting state
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                //? need to undo GlStateManager.glBlendFunc()?
+                // ? need to undo GlStateManager.glBlendFunc()?
                 GlStateManager.enableLighting();
                 GlStateManager.enableTexture2D();
 //                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightMapSaveX, lightMapSaveY);
@@ -264,7 +272,7 @@ public class TileEntityPlatformRenderer extends TileEntitySpecialRenderer<TileEn
     {
         if (x < 0)
             return x % 1024 + 1024;
-        
+
         return x % 1024;
     }
 }

@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.items;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import micdoodle8.mods.galacticraft.api.item.IHoldableItem;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
@@ -32,19 +36,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 public class ItemAstroMiner extends Item implements IHoldableItem, ISortableItem
 {
+
     public ItemAstroMiner(String assetName)
     {
         super();
         this.setMaxDamage(0);
         this.setMaxStackSize(1);
         this.setTranslationKey(assetName);
-        //this.setTextureName("arrow");
+        // this.setTextureName("arrow");
     }
 
     @Override
@@ -69,8 +70,7 @@ public class ItemAstroMiner extends Item implements IHoldableItem, ISortableItem
         if (playerIn == null)
         {
             return EnumActionResult.PASS;
-        }
-        else
+        } else
         {
             final Block id = worldIn.getBlockState(pos).getBlock();
 
@@ -91,12 +91,12 @@ public class ItemAstroMiner extends Item implements IHoldableItem, ISortableItem
 
             if (tile instanceof TileEntityMinerBase)
             {
-                //Don't open GUI on client
+                // Don't open GUI on client
                 if (worldIn.isRemote)
                 {
                     return EnumActionResult.FAIL;
                 }
-                
+
                 if (worldIn.provider instanceof WorldProviderSpaceStation)
                 {
                     playerIn.sendMessage(new TextComponentString(GCCoreUtil.translate("gui.message.astro_miner7.fail")));
@@ -109,7 +109,7 @@ public class ItemAstroMiner extends Item implements IHoldableItem, ISortableItem
                     return EnumActionResult.FAIL;
                 }
 
-                //Gives a chance for any loaded Astro Miner to link itself
+                // Gives a chance for any loaded Astro Miner to link itself
                 if (((TileEntityMinerBase) tile).ticks < 15)
                 {
                     return EnumActionResult.FAIL;
@@ -146,7 +146,7 @@ public class ItemAstroMiner extends Item implements IHoldableItem, ISortableItem
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack par1ItemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        //TODO
+        // TODO
     }
 
     @Override

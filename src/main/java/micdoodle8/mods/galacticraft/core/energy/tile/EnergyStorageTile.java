@@ -8,19 +8,19 @@ import micdoodle8.mods.galacticraft.api.transmission.tile.IElectrical;
 import micdoodle8.mods.galacticraft.core.tile.ReceiverMode;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityAdvanced;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 
 public abstract class EnergyStorageTile extends TileEntityAdvanced implements IEnergyHandlerGC, IElectrical
 {
+
     public static final float STANDARD_CAPACITY = 16000F;
 
-    @NetworkedField(targetSide = Side.CLIENT)
-    public EnergyStorage storage = new EnergyStorage(STANDARD_CAPACITY, 10);
+    @NetworkedField(targetSide = Side.CLIENT) public EnergyStorage storage = new EnergyStorage(STANDARD_CAPACITY, 10);
     public int tierGC = 1;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int poweredByTierGC = 1;
+    @NetworkedField(targetSide = Side.CLIENT) public int poweredByTierGC = 1;
 
     public EnergyStorageTile(String tileName)
     {
@@ -48,7 +48,7 @@ public abstract class EnergyStorageTile extends TileEntityAdvanced implements IE
     {
         return this.writeToNBT(new NBTTagCompound());
     }
-    
+
     public abstract ReceiverMode getModeFromDirection(EnumFacing direction);
 
     @Override
@@ -102,7 +102,7 @@ public abstract class EnergyStorageTile extends TileEntityAdvanced implements IE
         return false;
     }
 
-    //Five methods for compatibility with basic electricity
+    // Five methods for compatibility with basic electricity
     @Override
     public float receiveElectricity(EnumFacing from, float receive, int tier, boolean doReceive)
     {

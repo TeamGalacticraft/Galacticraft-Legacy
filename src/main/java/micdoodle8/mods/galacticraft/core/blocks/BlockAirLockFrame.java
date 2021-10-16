@@ -7,6 +7,7 @@ import micdoodle8.mods.galacticraft.core.tile.TileEntityAirLockController;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -27,10 +28,11 @@ import net.minecraft.world.World;
 
 public class BlockAirLockFrame extends BlockAdvancedTile implements IShiftDescription, ISortableBlock
 {
+
     private enum EnumAirLockType implements IStringSerializable
     {
-        AIR_LOCK_FRAME(0, "air_lock_frame"),
-        AIR_LOCK_CONTROLLER(1, "air_lock_controller");
+
+        AIR_LOCK_FRAME(0, "air_lock_frame"), AIR_LOCK_CONTROLLER(1, "air_lock_controller");
 
         private final int meta;
         private final String name;
@@ -47,6 +49,7 @@ public class BlockAirLockFrame extends BlockAdvancedTile implements IShiftDescri
         }
 
         private final static EnumAirLockType[] values = values();
+
         public static EnumAirLockType byMetadata(int meta)
         {
             return values[meta % values.length];
@@ -108,8 +111,7 @@ public class BlockAirLockFrame extends BlockAdvancedTile implements IShiftDescri
         if (((EnumAirLockType) state.getValue(AIR_LOCK_TYPE)).getMeta() == EnumAirLockType.AIR_LOCK_FRAME.getMeta())
         {
             return new TileEntityAirLock();
-        }
-        else
+        } else
         {
             return new TileEntityAirLockController();
         }

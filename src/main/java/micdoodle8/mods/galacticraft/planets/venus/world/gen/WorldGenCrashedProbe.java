@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class WorldGenCrashedProbe extends WorldGenerator
 {
+
     public WorldGenCrashedProbe()
     {
     }
@@ -61,8 +62,7 @@ public class WorldGenCrashedProbe extends WorldGenerator
                     if (distance <= radiusSq)
                     {
                         worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
-                    }
-                    else if (worldIn.getBlockState(pos).getBlock() == VenusBlocks.venusBlock && poolY < 0 && rand.nextInt(5) == 0)
+                    } else if (worldIn.getBlockState(pos).getBlock() == VenusBlocks.venusBlock && poolY < 0 && rand.nextInt(5) == 0)
                     {
                         worldIn.setBlockState(pos, VenusBlocks.scorchedRock.getDefaultState(), 2);
                     }

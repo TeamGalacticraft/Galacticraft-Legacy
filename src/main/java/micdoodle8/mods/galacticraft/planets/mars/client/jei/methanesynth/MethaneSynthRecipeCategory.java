@@ -20,19 +20,15 @@ import java.util.List;
 
 public class MethaneSynthRecipeCategory implements IRecipeCategory
 {
+
     private static final ResourceLocation refineryGuiTex = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/methane_synthesizer_recipe.png");
     private static final ResourceLocation gasesTex = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/gases_methane_oxygen_nitrogen.png");
 
-    @Nonnull
-    private final IDrawable background;
-    @Nonnull
-    private final String localizedName;
-    @Nonnull
-    private final IDrawableAnimated hydrogenBarInput;
-    @Nonnull
-    private final IDrawableAnimated carbonDioxideBarInput;
-    @Nonnull
-    private final IDrawableAnimated methaneBarOutput;
+    @Nonnull private final IDrawable background;
+    @Nonnull private final String localizedName;
+    @Nonnull private final IDrawableAnimated hydrogenBarInput;
+    @Nonnull private final IDrawableAnimated carbonDioxideBarInput;
+    @Nonnull private final IDrawableAnimated methaneBarOutput;
 
     boolean fillAtmos = false;
 
@@ -77,8 +73,7 @@ public class MethaneSynthRecipeCategory implements IRecipeCategory
         {
             this.hydrogenBarInput.draw(minecraft, 29, 24);
             this.carbonDioxideBarInput.draw(minecraft, 50, 24);
-        }
-        else
+        } else
         {
             this.hydrogenBarInput.draw(minecraft, 29, 24);
         }
@@ -105,8 +100,7 @@ public class MethaneSynthRecipeCategory implements IRecipeCategory
             {
                 this.fillAtmos = true;
                 itemstacks.set(1, input);
-            }
-            else
+            } else
             {
                 this.fillAtmos = false;
                 itemstacks.set(2, input);

@@ -1,16 +1,19 @@
 package micdoodle8.mods.galacticraft.core.client.gui.element;
 
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiElementTurnPageButton extends GuiButton
 {
+
     private final boolean nextPage;
     private static final ResourceLocation background = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/bookleft.png");
 

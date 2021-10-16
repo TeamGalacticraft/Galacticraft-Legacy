@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.planets.venus.world.gen;
 
+import java.util.Random;
+
+import micdoodle8.mods.galacticraft.api.world.DataBuilder.BiomeData;
 import micdoodle8.mods.galacticraft.planets.venus.VenusBlocks;
 import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockBasicVenus;
 import net.minecraft.block.material.Material;
@@ -10,11 +13,10 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraftforge.common.BiomeDictionary;
 
-import java.util.Random;
-
 public class BiomeGenVenusValley extends BiomeVenus
 {
-    public BiomeGenVenusValley(BiomeProperties properties)
+
+    public BiomeGenVenusValley(BiomeData properties)
     {
         super(properties);
     }
@@ -37,7 +39,7 @@ public class BiomeGenVenusValley extends BiomeVenus
         IBlockState topBlock = this.topBlock;
         IBlockState fillerBlock = this.fillerBlock;
         int j = -1;
-        int k = (int)(p_180622_6_ / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
+        int k = (int) (p_180622_6_ / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
         int l = p_180622_4_ & 15;
         int i1 = p_180622_5_ & 15;
 
@@ -46,16 +48,14 @@ public class BiomeGenVenusValley extends BiomeVenus
             if (j1 <= rand.nextInt(5))
             {
                 chunkPrimerIn.setBlockState(i1, j1, l, Blocks.BEDROCK.getDefaultState());
-            }
-            else
+            } else
             {
                 IBlockState iblockstate2 = chunkPrimerIn.getBlockState(i1, j1, l);
 
                 if (iblockstate2.getMaterial() == Material.AIR)
                 {
                     j = -1;
-                }
-                else if (iblockstate2.getBlock() == VenusBlocks.venusBlock)
+                } else if (iblockstate2.getBlock() == VenusBlocks.venusBlock)
                 {
                     if (j == -1)
                     {
@@ -63,8 +63,7 @@ public class BiomeGenVenusValley extends BiomeVenus
                         {
                             topBlock = null;
                             fillerBlock = stoneBlock;
-                        }
-                        else if (j1 >= i - 4 && j1 <= i + 1)
+                        } else if (j1 >= i - 4 && j1 <= i + 1)
                         {
                             topBlock = this.topBlock;
                             fillerBlock = this.fillerBlock;
@@ -75,19 +74,16 @@ public class BiomeGenVenusValley extends BiomeVenus
                         if (j1 >= i - 1)
                         {
                             chunkPrimerIn.setBlockState(i1, j1, l, topBlock);
-                        }
-                        else if (j1 < i - 7 - k)
+                        } else if (j1 < i - 7 - k)
                         {
                             topBlock = null;
                             fillerBlock = stoneBlock;
                             chunkPrimerIn.setBlockState(i1, j1, l, gravelBlock);
-                        }
-                        else
+                        } else
                         {
                             chunkPrimerIn.setBlockState(i1, j1, l, fillerBlock);
                         }
-                    }
-                    else if (j > 0)
+                    } else if (j > 0)
                     {
                         --j;
                         chunkPrimerIn.setBlockState(i1, j1, l, fillerBlock);

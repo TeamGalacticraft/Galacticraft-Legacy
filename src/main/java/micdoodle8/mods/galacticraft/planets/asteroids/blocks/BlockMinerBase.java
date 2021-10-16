@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.blocks;
 
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.blocks.BlockTileGC;
 import micdoodle8.mods.galacticraft.core.blocks.ISortableBlock;
@@ -24,10 +26,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Random;
-
 public class BlockMinerBase extends BlockTileGC implements IShiftDescription, ISortableBlock
 {
+
     public BlockMinerBase(String assetName)
     {
         super(Material.ROCK);

@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.client.model.ModelPlayerGC;
 import micdoodle8.mods.galacticraft.core.client.render.entities.RenderPlayerGC;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerHandler;
 import micdoodle8.mods.galacticraft.core.wrappers.PlayerGearData;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,6 +18,7 @@ import org.lwjgl.opengl.GL11;
 
 public class LayerShield implements LayerRenderer<EntityLivingBase>
 {
+
     private final RenderPlayer renderer;
     private ModelBiped shieldModel;
 

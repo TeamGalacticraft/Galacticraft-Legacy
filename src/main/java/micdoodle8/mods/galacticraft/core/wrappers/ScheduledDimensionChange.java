@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class ScheduledDimensionChange
 {
+
     private EntityPlayerMP player;
     private int dimensionName;
 

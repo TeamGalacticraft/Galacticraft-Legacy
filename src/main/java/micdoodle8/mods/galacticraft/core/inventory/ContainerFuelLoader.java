@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseElectricBlock;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityFuelLoader;
 import micdoodle8.mods.galacticraft.core.util.FluidUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -13,6 +14,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerFuelLoader extends Container
 {
+
     private TileBaseElectricBlock tileEntity;
 
     public ContainerFuelLoader(InventoryPlayer par1InventoryPlayer, TileEntityFuelLoader fuelLoader)
@@ -64,8 +66,7 @@ public class ContainerFuelLoader extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else
+            } else
             {
                 if (EnergyUtil.isElectricItem(var5.getItem()))
                 {
@@ -74,8 +75,7 @@ public class ContainerFuelLoader extends Container
                         return ItemStack.EMPTY;
                     }
                     movedToMachineSlot = true;
-                }
-                else
+                } else
                 {
                     if (FluidUtil.isFuelContainerAny(var5))
                     {
@@ -84,15 +84,13 @@ public class ContainerFuelLoader extends Container
                             return ItemStack.EMPTY;
                         }
                         movedToMachineSlot = true;
-                    }
-                    else if (par2 < 29)
+                    } else if (par2 < 29)
                     {
                         if (!this.mergeItemStack(var5, 29, 38, false))
                         {
                             return ItemStack.EMPTY;
                         }
-                    }
-                    else if (!this.mergeItemStack(var5, 2, 29, false))
+                    } else if (!this.mergeItemStack(var5, 2, 29, false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -107,13 +105,11 @@ public class ContainerFuelLoader extends Container
                     ItemStack remainder = var3.copy();
                     remainder.shrink(1);
                     slot.putStack(remainder);
-                }
-                else
+                } else
                 {
                     slot.putStack(ItemStack.EMPTY);
                 }
-            }
-            else
+            } else
             {
                 slot.onSlotChanged();
             }

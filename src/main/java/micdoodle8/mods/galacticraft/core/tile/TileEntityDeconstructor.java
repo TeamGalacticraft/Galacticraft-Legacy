@@ -1,10 +1,5 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
 import micdoodle8.mods.galacticraft.core.GCItems;
@@ -21,6 +16,7 @@ import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
 import micdoodle8.mods.galacticraft.planets.mars.items.MarsItems;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -38,46 +34,60 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 public class TileEntityDeconstructor extends TileBaseElectricBlock implements IInventoryDefaults, ISidedInventory, IMachineSides
 {
+
     public static final float SALVAGE_CHANCE = 0.75F;
     public static final int PROCESS_TIME_REQUIRED_BASE = 250;
     public int processTimeRequired = PROCESS_TIME_REQUIRED_BASE;
-    @NetworkedField(targetSide = Side.CLIENT)
-    public int processTicks = 0;
+    @NetworkedField(targetSide = Side.CLIENT) public int processTicks = 0;
     private ItemStack producingStack = ItemStack.EMPTY;
     private long ticks;
 
     public static List<ItemStack> salvageable = new LinkedList<>();
     public static List<INasaWorkbenchRecipe> knownRecipes = new LinkedList<>();
     private int recursiveCount;
-    
+
     static
     {
         initialiseItemList();
     }
-    
+
     private static void initialiseItemList()
     {
         if (GalacticraftCore.isPlanetsLoaded)
         {
-            addSalvage(new ItemStack(AsteroidsItems.basicItem, 1, 5));  //T3 plate
-            addSalvage(new ItemStack(AsteroidsItems.basicItem, 1, 6));  //Compressed titanium
-            addSalvage(new ItemStack(AsteroidsItems.basicItem, 1, 0));  //Titanium ingot
-            addSalvage(new ItemStack(MarsItems.marsItemBasic, 1, 3));  //T2 plate
-            addSalvage(new ItemStack(MarsItems.marsItemBasic, 1, 5));  //Compressed desh
-            addSalvage(new ItemStack(MarsItems.marsItemBasic, 1, 2));  //Desh ingot
+            addSalvage(new ItemStack(AsteroidsItems.basicItem, 1, 5)); // T3
+                                                                       // plate
+            addSalvage(new ItemStack(AsteroidsItems.basicItem, 1, 6)); // Compressed
+                                                                       // titanium
+            addSalvage(new ItemStack(AsteroidsItems.basicItem, 1, 0)); // Titanium
+                                                                       // ingot
+            addSalvage(new ItemStack(MarsItems.marsItemBasic, 1, 3)); // T2
+                                                                      // plate
+            addSalvage(new ItemStack(MarsItems.marsItemBasic, 1, 5)); // Compressed
+                                                                      // desh
+            addSalvage(new ItemStack(MarsItems.marsItemBasic, 1, 2)); // Desh
+                                                                      // ingot
         }
         addSalvage(new ItemStack(GCItems.flagPole));
         addSalvage(new ItemStack(GCItems.heavyPlatingTier1));
-        addSalvage(new ItemStack(GCItems.itemBasicMoon, 1, 1));  //Compressed meteoric iron
-        addSalvage(new ItemStack(GCItems.itemBasicMoon, 1, 0));  //Meteoric iron ingot
-        addSalvage(new ItemStack(GCItems.basicItem, 1, 9));  //Compressed steel
-        addSalvage(new ItemStack(GCItems.basicItem, 1, 10));  //Compressed bronze
+        addSalvage(new ItemStack(GCItems.itemBasicMoon, 1, 1)); // Compressed
+                                                                // meteoric iron
+        addSalvage(new ItemStack(GCItems.itemBasicMoon, 1, 0)); // Meteoric iron
+                                                                // ingot
+        addSalvage(new ItemStack(GCItems.basicItem, 1, 9)); // Compressed steel
+        addSalvage(new ItemStack(GCItems.basicItem, 1, 10)); // Compressed
+                                                             // bronze
         addSalvage(new ItemStack(GCItems.basicItem, 1, 6));
         addSalvage(new ItemStack(GCItems.basicItem, 1, 7));
         addSalvage(new ItemStack(GCItems.basicItem, 1, 8));
-        addSalvage(new ItemStack(GCItems.basicItem, 1, 11));  //Compressed iron
+        addSalvage(new ItemStack(GCItems.basicItem, 1, 11)); // Compressed iron
         addSalvage(new ItemStack(GCItems.basicItem, 1, 3));
         addSalvage(new ItemStack(GCItems.basicItem, 1, 4));
         addSalvage(new ItemStack(GCItems.basicItem, 1, 5));
@@ -92,7 +102,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
         knownRecipes.addAll(GalacticraftRegistry.getRocketT1Recipes());
         knownRecipes.addAll(GalacticraftRegistry.getBuggyBenchRecipes());
     }
-    
+
     public static void initialiseRecipeListPlanets()
     {
         knownRecipes.addAll(GalacticraftRegistry.getRocketT2Recipes());
@@ -155,13 +165,11 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
                         this.deconstruct();
                         updateInv = true;
                     }
-                }
-                else
+                } else
                 {
                     this.processTicks = 0;
                 }
-            }
-            else
+            } else
             {
                 this.processTicks = 0;
             }
@@ -190,7 +198,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
         salvaged = this.randomChanceList(salvaged);
         if (salvaged != null)
         {
-            for (ItemStack output: salvaged)
+            for (ItemStack output : salvaged)
             {
                 this.addToOutputMatrix(output);
             }
@@ -215,8 +223,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
             if (isSalvage(stack))
             {
                 ret.add(stack);
-            }
-            else
+            } else
             {
                 GCLog.debug("Trying to " + this.recursiveCount + " break down " + stack.toString());
                 List<ItemStack> ingredients2 = this.getIngredients(stack);
@@ -227,7 +234,9 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
                         Iterator<ItemStack> it = ingredients2.iterator();
                         while (it.hasNext())
                         {
-                            if (ItemStack.areItemStacksEqual(it.next(), done)) it.remove();  //prevent recursive A->{B}  B->{A} type recipe chains
+                            if (ItemStack.areItemStacksEqual(it.next(), done))
+                                it.remove(); // prevent recursive A->{B} B->{A}
+                                             // type recipe chains
                         }
                     }
                     List<ItemStack> recursive = this.getSalvageable(ingredients2, stack);
@@ -314,16 +323,13 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
                 if (recipe instanceof ShapedRecipes)
                 {
                     return expandRecipeInputs(((ShapedRecipes) recipe).recipeItems);
-                }
-                else if (recipe instanceof ShapelessRecipes)
+                } else if (recipe instanceof ShapelessRecipes)
                 {
                     return expandRecipeInputs(((ShapelessRecipes) recipe).recipeItems);
-                }
-                else if (recipe instanceof ShapedOreRecipe)
+                } else if (recipe instanceof ShapedOreRecipe)
                 {
                     return expandRecipeInputs(((ShapedOreRecipe) recipe).getIngredients());
-                }
-                else if (recipe instanceof ShapelessOreRecipe)
+                } else if (recipe instanceof ShapelessOreRecipe)
                 {
                     return expandRecipeInputs(((ShapelessOreRecipe) recipe).getIngredients());
                 }
@@ -331,7 +337,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
         }
         return null;
     }
-    
+
     private List<ItemStack> expandRecipeInputs(List<?> inputs)
     {
         List<ItemStack> ret = new LinkedList<>();
@@ -345,7 +351,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
         }
         return ret;
     }
-    
+
     private ItemStack parseRecipeInput(Object input)
     {
         if (input instanceof Ingredient)
@@ -358,20 +364,17 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
                     return ret;
                 }
             }
-        }
-        else if (input instanceof ItemStack)
+        } else if (input instanceof ItemStack)
         {
             ItemStack stack = (ItemStack) input;
             if (stack.getMetadata() == OreDictionary.WILDCARD_VALUE)
             {
                 return new ItemStack(stack.getItem(), stack.getCount(), 0);
-            }
-            else
+            } else
             {
                 return stack.copy();
             }
-        }
-        else if (input instanceof String)
+        } else if (input instanceof String)
         {
             List<ItemStack> stacks = OreDictionary.getOres((String) input);
             if (stacks.isEmpty())
@@ -386,8 +389,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
                 }
             }
             return stacks.get(0) == null ? null : stacks.get(0).copy();
-        }
-        else if (input instanceof Iterable)
+        } else if (input instanceof Iterable)
         {
             for (Object obj : (Iterable) input)
             {
@@ -398,7 +400,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
                 }
             }
         }
-        
+
         return null;
     }
 
@@ -445,8 +447,9 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
     {
         super.readFromNBT(par1NBTTagCompound);
         this.processTicks = par1NBTTagCompound.getInteger("smeltingTicks");
-        
-        this.readMachineSidesFromNBT(par1NBTTagCompound);  //Needed by IMachineSides
+
+        this.readMachineSidesFromNBT(par1NBTTagCompound); // Needed by
+                                                          // IMachineSides
     }
 
     @Override
@@ -455,7 +458,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
         super.writeToNBT(nbt);
         nbt.setInteger("smeltingTicks", this.processTicks);
 
-        this.addMachineSidesToNBT(nbt);  //Needed by IMachineSides
+        this.addMachineSidesToNBT(nbt); // Needed by IMachineSides
         return nbt;
     }
 
@@ -466,7 +469,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
         {
             return itemStack != null && !itemStack.isEmpty() && ItemElectricBase.isElectricItem(itemStack.getItem());
         }
-        
+
         return slotID == 1;
     }
 
@@ -475,10 +478,12 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
     {
         if (side == EnumFacing.DOWN)
         {
-            return new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            return new int[]
+            {2, 3, 4, 5, 6, 7, 8, 9, 10};
         }
-        
-        return new int[] { 1 };
+
+        return new int[]
+        {1};
     }
 
     @Override
@@ -496,7 +501,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
     @Override
     public EnumFacing byIndex()
     {
-        return BlockMachineBase.byIndex(this.world.getBlockState(getPos())); 
+        return BlockMachineBase.byIndex(this.world.getBlockState(getPos()));
     }
 
     @Override
@@ -504,17 +509,17 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
     {
         switch (this.getSide(MachineSide.ELECTRIC_IN))
         {
-        case RIGHT:
-            return byIndex().rotateYCCW();
-        case REAR:
-            return byIndex().getOpposite();
-        case TOP:
-            return EnumFacing.UP;
-        case BOTTOM:
-            return EnumFacing.DOWN;
-        case LEFT:
-        default:
-            return byIndex().rotateY();
+            case RIGHT:
+                return byIndex().rotateYCCW();
+            case REAR:
+                return byIndex().getOpposite();
+            case TOP:
+                return EnumFacing.UP;
+            case BOTTOM:
+                return EnumFacing.DOWN;
+            case LEFT:
+            default:
+                return byIndex().rotateY();
         }
     }
 
@@ -524,21 +529,23 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
         return this.getStackInSlot(0);
     }
 
-    //------------------
-    //Added these methods and field to implement IMachineSides properly 
-    //------------------
+    // ------------------
+    // Added these methods and field to implement IMachineSides properly
+    // ------------------
     @Override
     public MachineSide[] listConfigurableSides()
     {
-        return new MachineSide[] { MachineSide.ELECTRIC_IN };
+        return new MachineSide[]
+        {MachineSide.ELECTRIC_IN};
     }
 
     @Override
     public Face[] listDefaultFaces()
     {
-        return new Face[] { Face.LEFT };
+        return new Face[]
+        {Face.LEFT};
     }
-    
+
     private MachineSidePack[] machineSides;
 
     @Override
@@ -557,17 +564,17 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
     {
         this.machineSides = new MachineSidePack[length];
     }
-    
+
     @Override
     public void onLoad()
     {
         this.clientOnLoad();
     }
-    
+
     @Override
     public IMachineSidesProperties getConfigurationType()
     {
         return BlockMachine2.MACHINESIDES_RENDERTYPE;
     }
-    //------------------END OF IMachineSides implementation
+    // ------------------END OF IMachineSides implementation
 }

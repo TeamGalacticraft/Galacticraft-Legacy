@@ -20,7 +20,7 @@ public class ItemOrionDrive extends Item implements ISortableItem
         super();
         this.setMaxDamage(0);
         this.setTranslationKey(assetName);
-        //this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + assetName);
+        // this.setTextureName(GalacticraftPlanets.TEXTURE_PREFIX + assetName);
     }
 
     @Override

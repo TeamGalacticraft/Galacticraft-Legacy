@@ -27,6 +27,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiGasLiquefier extends GuiContainerGC
 {
+
     private static final ResourceLocation refineryTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/gas_liquefier.png");
 
     private static final ResourceLocation gasTextures = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/gui/gases_methane_oxygen_nitrogen.png");
@@ -35,10 +36,14 @@ public class GuiGasLiquefier extends GuiContainerGC
 
     private GuiButton buttonDisable;
 
-    private GuiElementInfoRegion fuelTankRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 153, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
-    private GuiElementInfoRegion fuelTank2Region = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 153, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
-    private GuiElementInfoRegion gasTankRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 7, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
-    private GuiElementInfoRegion electricInfoRegion = new GuiElementInfoRegion((this.width - this.xSize) / 2 + 62, (this.height - this.ySize) / 2 + 16, 56, 9, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion fuelTankRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 153, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion fuelTank2Region =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 153, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion gasTankRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 7, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
+    private GuiElementInfoRegion electricInfoRegion =
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 62, (this.height - this.ySize) / 2 + 16, 56, 9, new ArrayList<String>(), this.width, this.height, this);
 
     public GuiGasLiquefier(InventoryPlayer par1InventoryPlayer, TileEntityGasLiquefier tileEntity)
     {
@@ -103,9 +108,10 @@ public class GuiGasLiquefier extends GuiContainerGC
     {
         switch (par1GuiButton.id)
         {
-        case 0:
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.tileEntity.getWorld()), new Object[] { this.tileEntity.getPos(), 0 }));
-            break;
+            case 0:
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_UPDATE_DISABLEABLE_BUTTON, GCCoreUtil.getDimensionID(this.tileEntity.getWorld()), new Object[]
+                {this.tileEntity.getPos(), 0}));
+                break;
         }
     }
 
@@ -118,29 +124,23 @@ public class GuiGasLiquefier extends GuiContainerGC
 
         if (RedstoneUtil.isBlockReceivingRedstone(this.tileEntity.getWorld(), this.tileEntity.getPos()))
         {
-        	displayText = EnumColor.RED + GCCoreUtil.translate("gui.status.off.name");
-        }
-        else if (!this.tileEntity.hasEnoughEnergyToRun)
+            displayText = EnumColor.RED + GCCoreUtil.translate("gui.status.off.name");
+        } else if (!this.tileEntity.hasEnoughEnergyToRun)
         {
             displayText = EnumColor.RED + GCCoreUtil.translate("gui.message.low_energy.name");
-        }
-        else if ((this.tileEntity.processTicks > -10 || this.tileEntity.canProcess()))
+        } else if ((this.tileEntity.processTicks > -10 || this.tileEntity.canProcess()))
         {
             displayText = EnumColor.BRIGHT_GREEN + GCCoreUtil.translate("gui.status.liquefying.name");
-        }
-        else if (this.tileEntity.gasTank.getFluid() == null || this.tileEntity.gasTank.getFluidAmount() <= 0)
+        } else if (this.tileEntity.gasTank.getFluid() == null || this.tileEntity.gasTank.getFluidAmount() <= 0)
         {
             displayText = EnumColor.RED + GCCoreUtil.translate("gui.status.nogas.name");
-        }
-        else if (this.tileEntity.gasTank.getFluidAmount() > 0 && this.tileEntity.disabled)
+        } else if (this.tileEntity.gasTank.getFluidAmount() > 0 && this.tileEntity.disabled)
         {
             displayText = EnumColor.ORANGE + GCCoreUtil.translate("gui.status.ready.name");
-        }
-        else if (this.tileEntity.liquidTank.getFluidAmount() == this.tileEntity.liquidTank.getCapacity() && this.tileEntity.liquidTank2.getFluidAmount() == this.tileEntity.liquidTank2.getCapacity())
+        } else if (this.tileEntity.liquidTank.getFluidAmount() == this.tileEntity.liquidTank.getCapacity() && this.tileEntity.liquidTank2.getFluidAmount() == this.tileEntity.liquidTank2.getCapacity())
         {
             displayText = EnumColor.RED + GCCoreUtil.translate("gui.status.tanksfull.name");
-        }
-        else
+        } else
         {
             displayText = EnumColor.RED + GCCoreUtil.translate("gui.status.unknown.name");
         }
@@ -149,8 +149,10 @@ public class GuiGasLiquefier extends GuiContainerGC
         this.buttonDisable.displayString = this.tileEntity.processTicks <= -10 ? GCCoreUtil.translate("gui.button.liquefy.name") : GCCoreUtil.translate("gui.button.liquefy_stop.name");
         this.fontRenderer.drawString(GCCoreUtil.translate("gui.message.status.name") + ":", 56, 45 + 23 + yOffset, 4210752);
         this.fontRenderer.drawString(displayText, 62, 45 + 33 + yOffset, 4210752);
-        //		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.ueWattsPerTick * 20, ElectricUnit.WATT), 72, 56 + 23 + yOffset, 4210752);
-        //		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 72, 68 + 23 + yOffset, 4210752);
+        // this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.ueWattsPerTick
+        // * 20, ElectricUnit.WATT), 72, 56 + 23 + yOffset, 4210752);
+        // this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(),
+        // ElectricUnit.VOLTAGE), 72, 68 + 23 + yOffset, 4210752);
         this.fontRenderer.drawString(GCCoreUtil.translate("container.inventory"), 8, this.ySize - 118 + 2 + 23, 4210752);
     }
 
@@ -164,16 +166,20 @@ public class GuiGasLiquefier extends GuiContainerGC
         int edgeTop = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(edgeLeft, edgeTop, 0, 0, this.xSize, this.ySize);
 
-        //Fluid tank 1
-        int liquidType = this.tileEntity.fluidTankType;  //0 for fuel, 1 for oxygen, 2 for atmospheric gases
+        // Fluid tank 1
+        int liquidType = this.tileEntity.fluidTankType; // 0 for fuel, 1 for
+                                                        // oxygen, 2 for
+                                                        // atmospheric gases
         if (liquidType == 0)
         {
             int displayInt = this.tileEntity.getScaledFuelLevel(38);
             this.drawTexturedModalRect(edgeLeft + 132, edgeTop + 17 + 49 - displayInt, 176 + 16, 38 - displayInt, 16, displayInt);
         }
 
-        //Fluid tank 2
-        int liquidType2 = this.tileEntity.fluidTank2Type;  //0 for fuel, 1 for oxygen, 2 for atmospheric gases
+        // Fluid tank 2
+        int liquidType2 = this.tileEntity.fluidTank2Type; // 0 for fuel, 1 for
+                                                          // oxygen, 2 for
+                                                          // atmospheric gases
         if (liquidType2 == 0)
         {
             int displayInt = this.tileEntity.getScaledFuelLevel2(38);
@@ -182,7 +188,9 @@ public class GuiGasLiquefier extends GuiContainerGC
 
         this.mc.renderEngine.bindTexture(GuiGasLiquefier.gasTextures);
         int displayInt = this.tileEntity.getScaledGasLevel(38);
-        int gasType = this.tileEntity.gasTankType;  //0 for methane, 1 for oxygen, 2 for atmospheric gases
+        int gasType = this.tileEntity.gasTankType; // 0 for methane, 1 for
+                                                   // oxygen, 2 for atmospheric
+                                                   // gases
         if (gasType > 2)
         {
             gasType = 2;
@@ -223,8 +231,7 @@ public class GuiGasLiquefier extends GuiContainerGC
         {
             String gasname = GCCoreUtil.translate(gasTankContents.getFluid().getUnlocalizedName());
             gasTankDesc.add("(" + gasname + ")");
-        }
-        else
+        } else
         {
             gasTankDesc.add(" ");
         }
@@ -240,8 +247,7 @@ public class GuiGasLiquefier extends GuiContainerGC
         {
             String gasname = GCCoreUtil.translate(gasTankContents.getFluid().getUnlocalizedName());
             fuelTankDesc.add("(" + gasname + ")");
-        }
-        else
+        } else
         {
             fuelTankDesc.add(" ");
         }
@@ -257,8 +263,7 @@ public class GuiGasLiquefier extends GuiContainerGC
         {
             String gasname = GCCoreUtil.translate(gasTankContents.getFluid().getUnlocalizedName());
             fuelTankDesc.add("(" + gasname + ")");
-        }
-        else
+        } else
         {
             fuelTankDesc.add(" ");
         }

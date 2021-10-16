@@ -15,7 +15,9 @@ import java.util.Random;
 
 public class MapGenVillageMoon extends MapGenStructure
 {
-    public static List<Biome> villageSpawnBiomes = Arrays.asList(new Biome[] { BiomeAdaptive.biomeDefault });
+
+    public static List<Biome> villageSpawnBiomes = Arrays.asList(new Biome[]
+    {BiomeAdaptive.biomeDefault});
     private final int terrainType;
     private static boolean initialized;
 
@@ -24,8 +26,7 @@ public class MapGenVillageMoon extends MapGenStructure
         try
         {
             MapGenVillageMoon.initiateStructures();
-        }
-        catch (Throwable e)
+        } catch (Throwable e)
         {
 
         }
@@ -94,7 +95,7 @@ public class MapGenVillageMoon extends MapGenStructure
     protected StructureStart getStructureStart(int par1, int par2)
     {
         GCLog.debug("Generating Moon Village at x" + par1 * 16 + " z" + par2 * 16);
-		return new StructureVillageStartMoon(this.world, this.rand, par1, par2, this.terrainType);
+        return new StructureVillageStartMoon(this.world, this.rand, par1, par2, this.terrainType);
     }
 
     @Override

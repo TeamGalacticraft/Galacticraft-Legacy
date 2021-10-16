@@ -14,12 +14,17 @@ import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,8 +48,10 @@ import java.util.UUID;
 
 public class TileEntityTelemetry extends TileEntity implements ITickable
 {
+
     public Class<?> clientClass;
-    public int[] clientData = { -1 };
+    public int[] clientData =
+    {-1};
     public String clientName;
     public GameProfile clientGameProfile = null;
 
@@ -86,25 +93,24 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
             }
 
             String name = null;
-            int[] data = { -1, -1, -1, -1, -1 };
+            int[] data =
+            {-1, -1, -1, -1, -1};
             String strUUID = "";
 
             if (linkedEntity != null)
             {
-                //Help the Garbage Collector
+                // Help the Garbage Collector
                 if (linkedEntity.isDead)
                 {
                     linkedEntity = null;
                     name = "";
-                    //TODO: track players after death and respawn? or not?
-                }
-                else
+                    // TODO: track players after death and respawn? or not?
+                } else
                 {
                     if (linkedEntity instanceof EntityPlayerMP)
                     {
                         name = "$" + linkedEntity.getName();
-                    }
-                    else
+                    } else
                     {
                         EntityEntry entityEntry = EntityRegistry.getEntry(linkedEntity.getClass());
                         if (entityEntry != null && entityEntry.getRegistryName() != null)
@@ -127,13 +133,13 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
                     if (linkedEntity instanceof ITelemetry)
                     {
                         ((ITelemetry) linkedEntity).transmitData(data);
-                    }
-                    else if (linkedEntity instanceof EntityLivingBase)
+                    } else if (linkedEntity instanceof EntityLivingBase)
                     {
                         EntityLivingBase eLiving = (EntityLivingBase) linkedEntity;
                         data[0] = eLiving.hurtTime;
 
-                        //Calculate a "pulse rate" based on motion and taking damage
+                        // Calculate a "pulse rate" based on motion and taking
+                        // damage
                         this.pulseRate--;
                         if (eLiving.hurtTime > this.lastHurttime)
                         {
@@ -142,9 +148,9 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
                         this.lastHurttime = eLiving.hurtTime;
                         if (eLiving.getRidingEntity() != null)
                         {
-                            data[2] /= 4;  //reduced pulse effect if riding a vehicle
-                        }
-                        else if (data[2] > 1)
+                            data[2] /= 4; // reduced pulse effect if riding a
+                                          // vehicle
+                        } else if (data[2] > 1)
                         {
                             this.pulseRate += 2;
                         }
@@ -170,64 +176,57 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
                             {
                                 strUUID = uuid.toString();
                             }
-                        }
-                        else if (eLiving instanceof EntityHorse)
+                        } else if (eLiving instanceof EntityHorse)
                         {
 //                            data[3] = ((EntityHorse) eLiving).getType().ordinal();
                             data[4] = ((EntityHorse) eLiving).getHorseVariant();
-                        }
-                        else if (eLiving instanceof EntityVillager)
+                        } else if (eLiving instanceof EntityVillager)
                         {
                             data[3] = ((EntityVillager) eLiving).getProfession();
                             data[4] = ((EntityVillager) eLiving).getGrowingAge();
-                        }
-                        else if (eLiving instanceof EntityWolf)
+                        } else if (eLiving instanceof EntityWolf)
                         {
                             data[3] = ((EntityWolf) eLiving).getCollarColor().getDyeDamage();
                             data[4] = ((EntityWolf) eLiving).isBegging() ? 1 : 0;
-                        }
-                        else if (eLiving instanceof EntitySheep)
+                        } else if (eLiving instanceof EntitySheep)
                         {
                             data[3] = ((EntitySheep) eLiving).getFleeceColor().getDyeDamage();
                             data[4] = ((EntitySheep) eLiving).getSheared() ? 1 : 0;
-                        }
-                        else if (eLiving instanceof EntityOcelot)
+                        } else if (eLiving instanceof EntityOcelot)
                         {
                             data[3] = ((EntityOcelot) eLiving).getTameSkin();
-                        }
-                        else if (eLiving instanceof EntitySkeleton)
+                        } else if (eLiving instanceof EntitySkeleton)
                         {
 //                            data[3] = ((EntitySkeleton) eLiving).getSkeletonType().ordinal();
-                        }
-                        else if (eLiving instanceof EntityZombie)
+                        } else if (eLiving instanceof EntityZombie)
                         {
 //                            data[3] = ((EntityZombie) eLiving).isVillager() ? 1 : 0; TODO Fix for MC 1.10
                             data[4] = ((EntityZombie) eLiving).isChild() ? 1 : 0;
                         }
                     }
                 }
-            }
-            else
+            } else
             {
                 name = "";
             }
-            GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_UPDATE_TELEMETRY, this.world.provider.getDimension(), new Object[] { this.getPos(), name, data[0], data[1], data[2], data[3], data[4], strUUID }), new TargetPoint(this.world.provider.getDimension(), this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), 320D));
+            GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_UPDATE_TELEMETRY, this.world.provider.getDimension(), new Object[]
+            {this.getPos(), name, data[0], data[1], data[2], data[3], data[4], strUUID}),
+                new TargetPoint(this.world.provider.getDimension(), this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), 320D));
         }
     }
-    
+
     @SideOnly(Side.CLIENT)
-    public void receiveUpdate(List <Object> data, int dimID)
+    public void receiveUpdate(List<Object> data, int dimID)
     {
         String name = (String) data.get(1);
         if (name.startsWith("$"))
         {
-            //It's a player name
+            // It's a player name
             this.clientClass = EntityPlayerMP.class;
             String strName = name.substring(1);
             this.clientName = strName;
             this.clientGameProfile = PlayerUtil.getSkinForName(strName, (String) data.get(7), dimID);
-        }
-        else
+        } else
         {
             EntityEntry entityEntry = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(name));
             this.clientClass = entityEntry == null ? null : entityEntry.getEntityClass();
@@ -247,8 +246,6 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
         Long lsb = nbt.getLong("entityUUIDLeast");
         this.toUpdate = new UUID(msb, lsb);
     }
-
-
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)
@@ -279,7 +276,7 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
                 return;
             }
         }
-        //TODO Add some kind of watcher to add the entity when next loaded
+        // TODO Add some kind of watcher to add the entity when next loaded
         this.linkedEntity = null;
     }
 
@@ -338,10 +335,10 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
     }
 
     /**
-     * Call this when a player wears a frequency module to check
-     * whether it has been linked with a Telemetry Unit.
+     * Call this when a player wears a frequency module to check whether it has
+     * been linked with a Telemetry Unit.
      *
-     * @param held   The frequency module
+     * @param held The frequency module
      * @param player
      */
     public static void frequencyModulePlayer(ItemStack held, EntityPlayerMP player, boolean remove)
@@ -358,12 +355,11 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
             int y = fmData.getInteger("teCoordY");
             int z = fmData.getInteger("teCoordZ");
             WorldProvider wp = WorldUtil.getProviderForDimensionServer(dim);
-            //TODO
+            // TODO
             if (wp == null || wp.world == null)
             {
                 GCLog.debug("Frequency module worn: world provider is null.  This is a bug. " + dim);
-            }
-            else
+            } else
             {
                 TileEntity te = wp.world.getTileEntity(new BlockPos(x, y, z));
                 if (te instanceof TileEntityTelemetry)
@@ -372,8 +368,7 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
                     {
                         if (((TileEntityTelemetry) te).linkedEntity == player)
                             ((TileEntityTelemetry) te).removeTrackedEntity();
-                    }
-                    else
+                    } else
                     {
                         ((TileEntityTelemetry) te).addTrackedEntity(player.getUniqueID());
                     }
@@ -386,7 +381,7 @@ public class TileEntityTelemetry extends TileEntity implements ITickable
     {
         for (BlockVec3Dim telemeter : loadedList)
         {
-			TileEntity te = telemeter.getTileEntityNoLoad();
+            TileEntity te = telemeter.getTileEntityNoLoad();
             if (te instanceof TileEntityTelemetry)
             {
                 if (((TileEntityTelemetry) te).linkedEntity == playerOld)

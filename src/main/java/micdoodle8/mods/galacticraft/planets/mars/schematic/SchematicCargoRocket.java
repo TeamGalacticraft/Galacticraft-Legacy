@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SchematicCargoRocket implements ISchematicPage
 {
+
     @Override
     public int getPageID()
     {
@@ -54,8 +55,7 @@ public class SchematicCargoRocket implements ISchematicPage
         if (this.getPageID() > o.getPageID())
         {
             return 1;
-        }
-        else
+        } else
         {
             return -1;
         }

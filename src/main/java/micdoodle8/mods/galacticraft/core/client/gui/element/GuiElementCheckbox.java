@@ -1,18 +1,21 @@
 package micdoodle8.mods.galacticraft.core.client.gui.element;
 
 import micdoodle8.mods.galacticraft.core.Constants;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiElementCheckbox extends GuiButton
 {
+
     protected static final ResourceLocation texture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/gui.png");
     public Boolean isSelected;
     private ICheckBoxCallback parentGui;
@@ -63,7 +66,8 @@ public class GuiElementCheckbox extends GuiButton
             par1Minecraft.getTextureManager().bindTexture(GuiElementCheckbox.texture);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
-            this.drawTexturedModalRect(this.x, this.y, this.isSelected ? this.texX + this.texWidth : this.texX, this.hovered ? this.shiftOnHover ? this.texY + this.texHeight : this.texY : this.texY, this.width, this.height);
+            this.drawTexturedModalRect(this.x, this.y, this.isSelected ? this.texX + this.texWidth : this.texX, this.hovered ? this.shiftOnHover ? this.texY + this.texHeight : this.texY : this.texY,
+                this.width, this.height);
             this.mouseDragged(par1Minecraft, par2, par3);
             par1Minecraft.fontRenderer.drawString(this.displayString, this.x + this.width + 3, this.y + (this.height - 6) / 2, this.textColor, false);
         }
@@ -94,8 +98,7 @@ public class GuiElementCheckbox extends GuiButton
                 this.isSelected = !this.isSelected;
                 this.parentGui.onSelectionChanged(this, this.isSelected);
                 return true;
-            }
-            else
+            } else
             {
                 this.parentGui.onIntruderInteraction();
             }
@@ -106,6 +109,7 @@ public class GuiElementCheckbox extends GuiButton
 
     public interface ICheckBoxCallback
     {
+
         void onSelectionChanged(GuiElementCheckbox checkbox, boolean newSelected);
 
         boolean canPlayerEdit(GuiElementCheckbox checkbox, EntityPlayer player);

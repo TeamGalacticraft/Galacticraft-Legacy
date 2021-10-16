@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockTintedGlassPane extends ItemBlock
 {
+
     public ItemBlockTintedGlassPane(Block block)
     {
         super(block);
@@ -24,12 +25,11 @@ public class ItemBlockTintedGlassPane extends ItemBlock
         return damage;
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int par1)
-    {
-        return this.getBlock().getIcon(0, par1);
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public IIcon getIconFromDamage(int par1) { return
+     * this.getBlock().getIcon(0, par1); }
+     */
 
     @Override
     public String getTranslationKey(ItemStack itemstack)

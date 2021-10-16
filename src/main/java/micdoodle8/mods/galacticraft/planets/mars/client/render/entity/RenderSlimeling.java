@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderSlimeling extends RenderLiving<EntitySlimeling>
 {
+
     private static final ResourceLocation landerTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/model/slimeling/green.png");
     private boolean texSwitch;
 
@@ -65,7 +66,7 @@ public class RenderSlimeling extends RenderLiving<EntitySlimeling>
     {
         super.renderLayers(slimeling, p_177093_2_, p_177093_3_, partialTicks, p_177093_5_, p_177093_6_, p_177093_7_, p_177093_8_);
 
-        //After rendering the slimeling, reset the color tint to none
+        // After rendering the slimeling, reset the color tint to none
         GL11.glColor3f(1F, 1F, 1F);
     }
 

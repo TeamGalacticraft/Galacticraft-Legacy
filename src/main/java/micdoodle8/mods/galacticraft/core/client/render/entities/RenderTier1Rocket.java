@@ -1,14 +1,15 @@
 package micdoodle8.mods.galacticraft.core.client.render.entities;
 
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntitySpaceshipBase;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -17,6 +18,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderTier1Rocket extends Render<EntitySpaceshipBase>
 {
+
     private ResourceLocation spaceshipTexture;
 
     protected ModelBase modelSpaceship;
@@ -34,15 +36,10 @@ public class RenderTier1Rocket extends Render<EntitySpaceshipBase>
         this.shadowSize = 0.9F;
     }
 
-    protected ResourceLocation func_110779_a(Entity entity)
-    {
-        return this.spaceshipTexture;
-    }
-
     @Override
     protected ResourceLocation getEntityTexture(EntitySpaceshipBase par1Entity)
     {
-        return this.func_110779_a(par1Entity);
+        return this.spaceshipTexture;
     }
 
     @Override
@@ -72,7 +69,7 @@ public class RenderTier1Rocket extends Render<EntitySpaceshipBase>
 
         GL11.glPopMatrix();
     }
-    
+
     @Override
     public boolean shouldRender(EntitySpaceshipBase rocket, ICamera camera, double camX, double camY, double camZ)
     {

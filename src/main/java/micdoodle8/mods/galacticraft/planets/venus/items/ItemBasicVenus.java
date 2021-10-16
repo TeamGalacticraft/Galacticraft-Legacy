@@ -22,7 +22,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBasicVenus extends ItemDesc implements ISortableItem
 {
-    public static String[] names = { "shield_controller", "ingot_lead", "radioisotope_core", "thermal_fabric", "solar_dust", "solar_module_2", "thin_solar_wafer" };
+
+    public static String[] names =
+    {"shield_controller", "ingot_lead", "radioisotope_core", "thermal_fabric", "solar_dust", "solar_module_2", "thin_solar_wafer"};
 
     public ItemBasicVenus(String name)
     {
@@ -80,12 +82,12 @@ public class ItemBasicVenus extends ItemDesc implements ISortableItem
     {
         switch (meta)
         {
-        case 0:
-            return EnumSortCategoryItem.GEAR;
-        case 1:
-            return EnumSortCategoryItem.INGOT;
-        default:
-            return EnumSortCategoryItem.GENERAL;
+            case 0:
+                return EnumSortCategoryItem.GEAR;
+            case 1:
+                return EnumSortCategoryItem.INGOT;
+            default:
+                return EnumSortCategoryItem.GENERAL;
         }
     }
 

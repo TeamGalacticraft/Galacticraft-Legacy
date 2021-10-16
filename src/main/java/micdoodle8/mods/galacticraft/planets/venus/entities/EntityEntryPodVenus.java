@@ -20,6 +20,7 @@ import java.util.Random;
 
 public class EntityEntryPodVenus extends EntityLanderBase implements IScaleableFuelLevel, ICameraZoomEntity, IIgnoreShift
 {
+
     private Integer groundPosY = null;
 
     public EntityEntryPodVenus(World var1)
@@ -49,7 +50,7 @@ public class EntityEntryPodVenus extends EntityLanderBase implements IScaleableF
     @Override
     public float getRotateOffset()
     {
-        //flag no rotate
+        // flag no rotate
         return -20F;
     }
 
@@ -103,8 +104,7 @@ public class EntityEntryPodVenus extends EntityLanderBase implements IScaleableF
                     if (this.posY - this.groundPosY > 5.0F)
                     {
                         this.motionY *= 0.995F;
-                    }
-                    else
+                    } else
                         this.motionY *= 0.9995F;
                 }
             }
@@ -220,8 +220,7 @@ public class EntityEntryPodVenus extends EntityLanderBase implements IScaleableF
         {
             GCCoreUtil.openParachestInv((EntityPlayerMP) player, this);
             return true;
-        }
-        else if (player instanceof EntityPlayerMP)
+        } else if (player instanceof EntityPlayerMP)
         {
             if (!this.onGround)
             {
@@ -230,8 +229,7 @@ public class EntityEntryPodVenus extends EntityLanderBase implements IScaleableF
 
             this.removePassengers();
             return true;
-        }
-        else
+        } else
         {
             return true;
         }

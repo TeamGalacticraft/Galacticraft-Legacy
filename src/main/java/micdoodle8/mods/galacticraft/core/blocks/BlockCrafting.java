@@ -5,6 +5,7 @@ import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityCrafting;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -23,6 +24,7 @@ import net.minecraft.world.World;
 
 public class BlockCrafting extends BlockAdvancedTile implements ITileEntityProvider, ISortableBlock, IShiftDescription
 {
+
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
 
     public BlockCrafting(String assetName)
@@ -76,16 +78,13 @@ public class BlockCrafting extends BlockAdvancedTile implements ITileEntityProvi
         if (facing == EnumFacing.DOWN)
         {
             facing = EnumFacing.UP;
-        }
-        else if (facing == EnumFacing.UP)
+        } else if (facing == EnumFacing.UP)
         {
             facing = EnumFacing.NORTH;
-        }
-        else if (facing == EnumFacing.WEST)
+        } else if (facing == EnumFacing.WEST)
         {
             facing = EnumFacing.DOWN;
-        }
-        else
+        } else
         {
             facing = facing.rotateY();
         }
@@ -123,16 +122,16 @@ public class BlockCrafting extends BlockAdvancedTile implements ITileEntityProvi
 
     public static EnumFacing getFacingFromEntity(World worldIn, BlockPos clickedBlock, EntityLivingBase entityIn)
     {
-        if (MathHelper.abs((float)entityIn.posX - (float)clickedBlock.getX()) < 3.0F && MathHelper.abs((float)entityIn.posZ - (float)clickedBlock.getZ()) < 3.0F)
+        if (MathHelper.abs((float) entityIn.posX - (float) clickedBlock.getX()) < 3.0F && MathHelper.abs((float) entityIn.posZ - (float) clickedBlock.getZ()) < 3.0F)
         {
-            double d0 = entityIn.posY + (double)entityIn.getEyeHeight();
+            double d0 = entityIn.posY + (double) entityIn.getEyeHeight();
 
-            if (d0 - (double)clickedBlock.getY() > 2.0D)
+            if (d0 - (double) clickedBlock.getY() > 2.0D)
             {
                 return EnumFacing.UP;
             }
 
-            if ((double)clickedBlock.getY() - d0 > 1.0D)
+            if ((double) clickedBlock.getY() - d0 > 1.0D)
             {
                 return EnumFacing.DOWN;
             }
@@ -146,7 +145,7 @@ public class BlockCrafting extends BlockAdvancedTile implements ITileEntityProvi
     {
         return EnumSortCategoryBlock.GENERAL;
     }
-    
+
     @Override
     public String getShiftDescription(int meta)
     {
@@ -176,7 +175,7 @@ public class BlockCrafting extends BlockAdvancedTile implements ITileEntityProvi
     {
         return new BlockStateContainer(this, FACING);
     }
-    
+
     @Override
     public void dropEntireInventory(World worldIn, BlockPos pos, IBlockState state)
     {
@@ -184,7 +183,7 @@ public class BlockCrafting extends BlockAdvancedTile implements ITileEntityProvi
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity instanceof TileEntityCrafting)
         {
-            ((TileEntityCrafting)tileEntity).dropHiddenOutputBuffer(worldIn, pos);
+            ((TileEntityCrafting) tileEntity).dropHiddenOutputBuffer(worldIn, pos);
         }
     }
 

@@ -1,15 +1,17 @@
 package micdoodle8.mods.galacticraft.planets.mars.world.gen;
 
+import micdoodle8.mods.galacticraft.api.world.DataBuilder.BiomeData;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeGenFlatMars extends BiomeMars
 {
-    public BiomeGenFlatMars(BiomeProperties properties)
+
+    public BiomeGenFlatMars(BiomeData properties)
     {
         super(properties);
     }
-    
+
     @Override
     public void registerTypes(Biome b)
     {

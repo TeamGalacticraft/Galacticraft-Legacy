@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemHoeMars extends ItemHoe implements ISortableItem
 {
+
     public ItemHoeMars(ToolMaterial par2EnumToolMaterial)
     {
         super(par2EnumToolMaterial);

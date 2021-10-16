@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ParticleOilDrip extends Particle
 {
+
     private int bobTimer;
 
     public ParticleOilDrip(World world, double x, double y, double z)
@@ -45,8 +46,7 @@ public class ParticleOilDrip extends Particle
             this.motionY *= 0.02D;
             this.motionZ *= 0.02D;
             this.setParticleTextureIndex(113);
-        }
-        else
+        } else
         {
             this.setParticleTextureIndex(112);
         }

@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.mars.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.blocks.ISortableBlock;
 import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
@@ -32,19 +36,15 @@ import net.minecraftforge.common.IShearable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class BlockCavernousVine extends Block implements IShearable, IShiftDescription, ISortableBlock
 {
+
     public static final PropertyEnum<EnumVineType> VINE_TYPE = PropertyEnum.create("vinetype", EnumVineType.class);
 
     public enum EnumVineType implements IStringSerializable
     {
-        VINE_0(0, "vine_0"),
-        VINE_1(1, "vine_1"),
-        VINE_2(2, "vine_2");
+
+        VINE_0(0, "vine_0"), VINE_1(1, "vine_1"), VINE_2(2, "vine_2");
 
         private final int meta;
         private final String name;
@@ -61,6 +61,7 @@ public class BlockCavernousVine extends Block implements IShearable, IShiftDescr
         }
 
         private final static EnumVineType[] values = values();
+
         public static EnumVineType byMetadata(int meta)
         {
             return values[meta % values.length];

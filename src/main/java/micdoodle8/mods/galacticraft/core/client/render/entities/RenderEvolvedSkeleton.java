@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlaySensorGlasses;
 import micdoodle8.mods.galacticraft.core.client.model.ModelEvolvedSkeleton;
 import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedSkeleton;
+
 import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -19,6 +20,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderEvolvedSkeleton extends RenderBiped<EntityEvolvedSkeleton>
 {
+
     private static final ResourceLocation skeletonTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/skeleton.png");
     private static final ResourceLocation powerTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/power.png");
 
@@ -31,6 +33,7 @@ public class RenderEvolvedSkeleton extends RenderBiped<EntityEvolvedSkeleton>
         this.addLayer(new LayerHeldItem(this));
         this.addLayer(new LayerBipedArmor(this)
         {
+
             @Override
             protected void initArmor()
             {
@@ -68,8 +71,6 @@ public class RenderEvolvedSkeleton extends RenderBiped<EntityEvolvedSkeleton>
             OverlaySensorGlasses.postRenderMobs();
         }
     }
-
-
 
     @Override
     protected void applyRotations(EntityEvolvedSkeleton skellie, float pitch, float yaw, float partialTicks)

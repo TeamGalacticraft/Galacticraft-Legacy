@@ -2,6 +2,7 @@ package micdoodle8.mods.galacticraft.core.blocks;
 
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.fluid.OxygenPressureProtocol;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.EnumPushReaction;
@@ -19,8 +20,9 @@ import java.util.Random;
 
 public class BlockBrightBreathableAir extends BlockAir
 {
+
     public static final PropertyBool THERMAL = PropertyBool.create("thermal");
-    
+
     public BlockBrightBreathableAir(String assetName)
     {
         this.setResistance(1000.0F);
@@ -55,8 +57,7 @@ public class BlockBrightBreathableAir extends BlockAir
         if (block == this || block == GCBlocks.breatheableAir)
         {
             return false;
-        }
-        else
+        } else
         {
             return block instanceof BlockAir;
         }
@@ -66,7 +67,8 @@ public class BlockBrightBreathableAir extends BlockAir
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (Blocks.AIR == blockIn)
-        //Do no check if replacing breatheableAir with a solid block, although that could be dividing a sealed space
+        // Do no check if replacing breatheableAir with a solid block, although
+        // that could be dividing a sealed space
         {
             OxygenPressureProtocol.onEdgeBlockUpdated((World) worldIn, pos);
         }
@@ -95,7 +97,7 @@ public class BlockBrightBreathableAir extends BlockAir
     {
         return 15;
     }
-    
+
     @Override
     public int getLightOpacity(IBlockState state)
     {

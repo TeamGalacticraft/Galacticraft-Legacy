@@ -19,6 +19,7 @@ import java.util.Random;
 
 public class RoomTreasureMars extends RoomTreasure
 {
+
     public static ResourceLocation MARSCHEST = new ResourceLocation(Constants.ASSET_PREFIX, "dungeon_tier_2");
     public static final ResourceLocation TABLE_TIER_2_DUNGEON = LootTableList.register(MARSCHEST);
 
@@ -57,14 +58,12 @@ public class RoomTreasureMars extends RoomTreasure
                                 if (getDirection() == EnumFacing.SOUTH && k == 0)
                                 {
                                     placeBlock = false;
-                                }
-                                else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
+                                } else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
                                 {
                                     placeBlock = false;
                                 }
                             }
-                        }
-                        else
+                        } else
                         {
                             int start = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 - 1;
                             int end = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 + 1;
@@ -73,8 +72,7 @@ public class RoomTreasureMars extends RoomTreasure
                                 if (getDirection() == EnumFacing.EAST && i == 0)
                                 {
                                     placeBlock = false;
-                                }
-                                else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
+                                } else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
                                 {
                                     placeBlock = false;
                                 }
@@ -83,17 +81,14 @@ public class RoomTreasureMars extends RoomTreasure
                         if (placeBlock)
                         {
                             this.setBlockState(worldIn, this.configuration.getBrickBlock(), i, j, k, boundingBox);
-                        }
-                        else
+                        } else
                         {
                             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, boundingBox);
                         }
-                    }
-                    else if ((i == 1 && k == 1) || (i == 1 && k == this.sizeZ - 1) || (i == this.sizeX - 1 && k == 1) || (i == this.sizeX - 1 && k == this.sizeZ - 1))
+                    } else if ((i == 1 && k == 1) || (i == 1 && k == this.sizeZ - 1) || (i == this.sizeX - 1 && k == 1) || (i == this.sizeX - 1 && k == this.sizeZ - 1))
                     {
                         this.setBlockState(worldIn, Blocks.GLOWSTONE.getDefaultState(), i, j, k, boundingBox);
-                    }
-                    else if (i == this.sizeX / 2 && j == 1 && k == this.sizeZ / 2)
+                    } else if (i == this.sizeX / 2 && j == 1 && k == this.sizeZ / 2)
                     {
                         BlockPos blockpos = new BlockPos(this.getXWithOffset(i, k), this.getYWithOffset(j), this.getZWithOffset(i, k));
                         if (boundingBox.isVecInside(blockpos))
@@ -105,13 +100,12 @@ public class RoomTreasureMars extends RoomTreasure
                                 ResourceLocation chesttype = TABLE_TIER_2_DUNGEON;
                                 if (worldIn.provider instanceof IGalacticraftWorldProvider)
                                 {
-                                    chesttype = ((IGalacticraftWorldProvider)worldIn.provider).getDungeonChestType();
+                                    chesttype = ((IGalacticraftWorldProvider) worldIn.provider).getDungeonChestType();
                                 }
                                 treasureChest.setLootTable(chesttype, random.nextLong());
                             }
                         }
-                    }
-                    else
+                    } else
                     {
                         this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, boundingBox);
                     }

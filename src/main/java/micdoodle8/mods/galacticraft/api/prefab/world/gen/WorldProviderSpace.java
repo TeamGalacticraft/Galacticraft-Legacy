@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.api.prefab.world.gen;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.api.world.EnumAtmosphericGas;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
@@ -21,28 +25,25 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-
 public abstract class WorldProviderSpace extends WorldProvider implements IGalacticraftWorldProvider
 {
+
     private long timeCurrentOffset = 0L;
     public long preTickTime = Long.MIN_VALUE;
     private long saveTCO = 0L;
     static Field tickCounter;
-    
+
     static
     {
         try
         {
             tickCounter = VillageCollection.class.getDeclaredField(GCCoreUtil.isDeobfuscated() ? "tickCounter" : "field_75553_e");
-        } catch (Exception e) 
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * The fog color in this dimension
      */
@@ -56,7 +57,8 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     /**
      * Whether or not there will be rain or snow in this dimension
      *
-     * @deprecated Use new shouldDisablePrecipitation method in IGalacticraftWorldProvider interface
+     * @deprecated Use new shouldDisablePrecipitation method in
+     *             IGalacticraftWorldProvider interface
      */
     @Deprecated
     public boolean canRainOrSnow()
@@ -65,14 +67,13 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     }
 
     /**
-     * Whether or not to render vanilla sunset (can be overridden with custom sky provider)
+     * Whether or not to render vanilla sunset (can be overridden with custom
+     * sky provider)
      */
     public abstract boolean hasSunset();
 
     /**
-     * The length of day in this dimension
-     * <p/>
-     * Default: 24000
+     * The length of day in this dimension <p/> Default: 24000
      */
     public abstract long getDayLength();
 
@@ -80,10 +81,12 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
 
     @Deprecated
     /**
-     * If possible you should not override this so that BiomeProviderDefault is used (see Moon, Mars and Asteroids for examples)
+     * If possible you should not override this so that BiomeProviderDefault is
+     * used (see Moon, Mars and Asteroids for examples)
      * 
-     * But this can be used for planets where you have multiple biomes
-     * In that case if using BiomeAdaptive (see Venus for example) this will need a BiomeAdaptive.setBodyMultiBiome() call;
+     * But this can be used for planets where you have multiple biomes In that
+     * case if using BiomeAdaptive (see Venus for example) this will need a
+     * BiomeAdaptive.setBodyMultiBiome() call;
      */
     public Class<? extends BiomeProvider> getBiomeProviderClass()
     {
@@ -104,18 +107,23 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
             long newTime = world.getWorldInfo().getWorldTime();
             if (this.preTickTime == Long.MIN_VALUE)
             {
-                //First tick: get the timeCurrentOffset from saved ticks in villages.dat :)
+                // First tick: get the timeCurrentOffset from saved ticks in
+                // villages.dat :)
                 int savedTick = 0;
-                try {
+                try
+                {
                     tickCounter.setAccessible(true);
                     savedTick = tickCounter.getInt(this.world.villageCollection);
-                    if (savedTick < 0) savedTick = 0;
-                } catch (Exception ignore) { }
+                    if (savedTick < 0)
+                        savedTick = 0;
+                } catch (Exception ignore)
+                {
+                }
                 this.timeCurrentOffset = savedTick - newTime;
-            }
-            else
+            } else
             {
-                //Detect jumps in world time (e.g. because of bed use on Overworld) and reverse them for this world
+                // Detect jumps in world time (e.g. because of bed use on
+                // Overworld) and reverse them for this world
                 long diff = (newTime - this.preTickTime);
                 if (diff > 1L)
                 {
@@ -126,7 +134,7 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
             this.preTickTime = newTime;
             this.saveTCO = 0L;
         }
-        
+
         if (this.shouldDisablePrecipitation())
         {
             this.world.getWorldInfo().setRainTime(0);
@@ -135,8 +143,7 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
             this.world.getWorldInfo().setThundering(false);
             this.world.rainingStrength = 0.0F;
             this.world.thunderingStrength = 0.0F;
-        }
-        else
+        } else
         {
             this.updateWeatherOverride();
         }
@@ -173,7 +180,7 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     {
         return this.getCelestialBody().atmosphere.isBreathable();
     }
-    
+
     @Override
     public boolean shouldDisablePrecipitation()
     {
@@ -203,7 +210,7 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
         {
             return 5.0D;
         }
-        return d * 100D; 
+        return d * 100D;
     }
 
     @Override
@@ -211,7 +218,7 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     {
         return this.getCelestialBody().atmosphere.thermalLevel();
     }
-    
+
     @Override
     public float getWindLevel()
     {
@@ -227,7 +234,7 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     @Override
     public boolean canBlockFreeze(BlockPos pos, boolean byWater)
     {
-        //TODO: if block is water and world temperature is low, freeze
+        // TODO: if block is water and world temperature is low, freeze
         return super.canBlockFreeze(pos, byWater);
     }
 
@@ -301,8 +308,9 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     /**
      * Do not override this.
      * 
-     * Returns true on clients (to allow rendering of sky etc, maybe even clouds).
-     * Returns false on servers (to disable Nether Portal mob spawning and sleeping in beds).
+     * Returns true on clients (to allow rendering of sky etc, maybe even
+     * clouds). Returns false on servers (to disable Nether Portal mob spawning
+     * and sleeping in beds).
      */
     @Override
     public boolean isSurfaceWorld()
@@ -311,25 +319,28 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     }
 
     /**
-     * This must normally return false, so that if the dimension is set for 'static' loading
-     * it will not keep chunks around the dimension spawn position permanently loaded.
-     * It is also needed to be false so that the 'Force Overworld Respawn' setting in core.conf
-     * will work correctly - see also WorldProviderS[ace.getRespawnDimension(). 
+     * This must normally return false, so that if the dimension is set for
+     * 'static' loading it will not keep chunks around the dimension spawn
+     * position permanently loaded. It is also needed to be false so that the
+     * 'Force Overworld Respawn' setting in core.conf will work correctly - see
+     * also WorldProviderS[ace.getRespawnDimension().
      * 
-     * But: returning 'false' will cause beds to explode in this dimension.
-     * If you want beds NOT to explode, you can override this, like in WorldProviderMoon.
+     * But: returning 'false' will cause beds to explode in this dimension. If
+     * you want beds NOT to explode, you can override this, like in
+     * WorldProviderMoon.
      */
-	@Override
-	public boolean canRespawnHere()
-	{
-		return false;
-	}
-	
+    @Override
+    public boolean canRespawnHere()
+    {
+        return false;
+    }
+
     /**
      * Do NOT override this in your add-ons.
      * 
-     * This controls whether the player will respawn in the space dimension or the Overworld
-     * in accordance with the 'Force Overworld Respawn' setting on core.conf.
+     * This controls whether the player will respawn in the space dimension or
+     * the Overworld in accordance with the 'Force Overworld Respawn' setting on
+     * core.conf.
      */
     @Override
     public int getRespawnDimension(EntityPlayerMP player)
@@ -340,9 +351,10 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     /**
      * If true, the the player should respawn in this dimension upon death.
      * 
-     * Obeying the 'Force Overworld Respawn' setting from core.conf is an important protection
-     * for players are endlessly dying in a space dimension: for example respawning
-     * in an airless environment with no oxygen tanks and no oxygen machinery.       
+     * Obeying the 'Force Overworld Respawn' setting from core.conf is an
+     * important protection for players are endlessly dying in a space
+     * dimension: for example respawning in an airless environment with no
+     * oxygen tanks and no oxygen machinery.
      */
     public boolean shouldForceRespawn()
     {
@@ -350,9 +362,9 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     }
 
     /**
-     * If false (the default) then Nether Portals will have no function on this world.
-     * Nether Portals can still be constructed, if the player can make fire, they just
-     * won't do anything.
+     * If false (the default) then Nether Portals will have no function on this
+     * world. Nether Portals can still be constructed, if the player can make
+     * fire, they just won't do anything.
      * 
      * @return True if Nether Portals should work like on the Overworld.
      */
@@ -367,7 +379,7 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     {
         return 0.005F;
     }
-    
+
     @Override
     public IChunkGenerator createChunkGenerator()
     {
@@ -379,17 +391,16 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
             for (int i = 0; i < constructors.length; i++)
             {
                 Constructor<?> constr = constructors[i];
-                if (Arrays.equals(constr.getParameterTypes(), new Object[] { World.class, long.class, boolean.class }))
+                if (Arrays.equals(constr.getParameterTypes(), new Object[]
+                {World.class, long.class, boolean.class}))
                 {
                     return (IChunkGenerator) constr.newInstance(this.world, this.world.getSeed(), this.world.getWorldInfo().isMapFeaturesEnabled());
-                }
-                else if (constr.getParameterTypes().length == 0)
+                } else if (constr.getParameterTypes().length == 0)
                 {
                     return (IChunkGenerator) constr.newInstance();
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -411,22 +422,20 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
                 Constructor<?>[] constructors = biomeProviderClass.getConstructors();
                 for (Constructor<?> constr : constructors)
                 {
-                    if (Arrays.equals(constr.getParameterTypes(), new Object[] { World.class }))
+                    if (Arrays.equals(constr.getParameterTypes(), new Object[]
+                    {World.class}))
                     {
                         this.biomeProvider = (BiomeProvider) constr.newInstance(this.world);
-                    }
-                    else if (constr.getParameterTypes().length == 0)
+                    } else if (constr.getParameterTypes().length == 0)
                     {
                         this.biomeProvider = (BiomeProvider) constr.newInstance();
                     }
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
             }
-        }
-        else
+        } else
         {
             this.biomeProvider = new BiomeProviderDefault(this.getCelestialBody());
         }
@@ -448,8 +457,9 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
         return false;
     }
 
-    //Work around vanilla feature: worlds which are not the Overworld cannot change the time, as the worldInfo is a DerivedWorldInfo
-    //Therefore each Galacticraft dimension maintains its own timeCurrentOffset
+    // Work around vanilla feature: worlds which are not the Overworld cannot
+    // change the time, as the worldInfo is a DerivedWorldInfo
+    // Therefore each Galacticraft dimension maintains its own timeCurrentOffset
     @Override
     public void setWorldTime(long time)
     {
@@ -461,14 +471,13 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
                 this.timeCurrentOffset = this.saveTCO;
                 this.saveTime();
                 this.preTickTime = time;
-            }
-            else
+            } else
             {
                 long newTCO = time - world.getWorldInfo().getWorldTime();
                 long diff = newTCO - this.timeCurrentOffset;
                 if (diff > 1L || diff < -1L)
                 {
-                    this.timeCurrentOffset = newTCO; 
+                    this.timeCurrentOffset = newTCO;
                     this.saveTime();
                     this.preTickTime = time;
                 }
@@ -482,14 +491,15 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
     {
         if (JavaUtil.instance.isCalledBy(CommandTime.class))
         {
-            this.saveTCO  = this.timeCurrentOffset;
+            this.saveTCO = this.timeCurrentOffset;
         }
         return world.getWorldInfo().getWorldTime() + this.timeCurrentOffset;
     }
-    
+
     /**
-     * Adjust time offset on Galacticraft worlds when the Overworld time jumps and you don't want the time
-     * on all the other Galacticraft worlds to jump also - see WorldUtil.setNextMorning() for example
+     * Adjust time offset on Galacticraft worlds when the Overworld time jumps
+     * and you don't want the time on all the other Galacticraft worlds to jump
+     * also - see WorldUtil.setNextMorning() for example
      */
     public void adjustTimeOffset(long diff)
     {
@@ -500,7 +510,7 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
             this.saveTime();
         }
     }
-    
+
     public void adjustTime(long newTime)
     {
         long diff = newTime - this.preTickTime;
@@ -511,17 +521,21 @@ public abstract class WorldProviderSpace extends WorldProvider implements IGalac
             this.saveTime();
         }
     }
-    
+
     /**
-     * Save this world's custom time (from timeCurrentOffset) into this world's villages.dat :)
+     * Save this world's custom time (from timeCurrentOffset) into this world's
+     * villages.dat :)
      */
     private void saveTime()
     {
-        try {
+        try
+        {
             VillageCollection vc = this.world.villageCollection;
             tickCounter.setAccessible(true);
             tickCounter.setInt(vc, (int) (this.getWorldTime()));
             vc.markDirty();
-        } catch (Exception ignore) { }
+        } catch (Exception ignore)
+        {
+        }
     }
 }

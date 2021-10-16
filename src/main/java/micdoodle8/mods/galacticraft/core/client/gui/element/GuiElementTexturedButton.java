@@ -4,10 +4,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiElementTexturedButton extends GuiButton
 {
+
     private final ResourceLocation texture;
     private final int bWidth, bHeight;
 
@@ -36,8 +38,7 @@ public class GuiElementTexturedButton extends GuiButton
             if (!this.enabled)
             {
                 var6 = -6250336;
-            }
-            else if (this.hovered)
+            } else if (this.hovered)
             {
                 var6 = 16777120;
             }

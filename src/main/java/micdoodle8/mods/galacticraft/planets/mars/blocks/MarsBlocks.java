@@ -14,6 +14,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class MarsBlocks
 {
+
     public static Block marsBlock;
     public static Block blockSludge;
     public static Block vine;
@@ -36,8 +37,10 @@ public class MarsBlocks
         MarsBlocks.machineT2 = new BlockMachineMarsT2("mars_machine_t2").setHardness(1.8F);
         MarsBlocks.creeperEgg = new BlockCreeperEgg("creeper_egg").setHardness(-1.0F);
         MarsBlocks.bossSpawner = new BlockBossSpawnerMars("boss_spawner_mars");
-        MarsBlocks.marsCobblestoneStairs = new BlockStairsGC("mars_stairs_cobblestone", marsBlock.getDefaultState().withProperty(BlockBasicMars.BASIC_TYPE, BlockBasicMars.EnumBlockBasic.COBBLESTONE)).setHardness(1.5F);
-        MarsBlocks.marsBricksStairs = new BlockStairsGC("mars_stairs_brick", marsBlock.getDefaultState().withProperty(BlockBasicMars.BASIC_TYPE, BlockBasicMars.EnumBlockBasic.DUNGEON_BRICK)).setHardness(4.0F);
+        MarsBlocks.marsCobblestoneStairs =
+            new BlockStairsGC("mars_stairs_cobblestone", marsBlock.getDefaultState().withProperty(BlockBasicMars.BASIC_TYPE, BlockBasicMars.EnumBlockBasic.COBBLESTONE)).setHardness(1.5F);
+        MarsBlocks.marsBricksStairs =
+            new BlockStairsGC("mars_stairs_brick", marsBlock.getDefaultState().withProperty(BlockBasicMars.BASIC_TYPE, BlockBasicMars.EnumBlockBasic.DUNGEON_BRICK)).setHardness(4.0F);
 
         GCBlocks.hiddenBlocks.add(MarsBlocks.bossSpawner);
 
@@ -57,16 +60,17 @@ public class MarsBlocks
 
     public static void setHarvestLevels()
     {
-        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 1, 0); //Copper ore
-        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 1, 1); //Tin ore
-        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 3, 2); //Desh ore
-        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 1, 3); //Iron ore
-        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 0, 4); //Cobblestone
-        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 3, 7); //Dungeon brick
-        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 0, 8); //Decoration block
-        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 1, 9); //Stone
-        setHarvestLevel(MarsBlocks.marsBlock, "shovel", 0, 5); //Top dirt
-        setHarvestLevel(MarsBlocks.marsBlock, "shovel", 0, 6); //Dirt
+        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 1, 0); // Copper ore
+        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 1, 1); // Tin ore
+        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 3, 2); // Desh ore
+        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 1, 3); // Iron ore
+        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 0, 4); // Cobblestone
+        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 3, 7); // Dungeon brick
+        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 0, 8); // Decoration
+                                                                // block
+        setHarvestLevel(MarsBlocks.marsBlock, "pickaxe", 1, 9); // Stone
+        setHarvestLevel(MarsBlocks.marsBlock, "shovel", 0, 5); // Top dirt
+        setHarvestLevel(MarsBlocks.marsBlock, "shovel", 0, 6); // Dirt
         setHarvestLevel(MarsBlocks.rock, "pickaxe", 3);
 //        setHarvestLevel(MarsBlocks.marsCobblestoneStairs, "pickaxe", 0);
 //        setHarvestLevel(MarsBlocks.marsBricksStairs, "pickaxe", 3);

@@ -1,7 +1,5 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.network.PacketDynamic;
@@ -11,6 +9,7 @@ import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.FluidHandlerWrapper;
 import micdoodle8.mods.galacticraft.core.wrappers.IFluidHandlerWrapper;
 import micdoodle8.mods.galacticraft.core.wrappers.ScheduledBlockChange;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,7 +20,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidEvent;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -29,11 +33,16 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
 import java.util.List;
+
+import javax.annotation.Nullable;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHandlerWrapper
 {
+
     public FluidTankGC fluidTank = new FluidTankGC(16000, this);
     public boolean updateClient = false;
     private DelayTimer delayTimer = new DelayTimer(1);
@@ -66,7 +75,7 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
                 Block b = fluidTank.getFluid().getFluid().getBlock();
                 if (!(b == null || b instanceof BlockAir))
                 {
-                	TickHandlerServer.scheduleNewBlockChange(GCCoreUtil.getDimensionID(this.world), new ScheduledBlockChange(pos, b.getStateFromMeta(0), 3));
+                    TickHandlerServer.scheduleNewBlockChange(GCCoreUtil.getDimensionID(this.world), new ScheduledBlockChange(pos, b.getStateFromMeta(0), 3));
                 }
             }
         }
@@ -85,7 +94,8 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
         if (!this.world.isRemote && updateClient && delayTimer.markTimeIfDelay(this.world))
         {
             PacketDynamic packet = new PacketDynamic(this);
-            GalacticraftCore.packetPipeline.sendToAllAround(packet, new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID(this.world), getPos().getX(), getPos().getY(), getPos().getZ(), this.getPacketRange()));
+            GalacticraftCore.packetPipeline.sendToAllAround(packet,
+                new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID(this.world), getPos().getX(), getPos().getY(), getPos().getZ(), this.getPacketRange()));
             this.updateClient = false;
         }
     }
@@ -171,10 +181,10 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
         if (last != null && last.fluidTank.getFluid() != null)
         {
             compositeTank.setFluid(last.fluidTank.getFluid().copy());
-        }
-        else
+        } else
         {
-            return new FluidTankInfo[] { compositeTank.getInfo() };
+            return new FluidTankInfo[]
+            {compositeTank.getInfo()};
         }
 
         int capacity = last.fluidTank.getCapacity();
@@ -186,12 +196,10 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
             if (fluid == null || fluid.amount == 0)
             {
 
-            }
-            else if (!compositeTank.getFluid().isFluidEqual(fluid))
+            } else if (!compositeTank.getFluid().isFluidEqual(fluid))
             {
                 break;
-            }
-            else
+            } else
             {
                 compositeTank.getFluid().amount += fluid.amount;
             }
@@ -201,7 +209,8 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
         }
 
         compositeTank.setCapacity(capacity);
-        return new FluidTankInfo[] { compositeTank.getInfo() };
+        return new FluidTankInfo[]
+        {compositeTank.getInfo()};
     }
 
     public void moveFluidDown()
@@ -230,8 +239,7 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
             if (tank != null)
             {
                 lastTank = tank;
-            }
-            else
+            } else
             {
                 break;
             }
@@ -329,8 +337,7 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
                 packet.decodeInto(data);
                 packet.handleClientSide(FMLClientHandler.instance().getClientPlayerEntity());
             }
-        }
-        catch (Throwable t)
+        } catch (Throwable t)
         {
             throw new RuntimeException("[GC] Failed to read a packet! (" + nbt.getTag("net-type") + ", " + nbt.getTag("net-data"), t);
         }
@@ -346,8 +353,7 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
                 networkedList.add(0);
                 networkedList.add("");
                 networkedList.add(0);
-            }
-            else
+            } else
             {
                 networkedList.add(fluidTank.getCapacity());
                 networkedList.add(fluidTank.getFluid() == null ? "" : fluidTank.getFluid().getFluid().getName());
@@ -369,8 +375,7 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
             if (fluidName.equals(""))
             {
                 fluidTank.setFluid(null);
-            }
-            else
+            } else
             {
                 Fluid fluid = FluidRegistry.getFluid(fluidName);
                 fluidTank.setFluid(new FluidStack(fluid, amount));
@@ -424,7 +429,7 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
         }
         return this.renderAABB;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public double getMaxRenderDistanceSquared()

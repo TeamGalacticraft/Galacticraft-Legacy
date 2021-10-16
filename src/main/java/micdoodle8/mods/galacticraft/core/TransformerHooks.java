@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.core;
 
+import static micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore.PLAYER_Y_OFFSET;
+import static micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore.submergedTextures;
+
 import micdoodle8.mods.galacticraft.api.entity.IAntiGrav;
 import micdoodle8.mods.galacticraft.api.entity.ICameraZoomEntity;
 import micdoodle8.mods.galacticraft.api.item.IArmorGravity;
@@ -18,15 +21,21 @@ import micdoodle8.mods.galacticraft.core.entities.player.EnumGravity;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStatsClient;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
-import micdoodle8.mods.galacticraft.core.util.*;
+import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+import micdoodle8.mods.galacticraft.core.util.FluidUtil;
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+import micdoodle8.mods.galacticraft.core.util.GCLog;
+import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
+import micdoodle8.mods.galacticraft.core.util.WorldUtil;
 import micdoodle8.mods.galacticraft.planets.venus.VenusItems;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,9 +53,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -68,16 +77,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import static micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore.PLAYER_Y_OFFSET;
-import static micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore.submergedTextures;
-
 /**
- * These methods are called from vanilla minecraft through bytecode injection done in MicdoodleCore
+ * These methods are called from vanilla minecraft through bytecode injection
+ * done in MicdoodleCore
  *
  * See https://github.com/micdoodle8/MicdoodleCore
  */
 public class TransformerHooks
 {
+
     private static List<IWorldGenerator> otherModGeneratorsWhitelist = new LinkedList<>();
     private static IWorldGenerator generatorTCAuraNodes = null;
     private static Method generateTCAuraNodes = null;
@@ -136,12 +144,10 @@ public class TransformerHooks
                 }
             }
             return 0.08D - customProvider.getGravity();
-        }
-        else if (entity instanceof IAntiGrav)
+        } else if (entity instanceof IAntiGrav)
         {
             return 0;
-        }
-        else
+        } else
         {
             return 0.08D;
         }
@@ -153,8 +159,7 @@ public class TransformerHooks
         {
             final IGalacticraftWorldProvider customProvider = (IGalacticraftWorldProvider) e.world.provider;
             return Math.max(0.002D, 0.03999999910593033D - (customProvider instanceof IOrbitDimension ? 0.05999999910593033D : customProvider.getGravity()) / 1.75D);
-        }
-        else
+        } else
         {
             return 0.03999999910593033D;
         }
@@ -164,9 +169,8 @@ public class TransformerHooks
     {
         if (e.world.provider instanceof IGalacticraftWorldProvider)
         {
-            return ((IGalacticraftWorldProvider)e.world.provider).getArrowGravity();
-        }
-        else
+            return ((IGalacticraftWorldProvider) e.world.provider).getArrowGravity();
+        } else
         {
             return 0.05F;
         }
@@ -194,12 +198,13 @@ public class TransformerHooks
 
         if (!(world.provider instanceof IGalacticraftWorldProvider) || ConfigManagerCore.enableOtherModsFeatures)
         {
-            try {
+            try
+            {
                 net.minecraftforge.fml.common.registry.GameRegistry.generateWorld(chunkX, chunkZ, world, chunkGenerator, chunkProvider);
             } catch (Exception e)
             {
-                GCLog.severe("Error in another mod's worldgen.  This is *NOT* a Galacticraft bug, report it to the other mod please.");
-                GCLog.severe("Details:- Dimension:" + GCCoreUtil.getDimensionID(world) + "  Chunk cx,cz:" + chunkX + "," + chunkZ + "  Seed:" + world.getSeed());
+                GCLog.error("Error in another mod's worldgen.  This is *NOT* a Galacticraft bug, report it to the other mod please.");
+                GCLog.error("Details:- Dimension:" + GCCoreUtil.getDimensionID(world) + "  Chunk cx,cz:" + chunkX + "," + chunkZ + "  Seed:" + world.getSeed());
                 e.printStackTrace();
             }
             return;
@@ -208,9 +213,9 @@ public class TransformerHooks
         if (!generatorsInitialised)
         {
             generatorsInitialised = true;
-            
+
             if (ConfigManagerCore.whitelistCoFHCoreGen)
-            {   
+            {
                 addWorldGenForName("CoFHCore custom oregen", "cofh.cofhworld.init.WorldHandler");
             }
             addWorldGenForName("GalacticGreg oregen", "bloodasp.galacticgreg.GT_Worldgenerator_Space");
@@ -240,8 +245,7 @@ public class TransformerHooks
                         GCLog.info("Whitelisting ThaumCraft aura node generation on planets.");
                     }
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
             }
         }
@@ -265,10 +269,9 @@ public class TransformerHooks
                 {
                     generateTCAuraNodes.invoke(generatorTCAuraNodes, world, fmlRandom, chunkX, chunkZ, false, true);
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
-                GCLog.severe("Error in another mod's worldgen.  This is *NOT* a Galacticraft bug, report it to the other mod please.");
+                GCLog.error("Error in another mod's worldgen.  This is *NOT* a Galacticraft bug, report it to the other mod please.");
                 e.printStackTrace();
             }
         }
@@ -294,21 +297,21 @@ public class TransformerHooks
                     }
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
         }
     }
 
     /*
-     * Used to supplement the hard-coded blocklist in AE2's MeteoritePlacer class
+     * Used to supplement the hard-coded blocklist in AE2's MeteoritePlacer
+     * class
      */
     public static boolean addAE2MeteorSpawn(Object o, Block b)
     {
         if (o instanceof Collection<?>)
         {
             ((Collection<Block>) o).add(b);
-            ((Collection<Block>) o).addAll(spawnListAE2_GC );
+            ((Collection<Block>) o).addAll(spawnListAE2_GC);
             return true;
         }
         return false;
@@ -379,7 +382,8 @@ public class TransformerHooks
     public static Vec3d getSkyColorHook(World world)
     {
         EntityPlayerSP player = FMLClientHandler.instance().getClient().player;
-        if (world.provider.getSkyRenderer() instanceof SkyProviderOverworld || (player != null && player.posY > Constants.OVERWORLD_CLOUD_HEIGHT && player.getRidingEntity() instanceof EntitySpaceshipBase))
+        if (world.provider.getSkyRenderer() instanceof SkyProviderOverworld
+            || (player != null && player.posY > Constants.OVERWORLD_CLOUD_HEIGHT && player.getRidingEntity() instanceof EntitySpaceshipBase))
         {
             float f1 = world.getCelestialAngle(1.0F);
             float f2 = MathHelper.cos(f1 * Constants.twoPI) * 2.0F + 0.5F;
@@ -412,8 +416,7 @@ public class TransformerHooks
                 double blend = (player.posY - Constants.OVERWORLD_CLOUD_HEIGHT) / (Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT - Constants.OVERWORLD_CLOUD_HEIGHT);
                 double ablend = 1 - blend;
                 return new Vec3d(f4 * blend + vec.x * ablend, f5 * blend + vec.y * ablend, f6 * blend + vec.z * ablend);
-            }
-            else
+            } else
             {
                 double blend = Math.min(1.0D, (player.posY - Constants.OVERWORLD_SKYPROVIDER_STARTHEIGHT) / 300.0D);
                 double ablend = 1.0D - blend;
@@ -431,8 +434,7 @@ public class TransformerHooks
         if (viewEntity.posY >= 256)
         {
             return 255.0F;
-        }
-        else
+        } else
         {
             return regular + viewEntity.getEyeHeight();
         }
@@ -456,12 +458,11 @@ public class TransformerHooks
             if (OxygenUtil.noAtmosphericCombustion(entity.world.provider))
             {
                 return OxygenUtil.isAABBInBreathableAirBlock(entity.world, entity.getEntityBoundingBox());
-            }
-            else
+            } else
             {
                 return true;
             }
-            //Disable fire on Galacticraft worlds with no oxygen
+            // Disable fire on Galacticraft worlds with no oxygen
         }
 
         return false;
@@ -478,7 +479,7 @@ public class TransformerHooks
         if (player.getRidingEntity() instanceof ICameraZoomEntity && ClientProxyCore.mc.gameSettings.thirdPersonView == 0)
         {
             Entity entity = player.getRidingEntity();
-            float offset = ((ICameraZoomEntity)entity).getRotateOffset();
+            float offset = ((ICameraZoomEntity) entity).getRotateOffset();
             if (offset > -10F)
             {
                 offset += PLAYER_Y_OFFSET;
@@ -492,7 +493,7 @@ public class TransformerHooks
             }
         }
 
-        if (viewEntity instanceof EntityLivingBase && viewEntity.world.provider instanceof IZeroGDimension && !((EntityLivingBase)viewEntity).isPlayerSleeping())
+        if (viewEntity instanceof EntityLivingBase && viewEntity.world.provider instanceof IZeroGDimension && !((EntityLivingBase) viewEntity).isPlayerSleeping())
         {
             float pitch = viewEntity.prevRotationPitch + (viewEntity.rotationPitch - viewEntity.prevRotationPitch) * partialTicks;
             float yaw = viewEntity.prevRotationYaw + (viewEntity.rotationYaw - viewEntity.prevRotationYaw) * partialTicks + 180.0F;
@@ -518,11 +519,12 @@ public class TransformerHooks
 
             if (stats.getGravityTurnRate() < 1.0F)
             {
-                GL11.glRotatef(90.0F * (stats.getGravityTurnRatePrev() + (stats.getGravityTurnRate() - stats.getGravityTurnRatePrev()) * partialTicks), stats.getGravityTurnVecX(), stats.getGravityTurnVecY(), stats.getGravityTurnVecZ());
+                GL11.glRotatef(90.0F * (stats.getGravityTurnRatePrev() + (stats.getGravityTurnRate() - stats.getGravityTurnRatePrev()) * partialTicks), stats.getGravityTurnVecX(),
+                    stats.getGravityTurnVecY(), stats.getGravityTurnVecZ());
             }
         }
 
-        //omit this for interesting 3P views
+        // omit this for interesting 3P views
 //        GL11.glTranslatef(0.0F, 0.0F, -0.1F);
 //        GL11.glRotatef(pitch, 1.0F, 0.0F, 0.0F);
 //        GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
@@ -598,7 +600,7 @@ public class TransformerHooks
 
         return previous;
     }
-    
+
     public static double armorDamageHook(EntityLivingBase entity)
     {
         if (entity instanceof EntityPlayer && GalacticraftCore.isPlanetsLoaded)
@@ -615,12 +617,12 @@ public class TransformerHooks
         }
         return 1D;
     }
-    
+
     public static void setCurrentBuffer(BufferBuilder buffer)
     {
         renderBuilder.set(buffer);
     }
-    
+
     public static boolean isGrating(boolean orig, Block b)
     {
         return orig || (b instanceof BlockGrating && b != GCBlocks.grating && MinecraftForgeClient.getRenderLayer() == BlockRenderLayer.TRANSLUCENT);
@@ -642,8 +644,8 @@ public class TransformerHooks
             return result;
         }
         IWeatherProvider moddedProvider = ((IWeatherProvider) world.provider);
-        
-        random.setSeed((long)rendererUpdateCount * 312987231L);
+
+        random.setSeed((long) rendererUpdateCount * 312987231L);
         Entity entity = mc.getRenderViewEntity();
         BlockPos blockpos = new BlockPos(entity);
         int i = 10;
@@ -654,13 +656,12 @@ public class TransformerHooks
         double yy = 0.0D;
         double zz = 0.0D;
         int j = 0;
-        int k = (int)(100.0F * f * f);
+        int k = (int) (100.0F * f * f);
 
         if (mc.gameSettings.particleSetting == 1)
         {
             k >>= 1;
-        }
-        else if (mc.gameSettings.particleSetting == 2)
+        } else if (mc.gameSettings.particleSetting == 2)
         {
             k = 0;
         }
@@ -696,8 +697,7 @@ public class TransformerHooks
 
                         mc.effectRenderer.addEffect(moddedProvider.getParticle(mc.world, x, y, z));
                     }
-                }
-                else
+                } else
                 {
                     mc.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, blockpos1.getX() + xd, blockpos1.getY() + 0.1D - axisalignedbb.minY, blockpos1.getZ() + zd, 0.0D, 0.0D, 0.0D, new int[0]);
                 }
@@ -710,7 +710,7 @@ public class TransformerHooks
 
             moddedProvider.weatherSounds(j, mc, world, blockpos, xx, yy, zz, random);
         }
-        
+
         // Bypass vanilla code after returning from this
         return 0;
     }

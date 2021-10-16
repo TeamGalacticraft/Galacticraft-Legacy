@@ -4,6 +4,7 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlaySensorGlasses;
 import micdoodle8.mods.galacticraft.core.client.model.ModelEvolvedZombie;
 import micdoodle8.mods.galacticraft.core.entities.EntityEvolvedZombie;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.GlStateManager;
@@ -21,6 +22,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderEvolvedZombie extends RenderBiped<EntityEvolvedZombie>
 {
+
     private static final ResourceLocation zombieTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/zombie.png");
     private static final ResourceLocation powerTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/power.png");
 
@@ -34,6 +36,7 @@ public class RenderEvolvedZombie extends RenderBiped<EntityEvolvedZombie>
         this.addLayer(new LayerHeldItem(this));
         LayerBipedArmor layerbipedarmor = new LayerBipedArmor(this)
         {
+
             @Override
             protected void initArmor()
             {

@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderJuicer extends RenderLiving<EntityJuicer>
 {
+
     private static final ResourceLocation juicerTexture = new ResourceLocation(GalacticraftPlanets.ASSET_PREFIX, "textures/model/juicer.png");
     private boolean texSwitch;
 

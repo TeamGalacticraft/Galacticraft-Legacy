@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerBuggy extends Container
 {
+
     private final IInventory lowerChestInventory;
     private final IInventory spaceshipInv;
 
@@ -73,8 +74,7 @@ public class ContainerBuggy extends Container
                 {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 0, b, false))
+            } else if (!this.mergeItemStack(var5, 0, b, false))
             {
                 return ItemStack.EMPTY;
             }
@@ -82,8 +82,7 @@ public class ContainerBuggy extends Container
             if (var5.getCount() == 0)
             {
                 var4.putStack(ItemStack.EMPTY);
-            }
-            else
+            } else
             {
                 var4.onSlotChanged();
             }

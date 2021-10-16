@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemPickaxeStickyMars extends ItemPickaxe implements ISortableItem
 {
+
     public ItemPickaxeStickyMars(ToolMaterial par2EnumToolMaterial)
     {
         super(par2EnumToolMaterial);
@@ -33,12 +34,12 @@ public class ItemPickaxeStickyMars extends ItemPickaxe implements ISortableItem
         return GalacticraftCore.galacticraftItemsTab;
     }
 
-    /*@Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister par1IconRegister)
-    {
-        this.itemIcon = par1IconRegister.registerIcon("galacticraftmars:deshPick_slime");
-    }*/
+    /*
+     * @Override
+     * @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister
+     * par1IconRegister) { this.itemIcon =
+     * par1IconRegister.registerIcon("galacticraftmars:deshPick_slime"); }
+     */
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)

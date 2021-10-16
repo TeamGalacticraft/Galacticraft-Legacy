@@ -7,6 +7,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public class CapabilityProviderStatsClient implements ICapabilityProvider
 {
+
     private EntityPlayerSP owner;
     private GCPlayerStatsClient statsCapability;
 

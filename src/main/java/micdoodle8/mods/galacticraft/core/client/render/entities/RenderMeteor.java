@@ -3,16 +3,19 @@ package micdoodle8.mods.galacticraft.core.client.render.entities;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.model.ModelMeteor;
 import micdoodle8.mods.galacticraft.core.entities.EntityMeteor;
+
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderMeteor extends Render<EntityMeteor>
 {
+
     private static final ResourceLocation meteorTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/model/meteor.png");
 
     private final ModelMeteor modelMeteor;
