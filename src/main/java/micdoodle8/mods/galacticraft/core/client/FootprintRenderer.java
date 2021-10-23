@@ -70,7 +70,6 @@ public class FootprintRenderer
         float f8 = 0.0F;
         float f9 = 1.0F;
 
-        float f10 = 0.4F;
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
         float lightMapSaveX = OpenGlHelper.lastBrightnessX;
         float lightMapSaveY = OpenGlHelper.lastBrightnessY;
@@ -103,9 +102,6 @@ public class FootprintRenderer
 
             GL11.glTranslatef(f11, f12, f13);
 
-            int brightness = (int) (100 + ageScale * 155);
-            // worldRenderer.putBrightness4(brightness, brightness, brightness,
-            // brightness);
             GlStateManager.color(1F - ageScale, 1F - ageScale, 1F - ageScale, 1F - ageScale);
             double footprintScale = 0.5F;
             worldRenderer

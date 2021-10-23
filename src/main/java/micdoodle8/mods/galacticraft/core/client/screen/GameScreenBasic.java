@@ -102,12 +102,8 @@ public class GameScreenBasic implements IGameScreen
                             {}));
                         ClientProxyCore.overworldTextureRequestSent = true;
                     }
-////                 Overworld texture is 48x48 in a 64x64 .png file
-//                this.textureBx -= 0.25D;
-//                this.textureBy -= 0.25D;
+//                  Overworld texture is 48x48 in a 64x64 .png file
                     draw2DTexture();
-//                this.textureBx += 0.25D;
-//                this.textureBy += 0.25D;
                 }
                 break;
         }

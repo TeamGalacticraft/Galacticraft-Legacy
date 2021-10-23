@@ -22,6 +22,8 @@ import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
 import micdoodle8.mods.galacticraft.planets.mars.dimension.WorldProviderMars;
 
+
+//TODO: Seriously redo this
 public class OreGenOtherMods
 {
 

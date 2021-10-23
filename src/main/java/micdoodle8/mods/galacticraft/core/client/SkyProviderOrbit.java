@@ -27,7 +27,7 @@ public class SkyProviderOrbit extends IRenderHandler
     private static final ResourceLocation moonTexture = new ResourceLocation("textures/environment/moon_phases.png");
     private static final ResourceLocation sunTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/planets/orbitalsun.png");
 
-    /* These are created once, then re-used */
+    
     public static boolean displayListsInitialized = false;
     public static int starGLCallList;
     public static int glSkyList;
@@ -327,34 +327,6 @@ public class SkyProviderOrbit extends IRenderHandler
 
         GL11.glColor3f(0.0F, 0.0F, 0.0F);
 
-        /*
-         * This all does nothing! double var25 = 0.0D; // if
-         * (this.minecraft.player.getRidingEntity() != null) { var25 =
-         * this.minecraft.player.posY - 64; if (var25 < 0.0D) { //
-         * GL11.glPushMatrix(); // GL11.glTranslatef(0.0F, 12.0F, 0.0F); //
-         * GL11.glCallList(this.glSkyList2); // GL11.glPopMatrix(); // var10 =
-         * 1.0F; // var11 = -((float)(var25 + 65.0D)); // var12 = -var10; //
-         * var23.startDrawingQuads(); // var23.setColorRGBA_I(0, 255); //
-         * var23.addVertex(-var10, var11, var10); // var23.addVertex(var10,
-         * var11, var10); // var23.addVertex(var10, var12, var10); //
-         * var23.addVertex(-var10, var12, var10); // var23.addVertex(-var10,
-         * var12, -var10); // var23.addVertex(var10, var12, -var10); //
-         * var23.addVertex(var10, var11, -var10); // var23.addVertex(-var10,
-         * var11, -var10); // var23.addVertex(var10, var12, -var10); //
-         * var23.addVertex(var10, var12, var10); // var23.addVertex(var10,
-         * var11, var10); // var23.addVertex(var10, var11, -var10); //
-         * var23.addVertex(-var10, var11, -var10); // var23.addVertex(-var10,
-         * var11, var10); // var23.addVertex(-var10, var12, var10); //
-         * var23.addVertex(-var10, var12, -var10); // var23.addVertex(-var10,
-         * var12, -var10); // var23.addVertex(-var10, var12, var10); //
-         * var23.addVertex(var10, var12, var10); // var23.addVertex(var10,
-         * var12, -var10); // var23.draw(); } } if
-         * (this.minecraft.world.provider.isSkyColored()) { GL11.glColor3f(0.0f,
-         * 0.0f, 0.0f); } else { GL11.glColor3f(var3, var4, var5); }
-         * GL11.glColor3f(0.0f, 0.0f, 0.0f); GL11.glPushMatrix();
-         * GL11.glTranslatef(0.0F, -((float) (var25 - 16.0D)), 0.0F);
-         * GL11.glPopMatrix();
-         */
         GlStateManager.enableRescaleNormal();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);

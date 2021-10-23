@@ -63,6 +63,8 @@ public class LayerThermalPadding extends LayerArmorBase<ModelBiped>
             case FEET:
                 model.bipedHead.showModel = true;
                 model.bipedHeadwear.showModel = true;
+            default:
+                break;
         }
     }
 

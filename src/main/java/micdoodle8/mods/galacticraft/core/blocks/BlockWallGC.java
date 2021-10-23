@@ -24,7 +24,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockWallGC extends Block /* Do not extend BlockWall */ implements ISortableBlock
+public class BlockWallGC extends Block  implements ISortableBlock
 {
 
     protected static final AxisAlignedBB[] AABB_BY_INDEX = new AxisAlignedBB[]

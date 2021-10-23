@@ -81,6 +81,8 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
                             case WEST:
                                 GL11.glTranslatef(-1 / 16F, 0F, 0F);
                                 break;
+                            default:
+                                break;
                         }
                     ClientUtil.drawBakedModel(EventHandlerClient.fluidPipeModels[facing.ordinal()]);
                     GL11.glPopMatrix();

@@ -47,13 +47,6 @@ public class LayerHeldItemEvolvedWitch implements LayerRenderer<EntityEvolvedWit
             Item item = itemstack.getItem();
             Minecraft mc = Minecraft.getMinecraft();
 
-//            if (item instanceof ItemBlock && mc.getBlockRendererDispatcher().isRenderTypeChest(Block.getBlockFromItem(item), itemstack.getMetadata()))
-//            {
-//                GlStateManager.translate(0.0F, 0.0625F, -0.25F);
-//                GlStateManager.rotate(30.0F, 1.0F, 0.0F, 0.0F);
-//                GlStateManager.rotate(-5.0F, 0.0F, 1.0F, 0.0F);
-//                GlStateManager.scale(0.375F, -0.375F, 0.375F);
-//            }
             if (item == Items.BOW)
             {
                 GlStateManager.translate(0.0F, 0.125F, -0.125F);

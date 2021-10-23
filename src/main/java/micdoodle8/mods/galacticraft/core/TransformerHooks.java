@@ -499,7 +499,6 @@ public class TransformerHooks
             float yaw = viewEntity.prevRotationYaw + (viewEntity.rotationYaw - viewEntity.prevRotationYaw) * partialTicks + 180.0F;
             float eyeHeightChange = viewEntity.width / 2.0F;
 
-//            GL11.glTranslatef(0.0F, -f1, 0.0F);
             GL11.glRotatef(-yaw, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(-pitch, 1.0F, 0.0F, 0.0F);
             GL11.glTranslatef(0.0F, 0.0F, 0.1F);
@@ -513,7 +512,6 @@ public class TransformerHooks
             GL11.glRotatef(yaw * gDir.getYawGravityY(), 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(yaw * gDir.getYawGravityZ(), 0.0F, 0.0F, 1.0F);
 
-//        	GL11.glTranslatef(sneakY * gDir.getSneakVecX(), sneakY * gDir.getSneakVecY(), sneakY * gDir.getSneakVecZ());
 
             GL11.glTranslatef(eyeHeightChange * gDir.getEyeVecX(), eyeHeightChange * gDir.getEyeVecY(), eyeHeightChange * gDir.getEyeVecZ());
 
@@ -523,12 +521,6 @@ public class TransformerHooks
                     stats.getGravityTurnVecY(), stats.getGravityTurnVecZ());
             }
         }
-
-        // omit this for interesting 3P views
-//        GL11.glTranslatef(0.0F, 0.0F, -0.1F);
-//        GL11.glRotatef(pitch, 1.0F, 0.0F, 0.0F);
-//        GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
-//        GL11.glTranslatef(0.0F, f1, 0.0F);
     }
 
     @SideOnly(Side.CLIENT)

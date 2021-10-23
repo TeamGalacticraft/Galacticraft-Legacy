@@ -121,10 +121,4 @@ public class ParticleLanderFlame extends Particle
     {
         return 15728880;
     }
-
-//    @Override
-//    public float getBrightness(float par1)
-//    {
-//        return 1.0F;
-//    }
 }

@@ -79,18 +79,6 @@ public abstract class StructureComponentMoon extends StructureComponent
         {var1, var2, var3};
     }
 
-//    public int[] getOffsetAsIfRotated(int[] var1, int var2)
-//    {
-//        final int var3 = this.getCoordBaseMode();
-//        final int[] var4 = new int[3];
-//        this.coordBaseMode = (var2);
-//        var4[0] = this.getXWithOffset(var1[0], var1[2]);
-//        var4[1] = this.getYWithOffset(var1[1]);
-//        var4[2] = this.getZWithOffset(var1[0], var1[2]);
-//        this.setCoordBaseMode(var3);
-//        return var4;
-//    }
-
     @Override
     protected int getXWithOffset(int var1, int var2)
     {
@@ -194,12 +182,6 @@ public abstract class StructureComponentMoon extends StructureComponent
             }
         }
     }
-
-//    @Override
-//    protected Block getBlockAtCurrentPosition(World var1, int var2, int var3, int var4, StructureBoundingBox var5)
-//    {
-//        return super.getBlockAtCurrentPosition(var1, var2, var3, var4, var5);
-//    }
 
     protected void placeBlockRotated(World var1, Block var2, int var3, int var4, int var5, int var6, int var7, StructureBoundingBox var8)
     {

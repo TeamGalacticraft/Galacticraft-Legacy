@@ -65,7 +65,7 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
     @Override
     public void invalidate()
     {
-        if (!this.world.isRemote/* && this.oxygenBubble != null */)
+        if (!this.world.isRemote)
         {
             int bubbleR = MathHelper.ceil(bubbleSize);
             int bubbleR2 = (int) (bubbleSize * bubbleSize);
@@ -241,7 +241,7 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
 //            }
 //        }
 
-        if (!this.world.isRemote/* && this.oxygenBubble != null */)
+        if (!this.world.isRemote)
         {
             this.active = bubbleSize >= 1 && this.hasEnoughEnergyToRun && this.getOxygenStored() > this.oxygenPerTick;
 

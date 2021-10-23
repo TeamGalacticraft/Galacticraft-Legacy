@@ -284,9 +284,6 @@ public abstract class EntityTieredRocket extends EntityAutoRocket implements IRo
         }
     }
 
-//    @Override
-//    public abstract void onReachAtmosphere();
-
     @Override
     public void onReachAtmosphere()
     {

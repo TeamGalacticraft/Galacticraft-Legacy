@@ -259,7 +259,6 @@ public class TileEntityPlatformRenderer extends TileEntitySpecialRenderer<TileEn
                 // ? need to undo GlStateManager.glBlendFunc()?
                 GlStateManager.enableLighting();
                 GlStateManager.enableTexture2D();
-//                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightMapSaveX, lightMapSaveY);
             }
 
             GlStateManager.enableRescaleNormal();

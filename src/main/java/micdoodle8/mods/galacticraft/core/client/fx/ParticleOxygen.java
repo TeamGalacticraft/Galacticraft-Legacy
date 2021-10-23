@@ -87,14 +87,6 @@ public class ParticleOxygen extends Particle
         return var4 | var5 << 16;
     }
 
-    // @Override
-//    public float getBrightness(float par1)
-//    {
-//        final float var2 = super.getBrightness(par1);
-//        float var3 = (float) this.particleAge / (float) this.particleMaxAge;
-//        var3 = var3 * var3 * var3 * var3;
-//        return var2 * (1.0F - var3) + var3;
-//    }
 
     @Override
     public void onUpdate()

@@ -90,6 +90,8 @@ public class GameScreenText implements IGameScreen
         this.frameA = frameSize;
     }
 
+    
+    // TODO: Pretty this up a bit maybe?
     @Override
     @SideOnly(Side.CLIENT)
     public void render(int type, float ticks, float sizeX, float sizeY, IScreenManager scr)
@@ -411,15 +413,6 @@ public class GameScreenText implements IGameScreen
         String spstr1 = GCCoreUtil.translate("gui.rocket.speed") + ": " + sp1;
         String spstr2 = (sp2 > 9 ? "" : "0") + sp2;
         return spstr1 + "." + spstr2 + " " + GCCoreUtil.translate("gui.lander.velocityu");
-    }
-
-    private String makeHealthString(int hearts2)
-    {
-        int sp1 = hearts2 / 2;
-        int sp2 = (hearts2 % 2) * 5;
-        String spstr1 = "" + sp1;
-        String spstr2 = "" + sp2;
-        return spstr1 + "." + spstr2 + " hearts";
     }
 
     private String makeOxygenString(int oxygen)

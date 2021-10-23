@@ -129,7 +129,6 @@ public class MapGenCavesMoon extends MapGenBaseMeta
                         i3 = 16;
                     }
 
-                    final boolean flag2 = false;
                     int j3;
                     for (j3 = l1; j3 < i2; ++j3)
                     {
@@ -177,7 +176,6 @@ public class MapGenCavesMoon extends MapGenBaseMeta
                                                 if (meta == 3 || meta == 4 || meta == 5)
                                                 {
                                                     primer.setBlockState(localX, localY, localZ, Blocks.AIR.getDefaultState());
-//                                                    blockIdArray[coords] = Blocks.AIR;
                                                 }
                                             }
                                         }

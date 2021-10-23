@@ -1,10 +1,7 @@
 package micdoodle8.mods.galacticraft.core.network;
 
-import org.apache.logging.log4j.LogManager;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.dimension.SpaceRace;
 import micdoodle8.mods.galacticraft.core.dimension.SpaceRaceManager;
@@ -19,7 +16,6 @@ import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
 import micdoodle8.mods.galacticraft.core.world.ChunkLoadingCallback;
-
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.EnumPacketDirection;
@@ -27,10 +23,10 @@ import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import org.apache.logging.log4j.LogManager;
 
 public class ConnectionEvents
 {
@@ -63,12 +59,6 @@ public class ConnectionEvents
             bimap.put(Integer.valueOf(bimap.size()), packetClass);
             return EnumConnectionState.PLAY;
         }
-    }
-
-    @SubscribeEvent
-    public void onPlayerLogout(PlayerLoggedOutEvent event)
-    {
-        ChunkLoadingCallback.onPlayerLogout(event.player);
     }
 
     @SubscribeEvent

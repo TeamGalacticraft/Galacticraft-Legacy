@@ -86,16 +86,5 @@ public class ParticleLaunchSmoke extends EntityFXLaunchParticle
 
         this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
         this.move(this.motionX, this.motionY, this.motionZ);
-
-//        if (this.posY == this.prevPosY)
-//        {
-////            this.motionX *= 1.0001D;
-////            this.motionZ *= 1.0001D;
-//        }
-//        else
-//        {
-//            this.motionX *= 0.99D;
-//            this.motionZ *= 0.99D;
-//        }
     }
 }

@@ -141,66 +141,6 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
         return BlockFaceShape.UNDEFINED;
     }
 
-//    @Override
-//    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
-//    {
-//        int meta = getMetaFromState(worldIn.getBlockState(pos));
-//
-//        if (meta == 2 || meta == 6)
-//        {
-//            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.2F, 1.0F);
-//        }
-//        else if (meta == 0 || meta == 4)
-//        {
-//            this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, worldIn.getBlockState(pos.up()).getBlock() == this ? 1.0F : 0.6F, 0.7F);
-//        }
-//        else
-//        {
-//            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-//        }
-//    }
-
-//    @SuppressWarnings("rawtypes")
-//    @Override
-//    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List list, Entity collidingEntity)
-//    {
-//        int meta = getMetaFromState(state);
-//
-//        if (meta == 2 || meta == 6)
-//        {
-//            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.2F, 1.0F);
-//            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-//        }
-//        else if (meta == 0 || meta == 4)
-//        {
-//            this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, worldIn.getBlockState(pos.up()).getBlock() == this ? 1.0F : 0.6F, 0.7F);
-//            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-//        }
-//        /*else if (meta == 7)
-//        {
-//            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.38F, 1.0F);
-//            super.addCollisionBoxesToList(world, x, y, z, axisalignedbb, list, entity);
-//        }*/
-//        else
-//        {
-//            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-//        }
-//    }
-//
-//    @Override
-//    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        return super.getCollisionBoundingBox(worldIn, pos, state);
-//    }
-//
-//    @Override
-//    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        return super.getSelectedBoundingBox(worldIn, pos);
-//    }
-
     @Override
     public boolean canDropFromExplosion(Explosion par1Explosion)
     {

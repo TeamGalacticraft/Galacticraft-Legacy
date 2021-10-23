@@ -343,7 +343,6 @@ public class GameScreenCelestial implements IGameScreen
     {
         for (int ysect = 0; ysect < 6; ysect++)
         {
-//    		drawTexturedRectUVSixth(x, y, width, height, (ticks / 600F) % 1F, ysect / 6F);
             float angle = 7.5F + 15F * ysect;
             drawTexturedRectUVSixth(x, y, width, height, (ticks / (900F - 80F * MathHelper.cos(angle))) % 1F, ysect / 6F);
         }

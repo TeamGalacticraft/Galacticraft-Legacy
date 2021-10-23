@@ -75,8 +75,6 @@ public class TileEntityTreasureChestRenderer extends TileEntitySpecialRenderer<T
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         float var12 = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTickTime;
 
-        float var13;
-
         var12 = 1.0F - var12;
         var12 = 1.0F - var12 * var12 * var12;
 
@@ -85,13 +83,6 @@ public class TileEntityTreasureChestRenderer extends TileEntitySpecialRenderer<T
             var14.chestLid.rotateAngleX = -(var12 * (float) Math.PI / 4.0F);
             var14.renderAll(!chest.locked);
         }
-
-        // Note: currently var14b is always null - no large Treasure Chest model
-//        if (var14b != null)
-//        {
-//            var14b.chestLid.rotateAngleX = -(var12 * (float) Math.PI / 4.0F);
-//            var14b.renderAll(!chest.locked);
-//        }
 
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();

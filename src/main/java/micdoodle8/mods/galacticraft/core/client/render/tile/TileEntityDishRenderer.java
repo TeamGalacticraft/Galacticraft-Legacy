@@ -67,9 +67,6 @@ public class TileEntityDishRenderer extends TileEntitySpecialRenderer<TileEntity
         this.renderEngine.bindTexture(textureFork);
         ClientUtil.drawBakedModel(modelFork);
 
-//        float celestialAngle = (dish.getWorldObj().getCelestialAngle(1.0F) - 0.784690560F) * 360.0F;
-//        float celestialAngle2 = dish.getWorldObj().getCelestialAngle(1.0F) * 360.0F;
-
         GL11.glTranslatef(0.0F, 2.3F, 0.0F);
         GL11.glRotatef(declination, 1.0F, 0.0F, 0.0F);
         GL11.glTranslatef(0.0F, -2.3F, 0.0F);

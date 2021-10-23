@@ -146,33 +146,6 @@ public class BlockFluidTank extends Block implements IShiftDescription, ISortabl
         return new TileEntityFluidTank();
     }
 
-//    @Override
-//    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
-//    {
-//        this.setBlockBounds((float) BOUNDS.minX, (float) BOUNDS.minY, (float) BOUNDS.minZ, (float) BOUNDS.maxX, (float) BOUNDS.maxY, (float) BOUNDS.maxZ);
-//    }
-//
-//    @Override
-//    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-//    }
-//
-//    @Override
-//    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        return super.getCollisionBoundingBox(worldIn, pos, state);
-//    }
-//
-//    @Override
-//    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        return super.getSelectedBoundingBox(worldIn, pos);
-//    }
-
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
     {

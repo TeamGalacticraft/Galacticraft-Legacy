@@ -134,8 +134,7 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
     @Override
     public boolean onActivated(EntityPlayer entityPlayer)
     {
-        return false; // TODO
-//        return this.getBlockType().onBlockActivated(this.world, this.getPos(), this.world.getBlockState(this.getPos()), entityPlayer, EnumFacing.DOWN, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
+        return false;    
     }
 
     @Override
@@ -316,12 +315,6 @@ public class TileEntityDish extends TileBaseUniversalElectrical implements IMult
     {
         return Constants.RENDERDISTANCE_MEDIUM;
     }
-
-//    @Override
-//    public boolean hasCustomName()
-//    {
-//        return true;
-//    }
 
     @Override
     public void setDisabled(int index, boolean disabled)

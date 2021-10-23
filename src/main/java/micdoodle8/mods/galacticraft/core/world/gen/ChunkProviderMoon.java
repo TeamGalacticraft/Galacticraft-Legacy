@@ -47,9 +47,6 @@ public class ChunkProviderMoon extends ChunkProviderBase
         new MapGenDungeon(new DungeonConfiguration(GCBlocks.blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_DUNGEON_BRICK), 25, 8, 16,
             5, 6, RoomBoss.class, RoomTreasure.class));
 
-    private Biome[] biomesForGeneration =
-    {BiomeAdaptive.biomeDefault};
-
     private final MapGenBaseMeta caveGenerator = new MapGenCavesMoon();
 
     private static final int CRATER_PROB = 300;
@@ -124,8 +121,6 @@ public class ChunkProviderMoon extends ChunkProviderBase
 
                 for (int var16 = 127; var16 >= 0; --var16)
                 {
-                    final int index = this.getIndex(var8, var16, var9);
-
                     if (var16 <= this.rand.nextInt(5))
                     {
                         primer.setBlockState(var8, var16, var9, Blocks.BEDROCK.getDefaultState());
@@ -250,11 +245,6 @@ public class ChunkProviderMoon extends ChunkProviderBase
                 }
             }
         }
-    }
-
-    private int getIndex(int x, int y, int z)
-    {
-        return (x * 16 + z) * 256 + y;
     }
 
     private double randFromPoint(int x, int z)

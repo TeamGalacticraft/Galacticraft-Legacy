@@ -66,32 +66,6 @@ public class BlockNasaWorkbench extends BlockContainer implements ITileEntityPro
             (double) pos.getZ() + 1.0F);
     }
 
-//    @SideOnly(Side.CLIENT)
-//    @Override
-//    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
-//    {
-//        return this.getCollisionBoundingBox(worldIn, pos, worldIn.getBlockState(pos));
-//    }
-//
-//    @Override
-//    public RayTraceResult collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end)
-//    {
-//        this.setBlockBounds(-0.0F, 0.0F, -0.0F, 1.0F, 1.4F, 1.0F);
-//
-//        final RayTraceResult r = super.collisionRayTrace(worldIn, pos, start, end);
-//
-//        this.setBlockBounds(-0.0F, 0.0F, -0.0F, 1.0F, 1.4F, 1.0F);
-//
-//        return r;
-//    }
-//
-//    @Override
-//    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
-//    {
-//        this.setBlockBounds(-0.0F, 0.0F, -0.0F, 1.0F, 1.4F, 1.0F);
-//        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-//    }
-
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
@@ -157,12 +131,6 @@ public class BlockNasaWorkbench extends BlockContainer implements ITileEntityPro
         playerIn.openGui(GalacticraftCore.instance, SchematicRegistry.getMatchingRecipeForID(0).getGuiID(), worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
-
-//    @Override
-//    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
-//    {
-//        this.setBlockBounds(-0.0F, 0.0F, -0.0F, 1.0F, 1.4F, 1.0F);
-//    }
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta)
