@@ -44,10 +44,7 @@ public class VenusTickHandlerServer
         {
             for (SolarModuleNetwork network : new ArrayList<>(solarModuleNetworks))
             {
-                if (!network.getTransmitters().isEmpty())
-                {
-//                    network.tickEnd();
-                } else
+                if (network.getTransmitters().isEmpty())
                 {
                     solarModuleNetworks.remove(network);
                 }

@@ -61,17 +61,6 @@ public class RenderTier3Rocket extends Render<EntityTier3Rocket>
             {
                 throw new RuntimeException(e);
             }
-//            Function<ResourceLocation, TextureAtlasSprite> textureGetter = new Function<ResourceLocation, TextureAtlasSprite>()
-//            {
-//                @Override
-//                public TextureAtlasSprite apply(ResourceLocation input)
-//                {
-//                    return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(input.toString());
-//                }
-//            };
-//
-//            ModelResourceLocation modelResourceLocation = new ModelResourceLocation(GalacticraftPlanets.TEXTURE_PREFIX + "rocket_t3", "inventory");
-//            rocketModel = (ItemModelRocketT3) FMLClientHandler.instance().getClient().getRenderItem().getItemModelMesher().getModelManager().getModel(modelResourceLocation);
         }
     }
 

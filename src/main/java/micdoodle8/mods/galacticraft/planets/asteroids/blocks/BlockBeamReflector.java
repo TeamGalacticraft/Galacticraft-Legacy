@@ -75,19 +75,6 @@ public class BlockBeamReflector extends BlockTileGC implements IShiftDescription
         return EnumBlockRenderType.INVISIBLE;
     }
 
-//    @Override
-//    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
-//    {
-//        this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.8F, 0.75F);
-//    }
-//
-//    @Override
-//    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-//    }
-
     @Override
     public TileEntity createTileEntity(World world, IBlockState state)
     {

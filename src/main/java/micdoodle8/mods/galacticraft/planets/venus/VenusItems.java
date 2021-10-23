@@ -32,11 +32,6 @@ public class VenusItems
         VenusItems.atomicBattery = new ItemBatteryAtomic("atomic_battery");
 
         VenusItems.registerItems();
-        VenusItems.registerHarvestLevels();
-    }
-
-    public static void registerHarvestLevels()
-    {
     }
 
     private static void registerItems()

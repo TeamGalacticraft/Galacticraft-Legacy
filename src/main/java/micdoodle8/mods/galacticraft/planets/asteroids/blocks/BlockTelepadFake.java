@@ -41,9 +41,7 @@ public class BlockTelepadFake extends BlockAdvancedTile implements ITileEntityPr
     {
         super(GCBlocks.machine);
         this.setSoundType(SoundType.METAL);
-//        this.setBlockTextureName(Constants.TEXTURE_PREFIX + assetName);
         this.setTranslationKey(assetName);
-//        this.setBlockTextureName(Constants.TEXTURE_PREFIX + "launch_pad");
         this.setResistance(1000000000000000.0F);
     }
 
@@ -58,54 +56,6 @@ public class BlockTelepadFake extends BlockAdvancedTile implements ITileEntityPr
     {
         return state.getValue(TOP) ? AABB_TOP : AABB_BOTTOM;
     }
-
-//    @Override
-//    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos)
-//    {
-//        IBlockState state = world.getBlockState(pos);
-//        boolean top = state.getValue(TOP);
-//
-//        if (top)
-//        {
-//            this.setBlockBounds(0.0F, 0.55F, 0.0F, 1.0F, 1.0F, 1.0F);
-//        }
-//        else
-//        {
-//            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.2F, 1.0F);
-//        }
-//    }
-
-//    @Override
-//    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
-//    {
-//        boolean top = state.getValue(TOP);
-//
-//        if (top)
-//        {
-//            this.setBlockBounds(0.0F, 0.55F, 0.0F, 1.0F, 1.0F, 1.0F);
-//            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-//        }
-//        else
-//        {
-//            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.2F, 1.0F);
-//            super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-//        }
-//    }
-//
-//    @Override
-//    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        return super.getCollisionBoundingBox(worldIn, pos, state);
-//    }
-//
-//    @Override
-//    @SideOnly(Side.CLIENT)
-//    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        return super.getSelectedBoundingBox(worldIn, pos);
-//    }
 
     @Override
     public boolean canDropFromExplosion(Explosion par1Explosion)

@@ -32,8 +32,6 @@ public class EntranceCraterVenus extends SizedPieceVenus
     @Override
     public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn)
     {
-        IBlockState block1;
-
         int maxLevel = 0;
 
         for (int i = -range; i <= range; i++)
@@ -93,27 +91,23 @@ public class EntranceCraterVenus extends SizedPieceVenus
                 final int depth = (int) Math.abs(0.5 / (distance + .00001D));
                 int helper = 0;
                 for (int j = maxLevel; j > 1 && helper <= depth; j--)
+                //TODO verify this
                 {
-                    block1 = this.getBlockStateFromPos(worldIn, i + range, j, k + range, boundingBox);
-//                    if (block1 == this.configuration.getBrickBlock() || j != this.sizeY)
+                    BlockPos blockpos = new BlockPos(this.getXWithOffset(i + range, k + range), this.getYWithOffset(j), this.getZWithOffset(i + range, k + range));
+                    IBlockState state = Blocks.AIR.getDefaultState();
+
+                    if (mirror != Mirror.NONE)
                     {
-                        BlockPos blockpos = new BlockPos(this.getXWithOffset(i + range, k + range), this.getYWithOffset(j), this.getZWithOffset(i + range, k + range));
-                        IBlockState state = Blocks.AIR.getDefaultState();
-
-                        if (mirror != Mirror.NONE)
-                        {
-                            state = state.withMirror(mirror);
-                        }
-
-                        if (rotation != Rotation.NONE)
-                        {
-                            state = state.withRotation(rotation);
-                        }
-
-                        worldIn.setBlockState(blockpos, state, 2);
-//                        this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i + range, j, k + range, boundingBox);
-                        helper++;
+                        state = state.withMirror(mirror);
                     }
+
+                    if (rotation != Rotation.NONE)
+                    {
+                        state = state.withRotation(rotation);
+                    }
+
+                    worldIn.setBlockState(blockpos, state, 2);
+                    helper++;
                 }
             }
         }

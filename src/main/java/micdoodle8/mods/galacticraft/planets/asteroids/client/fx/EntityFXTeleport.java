@@ -70,15 +70,6 @@ public class EntityFXTeleport extends Particle
         return j | k << 16;
     }
 
-//    @Override
-//    public float getBrightness(float par1)
-//    {
-//        float f1 = super.getBrightness(par1);
-//        float f2 = (float) this.particleAge / (float) this.particleMaxAge;
-//        f2 = f2 * f2 * f2 * f2;
-//        return f1 * (1.0F - f2) + f2;
-//    }
-
     @Override
     public void onUpdate()
     {

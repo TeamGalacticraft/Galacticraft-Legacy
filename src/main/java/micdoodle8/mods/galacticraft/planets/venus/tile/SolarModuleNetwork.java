@@ -113,31 +113,6 @@ public class SolarModuleNetwork implements IGridNetwork<SolarModuleNetwork, ITra
         }
     }
 
-    /**
-     * Refresh all energy acceptors in the network
-     */
-    private void refreshAcceptors()
-    {
-        this.refreshWithChecks();
-
-//        try
-//        {
-//            LinkedList<ITransmitter> conductorsCopy = new LinkedList<>();
-//            conductorsCopy.addAll(this.transmitters);
-//            //This prevents concurrent modifications if something in the loop causes chunk loading
-//            //(Chunk loading can change the network if new transmitters are found)
-//            for (ITransmitter conductor : conductorsCopy)
-//            {
-//                EnergyUtil.setAdjacentPowerConnections((TileEntity) conductor, this.connectedAcceptors, this.connectedDirections);
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            FMLLog.severe("GC Aluminium Wire: Error when testing whether another mod's tileEntity can accept energy.");
-//            e.printStackTrace();
-//        }
-    }
-
     @Override
     public SolarModuleNetwork merge(SolarModuleNetwork network)
     {

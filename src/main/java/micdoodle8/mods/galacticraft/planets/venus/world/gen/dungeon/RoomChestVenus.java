@@ -37,6 +37,7 @@ public class RoomChestVenus extends RoomEmptyVenus
             BlockPos blockpos = new BlockPos(this.getXWithOffset(chestX, chestZ), this.getYWithOffset(chestY), this.getZWithOffset(chestX, chestZ));
             TileEntityChest chest = (TileEntityChest) worldIn.getTileEntity(blockpos);
 
+            // TODO Verify this
             if (chest != null)
             {
                 ResourceLocation chesttype = RoomTreasureVenus.VENUSCHEST;
@@ -44,7 +45,7 @@ public class RoomChestVenus extends RoomEmptyVenus
                 {
                     chesttype = ((IGalacticraftWorldProvider) worldIn.provider).getDungeonChestType();
                 }
-                chest.setLootTable(RoomTreasureVenus.VENUSCHEST, rand.nextLong());
+                chest.setLootTable(chesttype, rand.nextLong());
             }
 
             return true;

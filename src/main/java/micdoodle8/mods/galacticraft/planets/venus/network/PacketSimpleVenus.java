@@ -110,25 +110,12 @@ public class PacketSimpleVenus extends PacketBase
     @Override
     public void handleClientSide(EntityPlayer player)
     {
-        EntityPlayerSP playerBaseClient = null;
 
-        if (player instanceof EntityPlayerSP)
-        {
-            playerBaseClient = (EntityPlayerSP) player;
-        }
-
-        switch (this.type)
-        {
-            default:
-                break;
-        }
     }
 
     @Override
     public void handleServerSide(EntityPlayer player)
     {
-        EntityPlayerMP playerBase = PlayerUtil.getPlayerBaseServerFromPlayer(player, false);
-
         switch (this.type)
         {
             case S_UPDATE_ADVANCED_GUI:

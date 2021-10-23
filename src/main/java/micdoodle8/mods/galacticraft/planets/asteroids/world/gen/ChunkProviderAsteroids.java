@@ -935,7 +935,7 @@ public class ChunkProviderAsteroids extends ChunkProviderBase
                                     count++;
                                 }
                             }
-                            if (/* flagXChunk || */x > 3)
+                            if (x > 3)
                             {
                                 if ((chunk.getBlockState(x - 4, y, z).getBlock() instanceof BlockAir))
                                 {

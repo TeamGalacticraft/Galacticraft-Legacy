@@ -32,15 +32,9 @@ public abstract class TileEntitySolarTransmitter extends TileEntityAdvanced impl
     @Override
     public void invalidate()
     {
-//        if (!BlockFluidPipe.ignoreDrop)
         {
             this.getNetwork().split(this);
         }
-//        else
-//        {
-//            this.setNetwork(null);
-//        }
-
         super.invalidate();
     }
 
@@ -50,12 +44,6 @@ public abstract class TileEntitySolarTransmitter extends TileEntityAdvanced impl
         super.invalidate();
         super.onChunkUnload();
     }
-
-//    @Override
-//    public boolean canUpdate()
-//    {
-//        return false;
-//    }
 
     @Override
     public IGridNetwork getNetwork()

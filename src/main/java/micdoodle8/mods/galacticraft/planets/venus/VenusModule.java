@@ -278,9 +278,6 @@ public class VenusModule implements IPlanetsModule
         if (nextEggID < 65536)
         {
             ResourceLocation resourcelocation = new ResourceLocation(Constants.MOD_ID_PLANETS, name);
-//            name = Constants.MOD_ID_PLANETS + "." + name;
-//            net.minecraftforge.fml.common.registry.EntityEntry entry = new net.minecraftforge.fml.common.registry.EntityEntry(clazz, name);
-//            net.minecraftforge.fml.common.registry.GameData.getEntityRegistry().register(nextEggID, resourcelocation, entry);
             EntityList.ENTITY_EGGS.put(resourcelocation, new EntityList.EntityEggInfo(resourcelocation, back, fore));
         }
     }

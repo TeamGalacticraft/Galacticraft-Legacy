@@ -62,47 +62,6 @@ public class BlockSolarArrayModule extends BlockAdvanced implements IShiftDescri
         return new TileEntitySolarArrayModule();
     }
 
-    @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
-    {
-        super.onBlockAdded(worldIn, pos, state);
-
-        if (!worldIn.isRemote)
-        {
-//            boolean added = false;
-//            for (EnumFacing facing : EnumFacing.HORIZONTALS)
-//            {
-//                TileEntity tile = worldIn.getTileEntity(pos.offset(facing));
-//                if (tile instanceof TileEntitySolarArrayController)
-//                {
-//                    ((TileEntitySolarArrayController) tile).addArrayModule(pos);
-//                    added = true;
-//                    break;
-//                }
-//            }
-//            if (!added)
-//            {
-//
-//            }
-//            List<TileEntitySolarArrayController> controllers = Lists.newArrayList();
-//            for (TileEntity tile : worldIn.loadedTileEntityList)
-//            {
-//                if (tile instanceof TileEntitySolarArrayController)
-//                {
-//                    BlockPos diff = tile.getPos().subtract(pos);
-//                    if (Math.abs(diff.getX()) <= 16 && Math.abs(diff.getY()) <= 16 && Math.abs(diff.getZ()) <= 16)
-//                    {
-//                        controllers.add((TileEntitySolarArrayController) tile);
-//                    }
-//                }
-//            }
-//            for (TileEntitySolarArrayController controller : controllers)
-//            {
-//                controller.updateConnected(pos, controllers);
-//            }
-        }
-    }
-
     @SideOnly(Side.CLIENT)
     @Override
     public CreativeTabs getCreativeTab()

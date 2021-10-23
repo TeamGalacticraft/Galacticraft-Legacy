@@ -118,12 +118,6 @@ public class GuiShortRangeTelepad extends GuiContainerGC implements ITextBoxCall
         this.infoRegions.add(new GuiElementInfoRegion((this.width - this.xSize) / 2 + 5, (this.height - this.ySize) / 2 + 42, 117, 13, batterySlotDesc, this.width, this.height, this));
     }
 
-//    @Override
-//    protected void mouseClicked(int px, int py, int par3)
-//    {
-//        super.mouseClicked(px, py, par3);
-//    }
-
     @Override
     protected void actionPerformed(GuiButton par1GuiButton)
     {

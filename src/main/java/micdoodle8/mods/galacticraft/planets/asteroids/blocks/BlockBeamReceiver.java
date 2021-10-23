@@ -117,48 +117,6 @@ public class BlockBeamReceiver extends BlockTileGC implements IShiftDescription,
         }
     }
 
-//    @Override
-//    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos)
-//    {
-//        int meta = getMetaFromState(world.getBlockState(pos));
-//
-//        if (meta != -1)
-//        {
-//            EnumFacing dir = EnumFacing.byIndex(meta);
-//
-//            switch (dir)
-//            {
-//            case UP:
-//                this.setBlockBounds(0.3F, 0.3F, 0.3F, 0.7F, 1.0F, 0.7F);
-//                break;
-//            case DOWN:
-//                this.setBlockBounds(0.2F, 0.0F, 0.2F, 0.8F, 0.42F, 0.8F);
-//                break;
-//            case EAST:
-//                this.setBlockBounds(0.58F, 0.2F, 0.2F, 1.0F, 0.8F, 0.8F);
-//                break;
-//            case WEST:
-//                this.setBlockBounds(0.0F, 0.2F, 0.2F, 0.42F, 0.8F, 0.8F);
-//                break;
-//            case NORTH:
-//                this.setBlockBounds(0.2F, 0.2F, 0.0F, 0.8F, 0.8F, 0.42F);
-//                break;
-//            case SOUTH:
-//                this.setBlockBounds(0.2F, 0.2F, 0.58F, 0.8F, 0.8F, 1.0F);
-//                break;
-//            default:
-//                break;
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-//    }
-
     private int getMetadataFromAngle(World world, BlockPos pos, EnumFacing side)
     {
         EnumFacing direction = side.getOpposite();

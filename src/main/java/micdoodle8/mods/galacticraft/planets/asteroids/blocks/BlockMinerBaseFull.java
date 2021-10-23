@@ -1,16 +1,11 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import micdoodle8.mods.galacticraft.core.blocks.BlockTileGC;
 import micdoodle8.mods.galacticraft.planets.asteroids.tile.TileEntityMinerBase;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,6 +20,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class BlockMinerBaseFull extends BlockTileGC
 {
@@ -75,22 +74,8 @@ public class BlockMinerBaseFull extends BlockTileGC
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-    {
-        return this.getStateFromMeta(0);
-        // TODO
-        // return this.getMetadataFromAngle(world, x, y, z, side);
-    }
-
-    @Override
     public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side)
     {
-        // TODO
-        /*
-         * if (this.getMetadataFromAngle(world, x, y, z, side) != -1) { return
-         * true; }
-         */
-
         return true;
     }
 
