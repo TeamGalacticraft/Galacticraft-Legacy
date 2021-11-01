@@ -1,0 +1,17 @@
+def loadKeys() {
+
+    final def keyFile = file 'build.properties'
+    loadKeys(keyFile)
+}
+
+def loadKeys(keyFile) {
+    keyFile.withReader {
+        def prop = new Properties()
+        prop.load(it)
+        ext.key = new ConfigSlurper().parse prop
+    }
+}
+
+ext {
+    loadKeys = this.&loadKeys
+}

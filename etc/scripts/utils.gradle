@@ -1,0 +1,199 @@
+apply plugin: "maven-publish"
+apply plugin: 'signing'
+
+def getNewVersion(String oldVersionName, String bump) {
+    def (major, minor, patch) = oldVersionName
+            .replaceAll("[^0-9\\.]","")
+            .concat(".0.0")
+            .tokenize('.')
+    major = major.toInteger()
+    minor = minor.toInteger()
+    patch = patch.toInteger()
+    if (bump == "Major") {
+        major++; minor = 0; patch = 0;
+    }
+    if (bump == "Minor") {
+        minor++; patch = 0;
+    }
+    if (bump == "Patch") {
+        patch++
+    }
+    def newVersionName = "$major.$minor.$patch"
+    logger.lifecycle("$oldVersionName → $newVersionName")
+    return newVersionName
+}
+
+def bumpVersionTo(version) {
+    def propertyFile = file("$projectDir/gradle.properties")
+    def gradleProps = new Properties()
+    propertyFile.withReader { gradleProps.load(it) }
+    gradleProps.setProperty('version', version)
+    propertyFile.withWriter { gradleProps.store(it, null) }
+    gradle.buildFinished { result ->
+        if (result.failure) {
+            [
+                "gradle.properties"
+            ].each {
+                logger.lifecycle("Restoring ${it} because of failure")
+                runCommand(["git", "checkout", it])
+            }
+        }
+    }
+}
+
+def bumpVersion(type) {
+    logger.lifecycle("Bumping ${type.toLowerCase()} version…")
+    String oldVersionName = project.version
+    version = getNewVersion(oldVersionName, type)
+    bumpVersionTo(version)
+}
+
+tasks.addRule("Pattern: bump<TYPE>") { String taskName ->
+    if (taskName.matches("bump(Major|Minor|Patch)")) {
+        task(taskName) {
+            doLast {
+                String type = (taskName - 'bump')
+                bumpVersion(type)
+            }
+        }
+    }
+}
+
+tasks.addRule("Pattern: release<TYPE>") { String taskName ->
+    if (taskName.matches("release(Major|Minor|Patch)")) {
+        task(taskName) {
+            doFirst {
+                String type = (taskName - 'release')
+                bumpVersion(type)
+            }
+            finalizedBy "releaseAfterMath"
+        }
+    }
+}
+
+// Release with version from conventional commits
+task release() {
+    group = 'script-tasks'
+    description = 'Release with version from conventional commits'
+    doFirst {
+        def nextVersion = se.bjurr.gitchangelog.api.GitChangelogApi.gitChangelogApiBuilder()
+                .withFromRepo(file('.'))
+                .withSemanticMajorVersionPattern("^[Bb]reak")
+                .withSemanticMinorVersionPattern("^[Ff]eat")
+                .getNextSemanticVersion()
+                .getVersion();
+        logger.lifecycle("Releasing version ${nextVersion}...")
+        bumpVersionTo(nextVersion)
+    }
+    finalizedBy "releaseAfterMath"
+}
+
+task commitNewVersionTask() {
+    group = 'script-tasks'
+    description = 'Commits/Tags/Pushes new Version (called by releaseAfterMath Task)'
+    doLast {
+        runCommand([
+            'git',
+            'commit',
+            '-a',
+            '-m',
+            "chore(release): ${version} [GRADLE SCRIPT]"
+        ])
+        runCommand(['git', 'push'])
+        runCommand(['git', 'tag', "${version}"])
+        runCommand([
+            'git',
+            'push',
+            'origin',
+            "${version}"
+        ])
+    }
+}
+
+task commitChangelogTask() {
+    group = 'script-tasks'
+    description = 'Commits/Pushes new Changelog (called by releaseAfterMath Task)'
+    doLast {
+        try {
+            runCommand([
+                'git',
+                'commit',
+                '-a',
+                '-m',
+                "chore(release): Updating changelog with ${version} [GRADLE SCRIPT]"
+            ])
+            runCommand(['git', 'push'])
+        } catch (e) {
+            logger.error("Unable commit/push changelog, skipping that.", e.getMessage())
+        }
+    }
+}
+
+task releaseAfterMath(type: GradleBuild) {
+    group = 'script-tasks'
+    description = 'Runs all tasks for release (called by release Task)'
+    tasks = [
+        'clean',
+        'build',
+        //'publish',
+
+        // We publish only to Local Maven for now
+        // Assume Jenkins will be used for actual releases
+        'publishToMavenLocal',
+        'commitNewVersionTask',
+        'gitChangelogTask',
+        'commitChangelogTask'
+    ]
+}
+
+publishing {
+    publications {
+        gcPublication(MavenPublication) { publication ->
+
+            from project.components.java
+            setArtifacts artifactsList
+            logger.lifecycle("group: ${project.group} name: ${project.name}")
+
+            groupId project.group
+            artifactId project.name
+            version version
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', project.description)
+                root.appendNode('name', project.name)
+                root.appendNode('url', effectiveConfig.publishing.website)
+                root.appendNode('inceptionYear', new Date().getYear() + 1900)
+                root.children().last() + pomConfig
+            }
+        }
+    }
+    repositories {
+        mavenLocal()
+        if (System.getenv().MAVEN_URL) {
+            maven {
+                url = System.getenv().MAVEN_URL
+                credentials {
+                    username key.maven_username
+                    password key.maven_password
+                }
+            }
+        } else if (key.containsKey("maven_url")) {
+            maven {
+                url = System.getenv().MAVEN_URL
+                credentials {
+                    username key.maven_username
+                    password key.maven_password
+                }
+            }
+        } else {
+            maven {
+                url "file:///${project.buildDir}/repo"
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications.gcPublication
+    }
+}
