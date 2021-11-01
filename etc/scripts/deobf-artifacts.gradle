@@ -1,0 +1,38 @@
+// Honestly don't see why a standalone API jar is needed anymore
+task apiJar(type: Jar) {
+    baseName "Galacticraft-API-${mc_version}"
+    dependsOn "sourceMainJava"
+    include 'micdoodle8/mods/galacticraft/api/**'
+    from sourceSets.main.java.srcDirs
+    from sourceSets.main.output
+}
+
+task coreDevJar(type: Jar) {
+    baseName "Galacticraft-Core-Dev-${mc_version}"
+    dependsOn "sourceMainJava"
+    include 'micdoodle8/mods/galacticraft/api/**'
+    include 'micdoodle8/mods/galacticraft/core/**'
+    include 'assets/galacticraftcore/**'
+    from sourceSets.main.java.srcDirs
+    from sourceSets.main.output
+}
+
+task planetsDevJar(type: Jar) {
+    baseName "Galacticraft-Planets-Dev-${mc_version}"
+    dependsOn "sourceMainJava"
+    include 'micdoodle8/mods/galacticraft/planets/**'
+    include 'assets/galacticraftplanets/**'
+    from sourceSets.main.java.srcDirs
+    from sourceSets.main.output
+}
+
+task miccoreDevJar(type: Jar) {
+    baseName "MicdoodleCore-Dev-${mc_version}"
+    dependsOn "sourceMainJava"
+    include 'micdoodle8/mods/miccore/**'
+    include 'assets/*.cfg'
+    from sourceSets.main.java.srcDirs
+    from sourceSets.main.output
+}
+
+artifactsList += [apiJar, coreDevJar, planetsDevJar, miccoreDevJar]
