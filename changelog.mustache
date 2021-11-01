@@ -1,0 +1,94 @@
+# {{repoName}} changelog
+
+{{#tags}}
+
+{{#ifContainsBreaking commits}}
+**[Breaking Changes]**
+
+{{#commits}}
+{{#ifCommitBreaking .}}
+- {{#eachCommitScope .}} **({{.}})** {{/eachCommitScope}} {{{commitDescription .}}} [{{authorName}}] ([{{subString hash 0 5}}](https://github.com/{{ownerName}}/{{repoName}}/commit/{{hash}})) {{#eachCommitRefs .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitRefs}} {{#eachCommitFixes .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitFixes}}
+{{/ifCommitBreaking}}
+{{/commits}}
+{{/ifContainsBreaking}}
+
+{{#ifContainsType commits type='feat'}}
+**[Features]**
+
+{{#commits}}
+{{#ifCommitType . type='feat'}}
+- {{#eachCommitScope .}} **({{.}})** {{/eachCommitScope}} {{{commitDescription .}}} [{{authorName}}] ([{{subString hash 0 5}}](https://github.com/{{ownerName}}/{{repoName}}/commit/{{hash}})) {{#eachCommitRefs .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitRefs}} {{#eachCommitFixes .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitFixes}}
+{{#ifCommitHasParagraphs .}}
+{{#eachCommitParagraph .}}
+{{#messageBodyItems}}
+   - {{.}}
+{{/messageBodyItems}}
+{{/eachCommitParagraph}}
+ 
+{{/ifCommitHasParagraphs}}
+{{/ifCommitType}}
+{{/commits}}
+{{/ifContainsType}}
+
+{{#ifContainsType commits type='fix'}}
+**[Fixes]**
+
+{{#commits}}
+{{#ifCommitType . type='fix'}}
+- {{#eachCommitScope .}} **({{.}})** {{/eachCommitScope}} {{{commitDescription .}}} [{{authorName}}] ([{{subString hash 0 5}}](https://github.com/{{ownerName}}/{{repoName}}/commit/{{hash}})) {{#eachCommitRefs .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitRefs}} {{#eachCommitFixes .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitFixes}}
+{{#eachCommitParagraph .}}
+{{#messageBodyItems}}
+   - {{.}}
+{{/messageBodyItems}}
+{{/eachCommitParagraph}}
+{{/ifCommitType}}
+{{/commits}}
+{{/ifContainsType}}
+
+{{#ifContainsType commits type='performance'}}
+**[Performance]**
+
+{{#commits}}
+{{#ifCommitType . type='performance'}}
+- {{#eachCommitScope .}} **({{.}})** {{/eachCommitScope}} {{{commitDescription .}}} [{{authorName}}] ([{{subString hash 0 5}}](https://github.com/{{ownerName}}/{{repoName}}/commit/{{hash}})) {{#eachCommitRefs .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitRefs}} {{#eachCommitFixes .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitFixes}}
+{{#eachCommitParagraph .}}
+{{#messageBodyItems}}
+   - {{.}}
+{{/messageBodyItems}}
+{{/eachCommitParagraph}}
+{{/ifCommitType}}
+{{/commits}}
+{{/ifContainsType}}
+
+{{#ifContainsType commits type='revert'}}
+**[Revert]**
+
+{{#commits}}
+{{#ifCommitType . type='revert'}}
+- {{#eachCommitScope .}} **({{.}})** {{/eachCommitScope}} {{{commitDescription .}}} [{{authorName}}] ([{{subString hash 0 5}}](https://github.com/{{ownerName}}/{{repoName}}/commit/{{hash}})) {{#eachCommitRefs .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitRefs}} {{#eachCommitFixes .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitFixes}}
+{{#eachCommitParagraph .}}
+{{#messageBodyItems}}
+   - {{.}}
+{{/messageBodyItems}}
+{{/eachCommitParagraph}}
+{{/ifCommitType}}
+{{/commits}}
+{{/ifContainsType}}
+
+{{#ifContainsType commits type='^($|(?!fix|feat|breaking|performance|revert))'}}
+**[Misc Changes]**
+
+{{#commits}}
+{{#ifCommitType . type='(build|chore|ci|docs|test)'}}
+- {{#eachCommitScope .}} **({{.}})** {{/eachCommitScope}} {{{commitDescription .}}} [{{authorName}}] ([{{subString hash 0 5}}](https://github.com/{{ownerName}}/{{repoName}}/commit/{{hash}})) {{#eachCommitRefs .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitRefs}} {{#eachCommitFixes .}}{{#ifMatches . "^#[0-9]+"}} [{{.}}](https://github.com/{{ownerName}}/{{repoName}}/issues/{{subString . 1}}) {{/ifMatches}}{{/eachCommitFixes}}
+{{#eachCommitParagraph .}}
+{{#messageBodyItems}}
+   - {{.}}
+{{/messageBodyItems}}
+{{/eachCommitParagraph}}
+{{/ifCommitType}}
+{{/commits}}
+
+{{/ifContainsType}}
+
+{{/tags}}

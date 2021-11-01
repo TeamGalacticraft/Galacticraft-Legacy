@@ -1,0 +1,12 @@
+{
+	"fromRepo": ".",
+	"fromRef": "refs/heads/master",
+	"toRef": "refs/heads/1.12.2/stable_39",
+ 
+	"ignoreCommitsIfMessageMatches": "^\\[GRADLE SCRIPT\\].*|^Merge.*",
+	"readableTagName": "/([^/]+?)$",
+	"dateFormat": "MM-dd-YYYY HH:mm",
+	"timeZone": "UTC",
+	"removeIssueFromMessage": "true",
+	"gitHubApi": "https://api.github.com/repos/TeamGalacticraft/Galacticraft-Legacy"
+}

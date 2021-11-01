@@ -11,9 +11,18 @@ buildscript {
 	}
 }
 
-defaultTasks 'fullBuild'
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.71.4"
+}
 
+defaultTasks 'fullBuild'
 apply plugin: 'net.minecraftforge.gradle.forge'
+
+apply from: 'etc/scripts/keys.gradle'
+loadKeys()
 
 def versionBuild = 0
 if (System.getenv("BUILD_NUMBER") != null)
@@ -83,6 +92,18 @@ processResources {
     }
 }
 
+task fullBuild(type: Delete) {
+    delete jar
+    dependsOn "build"
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-Xlint:all', '-Xlint:-path', '-parameters']
+    options.deprecation = true
+    options.encoding = 'UTF-8'
+}
+
+
 def getManifestAttributes(String title) {
     return [
             "Specification-Title"     : title,
@@ -95,115 +116,18 @@ def getManifestAttributes(String title) {
     ]
 }
 
-jar {
-    manifest.attributes(getManifestAttributes("Galacticraft"))
+task generateChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+    group = 'script-tasks'
+    description = 'Generates Changelog for provided Version'
+
+    fromRepo = file(".");
+    settingsFile = file("changelog.json").getAbsolutePath();
+    file = file("${projectDir}/CHANGELOG-${project.version}.md");
+    templateContent = file('changelog.mustache').getText('UTF-8');
 }
 
-task coreJar(type: Jar) {
-    baseName = "Galacticraft-Core-${mc_version}"
-    dependsOn 'reobfJar'
-    
-    from('etc/core') {
-    	include '*.info'
-    	expand 'version':project.version,'mc_version':mc_version
-    }
-    
-    from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
-        exclude 'micdoodle8/mods/galacticraft/planets/**',
-        		'micdoodle8/mods/miccore/**', 
-        		'assets/galacticraftplanets/**',
-        		'assets/*.cfg'
-    }
-    manifest.attributes(getManifestAttributes("GalacticraftCore"))
-}
+ext.artifactsList = []
 
-task miccoreJar(type: Jar) {
-    baseName = "MicdoodleCore-${mc_version}"
-    dependsOn 'reobfJar'
-
-    from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
-        include 'micdoodle8/mods/miccore/**',
-        		'assets/*.cfg',
-        		'micdoodle8/mods/galacticraft/api/entity/IEntityBreathable.class'
-    }
-    manifest.attributes(getManifestAttributes("MicdoodleCore"))
-    manifest {
-		attributes.put("FMLCorePlugin", "micdoodle8.mods.miccore.MicdoodlePlugin")
-		attributes.put("AccessTransformer", "micdoodlecore_at.cfg")
-	}
-}
-
-task planetsJar(type: Jar) {
-    baseName = "Galacticraft-Planets-${mc_version}"
-    dependsOn 'reobfJar'
-    from('etc/planets') {
-    	include '*.info'
-    	expand 'version':project.version,'mc_version':mc_version
-    }
-    
-    from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
-        include 'micdoodle8/mods/galacticraft/planets/**',
-        		'assets/galacticraftplanets/**',
-        		'assets/logo.png'
-    }
-    manifest.attributes(getManifestAttributes("GalacticraftPlanets"))
-}
-
-// Honestly don't see why a standalone API jar is needed anymore
-task apiJar(type: Jar) {
-    baseName "Galacticraft-API-${mc_version}"
-    dependsOn "sourceMainJava"
-    include 'micdoodle8/mods/galacticraft/api/**'
-    from sourceSets.main.java.srcDirs
-    from sourceSets.main.output
-}
-
-task coreDevJar(type: Jar) {
-    baseName "Galacticraft-Core-Dev-${mc_version}"
-    dependsOn "sourceMainJava"
-    include 'micdoodle8/mods/galacticraft/api/**'
-    include 'micdoodle8/mods/galacticraft/core/**'
-    include 'assets/galacticraftcore/**'
-    from sourceSets.main.java.srcDirs
-    from sourceSets.main.output
-}
-
-task planetsDevJar(type: Jar) {
-    baseName "Galacticraft-Planets-Dev-${mc_version}"
-    dependsOn "sourceMainJava"
-    include 'micdoodle8/mods/galacticraft/planets/**'
-    include 'assets/galacticraftplanets/**'
-    from sourceSets.main.java.srcDirs
-    from sourceSets.main.output
-}
-
-task miccoreDevJar(type: Jar) {
-    baseName "MicdoodleCore-Dev-${mc_version}"
-    dependsOn "sourceMainJava"
-    include 'micdoodle8/mods/miccore/**'
-    include 'assets/*.cfg'
-    from sourceSets.main.java.srcDirs
-    from sourceSets.main.output
-}
-
-artifacts {
-    archives apiJar
-    archives coreJar
-    archives planetsJar
-    archives miccoreJar
-    
-    archives coreDevJar
-    archives planetsDevJar
-    archives miccoreDevJar
-}
-
-task fullBuild(type: Delete) {
-    delete jar
-    dependsOn "build"
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs += ['-Xlint:all', '-Xlint:-path', '-parameters']
-    options.deprecation = true
-    options.encoding = 'UTF-8'
-}
+apply from: 'etc/scripts/main-artifacts.gradle'
+apply from: 'etc/scripts/deobf-artifacts.gradle'
+apply from: 'etc/scripts/utils.gradle'
