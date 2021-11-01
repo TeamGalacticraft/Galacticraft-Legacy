@@ -112,37 +112,6 @@ public class BlockGlowstoneTorch extends BlockTorchBase implements IShiftDescrip
         }
     }
 
-//    @Override
-//    public RayTraceResult collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end)
-//    {
-//        int l = getMetaFromState(worldIn.getBlockState(pos)) & 7;
-//        float f = 0.15F;
-//
-//        if (l == 1)
-//        {
-//            this.setBlockBounds(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
-//        }
-//        else if (l == 2)
-//        {
-//            this.setBlockBounds(1.0F - f * 2.0F, 0.2F, 0.5F - f, 1.0F, 0.8F, 0.5F + f);
-//        }
-//        else if (l == 3)
-//        {
-//            this.setBlockBounds(0.5F - f, 0.2F, 0.0F, 0.5F + f, 0.8F, f * 2.0F);
-//        }
-//        else if (l == 4)
-//        {
-//            this.setBlockBounds(0.5F - f, 0.2F, 1.0F - f * 2.0F, 0.5F + f, 0.8F, 1.0F);
-//        }
-//        else
-//        {
-//            f = 0.1F;
-//            this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.6F, 0.5F + f);
-//        }
-//
-//        return super.collisionRayTrace(worldIn, pos, start, end);
-//    }
-
     @Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getRenderLayer()

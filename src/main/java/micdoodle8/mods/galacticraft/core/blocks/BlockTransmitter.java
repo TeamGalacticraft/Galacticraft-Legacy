@@ -43,7 +43,6 @@ public abstract class BlockTransmitter extends BlockAdvanced
 
         TileEntity tile = worldIn.getTileEntity(pos);
 
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
         GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_UPDATE_WIRE_BOUNDS, GCCoreUtil.getDimensionID((World) worldIn), new Object[]
         {pos}), new NetworkRegistry.TargetPoint(GCCoreUtil.getDimensionID((World) worldIn), pos.getX(), pos.getY(), pos.getZ(), 10.0D));
 

@@ -643,7 +643,6 @@ public class PacketSimple extends PacketBase implements Packet<INetHandler>
                 if (tile instanceof TileBaseConductor)
                 {
                     ((TileBaseConductor) tile).adjacentConnections = null;
-//                player.world.getBlockState(tile.getPos()).getBlock().setBlockBoundsBasedOnState(player.world, tile.getPos()); TODO
                 }
                 break;
             case C_OPEN_SPACE_RACE_GUI:

@@ -87,31 +87,6 @@ public class BlockTier1TreasureChest extends BlockContainer implements ITileEnti
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
-//    @Override
-//    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
-//    {
-//        if (worldIn.getBlockState(pos.north()).getBlock() == this)
-//        {
-//            this.setBlockBounds(0.0625F, 0.0F, 0.0F, 0.9375F, 0.875F, 0.9375F);
-//        }
-//        else if (worldIn.getBlockState(pos.south()).getBlock() == this)
-//        {
-//            this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 1.0F);
-//        }
-//        else if (worldIn.getBlockState(pos.west()).getBlock() == this)
-//        {
-//            this.setBlockBounds(0.0F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
-//        }
-//        else if (worldIn.getBlockState(pos.east()).getBlock() == this)
-//        {
-//            this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 1.0F, 0.875F, 0.9375F);
-//        }
-//        else
-//        {
-//            this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
-//        }
-//    }
-
     @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {

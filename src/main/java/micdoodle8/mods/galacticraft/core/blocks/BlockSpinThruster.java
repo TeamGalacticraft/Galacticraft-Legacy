@@ -180,32 +180,6 @@ public class BlockSpinThruster extends BlockAdvanced implements IShiftDescriptio
         return world.isSideSolid(pos.offset(facing.getOpposite()), facing, true);
     }
 
-//    @Override
-//    public RayTraceResult collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end)
-//    {
-//        float var8 = 0.3F;
-//
-//        EnumFacing facing = worldIn.getBlockState(pos).getValue(BlockMachine.FACING);
-//
-//        switch (facing)
-//        {
-//        case NORTH:
-//            this.setBlockBounds(0.5F - var8, 0.2F, 1.0F - var8 * 2.0F, 0.5F + var8, 0.8F, 1.0F);
-//            break;
-//        case EAST:
-//            this.setBlockBounds(0.0F, 0.2F, 0.5F - var8, var8 * 2.0F, 0.8F, 0.5F + var8);
-//            break;
-//        case SOUTH:
-//            this.setBlockBounds(0.5F - var8, 0.2F, 0.0F, 0.5F + var8, 0.8F, var8 * 2.0F);
-//            break;
-//        case WEST:
-//            this.setBlockBounds(1.0F - var8 * 2.0F, 0.2F, 0.5F - var8, 1.0F, 0.8F, 0.5F + var8);
-//            break;
-//        }
-//
-//        return super.collisionRayTrace(worldIn, pos, start, end);
-//    }
-
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)

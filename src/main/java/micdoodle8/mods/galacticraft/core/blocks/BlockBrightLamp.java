@@ -187,40 +187,6 @@ public class BlockBrightLamp extends BlockAdvanced implements IShiftDescription,
         worldIn.setBlockToAir(pos);
     }
 
-//    @Override
-//    public RayTraceResult collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end)
-//    {
-//        EnumFacing side = worldIn.getBlockState(pos).getValue(FACING);
-//        float var8 = 0.3F;
-//
-//        if (side == EnumFacing.WEST)
-//        {
-//            this.setBlockBounds(0.0F, 0.2F, 0.5F - var8, var8 * 2.0F, 0.8F, 0.5F + var8);
-//        }
-//        else if (side == EnumFacing.EAST)
-//        {
-//            this.setBlockBounds(1.0F - var8 * 2.0F, 0.2F, 0.5F - var8, 1.0F, 0.8F, 0.5F + var8);
-//        }
-//        else if (side == EnumFacing.NORTH)
-//        {
-//            this.setBlockBounds(0.5F - var8, 0.2F, 0.0F, 0.5F + var8, 0.8F, var8 * 2.0F);
-//        }
-//        else if (side == EnumFacing.SOUTH)
-//        {
-//            this.setBlockBounds(0.5F - var8, 0.2F, 1.0F - var8 * 2.0F, 0.5F + var8, 0.8F, 1.0F);
-//        }
-//        else if (side == EnumFacing.DOWN)
-//        {
-//            this.setBlockBounds(0.5F - var8, 0.0F, 0.5F - var8, 0.5F + var8, 0.6F, 0.5F + var8);
-//        }
-//        else
-//        {
-//            this.setBlockBounds(0.5F - var8, 0.4F, 0.5F - var8, 0.5F + var8, 1.0F, 0.5F + var8);
-//        }
-//
-//        return super.collisionRayTrace(worldIn, pos, start, end);
-//    }
-
     @Override
     public boolean onUseWrench(World world, BlockPos pos, EntityPlayer entityPlayer, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
@@ -278,12 +244,6 @@ public class BlockBrightLamp extends BlockAdvanced implements IShiftDescription,
         return new BlockStateContainer(this, FACING); // , ACTIVE });
     }
 
-//    @Override
-//    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-//    {
-//        return state.withProperty(ACTIVE, ((TileEntityArclamp) worldIn.getTileEntity(pos)).getEnabled());
-//    }
-//
     @Override
     public EnumSortCategoryBlock getCategory(int meta)
     {

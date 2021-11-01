@@ -74,37 +74,6 @@ public class BlockAirLockWall extends BlockBreakable implements IPartialSealable
         }
     }
 
-//    @Override
-//    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        return super.getCollisionBoundingBox(worldIn, pos, state);
-//    }
-//
-//    @Override
-//    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
-//    {
-//        this.setBlockBoundsBasedOnState(worldIn, pos);
-//        return super.getSelectedBoundingBox(worldIn, pos);
-//    }
-//
-//    @Override
-//    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
-//    {
-//        switch (getConnection(worldIn, pos))
-//        {
-//        case FLAT:
-//            this.setBlockBounds(0.0F, 0.25F, 0.0F, 1.0F, 0.75F, 1.0F);
-//            break;
-//        case X:
-//            this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
-//            break;
-//        case Z:
-//            this.setBlockBounds(0.0F, 0.0F, 0.25F, 1.0F, 1.0F, 0.75F);
-//            break;
-//        }
-//    }
-
     @Override
     public boolean isOpaqueCube(IBlockState state)
     {
