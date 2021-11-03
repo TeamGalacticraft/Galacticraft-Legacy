@@ -1,6 +1,9 @@
 apply plugin: "maven-publish"
 apply plugin: 'signing'
 
+apply from: 'etc/scripts/keys.gradle'
+loadKeys()
+
 def getNewVersion(String oldVersionName, String bump) {
     def (major, minor, patch) = oldVersionName
             .replaceAll("[^0-9\\.]","")

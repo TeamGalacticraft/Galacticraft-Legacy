@@ -21,9 +21,6 @@ plugins {
 defaultTasks 'fullBuild'
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-apply from: 'etc/scripts/keys.gradle'
-loadKeys()
-
 def versionBuild = 0
 if (System.getenv("BUILD_NUMBER") != null)
 	versionBuild = System.getenv("BUILD_NUMBER")
