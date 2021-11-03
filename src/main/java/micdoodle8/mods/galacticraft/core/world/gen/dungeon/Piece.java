@@ -85,40 +85,4 @@ public abstract class Piece extends StructureComponent
     {
         return null;
     }
-
-    @Override
-    protected void setBlockState(World worldIn, IBlockState blockstateIn, int x, int y, int z, StructureBoundingBox boundingboxIn)
-    {
-        BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
-        if (mirror == null || rotation == null)
-        {
-            mirror = ReflectionHelper.findField(StructureComponent.class, "mirror", "field_186168_b");
-            rotation = ReflectionHelper.findField(StructureComponent.class, "rotation", "field_186169_c");
-            mirror.setAccessible(true);
-            rotation.setAccessible(true);
-        }
-        Mirror mirror;
-        Rotation rotation;
-        try
-        {
-            mirror = (Mirror) Piece.mirror.get(this);
-            rotation = (Rotation) Piece.rotation.get(this);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            super.setBlockState(worldIn, blockstateIn, x, y, z, boundingboxIn);
-            return;
-        }
-        if (mirror != Mirror.NONE)
-        {
-            blockstateIn = blockstateIn.withMirror(mirror);
-        }
-
-        if (rotation != Rotation.NONE)
-        {
-            blockstateIn = blockstateIn.withRotation(rotation);
-        }
-
-        worldIn.setBlockState(blockpos, blockstateIn, 2);
-    }
 }

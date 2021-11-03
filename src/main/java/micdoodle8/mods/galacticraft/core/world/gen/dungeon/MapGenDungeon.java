@@ -177,32 +177,6 @@ public class MapGenDungeon extends MapGenStructure
 
             this.updateBoundingBox();
         }
-
-        @Override
-        public void generateStructure(World worldIn, Random rand, StructureBoundingBox structurebb)
-        {
-            if (CompatibilityManager.isSpongeLoaded())
-            {
-                Iterator<StructureComponent> iterator = this.components.iterator();
-
-                while (iterator.hasNext())
-                {
-                    StructureComponent structurecomponent = iterator.next(); // IGNORE
-                                                                             // structure
-                                                                             // bounds
-                    if (/*
-                         * structurecomponent.getBoundingBox().intersectsWith(
-                         * structurebb) &&
-                         */!structurecomponent.addComponentParts(worldIn, rand, structurebb))
-                    {
-                        iterator.remove();
-                    }
-                }
-            } else
-            {
-                super.generateStructure(worldIn, rand, structurebb);
-            }
-        }
     }
 
     public static void main(String args[])

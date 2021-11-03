@@ -7,12 +7,8 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 import java.util.Random;
 
-import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
-
 public class RoomEmpty extends SizedPiece
 {
-
-    private boolean generated = false;
 
     public RoomEmpty()
     {
@@ -33,9 +29,6 @@ public class RoomEmpty extends SizedPiece
     @Override
     public boolean addComponentParts(World worldIn, Random random, StructureBoundingBox boundingBox)
     {
-        if (CompatibilityManager.isSpongeLoaded() && generated)
-            return true;
-        generated = true;
         for (int i = 0; i <= this.sizeX; i++)
         {
             for (int j = 0; j <= this.sizeY; j++)
@@ -54,12 +47,14 @@ public class RoomEmpty extends SizedPiece
                                 if (getDirection() == EnumFacing.SOUTH && k == 0)
                                 {
                                     placeBlock = false;
-                                } else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
+                                }
+                                else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
                                 {
                                     placeBlock = false;
                                 }
                             }
-                        } else
+                        }
+                        else
                         {
                             int start = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 - 1;
                             int end = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 + 1;
@@ -68,7 +63,8 @@ public class RoomEmpty extends SizedPiece
                                 if (getDirection() == EnumFacing.EAST && i == 0)
                                 {
                                     placeBlock = false;
-                                } else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
+                                }
+                                else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
                                 {
                                     placeBlock = false;
                                 }
@@ -77,11 +73,13 @@ public class RoomEmpty extends SizedPiece
                         if (placeBlock)
                         {
                             this.setBlockState(worldIn, this.configuration.getBrickBlock(), i, j, k, boundingBox);
-                        } else
+                        }
+                        else
                         {
                             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, boundingBox);
                         }
-                    } else
+                    }
+                    else
                     {
                         this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, boundingBox);
                     }

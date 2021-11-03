@@ -2,7 +2,6 @@ package micdoodle8.mods.galacticraft.core.world.gen.dungeon;
 
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.blocks.BlockTier1TreasureChest;
-import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
@@ -14,9 +13,6 @@ import java.util.Random;
 
 public class RoomChest extends RoomEmpty
 {
-
-    private boolean generated = false;
-
     public RoomChest()
     {
     }
@@ -29,9 +25,6 @@ public class RoomChest extends RoomEmpty
     @Override
     public boolean addComponentParts(World worldIn, Random rand, StructureBoundingBox boundingBox)
     {
-        if (CompatibilityManager.isSpongeLoaded() && generated)
-            return true;
-
         if (super.addComponentParts(worldIn, rand, boundingBox))
         {
             int chestX = this.sizeX / 2;
@@ -51,7 +44,7 @@ public class RoomChest extends RoomEmpty
                 }
                 chest.setLootTable(chesttype, rand.nextLong());
             }
-            generated = true;
+
             return true;
         }
 
