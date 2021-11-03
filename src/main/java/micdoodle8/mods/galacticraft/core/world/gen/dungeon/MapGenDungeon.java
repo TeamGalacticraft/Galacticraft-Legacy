@@ -3,7 +3,6 @@ package micdoodle8.mods.galacticraft.core.world.gen.dungeon;
 import com.google.common.collect.Lists;
 
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
-import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -12,7 +11,6 @@ import net.minecraft.world.gen.structure.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 

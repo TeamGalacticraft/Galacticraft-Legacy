@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class RoomEmpty extends SizedPiece
 {
-
     public RoomEmpty()
     {
     }

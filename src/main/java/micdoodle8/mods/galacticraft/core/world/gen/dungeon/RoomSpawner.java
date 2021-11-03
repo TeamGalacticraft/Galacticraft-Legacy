@@ -1,5 +1,6 @@
 package micdoodle8.mods.galacticraft.core.world.gen.dungeon;
 
+import micdoodle8.mods.galacticraft.core.Constants;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.ResourceLocation;
@@ -9,9 +10,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 import java.util.Random;
-
-import micdoodle8.mods.galacticraft.core.Constants;
-import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 
 public class RoomSpawner extends RoomEmpty
 {
@@ -61,6 +59,7 @@ public class RoomSpawner extends RoomEmpty
             {
                 spawner.getSpawnerBaseLogic().setEntityId(getMob(random));
             }
+
             return true;
         }
 
@@ -71,15 +70,15 @@ public class RoomSpawner extends RoomEmpty
     {
         switch (rand.nextInt(4))
         {
-            case 0:
-                return new ResourceLocation(Constants.MOD_ID_CORE, "evolved_spider");
-            case 1:
-                return new ResourceLocation(Constants.MOD_ID_CORE, "evolved_creeper");
-            case 2:
-                return new ResourceLocation(Constants.MOD_ID_CORE, "evolved_skeleton");
-            case 3:
-            default:
-                return new ResourceLocation(Constants.MOD_ID_CORE, "evolved_zombie");
+        case 0:
+            return new ResourceLocation(Constants.MOD_ID_CORE, "evolved_spider");
+        case 1:
+            return new ResourceLocation(Constants.MOD_ID_CORE, "evolved_creeper");
+        case 2:
+            return new ResourceLocation(Constants.MOD_ID_CORE, "evolved_skeleton");
+        case 3:
+        default:
+            return new ResourceLocation(Constants.MOD_ID_CORE, "evolved_zombie");
         }
     }
 }

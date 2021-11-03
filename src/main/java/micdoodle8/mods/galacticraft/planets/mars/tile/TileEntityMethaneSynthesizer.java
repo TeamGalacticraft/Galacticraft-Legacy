@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
+import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
@@ -241,9 +242,9 @@ public class TileEntityMethaneSynthesizer extends TileBaseElectricBlockWithInven
     public int getAirProducts()
     {
         WorldProvider WP = this.world.provider;
-        if (WP instanceof WorldProviderSpace)
+        if (WP instanceof IGalacticraftWorldProvider)
         {
-            ArrayList<EnumAtmosphericGas> atmos = ((WorldProviderSpace) WP).getCelestialBody().atmosphere.composition;
+            ArrayList<EnumAtmosphericGas> atmos = ((IGalacticraftWorldProvider) WP).getCelestialBody().atmosphere.composition;
             if (atmos.size() > 0)
             {
                 if (atmos.get(0) == EnumAtmosphericGas.CO2)

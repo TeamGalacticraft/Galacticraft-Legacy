@@ -92,6 +92,7 @@ public class ConfigManagerCore
     public static boolean oxygenIndicatorLeft;
     public static boolean oxygenIndicatorBottom;
     public static boolean overrideCapes;
+    public static boolean disableRocketIconRotation;
 
     // DIFFICULTY
     public static double dungeonBossHealthMod;
@@ -309,6 +310,12 @@ public class ConfigManagerCore
             prop.setComment("If true, this will move the Oxygen Indicator to the bottom. You can combine this with \"Minimap Left\"");
             prop.setLanguageKey("gc.configgui.oxygen_indicator_bottom");
             oxygenIndicatorBottom = prop.getBoolean(false);
+            finishProp(prop);
+            
+            prop = getConfig(Constants.CONFIG_CATEGORY_CLIENT, "Disable Rocket Icon Rotation", false);
+            prop.setComment("If you have FPS problems, setting this to true will disable GC Rocket icons from rotating in GUI's");
+            prop.setLanguageKey("gc.configgui.disable_rocket_icon_rotation");
+            disableRocketIconRotation = prop.getBoolean(false);
             finishProp(prop);
 
 //World gen

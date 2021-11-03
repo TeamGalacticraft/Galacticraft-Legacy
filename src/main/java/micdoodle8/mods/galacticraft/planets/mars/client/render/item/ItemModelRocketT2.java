@@ -1,5 +1,9 @@
 package micdoodle8.mods.galacticraft.planets.mars.client.render.item;
 
+import micdoodle8.mods.galacticraft.core.Constants;
+import micdoodle8.mods.galacticraft.core.util.ClientUtil;
+import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+import micdoodle8.mods.galacticraft.core.wrappers.ModelTransformWrapper;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraftforge.common.model.TRSRTransformation;
@@ -8,13 +12,8 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
-import micdoodle8.mods.galacticraft.core.Constants;
-import micdoodle8.mods.galacticraft.core.util.ClientUtil;
-import micdoodle8.mods.galacticraft.core.wrappers.ModelTransformWrapper;
-
 public class ItemModelRocketT2 extends ModelTransformWrapper
 {
-
     public ItemModelRocketT2(IBakedModel modelToWrap)
     {
         super(modelToWrap);
@@ -49,7 +48,9 @@ public class ItemModelRocketT2 extends ModelTransformWrapper
             mul.setTranslation(trans);
             ret.mul(mul);
             mul.setIdentity();
-            mul.rotY(ClientUtil.getClientTimeTotal() / 1000.0F);
+            if(!ConfigManagerCore.disableRocketIconRotation) {
+                mul.rotY(ClientUtil.getClientTimeTotal() / 1000.0F);
+            }
             ret.mul(mul);
             mul.setIdentity();
             trans.scale(-1.0F);

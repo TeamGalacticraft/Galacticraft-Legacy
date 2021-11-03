@@ -3,7 +3,6 @@ package micdoodle8.mods.galacticraft.core.world.gen.dungeon;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityDungeonSpawner;
-import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +15,6 @@ import java.util.Random;
 
 public class RoomBoss extends SizedPiece
 {
-
     private BlockPos chestPos;
 
     public RoomBoss()
@@ -61,12 +59,14 @@ public class RoomBoss extends SizedPiece
                                 if (getDirection() == EnumFacing.SOUTH && k == 0)
                                 {
                                     placeBlock = false;
-                                } else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
+                                }
+                                else if (getDirection() == EnumFacing.NORTH && k == this.sizeZ)
                                 {
                                     placeBlock = false;
                                 }
                             }
-                        } else
+                        }
+                        else
                         {
                             int start = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 - 1;
                             int end = (this.boundingBox.maxZ - this.boundingBox.minZ) / 2 + 1;
@@ -75,7 +75,8 @@ public class RoomBoss extends SizedPiece
                                 if (getDirection() == EnumFacing.EAST && i == 0)
                                 {
                                     placeBlock = false;
-                                } else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
+                                }
+                                else if (getDirection() == EnumFacing.WEST && i == this.sizeX)
                                 {
                                     placeBlock = false;
                                 }
@@ -84,24 +85,30 @@ public class RoomBoss extends SizedPiece
                         if (placeBlock)
                         {
                             this.setBlockState(worldIn, this.configuration.getBrickBlock(), i, j, k, chunkBox);
-                        } else
+                        }
+                        else
                         {
                             this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, chunkBox);
                         }
-                    } else if ((i == 1 && k == 1) || (i == 1 && k == this.sizeZ - 1) || (i == this.sizeX - 1 && k == 1) || (i == this.sizeX - 1 && k == this.sizeZ - 1))
+                    }
+                    else if ((i == 1 && k == 1) || (i == 1 && k == this.sizeZ - 1) || (i == this.sizeX - 1 && k == 1) || (i == this.sizeX - 1 && k == this.sizeZ - 1))
                     {
                         this.setBlockState(worldIn, Blocks.FLOWING_LAVA.getDefaultState(), i, j, k, chunkBox);
-                    } else if (j % 3 == 0 && j >= 2 && ((i == 1 || i == this.sizeX - 1 || k == 1 || k == this.sizeZ - 1) || (i == 2 && k == 2) || (i == 2 && k == this.sizeZ - 2)
-                        || (i == this.sizeX - 2 && k == 2) || (i == this.sizeX - 2 && k == this.sizeZ - 2)))
+                    }
+                    else if (j % 3 == 0 && j >= 2 && ((i == 1 || i == this.sizeX - 1 || k == 1 || k == this.sizeZ - 1) || (i == 2 && k == 2) || (i == 2 && k == this.sizeZ - 2) || (i == this.sizeX - 2 && k == 2) || (i == this.sizeX - 2 && k == this.sizeZ - 2)))
                     {
                         // Horizontal bars
                         this.setBlockState(worldIn, Blocks.IRON_BARS.getDefaultState(), i, j, k, chunkBox);
-                    } else if ((i == 1 && k == 2) || (i == 2 && k == 1) || (i == 1 && k == this.sizeZ - 2) || (i == 2 && k == this.sizeZ - 1) || (i == this.sizeX - 1 && k == 2)
-                        || (i == this.sizeX - 2 && k == 1) || (i == this.sizeX - 1 && k == this.sizeZ - 2) || (i == this.sizeX - 2 && k == this.sizeZ - 1))
+                    }
+                    else if ((i == 1 && k == 2) || (i == 2 && k == 1) ||
+                            (i == 1 && k == this.sizeZ - 2) || (i == 2 && k == this.sizeZ - 1) ||
+                            (i == this.sizeX - 1 && k == 2) || (i == this.sizeX - 2 && k == 1) ||
+                            (i == this.sizeX - 1 && k == this.sizeZ - 2) || (i == this.sizeX - 2 && k == this.sizeZ - 1))
                     {
                         // Vertical bars
                         this.setBlockState(worldIn, Blocks.IRON_BARS.getDefaultState(), i, j, k, chunkBox);
-                    } else
+                    }
+                    else
                     {
                         this.setBlockState(worldIn, Blocks.AIR.getDefaultState(), i, j, k, chunkBox);
                     }
@@ -113,7 +120,7 @@ public class RoomBoss extends SizedPiece
         int spawnerY = 1;
         int spawnerZ = this.sizeZ / 2;
         BlockPos blockpos = new BlockPos(this.getXWithOffset(spawnerX, spawnerZ), this.getYWithOffset(spawnerY), this.getZWithOffset(spawnerX, spawnerZ));
-        // Is this position inside the chunk currently being generated?
+        //Is this position inside the chunk currently being generated?
         if (chunkBox.isVecInside(blockpos))
         {
             worldIn.setBlockState(blockpos, GCBlocks.bossSpawner.getDefaultState(), 2);
@@ -133,7 +140,7 @@ public class RoomBoss extends SizedPiece
     {
         super.writeStructureToNBT(tagCompound);
 
-        if (this.chestPos != null)
+        if(this.chestPos != null)
         {
             tagCompound.setInteger("chestX", this.chestPos.getX());
             tagCompound.setInteger("chestY", this.chestPos.getY());

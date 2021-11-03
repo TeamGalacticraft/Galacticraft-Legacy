@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
+import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IOxygenReceiver;
@@ -418,10 +419,10 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
     public int getAirProducts()
     {
         WorldProvider WP = this.world.provider;
-        if (WP instanceof WorldProviderSpace)
+        if (WP instanceof IGalacticraftWorldProvider)
         {
             int result = 0;
-            ArrayList<EnumAtmosphericGas> atmos = ((WorldProviderSpace) WP).getCelestialBody().atmosphere.composition;
+            ArrayList<EnumAtmosphericGas> atmos = ((IGalacticraftWorldProvider) WP).getCelestialBody().atmosphere.composition;
             if (atmos.size() > 0)
             {
                 result = this.getIdFromName(atmos.get(0).name().toLowerCase()) + 1;
