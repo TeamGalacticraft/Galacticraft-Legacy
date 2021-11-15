@@ -13,6 +13,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -193,7 +194,7 @@ public class ContainerTerraformer extends Container
     {
         ContainerTerraformer.saplingList = new LinkedList<>();
 
-        for (Block b : Block.REGISTRY)
+        for (Block b : ForgeRegistries.BLOCKS)
         {
             if (b instanceof BlockBush)
             {

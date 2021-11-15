@@ -9,6 +9,6 @@ public class MicdoodleAccessTransformerDeObf extends AccessTransformer
 
     public MicdoodleAccessTransformerDeObf() throws IOException
     {
-        super("");
+        super("META-INF/accesstransformer.deobf");
     }
 }

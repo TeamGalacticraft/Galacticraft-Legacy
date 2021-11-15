@@ -9,6 +9,6 @@ public class MicdoodleAccessTransformer extends AccessTransformer
 
     public MicdoodleAccessTransformer() throws IOException
     {
-        super("assets/micdoodlecore_at.cfg");
+        super("META-INF/accesstransformer.cfg");
     }
 }

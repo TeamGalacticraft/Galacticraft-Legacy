@@ -50,10 +50,8 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
     private String nameGuiSleep;
     private String nameParticleManager;
     private String nameNetHandlerPlay;
-//    private String nameWorldRenderer;
     private String nameRenderGlobal;
     private String nameRenderManager;
-//    private String nameTileEntityRenderer;
     private String nameEntity;
     private String nameChunkGeneratorOverworld;
     private String nameChunk;
@@ -77,11 +75,9 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
     private static final String KEY_CLASS_ENTITY_LIVING = "entityLivingClass";
     private static final String KEY_CLASS_ENTITY_ITEM = "entityItemClass";
     private static final String KEY_CLASS_ENTITY_RENDERER = "entityRendererClass";
-//    private static final String KEY_CLASS_WORLD_RENDERER = "worldRendererClass";
     private static final String KEY_CLASS_RENDER_GLOBAL = "renderGlobalClass";
     private static final String KEY_CLASS_RENDER_MANAGER = "renderManagerClass";
     private static final String KEY_CLASS_TESSELLATOR = "tessellatorClass";
-//    private static final String KEY_CLASS_TILEENTITY_RENDERER = "tileEntityRendererClass";
     private static final String KEY_CLASS_CONTAINER_PLAYER = "containerPlayer";
     private static final String KEY_CLASS_MINECRAFT = "minecraft";
     private static final String KEY_CLASS_SESSION = "session";
@@ -107,7 +103,7 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
     private static final String KEY_CLASS_CHUNK = "chunkClass";
     private static final String KEY_NET_HANDLER_LOGIN_SERVER = "netHandlerLoginServer";
     private static final String KEY_CLASS_ENTITY_ARROW = "entityArrow";
-//    private static final String KEY_CLASS_RENDERER_LIVING_ENTITY = "rendererLivingEntity";
+
     private static final String KEY_CLASS_ENTITYGOLEM = "entityGolem";
     private static final String KEY_CLASS_IBLOCKACCESS = "iBlockAccess";
     private static final String KEY_CLASS_BLOCK = "blockClass";
@@ -122,9 +118,6 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
     private static final String KEY_CLASS_RENDER_CHUNK = "renderChunk";
     private static final String KEY_CLASS_DAMAGE_SOURCE = "damageSource";
 
-//	private static final String KEY_FIELD_WORLDRENDERER_GLRENDERLIST = "glRenderList";
-//    private static final String KEY_FIELD_CPS_WORLDOBJ = "cps_worldObj";
-//    private static final String KEY_FIELD_CPS_SERVER_CHUNK_GEN = "serverChunkGenerator";
     private static final String KEY_FIELD_CHUNK_XPOS = "chunkXPos";
     private static final String KEY_FIELD_CHUNK_ZPOS = "chunkZPos";
     private static final String KEY_FIELD_CHUNK_WORLD = "world";
@@ -148,15 +141,6 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
     private static final String KEY_METHOD_HANDLE_SPAWN_PLAYER = "handleSpawnPlayerMethod";
     private static final String KEY_METHOD_ORIENT_CAMERA = "orientCamera";
     private static final String KEY_METHOD_ADD_RAIN = "addRainParticles";
-//    private static final String KEY_METHOD_DO_RENDER_ENTITY = "doRenderEntityMethod";
-//    private static final String KEY_METHOD_PRERENDER_BLOCKS = "preRenderBlocksMethod"; //WorldRenderer.preRenderBlocks(int)
-//    private static final String KEY_METHOD_SETUP_GL = "setupGLTranslationMethod"; //WorldRenderer.setupGLTranslation()
-//    private static final String KEY_METHOD_SET_POSITION = "setPositionMethod"; //WorldRenderer.setPosition()
-//    private static final String KEY_METHOD_LOAD_RENDERERS = "loadRenderersMethod"; //RenderGlobal.loadRenderers()
-//    private static final String KEY_METHOD_RENDERGLOBAL_INIT = "renderGlobalInitMethod"; //RenderGlobal.RenderGlobal()
-//    private static final String KEY_METHOD_RENDERGLOBAL_SORTANDRENDER = "sortAndRenderMethod"; //RenderGlobal.sortAndRender()
-//    private static final String KEY_METHOD_TILERENDERER_RENDERTILEAT = "renderTileAtMethod"; //TileEntityRendererDispatcher.renderTileEntityAt()
-//    private static final String KEY_METHOD_START_GAME = "startGame";
     private static final String KEY_METHOD_CAN_RENDER_FIRE = "canRenderOnFire";
     private static final String KEY_METHOD_POPULATE_CHUNK = "populateChunk";
     private static final String KEY_METHOD_RENDER_MODEL = "renderModel";
@@ -172,15 +156,10 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
     private static final String KEY_METHOD_ATTACK_ENTITY_FROM = "attackEntityFrom";
 
     private static final String CLASS_RUNTIME_INTERFACE = "micdoodle8/mods/miccore/Annotations$RuntimeInterface";
-//	private static final String CLASS_ALT_FORVERSION = "micdoodle8/mods/miccore/Annotations$AltForVersion";
-//	private static final String CLASS_VERSION_SPECIFIC = "micdoodle8/mods/miccore/Annotations$VersionSpecific";
     private static final String CLASS_MICDOODLE_PLUGIN = "micdoodle8/mods/miccore/MicdoodlePlugin";
-//	private static final String CLASS_CLIENT_PROXY_MAIN = "micdoodle8/mods/galacticraft/core/proxy/ClientProxyCore";
-//	private static final String CLASS_WORLD_UTIL = "micdoodle8/mods/galacticraft/core/util/WorldUtil";
     private static final String CLASS_TRANSFORMER_HOOKS = "micdoodle8/mods/galacticraft/core/TransformerHooks";
     private static final String CLASS_INTCACHE_VARIANT = "micdoodle8/mods/miccore/IntCache";
     private static final String CLASS_GL11 = "org/lwjgl/opengl/GL11";
-//	private static final String CLASS_RENDER_PLAYER_GC = "micdoodle8/mods/galacticraft/core/client/render/entities/RenderPlayerGC";
     private static final String CLASS_IENTITYBREATHABLE = "micdoodle8/mods/galacticraft/api/entity/IEntityBreathable";
     private static final String CLASS_SYNCMOD_CLONEPLAYER = "sync/common/tileentity/TileEntityDualVertical";
     private static final String CLASS_RENDERPLAYEROF = "RenderPlayerOF";
@@ -220,11 +199,9 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_ENTITY_LIVING, new ObfuscationEntry("net/minecraft/entity/EntityLivingBase"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_ENTITY_ITEM, new ObfuscationEntry("net/minecraft/entity/item/EntityItem"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_ENTITY_RENDERER, new ObfuscationEntry("net/minecraft/client/renderer/EntityRenderer"));
-//            this.nodemap.put(MicdoodleTransformer.KEY_CLASS_WORLD_RENDERER, new ObfuscationEntry("net/minecraft/client/renderer/WorldRenderer"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_RENDER_GLOBAL, new ObfuscationEntry("net/minecraft/client/renderer/RenderGlobal"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_TESSELLATOR, new ObfuscationEntry("net/minecraft/client/renderer/Tessellator"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_RENDER_MANAGER, new ObfuscationEntry("net/minecraft/client/renderer/entity/RenderManager"));
-//            this.nodemap.put(MicdoodleTransformer.KEY_CLASS_TILEENTITY_RENDERER, new ObfuscationEntry("net/minecraft/client/renderer/tileentity/TileEntityRendererDispatcher"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_CONTAINER_PLAYER, new ObfuscationEntry("net/minecraft/inventory/ContainerPlayer"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_MINECRAFT, new ObfuscationEntry("net/minecraft/client/Minecraft"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_SESSION, new ObfuscationEntry("net/minecraft/util/Session"));
@@ -251,7 +228,6 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_CHUNK, new ObfuscationEntry("net/minecraft/world/chunk/Chunk"));
             this.nodemap.put(MicdoodleTransformer.KEY_NET_HANDLER_LOGIN_SERVER, new ObfuscationEntry("net/minecraft/server/network/NetHandlerLoginServer"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_ENTITY_ARROW, new ObfuscationEntry("net/minecraft/entity/projectile/EntityArrow"));
-//            this.nodemap.put(MicdoodleTransformer.KEY_CLASS_RENDERER_LIVING_ENTITY, new ObfuscationEntry("net/minecraft/client/renderer/entity/RendererLivingEntity"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_ENTITYGOLEM, new ObfuscationEntry("net/minecraft/entity/monster/EntityGolem"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_IBLOCKACCESS, new ObfuscationEntry("net/minecraft/world/IBlockAccess"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_BLOCK, new ObfuscationEntry("net/minecraft/block/Block"));
@@ -265,10 +241,6 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_CCTG, new ObfuscationEntry("net/minecraft/client/renderer/chunk/ChunkCompileTaskGenerator"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_RENDER_CHUNK, new ObfuscationEntry("net/minecraft/client/renderer/chunk/RenderChunk"));
             this.nodemap.put(MicdoodleTransformer.KEY_CLASS_DAMAGE_SOURCE, new ObfuscationEntry("net/minecraft/util/DamageSource", "ur"));
-
-//            this.nodemap.put(MicdoodleTransformer.KEY_FIELD_WORLDRENDERER_GLRENDERLIST, new FieldObfuscationEntry("glRenderList", "z"));
-//            this.nodemap.put(MicdoodleTransformer.KEY_FIELD_CPS_WORLDOBJ, new FieldObfuscationEntry("world", **CHECK** "i"));
-//            this.nodemap.put(MicdoodleTransformer.KEY_FIELD_CPS_SERVER_CHUNK_GEN, new FieldObfuscationEntry("serverChunkGenerator", **CHECK** "e"));
             this.nodemap.put(MicdoodleTransformer.KEY_FIELD_CHUNK_XPOS, new FieldObfuscationEntry("x", "b"));
             this.nodemap.put(MicdoodleTransformer.KEY_FIELD_CHUNK_ZPOS, new FieldObfuscationEntry("z", "c"));
             this.nodemap.put(MicdoodleTransformer.KEY_FIELD_CHUNK_WORLD, new FieldObfuscationEntry("world", "k"));
@@ -309,15 +281,6 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
                 new MethodObfuscationEntry("handleSpawnPlayer", "a", "(L" + this.getNameDynamic(MicdoodleTransformer.KEY_CLASS_PACKET_SPAWN_PLAYER) + ";)V"));
             this.nodemap.put(MicdoodleTransformer.KEY_METHOD_ORIENT_CAMERA, new MethodObfuscationEntry("orientCamera", "f", "(F)V"));
             this.nodemap.put(MicdoodleTransformer.KEY_METHOD_ADD_RAIN, new MethodObfuscationEntry("addRainParticles", "q", "()V"));
-//            this.nodemap.put(MicdoodleTransformer.KEY_METHOD_DO_RENDER_ENTITY, new MethodObfuscationEntry("doRenderEntity", "a", "(L" + this.getNameDynamic(MicdoodleTransformer.KEY_CLASS_ENTITY) + ";DDDFFZ)Z"));
-//            this.nodemap.put(MicdoodleTransformer.KEY_METHOD_SETUP_GL, new MethodObfuscationEntry("setupGLTranslation", "f", "()V")); //func_78905_g
-//            this.nodemap.put(MicdoodleTransformer.KEY_METHOD_PRERENDER_BLOCKS, new MethodObfuscationEntry("preRenderBlocks", "a", **BufferBuilder** **BlockPos** "()V")); //func_147890_b
-//            this.nodemap.put(MicdoodleTransformer.KEY_METHOD_SET_POSITION, new MethodObfuscationEntry("setPosition", "a", "(III)V")); //func_78913_a
-//            this.nodemap.put(MicdoodleTransformer.KEY_METHOD_LOAD_RENDERERS, new MethodObfuscationEntry("loadRenderers", "a", "()V")); //func_72712_a
-//            this.nodemap.put(MicdoodleTransformer.KEY_METHOD_RENDERGLOBAL_INIT, new MethodObfuscationEntry("<init>", "(L" + this.getNameDynamic(MicdoodleTransformer.KEY_CLASS_MINECRAFT) + ";)V"));
-//            this.nodemap.put(MicdoodleTransformer.KEY_METHOD_RENDERGLOBAL_SORTANDRENDER, new MethodObfuscationEntry("sortAndRender", "a", "(L" + this.getNameDynamic(MicdoodleTransformer.KEY_CLASS_ENTITY_LIVING) + ";ID)I")); //func_72719_a
-//            this.nodemap.put(MicdoodleTransformer.KEY_METHOD_TILERENDERER_RENDERTILEAT, new MethodObfuscationEntry("render", "a", "(L" + this.getNameDynamic(MicdoodleTransformer.KEY_CLASS_TILEENTITY) + ";DDDFIF)V")); //bmc/a (Land;DDDF)V net/minecraft/client/renderer/tileentity/TileEntityRendererDispatcher/func_147549_a (Lnet/minecraft/tileentity/TileEntity;DDDF)V
-//            this.nodemap.put(MicdoodleTransformer.KEY_METHOD_START_GAME, new MethodObfuscationEntry("startGame", "am", "()V"));
             this.nodemap.put(MicdoodleTransformer.KEY_METHOD_CAN_RENDER_FIRE, new MethodObfuscationEntry("canRenderOnFire", "bl", "()Z"));
             this.nodemap.put(MicdoodleTransformer.KEY_METHOD_POPULATE_CHUNK,
                 new MethodObfuscationEntry("populate", "a", "(L" + this.getNameDynamic(MicdoodleTransformer.KEY_CLASS_ICHUNKGENERATOR) + ";)V"));
@@ -444,10 +407,8 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
         this.nameGuiSleep = this.getName(MicdoodleTransformer.KEY_CLASS_GUI_SLEEP);
         this.nameParticleManager = this.getName(MicdoodleTransformer.KEY_CLASS_PARTICLE_MANAGER);
         this.nameNetHandlerPlay = this.getName(MicdoodleTransformer.KEY_CLASS_NET_HANDLER_PLAY);
-//        this.nameWorldRenderer  = this.getName(MicdoodleTransformer.KEY_CLASS_WORLD_RENDERER);
         this.nameRenderGlobal = this.getName(MicdoodleTransformer.KEY_CLASS_RENDER_GLOBAL);
         this.nameRenderManager = this.getName(MicdoodleTransformer.KEY_CLASS_RENDER_MANAGER);
-//        this.nameTileEntityRenderer  = this.getName(MicdoodleTransformer.KEY_CLASS_TILEENTITY_RENDERER);
         this.nameEntity = this.getName(MicdoodleTransformer.KEY_CLASS_ENTITY);
         this.nameChunkGeneratorOverworld = this.getName(MicdoodleTransformer.KEY_CLASS_CHUNK_PROVIDER_OVERWORLD);
         this.nameChunk = this.getName(MicdoodleTransformer.KEY_CLASS_CHUNK);
@@ -470,10 +431,8 @@ public class MicdoodleTransformer implements net.minecraft.launchwrapper.IClassT
         this.nameGuiSleep = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_GUI_SLEEP).obfuscatedName;
         this.nameParticleManager = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_PARTICLE_MANAGER).obfuscatedName;
         this.nameNetHandlerPlay = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_NET_HANDLER_PLAY).obfuscatedName;
-//        this.nameWorldRenderer  = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_WORLD_RENDERER).obfuscatedName;
         this.nameRenderGlobal = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_RENDER_GLOBAL).obfuscatedName;
         this.nameRenderManager = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_RENDER_MANAGER).obfuscatedName;
-//        this.nameTileEntityRenderer  = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_TILEENTITY_RENDERER).obfuscatedName;
         this.nameEntity = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_ENTITY).obfuscatedName;
         this.nameChunkGeneratorOverworld = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_CHUNK_PROVIDER_OVERWORLD).obfuscatedName;
         this.nameChunk = this.nodemap.get(MicdoodleTransformer.KEY_CLASS_CHUNK).obfuscatedName;

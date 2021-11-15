@@ -10,7 +10,7 @@ public class Constants
     public static final int LOCALMAJVERSION = 4;
     public static final int LOCALMINVERSION = 0;
     public static final int LOCALPATCHVERSION = 2;
-    public static final int LOCALBUILDVERSION = -1; // Replaced by jenkins build
+    public static final String LOCALBUILDVERSION = "${build}";
     public static final String COMBINEDVERSION = LOCALMAJVERSION + "." + LOCALMINVERSION + "." + LOCALPATCHVERSION + "." + LOCALBUILDVERSION;
 
     public static final String MCVERSION = "[1.12.2]";

@@ -1,3 +1,20 @@
+### IDEA ###
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+## ECLIPSE ##
+bin
+*.launch
+.settings
+.settings/*
+.metadata
+.classpath
+.project
+eclipse
+
 ### ForgeGradle ###
 # Minecraft client/server files
 run/
@@ -10,13 +27,6 @@ build/
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
-# Eclipse Gradle plugin generated files
-# Eclipse Core
-.project
-.settings
-bin
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
 
 ### Java ###
 # Compiled class file
@@ -37,7 +47,3 @@ hs_err_pid*
 ### Galacticraft Specific ###
 build.properties
 
-### IDEA ###
-*.iml
-*.ipr
-*.iws

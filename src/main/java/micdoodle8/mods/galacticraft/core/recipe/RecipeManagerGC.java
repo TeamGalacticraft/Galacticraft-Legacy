@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.core.recipe;
 
+import appeng.api.AEApi;
+import appeng.api.features.IGrinderRegistry;
+import appeng.api.util.AEColor;
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.recipe.CircuitFabricatorRecipes;
 import micdoodle8.mods.galacticraft.api.recipe.CompressorRecipes;
@@ -24,16 +27,15 @@ import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
 import micdoodle8.mods.galacticraft.planets.mars.items.MarsItems;
 import micdoodle8.mods.galacticraft.planets.venus.VenusBlocks;
 import micdoodle8.mods.galacticraft.planets.venus.VenusItems;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -45,10 +47,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-
-import appeng.api.AEApi;
-import appeng.api.features.IGrinderRegistry;
-import appeng.api.util.AEColor;
 
 public class RecipeManagerGC
 {
@@ -351,7 +349,7 @@ public class RecipeManagerGC
 
         if (doQuickMode || doMetalsToOreDict || doMetalsToGC)
         {
-            for (IRecipe recipe : CraftingManager.REGISTRY)
+            for (IRecipe recipe : ForgeRegistries.RECIPES)
             {
                 if (recipe instanceof IRecipeUpdatable)
                 {

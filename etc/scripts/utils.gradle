@@ -1,27 +1,28 @@
 apply plugin: "maven-publish"
 apply plugin: 'signing'
 
-apply from: 'etc/scripts/keys.gradle'
-loadKeys()
-
 def getNewVersion(String oldVersionName, String bump) {
-    def (major, minor, patch) = oldVersionName
+    def (major, minor, patch, build) = oldVersionName
             .replaceAll("[^0-9\\.]","")
             .concat(".0.0")
             .tokenize('.')
     major = major.toInteger()
     minor = minor.toInteger()
     patch = patch.toInteger()
+    build = build.toInteger()
     if (bump == "Major") {
-        major++; minor = 0; patch = 0;
+        major++; minor = 0; patch = 0; build = 0;
     }
     if (bump == "Minor") {
-        minor++; patch = 0;
+        minor++; patch = 0; build = 0;
     }
     if (bump == "Patch") {
-        patch++
+        patch++; build = 0;
     }
-    def newVersionName = "$major.$minor.$patch"
+    if (build == "Build") {
+        build++;
+    }
+    def newVersionName = "$major.$minor.$patch.$build"
     logger.lifecycle("$oldVersionName → $newVersionName")
     return newVersionName
 }
@@ -52,7 +53,7 @@ def bumpVersion(type) {
 }
 
 tasks.addRule("Pattern: bump<TYPE>") { String taskName ->
-    if (taskName.matches("bump(Major|Minor|Patch)")) {
+    if (taskName.matches("bump(Major|Minor|Patch|Build)")) {
         task(taskName) {
             doLast {
                 String type = (taskName - 'bump')
@@ -63,7 +64,7 @@ tasks.addRule("Pattern: bump<TYPE>") { String taskName ->
 }
 
 tasks.addRule("Pattern: release<TYPE>") { String taskName ->
-    if (taskName.matches("release(Major|Minor|Patch)")) {
+    if (taskName.matches("release(Major|Minor|Patch|Build)")) {
         task(taskName) {
             doFirst {
                 String type = (taskName - 'release')
@@ -151,52 +152,57 @@ task releaseAfterMath(type: GradleBuild) {
 
 publishing {
     publications {
-        gcPublication(MavenPublication) { publication ->
+		coreDev(MavenPublication) {
+			groupId 'micdoodle8.mods'
+			artifactId 'galacticraft-core'
+			version project.version
 
-            from project.components.java
-            setArtifacts artifactsList
-            logger.lifecycle("group: ${project.group} name: ${project.name}")
-
-            groupId project.group
-            artifactId project.name
-            version version
-
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', project.description)
-                root.appendNode('name', project.name)
-                root.appendNode('url', effectiveConfig.publishing.website)
-                root.appendNode('inceptionYear', new Date().getYear() + 1900)
-                root.children().last() + pomConfig
+			artifact coreJar
+			
+			artifact coreDevJar {
+                classifier 'deobf'
             }
-        }
+		}
+		planetsDev(MavenPublication) {
+			groupId 'micdoodle8.mods'
+			artifactId 'galacticraft-planets'
+			version project.version
+
+			artifact planetsJar
+			
+			artifact planetsDevJar {
+                classifier 'deobf'
+            }
+		}
+		miccoreDev(MavenPublication) {
+			groupId 'micdoodle8.mods'
+			artifactId 'micdoodlecore'
+			version project.version
+
+			artifact miccoreJar
+			
+			artifact miccoreDevJar {
+                classifier 'deobf'
+            }
+		}
+		apiDev(MavenPublication) {
+			groupId 'micdoodle8.mods'
+			artifactId 'galacticraft-api'
+			version project.version
+
+			artifact apiJar
+		}
     }
     repositories {
         mavenLocal()
-        if (System.getenv().MAVEN_URL) {
-            maven {
-                url = System.getenv().MAVEN_URL
-                credentials {
-                    username key.maven_username
-                    password key.maven_password
-                }
-            }
-        } else if (key.containsKey("maven_url")) {
-            maven {
-                url = System.getenv().MAVEN_URL
-                credentials {
-                    username key.maven_username
-                    password key.maven_password
-                }
-            }
-        } else {
-            maven {
-                url "file:///${project.buildDir}/repo"
-            }
+        maven {
+            url "file:///${project.buildDir}/repo"
         }
     }
 
     signing {
-        sign publishing.publications.gcPublication
+    	publishing.publications.each {
+    	    sign it
+    	}
     }
 }

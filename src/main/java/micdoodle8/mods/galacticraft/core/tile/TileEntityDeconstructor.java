@@ -16,11 +16,9 @@ import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
 import micdoodle8.mods.galacticraft.planets.mars.items.MarsItems;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
-
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
@@ -29,6 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -315,7 +314,7 @@ public class TileEntityDeconstructor extends TileBaseElectricBlock implements II
                 return toItemStackList(recipe.getRecipeInput().values());
             }
         }
-        for (IRecipe recipe : CraftingManager.REGISTRY)
+        for (IRecipe recipe : ForgeRegistries.RECIPES)
         {
             ItemStack test = recipe.getRecipeOutput();
             if (ItemStack.areItemsEqual(test, stack) && test.getCount() == 1)

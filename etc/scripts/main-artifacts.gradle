@@ -15,7 +15,7 @@ task coreJar(type: Jar) {
         exclude 'micdoodle8/mods/galacticraft/planets/**',
                 'micdoodle8/mods/miccore/**',
                 'assets/galacticraftplanets/**',
-                'assets/*.cfg'
+                'META-INF/*.cfg', 'META-INF/*.deobf'
     }
     manifest.attributes(getManifestAttributes("GalacticraftCore"))
 }
@@ -26,13 +26,13 @@ task miccoreJar(type: Jar) {
 
     from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
         include 'micdoodle8/mods/miccore/**',
-                'assets/*.cfg',
+                'META-INF/*.cfg', 'META-INF/*.deobf',
                 'micdoodle8/mods/galacticraft/api/entity/IEntityBreathable.class'
     }
     manifest.attributes(getManifestAttributes("MicdoodleCore"))
     manifest {
         attributes.put("FMLCorePlugin", "micdoodle8.mods.miccore.MicdoodlePlugin")
-        attributes.put("AccessTransformer", "micdoodlecore_at.cfg")
+        attributes.put("AccessTransformer", "accesstransformer.cfg")
     }
 }
 

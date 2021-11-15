@@ -1,105 +1,202 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
 buildscript {
-	repositories {
-		jcenter()
-		maven {
-			name = "forge"
-			url = "https://files.minecraftforge.net/maven"
-		}
-	}
-	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-	}
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+    }
 }
 
 plugins {
     id 'java'
     id 'eclipse'
     id 'idea'
+    id "io.freefair.lombok" version "6.3.0"
+    id "com.gradle.build-scan" version "3.7.1"
+    id 'wtf.gofancy.fancygradle' version '1.+'
     id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.71.4"
 }
 
+apply plugin: 'net.minecraftforge.gradle'
 defaultTasks 'fullBuild'
-apply plugin: 'net.minecraftforge.gradle.forge'
 
-def versionBuild = 0
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+
+def versionBuild = "281"
 if (System.getenv("BUILD_NUMBER") != null)
 	versionBuild = System.getenv("BUILD_NUMBER")
 
-version = "${versionMajor}.${versionMinor}.${versionRev}.${versionBuild}" // Set the version number
+version = "${versionMajor}.${versionMinor}.${versionRev}.${versionBuild}-SNAPSHOT" // Set the version number
 group= "micdoodle8.mods.galacticraft"
 archivesBaseName = "GalacticraftAll"
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
 minecraft {
-	version = "${mc_version}-${forge_version}"
-	coreMod = 'micdoodle8.mods.miccore.MicdoodlePlugin'
-	mappings = "${mcp}"
-	runDir = "run"
-	useDepAts = true
-	
-	def args = [
-		"-Dfml.coreMods.load=micdoodle8.mods.miccore.MicdoodlePlugin"
-	]
-	clientJvmArgs.addAll(args)
-	serverJvmArgs.addAll(args)
-  	if (project.hasProperty('mc_uuid')) {
-    	clientRunArgs += ['--uuid', project.mc_uuid]
-  	}
-	makeObfSourceJar = false
-	
-	replace '-1', versionBuild
-	replaceIn "Constants.java"
+    mappings channel: 'stable', version: '39-1.12'
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run/client')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+
+            if (project.hasProperty('mc_uuid')) {
+                // Your UUID, trimmed / without the dashes
+                args '--uuid', project.getProperty('mc_uuid')
+            }
+            if (project.hasProperty('mc_username')) {
+                // Your Minecraft in-game username, not email
+                args '--username', project.getProperty('mc_username')
+            }
+            if (project.hasProperty('mc_accessToken')) {
+                // Your current access token. When it expires, you need to retrieve a new one and regenerate your run configurations.
+                // You may be able to find it in your .minecraft folder in launcher_accounts.json or launcher_profiles.json.
+                args '--accessToken', project.getProperty('mc_accessToken')
+            }
+            
+            jvmArg '-Dfml.coreMods.load=micdoodle8.mods.miccore.MicdoodlePlugin'
+        }
+
+        server {
+            workingDirectory project.file('run/server')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            
+            jvmArg '-Dfml.coreMods.load=micdoodle8.mods.miccore.MicdoodlePlugin'
+        }
+    }
+}
+
+lombok {
+    version = "1.18.22"
 }
 
 repositories {
-	maven { url 'https://www.cursemaven.com' }
-	maven { url 'https://mod-buildcraft.com/maven/' }
-	maven { url 'http://maven.ic2.player.to' }
-	maven { url 'http://dvs1.progwml6.com/files/maven' }
+    maven {
+        name 'sizableshrimsip'
+        url 'https://sizableshrimsip.me/maven'
+        content {
+            includeGroup 'net.minecraftforge'
+        }
+    }
+    maven {
+        name 'CurseMaven'
+        url 'https://www.cursemaven.com'
+        content {
+            includeGroup 'curse.maven'
+        }
+    }
+    maven {
+        name 'BuildCraft'
+        url 'https://mod-buildcraft.com/maven/'
+        content {
+            includeGroup 'com.mod-buildcraft'
+        }
+    }
+	maven {
+        name 'IndustrialCraft'
+        url 'https://maven.ic2.player.to'
+        content {
+            includeGroup 'net.industrial-craft'
+        }
+    }
+    maven {
+        name 'JEI'
+        url 'https://dvs1.progwml6.com/files/maven'
+        content {
+            includeGroup 'mezz.jei'
+        }
+    }
+    whenObjectAdded {//ForgeGradle adds these in an afterEvaluate, so we need to catch them as they're added and exclude mod artifacts/groups
+        if (it instanceof MavenArtifactRepository) {
+            def url = it.url.toString()
+            if (url == 'https://maven.minecraftforge.net/' || url == 'https://libraries.minecraft.net/' || url == 'https://repo.maven.apache.org/maven2/') {
+                try {
+                    it.content {
+                        excludeGroup 'curse.maven'
+                        excludeGroup 'mezz.jei'
+                        excludeGroup 'net.industrial-craft'
+                        excludeGroup 'com.mod-buildcraft'
+                    }
+                    println("Adding exclusions to ${it.url}")
+                } catch (Exception ignored) {
+                    //oh well
+                }
+            }
+        }
+    }
 }
 
 dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2855'
+    
+    compileOnly 'org.jetbrains:annotations:23.0.0'
 	
-	compileOnly 'curse.maven:bop-7.0.1.2444-220318:2842510'
-	compileOnly 'curse.maven:mekanism-9.8.3.390-268560:2835176'
-	compileOnly 'curse.maven:ae2-rv6-stable-7-223794:2747063'
-	compileOnly 'curse.maven:redstoneflux-1.1.1-270789:2920436'
-	compileOnly 'curse.maven:actuallyadditions-r152-228404:3117927'
-	compileOnly 'curse.maven:playerapi-1.1-449521:3212872'
+	compileOnly fg.deobf('curse.maven:bop-7.0.1.2444-220318:2842510')
+	compileOnly fg.deobf('curse.maven:mekanism-9.8.3.390-268560:2835176')
+	compileOnly fg.deobf('curse.maven:ae2-rv6-stable-7-223794:2747063')
+	compileOnly fg.deobf('curse.maven:redstoneflux-1.1.1-270789:2920436')
+	compileOnly fg.deobf('curse.maven:actuallyadditions-r152-228404:3117927')
+	compileOnly fg.deobf('curse.maven:playerapi-1.1-449521:3212872')
 
-	compileOnly 'com.mod-buildcraft:buildcraft-api:7.99.24.6'
-	compileOnly 'net.industrial-craft:industrialcraft-2:2.8.221-ex112:api'
+	compileOnly fg.deobf('com.mod-buildcraft:buildcraft-api:7.99.24.6')
+	compileOnly fg.deobf('net.industrial-craft:industrialcraft-2:2.8.221-ex112:api')
 	
-	compileOnly 'mezz.jei:jei_1.12.2:4.16.1.302:api'
-	runtimeOnly 'mezz.jei:jei_1.12.2:4.16.1.302'
+	compileOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302:api')
+	runtimeOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302')
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mc_version", mc_version
+fancyGradle {
+    patches {
+        resources
+        coremods
+        asm
+    }
+}
 
-    from(sourceSets.main.resources.srcDirs) {
-        include "mcmod.info"
-        expand "version": project.version, "mc_version": mc_version
+def base_package = "micdoodle8.mods.galacticraft.core"
+def replace_class = "Constants"
+
+def modFileTokens = [build: versionBuild]
+def included = ["${base_package.replace('.', '/')}/${replace_class}.java".toString()]
+
+def expandedSrc = new File(project.buildDir, 'expandedSrc')
+def srcMainJava = project.file('src/main/java').toPath()
+def includedPaths = included.collect { java.nio.file.Paths.get(it) }
+
+task javaReplaceTokens(type: Copy) {
+    inputs.property 'tokens', modFileTokens
+    from(srcMainJava) {
+        include included
     }
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+    into expandedSrc
+    filter(org.apache.tools.ant.filters.ReplaceTokens, beginToken: '${', endToken: '}', tokens: modFileTokens)
+}
+
+
+compileJava {
+    dependsOn javaReplaceTokens
+    exclude {
+        srcMainJava.relativize(it.file.toPath()) in includedPaths
     }
+    source expandedSrc
+    options.compilerArgs << "-Xlint:none"
+    options.encoding = 'UTF-8'
 }
 
 task fullBuild(type: Delete) {
     delete jar
     dependsOn "build"
 }
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs += ['-Xlint:all', '-Xlint:-path', '-parameters']
-    options.deprecation = true
-    options.encoding = 'UTF-8'
-}
-
 
 def getManifestAttributes(String title) {
     return [
@@ -123,8 +220,70 @@ task generateChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTas
     templateContent = file('changelog.mustache').getText('UTF-8');
 }
 
+jar.finalizedBy('reobfJar')
+
 ext.artifactsList = []
 
 apply from: 'etc/scripts/main-artifacts.gradle'
 apply from: 'etc/scripts/deobf-artifacts.gradle'
 apply from: 'etc/scripts/utils.gradle'
+
+task buildAllJars(type: GradleBuild) {
+	group = 'script-tasks'
+	description = 'Builds all Jars for Galacticraft'
+	tasks = [
+		'build',
+		'coreJar',
+		'miccoreJar',
+		'planetsJar',
+		'fullBuild',
+		'apiJar',
+		'coreDevJar',
+		'planetsDevJar',
+		'miccoreDevJar'
+	]
+}
+
+task buildMainJars(type: GradleBuild) {
+	group = 'script-tasks'
+	description = 'Builds the main Jars for Galacticraft'
+	tasks = [
+		'build',
+		'coreJar',
+		'miccoreJar',
+		'planetsJar',
+		'fullBuild'
+	]
+}
+
+task buildDevJars(type: GradleBuild) {
+	group = 'script-tasks'
+	description = 'Builds the dev Jars for Galacticraft'
+	tasks = [
+		'build',
+		'apiJar',
+		'coreDevJar',
+		'planetsDevJar',
+		'miccoreDevJar',
+		'fullBuild'
+	]
+}
+
+clean {
+	File buildDir = file('build')
+	FileCollection collection = layout.files { buildDir.listFiles() }
+	FileCollection cache = collection.filter { File f ->
+			!f.name.equals('fg_cache')
+	}
+	cache.collect { relativePath(it) }
+    delete = []
+    delete cache
+    
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+    }
+}
