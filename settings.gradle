@@ -4,3 +4,14 @@ pluginManagement {
         maven { url = 'https://gitlab.com/api/v4/projects/26758973/packages/maven' }
     }
 }
+
+plugins {
+    id "com.gradle.enterprise" version "3.7.1"
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+    }
+}

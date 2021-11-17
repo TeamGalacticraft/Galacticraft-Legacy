@@ -16,7 +16,6 @@ plugins {
     id 'eclipse'
     id 'idea'
     id "io.freefair.lombok" version "6.3.0"
-    id "com.gradle.build-scan" version "3.7.1"
     id 'wtf.gofancy.fancygradle' version '1.+'
     id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.71.4"
 }
@@ -38,6 +37,7 @@ archivesBaseName = "GalacticraftAll"
 
 minecraft {
     mappings channel: 'stable', version: '39-1.12'
+    //mappings channel: 'snapshot', version: '20171003-1.12'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -279,11 +279,4 @@ clean {
     delete = []
     delete cache
     
-}
-
-gradleEnterprise {
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-    }
 }
