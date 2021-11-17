@@ -265,7 +265,7 @@ public class TileEntitySolarArrayController extends TileBaseUniversalElectricalS
     @Override
     public EnumFacing getElectricOutputDirection()
     {
-        return byIndex();
+        return this.byIndex();
     }
 
     @Override

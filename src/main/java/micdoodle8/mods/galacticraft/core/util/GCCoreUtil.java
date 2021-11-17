@@ -2,7 +2,8 @@ package micdoodle8.mods.galacticraft.core.util;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
-
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.entities.EntityLanderBase;
@@ -60,6 +61,17 @@ import java.util.zip.ZipFile;
 
 import javax.annotation.Nullable;
 
+/**
+ * Starting with Release 4.1.0 this class will be removed and all methods
+ * moved to a dedicated utility class. At this time all planned utility classes
+ * will be internal and non-accessible.
+ * <p>
+ * <strong>ADDON DEVELOPERS THAT MAKE CALLS TO ANY METHOD IN THIS CLASS ARE ADVISED
+ * TO MOVE TO THEIR OWN IMPLEMENTATIONS</strong>
+ * 
+ */
+@Deprecated
+@ForRemoval(deadline = "4.1.0")
 public class GCCoreUtil
 {
 
@@ -115,6 +127,9 @@ public class GCCoreUtil
         return GCCoreUtil.nextID - 1;
     }
 
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("Use Your Own Registry")
     public static void registerGalacticraftCreature(Class<? extends Entity> clazz, String name, int back, int fore)
     {
         registerGalacticraftNonMobEntity(clazz, name, 80, 3, true);
@@ -122,7 +137,6 @@ public class GCCoreUtil
         if (nextEggID < 65536)
         {
             ResourceLocation resourcelocation = new ResourceLocation(Constants.MOD_ID_CORE, name);
-//            name = Constants.MOD_ID_CORE + "." + name;
             EntityList.ENTITY_EGGS.put(resourcelocation, new EntityList.EntityEggInfo(resourcelocation, back, fore));
         }
     }
@@ -143,12 +157,18 @@ public class GCCoreUtil
         return eggID;
     }
 
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("Use Your Own Registry")
     public static void registerGalacticraftNonMobEntity(Class<? extends Entity> var0, String var1, int trackingDistance, int updateFreq, boolean sendVel)
     {
         ResourceLocation registryName = new ResourceLocation(Constants.MOD_ID_CORE, var1);
         EntityRegistry.registerModEntity(registryName, var0, var1, nextInternalID(), GalacticraftCore.instance, trackingDistance, updateFreq, sendVel);
     }
 
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("Use Your Own Registry")
     public static void registerGalacticraftItem(String key, Item item)
     {
         registerGalacticraftItem(key, new ItemStack(item));
@@ -168,7 +188,10 @@ public class GCCoreUtil
     {
         GalacticraftCore.blocksList.add(block);
     }
-
+    
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("Use Own Translation Methods")
     public static String translate(String key)
     {
         String result = I18n.translateToLocal(key);

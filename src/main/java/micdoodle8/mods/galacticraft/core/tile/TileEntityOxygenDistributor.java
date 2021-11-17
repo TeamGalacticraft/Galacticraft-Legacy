@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.block.IOxygenReliantBlock;
 import micdoodle8.mods.galacticraft.api.item.IItemOxygenSupply;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
@@ -470,5 +472,14 @@ public class TileEntityOxygenDistributor extends TileEntityOxygen implements IBu
     public Vector3 getColor()
     {
         return new Vector3(0.125F, 0.125F, 0.5F);
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

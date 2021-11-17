@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.core.GCFluids;
 import micdoodle8.mods.galacticraft.core.GCItems;
@@ -401,5 +403,14 @@ public class TileEntityRefinery extends TileBaseElectricBlockWithInventory imple
             return direction == pipeSide || direction == pipeSide.getOpposite();
         }
         return false;
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

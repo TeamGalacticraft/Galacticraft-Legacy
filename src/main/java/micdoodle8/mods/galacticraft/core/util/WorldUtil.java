@@ -5,7 +5,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MapMaker;
 import com.google.common.collect.Maps;
-
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.entity.IAntiGrav;
 import micdoodle8.mods.galacticraft.api.entity.IWorldTransferCallback;
@@ -86,8 +86,20 @@ import java.util.TreeMap;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
-//import galacticraft.planets.asteroids.entities.EntityAstroMiner;
-
+/**
+ * This class will be removed and all methods
+ * moved to a dedicated utility class. At this time all planned utility classes
+ * will be internal and non-accessible.
+ * <P>
+ * Certain methods commonly used will be moved into the API package for use by addon developers.
+ * When more information is available each method will be annotated accordingly with {@link ReplaceWith}
+ * <p>
+ * <strong>ADDON DEVELOPERS THAT MAKE CALLS TO ANY METHOD IN THIS CLASS ARE ADVISED
+ * TO MOVE TO THEIR OWN IMPLEMENTATIONS</strong>
+ * 
+ */
+@Deprecated
+@ForRemoval(deadline = "4.1.0")
 public class WorldUtil
 {
 

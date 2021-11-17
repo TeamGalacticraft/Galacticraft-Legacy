@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.api.galaxies;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import net.minecraft.world.WorldProvider;
 
 public class Satellite extends CelestialBody implements IChildBody
@@ -60,5 +62,14 @@ public class Satellite extends CelestialBody implements IChildBody
     public int getDimensionIdStatic()
     {
         return dimensionIdStatic;
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("getTranslationKeyPrefix()")
+    public String getUnlocalizedNamePrefix()
+    {
+        return getTranslationKeyPrefix();
     }
 }

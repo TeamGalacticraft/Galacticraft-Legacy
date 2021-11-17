@@ -16,9 +16,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 /**
+ * This will eventually be completely reworked and implemented differently
+ * It is still safe to depend and make calls to this class.
+ * 
  * Credits to KingLemming and CovertJaguar, since this is based on the
  * Liquid/Fluid API
  */
+@Deprecated
 public class GalaxyRegistry
 {
 

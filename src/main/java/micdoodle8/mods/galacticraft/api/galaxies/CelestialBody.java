@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.BiomeAdaptive;
 import micdoodle8.mods.galacticraft.api.world.AtmosphereInfo;
 import micdoodle8.mods.galacticraft.api.world.BiomeGenBaseGC;
@@ -62,19 +63,10 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
     public abstract int getID();
 
     public abstract String getTranslationKeyPrefix();
-
+    
     public String getName()
     {
         return this.bodyName;
-    }
-
-    /**
-     * Use {@link CelestialBody#getTranslationKey()}
-     */
-    @Deprecated
-    public String getUnlocalizedName()
-    {
-        return getTranslationKey();
     }
 
     public String getTranslationKey()
@@ -394,5 +386,29 @@ public abstract class CelestialBody implements Comparable<CelestialBody>
             }
         }
         return null;
+    }
+    
+    // DEPRECIATED METHODS
+    
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("getTranslationKeyPrefix()")
+    public abstract String getUnlocalizedNamePrefix();
+
+    
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("getTranslationKey()")
+    public String getUnlocalizedName()
+    {
+        return getTranslationKey();
+    }
+    
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("getTranslatedName()")
+    public String getLocalizedName()
+    {
+        return getTranslatedName();
     }
 }

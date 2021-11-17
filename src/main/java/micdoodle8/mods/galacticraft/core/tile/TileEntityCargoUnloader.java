@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.entity.ICargoEntity;
 import micdoodle8.mods.galacticraft.api.entity.ICargoEntity.EnumCargoLoadingState;
 import micdoodle8.mods.galacticraft.api.entity.ICargoEntity.RemovalResult;
@@ -110,12 +112,6 @@ public class TileEntityCargoUnloader extends TileBaseElectricBlockWithInventory 
             this.attachedFuelable = null;
         }
     }
-
-//    @Override
-//    public boolean hasCustomName()
-//    {
-//        return true;
-//    }
 
     @Override
     public boolean hasCustomName()
@@ -259,5 +255,14 @@ public class TileEntityCargoUnloader extends TileBaseElectricBlockWithInventory 
     public EnumFacing getElectricInputDirection()
     {
         return byIndex().rotateY();
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

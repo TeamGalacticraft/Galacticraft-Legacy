@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import io.netty.buffer.ByteBuf;
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.block.ITerraformableBlock;
 import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
@@ -723,5 +725,14 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
             return direction != this.getElectricInputDirection();
         }
         return false;
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

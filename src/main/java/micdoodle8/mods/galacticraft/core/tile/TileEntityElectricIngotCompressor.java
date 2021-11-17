@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.recipe.CompressorRecipes;
 import micdoodle8.mods.galacticraft.api.recipe.ShapedRecipesGC;
 import micdoodle8.mods.galacticraft.api.recipe.ShapelessOreRecipeGC;
@@ -676,4 +678,13 @@ public class TileEntityElectricIngotCompressor extends TileBaseElectricBlock imp
         return this.advanced ? BlockMachine4.MACHINESIDES_RENDERTYPE : BlockMachine2.MACHINESIDES_RENDERTYPE;
     }
     // ------------------END OF IMachineSides implementation
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
+    }
 }

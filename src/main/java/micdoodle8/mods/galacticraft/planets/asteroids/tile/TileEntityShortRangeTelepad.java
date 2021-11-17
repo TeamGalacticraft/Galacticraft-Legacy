@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.Constants;
@@ -654,5 +656,14 @@ public class TileEntityShortRangeTelepad extends TileBaseElectricBlock implement
     public EnumFacing byIndex()
     {
         return EnumFacing.NORTH;
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

@@ -2,7 +2,7 @@ package micdoodle8.mods.galacticraft.core.util;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
-
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.model.OBJLoaderGC;
@@ -41,13 +41,21 @@ import org.lwjgl.opengl.GL11;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Starting with Release 4.1.0 this class will be removed and all methods
+ * moved to a dedicated utility class. At this time all planned utility classes
+ * will be internal and non-accessible.
+ * <p>
+ * <strong>ADDON DEVELOPERS THAT MAKE CALLS TO ANY METHOD IN THIS CLASS ARE ADVISED
+ * TO MOVE TO THEIR OWN IMPLEMENTATIONS</strong>
+ * 
+ */
+@Deprecated
+@ForRemoval(deadline = "4.1.0")
 @SideOnly(Side.CLIENT)
 public class ClientUtil
 {
 
-    /**
-     * Use getClientTimeTotal() now.
-     */
     @Deprecated
     public static long getMilliseconds()
     {
@@ -61,7 +69,6 @@ public class ClientUtil
 
     public static void addVariant(String modID, String name, String... variants)
     {
-//        Item itemBlockVariants = GameRegistry.findItem(modID, name);
         Item itemBlockVariants = Item.REGISTRY.getObject(new ResourceLocation(modID, name));
         ResourceLocation[] variants0 = new ResourceLocation[variants.length];
         for (int i = 0; i < variants.length; ++i)
@@ -78,7 +85,6 @@ public class ClientUtil
 
     public static void registerBlockJson(String texturePrefix, Block block, int meta, String name)
     {
-//        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(texturePrefix + name, "inventory"));
         FMLClientHandler.instance().getClient().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(texturePrefix + name, "inventory"));
     }
 
@@ -89,14 +95,12 @@ public class ClientUtil
 
     public static void registerItemJson(String texturePrefix, Item item, int meta, String name)
     {
-//        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(texturePrefix + name, "inventory"));
         FMLClientHandler.instance().getClient().getRenderItem().getItemModelMesher().register(item, meta, new ModelResourceLocation(texturePrefix + name, "inventory"));
     }
 
     public static ScaledResolution getScaledRes(Minecraft minecraft, int width, int height)
     {
         return new ScaledResolution(minecraft);
-//        return VersionUtil.getScaledRes(minecraft, width, height);
     }
 
     public static FlagData updateFlagData(String playerName, boolean sendPacket)

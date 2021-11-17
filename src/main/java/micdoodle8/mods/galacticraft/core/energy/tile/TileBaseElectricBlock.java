@@ -175,8 +175,12 @@ public abstract class TileBaseElectricBlock extends TileBaseUniversalElectrical 
             this.disableCooldown = 10;
         }
     }
+    
+    public abstract EnumFacing getFront();
 
-    public abstract EnumFacing byIndex();
+    public EnumFacing byIndex() {
+        return getFront();
+    }
 
     @Override
     public boolean getDisabled(int index)

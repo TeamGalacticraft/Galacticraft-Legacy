@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMachineBase;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMachineTiered;
@@ -426,4 +428,13 @@ public class TileEntityElectricFurnace extends TileBaseElectricBlockWithInventor
         return BlockMachineTiered.MACHINESIDES_RENDERTYPE;
     }
     // ------------------END OF IMachineSides implementation
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
+    }
 }

@@ -3,6 +3,8 @@ package micdoodle8.mods.galacticraft.planets.asteroids.tile;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseElectricBlock;
 import micdoodle8.mods.miccore.Annotations.NetworkedField;
 import net.minecraft.block.state.IBlockState;
@@ -250,5 +252,14 @@ public class TileEntityTelepadFake extends TileBaseElectricBlock
         }
 
         this.canConnect = false;
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

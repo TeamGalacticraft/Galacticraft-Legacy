@@ -9,6 +9,8 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 
 import io.netty.buffer.ByteBuf;
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.entity.ILaserTrackableFast;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.Constants;
@@ -842,5 +844,14 @@ public class TileEntityLaserTurret extends TileBaseElectricBlockWithInventory im
         {
             this.distance = distance;
         }
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

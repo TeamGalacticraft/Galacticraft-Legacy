@@ -11,7 +11,8 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
-
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
@@ -1102,5 +1103,14 @@ public class TileEntityMinerBase extends TileBaseElectricBlockWithInventory impl
     @Override
     public void setupMachineSides(int length)
     {
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

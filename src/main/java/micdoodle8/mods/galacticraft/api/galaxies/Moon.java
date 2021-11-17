@@ -1,5 +1,8 @@
 package micdoodle8.mods.galacticraft.api.galaxies;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
+
 public class Moon extends CelestialBody implements IChildBody
 {
 
@@ -32,5 +35,14 @@ public class Moon extends CelestialBody implements IChildBody
     public Planet getParentPlanet()
     {
         return this.parentPlanet;
+    }
+
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("getTranslationKeyPrefix()")
+    public String getUnlocalizedNamePrefix()
+    {
+        return getTranslationKeyPrefix();
     }
 }

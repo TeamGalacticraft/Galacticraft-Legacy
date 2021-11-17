@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+
 public class Constants
 {
 
@@ -12,7 +14,17 @@ public class Constants
     public static final int LOCALPATCHVERSION = 2;
     public static final String LOCALBUILDVERSION = "${build}";
     public static final String COMBINEDVERSION = LOCALMAJVERSION + "." + LOCALMINVERSION + "." + LOCALPATCHVERSION + "." + LOCALBUILDVERSION;
-
+    
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    public static final String DEPENDENCIES_FORGE = "required-after:forge@[14.23.1.2555,); ";  //Keep the space at the end!
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    public static final String DEPENDENCIES_MICCORE = "required-after:micdoodlecore; ";  //Keep the space at the end!
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    public static final String DEPENDENCIES_MODS = "after:ic2; after:tconstruct; after:mantle;";
+    
     public static final String MCVERSION = "[1.12.2]";
 
     public static final String CONFIG_CATEGORY_DIMENSIONS = "dimensions";

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
@@ -906,5 +908,14 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
     public boolean canTubeConnect(EnumFacing side)
     {
         return side.equals(this.getGasInputDirection());
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

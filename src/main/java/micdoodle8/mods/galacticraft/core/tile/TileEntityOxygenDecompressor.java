@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.core.blocks.BlockOxygenCompressor;
 import micdoodle8.mods.galacticraft.core.energy.item.ItemElectricBase;
 import micdoodle8.mods.galacticraft.core.inventory.IInventoryDefaults;
@@ -139,7 +141,7 @@ public class TileEntityOxygenDecompressor extends TileEntityOxygen implements II
     @Override
     public EnumFacing getElectricInputDirection()
     {
-        return byIndex();
+        return this.byIndex();
     }
 
     @Override
@@ -181,5 +183,14 @@ public class TileEntityOxygenDecompressor extends TileEntityOxygen implements II
     public int getOxygenProvide(EnumFacing direction)
     {
         return this.getOxygenOutputDirections().contains(direction) ? Math.min(TileEntityOxygenDecompressor.OUTPUT_PER_TICK, this.getOxygenStored()) : 0;
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

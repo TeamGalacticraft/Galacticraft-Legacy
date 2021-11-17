@@ -4,7 +4,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.ObjectArrays;
 import com.google.common.collect.Ordering;
-
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.core.blocks.BlockAirLockFrame;
 import micdoodle8.mods.galacticraft.core.blocks.BlockAirLockWall;
 import micdoodle8.mods.galacticraft.core.blocks.BlockAluminumWire;
@@ -93,7 +94,6 @@ import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.GCLog;
 import micdoodle8.mods.galacticraft.core.util.StackSorted;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -443,6 +443,9 @@ public class GCBlocks
                                                                // unharvestable)
     }
 
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("Use Your Own Registry")
     public static void registerBlock(Block block, Class<? extends ItemBlock> itemClass, Object... itemCtorArgs)
     {
         String name = block.getTranslationKey().substring(5);
@@ -482,6 +485,9 @@ public class GCBlocks
         }
     }
 
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("Use Your Own Registry")
     public static void registerBlocks(IForgeRegistry<Block> registry)
     {
         for (Block block : GalacticraftCore.blocksList)

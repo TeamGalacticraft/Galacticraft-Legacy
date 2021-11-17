@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 // import java.util.Map;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.entity.IDockable;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntityAutoRocket;
 import micdoodle8.mods.galacticraft.api.tile.IFuelDock;
@@ -472,5 +474,14 @@ public class TileEntityLaunchController extends TileBaseElectricBlockWithInvento
     public EnumFacing getElectricInputDirection()
     {
         return byIndex().rotateY();
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

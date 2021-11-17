@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.recipe.CircuitFabricatorRecipes;
 import micdoodle8.mods.galacticraft.api.world.IZeroGDimension;
 import micdoodle8.mods.galacticraft.core.GCItems;
@@ -310,4 +312,13 @@ public class TileEntityCircuitFabricator extends TileBaseElectricBlockWithInvent
         return BlockMachine2.MACHINESIDES_RENDERTYPE;
     }
     // ------------------END OF IMachineSides implementation
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
+    }
 }

@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.world.EnumAtmosphericGas;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.GCFluids;
@@ -55,44 +57,6 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
             producedLastTick = this.getOxygenStored() < this.getMaxOxygenStored();
 
             this.produceOxygen();
-
-            // if (this.getEnergyStored() > 0)
-            // {
-            // int gasToSend = Math.min(this.storedOxygen,
-            // GCCoreTileEntityOxygenCollector.OUTPUT_PER_TICK);
-            // GasStack toSend = new GasStack(GalacticraftCore.gasOxygen,
-            // gasToSend);
-            // this.storedOxygen -= GasTransmission.emitGasToNetwork(toSend,
-            // this, this.getOxygenOutputDirection());
-            //
-            // Vector3 thisVec = new Vector3(this);
-            // TileEntity tileEntity =
-            // thisVec.modifyPositionFromSide(this.getOxygenOutputDirection()).getTileEntity(this.world);
-            //
-            // if (tileEntity instanceof IGasAcceptor)
-            // {
-            // if (((IGasAcceptor)
-            // tileEntity).canReceiveGas(this.getOxygenOutputDirection().getOpposite(),
-            // GalacticraftCore.gasOxygen))
-            // {
-            // double sendingGas = 0;
-            //
-            // if (this.storedOxygen >=
-            // GCCoreTileEntityOxygenCollector.OUTPUT_PER_TICK)
-            // {
-            // sendingGas = GCCoreTileEntityOxygenCollector.OUTPUT_PER_TICK;
-            // }
-            // else
-            // {
-            // sendingGas = this.storedOxygen;
-            // }
-            //
-            // this.storedOxygen -= sendingGas - ((IGasAcceptor)
-            // tileEntity).receiveGas(new GasStack(GalacticraftCore.gasOxygen,
-            // (int) Math.floor(sendingGas)));
-            // }
-            // }
-            // }
 
             // Approximately once every 40 ticks, search out oxygen producing
             // blocks
@@ -256,24 +220,6 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
         return false;
     }
 
-//    @Override
-//    public boolean canReceiveGas(EnumFacing side, Gas type)
-//    {
-//    	return false;
-//    }
-//
-//    @Override
-//    public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer)
-//    {
-//    	return 0;
-//    }
-//
-//    @Override
-//    public int receiveGas(EnumFacing side, GasStack stack)
-//    {
-//    	return 0;
-//    }
-
     @Override
     public boolean shouldUseOxygen()
     {
@@ -296,5 +242,14 @@ public class TileEntityOxygenCollector extends TileEntityOxygen
     public int getOxygenProvide(EnumFacing direction)
     {
         return this.getOxygenOutputDirections().contains(direction) ? Math.min(TileEntityOxygenStorageModule.OUTPUT_PER_TICK, this.getOxygenStored()) : 0;
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

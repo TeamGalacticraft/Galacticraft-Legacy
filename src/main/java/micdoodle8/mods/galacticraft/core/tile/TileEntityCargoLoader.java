@@ -1,5 +1,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.entity.ICargoEntity;
 import micdoodle8.mods.galacticraft.api.entity.ICargoEntity.EnumCargoLoadingState;
 import micdoodle8.mods.galacticraft.api.entity.ICargoEntity.RemovalResult;
@@ -321,5 +323,14 @@ public class TileEntityCargoLoader extends TileBaseElectricBlockWithInventory im
     public boolean getLocked()
     {
         return this.locked;
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }

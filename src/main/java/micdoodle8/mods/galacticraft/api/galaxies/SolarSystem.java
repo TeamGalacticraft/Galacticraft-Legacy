@@ -2,6 +2,8 @@ package micdoodle8.mods.galacticraft.api.galaxies;
 
 import java.util.Locale;
 
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import net.minecraft.util.text.translation.I18n;
 
@@ -12,13 +14,13 @@ public class SolarSystem
     protected String translationKey;
     protected Vector3 mapPosition = null;
     protected Star mainStar = null;
-    protected String unlocalizedGalaxyName;
+    protected String galaxyName;
 
     public SolarSystem(String solarSystem, String parentGalaxy)
     {
         this.systemName = solarSystem.toLowerCase(Locale.ENGLISH);
         this.translationKey = solarSystem;
-        this.unlocalizedGalaxyName = parentGalaxy;
+        this.galaxyName = parentGalaxy;
     }
 
     public String getName()
@@ -35,15 +37,6 @@ public class SolarSystem
     {
         String s = this.getTranslationKey();
         return s == null ? "" : I18n.translateToLocal(s);
-    }
-
-    /**
-     * Use {@link SolarSystem#getTranslationKey()}
-     */
-    @Deprecated
-    public String getUnlocalizedName()
-    {
-        return getTranslationKey();
     }
 
     public String getTranslationKey()
@@ -82,6 +75,40 @@ public class SolarSystem
 
     public String getParentGalaxyTranslationKey()
     {
-        return "galaxy." + this.unlocalizedGalaxyName;
+        return "galaxy." + this.galaxyName;
+    }
+    
+    // DEPRECATED METHODS
+    
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("getTranslationKey()")
+    public String getUnlocalizedName()
+    {
+        return getTranslationKey();
+    }
+    
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("getTranslatedName()")
+    public String getLocalizedName()
+    {
+        return getTranslatedName();
+    }
+    
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("getTranslatedParentGalaxyName()")
+    public String getLocalizedParentGalaxyName()
+    {
+        return getTranslatedParentGalaxyName();
+    }
+
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("getParentGalaxyTranslationKey()")
+    public String getUnlocalizedParentGalaxyName()
+    {
+        return getParentGalaxyTranslationKey();
     }
 }

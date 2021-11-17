@@ -2,6 +2,8 @@ package micdoodle8.mods.galacticraft.planets.mars.tile;
 
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
+import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IOxygenReceiver;
@@ -756,5 +758,14 @@ public class TileEntityElectrolyzer extends TileBaseElectricBlockWithInventory i
             return state.getValue(BlockMachineMarsT2.FACING);
         }
         return EnumFacing.NORTH;
+    }
+    
+    @Override
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
+    @ReplaceWith("byIndex()")
+    public EnumFacing getFront()
+    {
+        return this.byIndex();
     }
 }
