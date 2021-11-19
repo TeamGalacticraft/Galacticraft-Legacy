@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import micdoodle8.mods.galacticraft.api.world.DataBuilder.BiomeData;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.util.ASMUtil;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAmbientCreature;
 import net.minecraft.entity.passive.EntityWaterMob;
@@ -31,6 +32,20 @@ public abstract class BiomeGenBaseGC extends Biome implements IMobSpawnBiome
         super(data);
         this.setRegistryName(data.biomeName);
         this.isAdaptiveBiome = adaptive;
+    }
+    
+    protected BiomeGenBaseGC(BiomeProperties properties, boolean adaptive) {
+        super(properties);
+        this.setRegistryName(ASMUtil.getBiomeName(properties));
+        this.isAdaptiveBiome = adaptive;
+    }
+    
+    protected BiomeGenBaseGC(BiomeProperties properties)
+    {
+        super(properties);
+        this.setRegistryName(ASMUtil.getBiomeName(properties));
+        GalacticraftCore.biomesList.add(this);
+        this.isAdaptiveBiome = false;
     }
 
     /**
