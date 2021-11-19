@@ -27,11 +27,11 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
-def versionBuild = "281"
+def gcBuild = "0"
 if (System.getenv("BUILD_NUMBER") != null)
-	versionBuild = System.getenv("BUILD_NUMBER")
+	gcBuild = System.getenv("BUILD_NUMBER")
 
-version = "${versionMajor}.${versionMinor}.${versionRev}.${versionBuild}-SNAPSHOT" // Set the version number
+version = "${gcVersion}.${gcBuild}"
 group= "micdoodle8.mods.galacticraft"
 archivesBaseName = "GalacticraftAll"
 
@@ -81,13 +81,7 @@ lombok {
 }
 
 repositories {
-    maven {
-        name 'sizableshrimsip'
-        url 'https://sizableshrimsip.me/maven'
-        content {
-            includeGroup 'net.minecraftforge'
-        }
-    }
+    mavenLocal()
     maven {
         name 'CurseMaven'
         url 'https://www.cursemaven.com'
@@ -116,28 +110,28 @@ repositories {
             includeGroup 'mezz.jei'
         }
     }
-    whenObjectAdded {//ForgeGradle adds these in an afterEvaluate, so we need to catch them as they're added and exclude mod artifacts/groups
-        if (it instanceof MavenArtifactRepository) {
-            def url = it.url.toString()
-            if (url == 'https://maven.minecraftforge.net/' || url == 'https://libraries.minecraft.net/' || url == 'https://repo.maven.apache.org/maven2/') {
-                try {
-                    it.content {
-                        excludeGroup 'curse.maven'
-                        excludeGroup 'mezz.jei'
-                        excludeGroup 'net.industrial-craft'
-                        excludeGroup 'com.mod-buildcraft'
-                    }
-                    println("Adding exclusions to ${it.url}")
-                } catch (Exception ignored) {
-                    //oh well
-                }
-            }
-        }
-    }
+//    whenObjectAdded {//ForgeGradle adds these in an afterEvaluate, so we need to catch them as they're added and exclude mod artifacts/groups
+//        if (it instanceof MavenArtifactRepository) {
+//            def url = it.url.toString()
+//            if (url == 'https://maven.minecraftforge.net/' || url == 'https://libraries.minecraft.net/' || url == 'https://repo.maven.apache.org/maven2/') {
+//                try {
+//                    it.content {
+//                        excludeGroup 'curse.maven'
+//                        excludeGroup 'mezz.jei'
+//                        excludeGroup 'net.industrial-craft'
+//                        excludeGroup 'com.mod-buildcraft'
+//                    }
+//                    println("Adding exclusions to ${it.url}")
+//                } catch (Exception ignored) {
+//                    //oh well
+//                }
+//            }
+//        }
+//    }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2855'
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
     
     compileOnly 'org.jetbrains:annotations:23.0.0'
 	
@@ -166,7 +160,9 @@ fancyGradle {
 def base_package = "micdoodle8.mods.galacticraft.core"
 def replace_class = "Constants"
 
-def modFileTokens = [build: versionBuild]
+def modFileTokens = [
+	gcVersion: version.toString()
+]
 def included = ["${base_package.replace('.', '/')}/${replace_class}.java".toString()]
 
 def expandedSrc = new File(project.buildDir, 'expandedSrc')
@@ -182,6 +178,13 @@ task javaReplaceTokens(type: Copy) {
     filter(org.apache.tools.ant.filters.ReplaceTokens, beginToken: '${', endToken: '}', tokens: modFileTokens)
 }
 
+//import org.apache.tools.ant.filters.*
+//task processResources(type: Copy)  {
+//    from('file') {
+//        filter(ReplaceTokens, tokens: [tokenval:  '1'])
+//    }
+//    into(buildDir)
+//}
 
 compileJava {
     dependsOn javaReplaceTokens

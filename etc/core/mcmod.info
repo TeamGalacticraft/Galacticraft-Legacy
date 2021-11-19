@@ -29,7 +29,7 @@
       "micdoodlecore"
     ],
     "requiredMods": [
-      "forge@[14.23.5.2847,)",
+      "forge@[${forge_version},)",
       "micdoodlecore@[${version}]"
     ]
   }
