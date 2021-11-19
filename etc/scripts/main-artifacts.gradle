@@ -8,7 +8,9 @@ task coreJar(type: Jar) {
     
     from('etc/core') {
         include '*.info'
-        expand 'version':project.version,'mc_version':mc_version
+        expand 'version':project.version,
+               'mc_version':mc_version,
+               'forge_version':forge_version
     }
     
     from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
@@ -32,7 +34,7 @@ task miccoreJar(type: Jar) {
     manifest.attributes(getManifestAttributes("MicdoodleCore"))
     manifest {
         attributes.put("FMLCorePlugin", "micdoodle8.mods.miccore.MicdoodlePlugin")
-        attributes.put("AccessTransformer", "accesstransformer.cfg")
+        attributes.put("FMLAT", "accesstransformer.cfg")
     }
 }
 
@@ -41,7 +43,9 @@ task planetsJar(type: Jar) {
     dependsOn 'reobfJar'
     from('etc/planets') {
         include '*.info'
-        expand 'version':project.version,'mc_version':mc_version
+        expand 'version':project.version,
+               'mc_version':mc_version,
+               'forge_version':forge_version
     }
     
     from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
