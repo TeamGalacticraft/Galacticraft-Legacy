@@ -81,7 +81,10 @@ lombok {
 }
 
 repositories {
-    mavenLocal()
+    maven {
+        name 'Galacticraft'
+        url 'https://maven.galacticraft.dev/releases'
+    }
     maven {
         name 'CurseMaven'
         url 'https://www.cursemaven.com'
@@ -110,24 +113,14 @@ repositories {
             includeGroup 'mezz.jei'
         }
     }
-//    whenObjectAdded {//ForgeGradle adds these in an afterEvaluate, so we need to catch them as they're added and exclude mod artifacts/groups
-//        if (it instanceof MavenArtifactRepository) {
-//            def url = it.url.toString()
-//            if (url == 'https://maven.minecraftforge.net/' || url == 'https://libraries.minecraft.net/' || url == 'https://repo.maven.apache.org/maven2/') {
-//                try {
-//                    it.content {
-//                        excludeGroup 'curse.maven'
-//                        excludeGroup 'mezz.jei'
-//                        excludeGroup 'net.industrial-craft'
-//                        excludeGroup 'com.mod-buildcraft'
-//                    }
-//                    println("Adding exclusions to ${it.url}")
-//                } catch (Exception ignored) {
-//                    //oh well
-//                }
-//            }
-//        }
-//    }
+    all {
+        ArtifactRepository repo ->
+        if (repo instanceof MavenArtifactRepository) {
+            if ((repo.url.toString() == 'repo1.maven.org') || (repo.url.toString() == 'files.minecraftforge.net') || (repo.url.toString() == 'maven.minecraftforge.net')) {
+                remove repo
+            }
+        }
+    }
 }
 
 dependencies {
@@ -281,5 +274,8 @@ clean {
 	cache.collect { relativePath(it) }
     delete = []
     delete cache
-    
+}
+
+tasks.named('wrapper') {
+    distributionType = Wrapper.DistributionType.ALL
 }
