@@ -27,17 +27,15 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
-def gcBuild = "0"
-if (System.getenv("BUILD_NUMBER") != null)
-	gcBuild = System.getenv("BUILD_NUMBER")
 
-version = "${gcVersion}.${gcBuild}"
+def build = System.getenv("BUILD_NUMBER") != null ? System.getenv("BUILD_NUMBER") : '999'
+
+version = "${gcVersion}.${build}"
 group= "micdoodle8.mods.galacticraft"
 archivesBaseName = "GalacticraftAll"
 
 minecraft {
     mappings channel: 'stable', version: '39-1.12'
-    //mappings channel: 'snapshot', version: '20171003-1.12'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -218,64 +216,11 @@ task generateChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTas
 
 jar.finalizedBy('reobfJar')
 
-ext.artifactsList = []
+ext {
+    artifactsList = []
+    generateChangelog = 'generateChangelog'
+}
 
 apply from: 'etc/scripts/main-artifacts.gradle'
 apply from: 'etc/scripts/deobf-artifacts.gradle'
 apply from: 'etc/scripts/utils.gradle'
-
-task buildAllJars(type: GradleBuild) {
-	group = 'script-tasks'
-	description = 'Builds all Jars for Galacticraft'
-	tasks = [
-		'build',
-		'coreJar',
-		'miccoreJar',
-		'planetsJar',
-		'fullBuild',
-		'apiJar',
-		'coreDevJar',
-		'planetsDevJar',
-		'miccoreDevJar'
-	]
-}
-
-task buildMainJars(type: GradleBuild) {
-	group = 'script-tasks'
-	description = 'Builds the main Jars for Galacticraft'
-	tasks = [
-		'build',
-		'coreJar',
-		'miccoreJar',
-		'planetsJar',
-		'fullBuild'
-	]
-}
-
-task buildDevJars(type: GradleBuild) {
-	group = 'script-tasks'
-	description = 'Builds the dev Jars for Galacticraft'
-	tasks = [
-		'build',
-		'apiJar',
-		'coreDevJar',
-		'planetsDevJar',
-		'miccoreDevJar',
-		'fullBuild'
-	]
-}
-
-clean {
-	File buildDir = file('build')
-	FileCollection collection = layout.files { buildDir.listFiles() }
-	FileCollection cache = collection.filter { File f ->
-			!f.name.equals('fg_cache')
-	}
-	cache.collect { relativePath(it) }
-    delete = []
-    delete cache
-}
-
-tasks.named('wrapper') {
-    distributionType = Wrapper.DistributionType.ALL
-}
