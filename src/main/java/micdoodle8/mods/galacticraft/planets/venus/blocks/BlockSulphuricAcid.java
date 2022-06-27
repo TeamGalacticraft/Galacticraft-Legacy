@@ -34,7 +34,8 @@ public class BlockSulphuricAcid extends BlockFluidClassic
     @Nullable
     public Boolean isEntityInsideMaterial(IBlockAccess world, BlockPos pos, IBlockState state, Entity entity, double yToTest, Material material, boolean testingHead)
     {
-        return true;
+		final @Nullable Boolean oldResult = super.isEntityInsideMaterial(world, pos, state, entity, yToTest, this.material, testingHead);
+		return oldResult != null ? oldResult : true;
     }
 
     @Override
