@@ -29,7 +29,7 @@ public class ContainerGasLiquefier extends Container
 
         // 2 output slots
         this.addSlotToContainer(new Slot(tileEntity, 2, 132, 7));
-        this.addSlotToContainer(new Slot(tileEntity, 3, 153, 7));
+
         int var3;
 
         for (var3 = 0; var3 < 3; ++var3)
@@ -98,13 +98,7 @@ public class ContainerGasLiquefier extends Container
                 } else
                 {
                     boolean outputTankSlotsSuccess = false;
-                    if (FluidUtil.isEmptyContainerFor(var4, this.tileEntity.liquidTank2.getFluid()))
-                    {
-                        if (this.mergeItemStack(var4, 3, 4, false))
-                        {
-                            outputTankSlotsSuccess = true;
-                        }
-                    }
+
                     if (!outputTankSlotsSuccess && FluidUtil.isEmptyContainerFor(var4, this.tileEntity.liquidTank.getFluid()))
                     {
                         if (this.mergeItemStack(var4, 2, 3, false))
