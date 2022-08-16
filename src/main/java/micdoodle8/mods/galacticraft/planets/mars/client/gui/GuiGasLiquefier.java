@@ -36,7 +36,7 @@ public class GuiGasLiquefier extends GuiContainerGC
     private GuiButton buttonDisable;
 
     private GuiElementInfoRegion fuelTankRegion =
-        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 153, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
+        new GuiElementInfoRegion((this.width - this.xSize) / 2 + 132, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
 
     private GuiElementInfoRegion gasTankRegion =
         new GuiElementInfoRegion((this.width - this.xSize) / 2 + 7, (this.height - this.ySize) / 2 + 28, 16, 38, new ArrayList<String>(), this.width, this.height, this);
