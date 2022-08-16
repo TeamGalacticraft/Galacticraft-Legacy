@@ -95,7 +95,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
 		super("tile.mars_machine.4.name");
 		this.storage.setMaxExtract(ConfigManagerCore.hardMode ? 90 : 60);
 		this.setTierGC(2);
-		this.inventory = NonNullList.withSize(4, ItemStack.EMPTY);
+		this.inventory = NonNullList.withSize(3, ItemStack.EMPTY);
 	}
 
 	@Override

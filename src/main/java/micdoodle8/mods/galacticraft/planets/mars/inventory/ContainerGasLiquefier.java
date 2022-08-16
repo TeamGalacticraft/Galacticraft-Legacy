@@ -27,7 +27,7 @@ public class ContainerGasLiquefier extends Container {
 		// Input slot
 		this.addSlotToContainer(new Slot(tileEntity, 1, 7, 7));
 
-		// 2 output slots
+		// 1 output slot
 		this.addSlotToContainer(new Slot(tileEntity, 2, 132, 7));
 
 		int var3;
@@ -71,7 +71,7 @@ public class ContainerGasLiquefier extends Container {
 
 			if (par1 < this.tileEntity.getSizeInventory()) {
 
-				if (!this.mergeItemStack(var4, this.tileEntity.getSizeInventory(), this.inventorySlots.size(), true)) {
+				if (!this.mergeItemStack(var4, this.tileEntity.getSizeInventory(), this.tileEntity.getSizeInventory() +36, true)) {
 					return ItemStack.EMPTY;
 				}
 
@@ -80,7 +80,7 @@ public class ContainerGasLiquefier extends Container {
 				}
 			} else {
 				if (EnergyUtil.isElectricItem(var4.getItem())) {
-					if (!this.mergeItemStack(var4, 0, this.tileEntity.getSizeInventory(), false)) {
+					if (!this.mergeItemStack(var4, 0, 1, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else {
