@@ -58,7 +58,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory implements IDisableableMachine, IFluidHandlerWrapper, IOxygenReceiver, IGasHandler {
 
 	private final int tankCapacity = 2000;
-	public static final int OUTPUT_PER_SECOND = 2;
+	public static final int OUTPUT_PER_SECOND = 1;
 	@NetworkedField(targetSide = Side.CLIENT)
 	public FluidTank gasTank = new FluidTank(this.tankCapacity * 2);
 	@NetworkedField(targetSide = Side.CLIENT)
