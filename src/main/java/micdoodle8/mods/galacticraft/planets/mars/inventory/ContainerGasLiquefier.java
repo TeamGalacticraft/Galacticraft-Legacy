@@ -1,9 +1,11 @@
 package micdoodle8.mods.galacticraft.planets.mars.inventory;
 
 import micdoodle8.mods.galacticraft.api.item.IItemElectric;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
 import micdoodle8.mods.galacticraft.core.inventory.SlotSpecific;
 import micdoodle8.mods.galacticraft.core.util.FluidUtil;
+import micdoodle8.mods.galacticraft.core.util.GalacticLog;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.ItemAtmosphericValve;
 import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityGasLiquefier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,30 +70,31 @@ public class ContainerGasLiquefier extends Container
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
     {
-        ItemStack var2 = ItemStack.EMPTY;
+        ItemStack itemStack1 = ItemStack.EMPTY;
         final Slot slot = this.inventorySlots.get(par1);
 
         if (slot != null && slot.getHasStack())
         {
             final ItemStack var4 = slot.getStack();
-            var2 = var4.copy();
+            itemStack1 = var4.copy();
 
-            if (par1 < 4)
+            if (par1 < this.tileEntity.getSizeInventory())
             {
-                if (!this.mergeItemStack(var4, 4, 40, true))
+
+                if (!this.mergeItemStack(var4, this.tileEntity.getSizeInventory(), this.inventorySlots.size(), true))
                 {
                     return ItemStack.EMPTY;
                 }
 
                 if (par1 == 2)
                 {
-                    slot.onSlotChange(var4, var2);
+                    slot.onSlotChange(var4, itemStack1);
                 }
             } else
             {
                 if (EnergyUtil.isElectricItem(var4.getItem()))
                 {
-                    if (!this.mergeItemStack(var4, 0, 1, false))
+                    if (!this.mergeItemStack(var4, 0, this.tileEntity.getSizeInventory(), false))
                     {
                         return ItemStack.EMPTY;
                     }
@@ -137,7 +140,7 @@ public class ContainerGasLiquefier extends Container
                 slot.onSlotChanged();
             }
 
-            if (var4.getCount() == var2.getCount())
+            if (var4.getCount() == itemStack1.getCount())
             {
                 return ItemStack.EMPTY;
             }
@@ -145,6 +148,6 @@ public class ContainerGasLiquefier extends Container
             slot.onTake(par1EntityPlayer, var4);
         }
 
-        return var2;
+        return itemStack1;
     }
 }
