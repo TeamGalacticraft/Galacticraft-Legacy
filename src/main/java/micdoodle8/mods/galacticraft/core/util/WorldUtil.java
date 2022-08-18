@@ -21,11 +21,7 @@ import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.entity.IAntiGrav;
 import micdoodle8.mods.galacticraft.api.entity.IWorldTransferCallback;
-import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
-import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
-import micdoodle8.mods.galacticraft.api.galaxies.Moon;
-import micdoodle8.mods.galacticraft.api.galaxies.Planet;
-import micdoodle8.mods.galacticraft.api.galaxies.Satellite;
+import micdoodle8.mods.galacticraft.api.galaxies.*;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntityAutoRocket;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntitySpaceshipBase;
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
@@ -294,9 +290,10 @@ public class WorldUtil
     public static CelestialBody getReachableCelestialBodiesForDimensionID(int id)
     {
         List<CelestialBody> celestialBodyList = Lists.newArrayList();
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredMoons().values());
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredPlanets().values());
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredSatellites().values());
+        celestialBodyList.addAll(GalaxyRegistry.getMoons());
+        celestialBodyList.addAll(GalaxyRegistry.getPlanets());
+        celestialBodyList.addAll(GalaxyRegistry.getSatellites());
+        celestialBodyList.addAll(GalaxyRegistry.getStars());
 
         for (CelestialBody cBody : celestialBodyList)
         {
@@ -315,9 +312,10 @@ public class WorldUtil
     public static CelestialBody getReachableCelestialBodiesForName(String name)
     {
         List<CelestialBody> celestialBodyList = Lists.newArrayList();
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredMoons().values());
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredPlanets().values());
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredSatellites().values());
+        celestialBodyList.addAll(GalaxyRegistry.getMoons());
+        celestialBodyList.addAll(GalaxyRegistry.getPlanets());
+        celestialBodyList.addAll(GalaxyRegistry.getSatellites());
+        celestialBodyList.addAll(GalaxyRegistry.getStars());
 
         for (CelestialBody cBody : celestialBodyList)
         {
@@ -1586,19 +1584,24 @@ public class WorldUtil
         List<List<String>> checklistValues = Lists.newArrayList();
         List<CelestialBody> bodiesDone = Lists.newArrayList();
 
-        for (Planet planet : GalaxyRegistry.getRegisteredPlanets().values())
+        for (Planet planet : GalaxyRegistry.getPlanets())
         {
             insertChecklistEntries(planet, bodiesDone, checklistValues);
         }
 
-        for (Moon moon : GalaxyRegistry.getRegisteredMoons().values())
+        for (Moon moon : GalaxyRegistry.getMoons())
         {
             insertChecklistEntries(moon, bodiesDone, checklistValues);
         }
 
-        for (Satellite satellite : GalaxyRegistry.getRegisteredSatellites().values())
+        for (Satellite satellite : GalaxyRegistry.getSatellites())
         {
             insertChecklistEntries(satellite, bodiesDone, checklistValues);
+        }
+
+        for (Star star : GalaxyRegistry.getStars())
+        {
+            insertChecklistEntries(star, bodiesDone, checklistValues);
         }
 
         return checklistValues;

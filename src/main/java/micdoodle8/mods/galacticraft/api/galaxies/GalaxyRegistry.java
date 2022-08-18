@@ -20,6 +20,7 @@ public class GalaxyRegistry
     static CelestialList<SolarSystem> solarSystems = CelestialList.create();
     static CelestialList<Planet> planets = CelestialList.create();
     static CelestialList<Moon> moons = CelestialList.create();
+	static CelestialList<Star> stars = CelestialList.create();
     static CelestialList<Satellite> satellites = CelestialList.create();
 
     static CelestialList<CelestialObject> objects = CelestialList.create();
@@ -73,9 +74,9 @@ public class GalaxyRegistry
 
     /**
      * Returns the CelestialObject that matches the given TranslationKey. Iterates through EVERY registerd object
-     * 
+     *
      * @param  translationkey
-     * 
+     *
      * @return                CelestialObject
      */
     public static CelestialObject getCelestialObjectFromTranslationKey(String translationkey)
@@ -93,9 +94,9 @@ public class GalaxyRegistry
 
     /**
      * Returns the CelestialBody of the given DimensionID. Iterates through, Planets, Moons & Satellites only
-     * 
+     *
      * @param  dimensionID the DIM Id of the CelestialBody
-     * 
+     *
      * @return             CelestialBody with the DimensionID provided
      */
     public static CelestialBody getCelestialBodyFromDimensionID(int dimensionID)
@@ -123,6 +124,14 @@ public class GalaxyRegistry
                 return satellite;
             }
         }
+
+	    for (Star star : stars)
+	    {
+		    if (star.getDimensionID() == dimensionID)
+		    {
+				return star;
+		    }
+	    }
 
         return null;
     }
@@ -154,35 +163,52 @@ public class GalaxyRegistry
         return satelliteList.get(celestialBody);
     }
 
+	public static CelestialBody getCelestialBodyFromTranslationKey(String translationKey)
+	{
+		for (Planet planet : planets)
+		{
+			if (planet.getTranslationKey().equals(translationKey))
+
+			{
+				return planet;
+			}
+		}
+		for (Moon moon : moons)
+		{
+			if (moon.getTranslationKey().equals(translationKey))
+
+			{
+				return moon;
+			}
+		}
+		for (Star star : stars)
+		{
+			if (star.getTranslationKey().equals(translationKey))
+			{
+				return star;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @ReplaceWith {@link GalaxyRegistry#getCelestialBodyFromTranslationKey(String translationKey)}
+	 */
+	@Deprecated
+	@ReplaceWith("GalaxyRegistry.getCelestialBodyFromTranslationKey(String translationKey)")
     public static CelestialBody getPlanetOrMoonFromTranslationkey(String translationKey)
     {
-        for (Planet planet : planets)
-        {
-            if (planet.getTranslationKey().equals(translationKey))
-
-            {
-                return planet;
-            }
-        }
-        for (Moon moon : moons)
-        {
-            if (moon.getTranslationKey().equals(translationKey))
-
-            {
-                return moon;
-            }
-        }
-        return null;
+		return getCelestialBodyFromTranslationKey(translationKey);
     }
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#getPlanetOrMoonFromTranslationkey(String translationKey)}
+     * @ReplaceWith {@link GalaxyRegistry#getCelestialBodyFromTranslationKey(String translationKey)}
      */
     @Deprecated
-    @ReplaceWith("GalaxyRegistry.getPlanetOrMoonFromTranslationkey(String translationKey)")
+    @ReplaceWith("GalaxyRegistry.getCelestialBodyFromTranslationKey(String translationKey)")
     public static CelestialBody getCelestialBodyFromUnlocalizedName(String unlocalizedName)
     {
-        return getPlanetOrMoonFromTranslationkey(unlocalizedName);
+        return getCelestialBodyFromTranslationKey(unlocalizedName);
     }
 
     @SuppressWarnings("deprecation")
@@ -196,8 +222,15 @@ public class GalaxyRegistry
             objects.add(solarSystem);
             MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-
-        if (object instanceof Planet)
+		else if (object instanceof Star)
+		{
+			Star star = (Star) object;
+			RegisterEvent registerEvent = new RegisterEvent(star, Loader.instance().activeModContainer());
+			stars.add(star);
+			objects.add(star);
+			MinecraftForge.EVENT_BUS.post(registerEvent);
+		}
+        else if (object instanceof Planet)
         {
             Planet planet = (Planet) object;
             RegisterEvent registerEvent = new RegisterEvent(planet, Loader.instance().activeModContainer());
@@ -205,8 +238,7 @@ public class GalaxyRegistry
             objects.add(planet);
             MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-
-        if (object instanceof Moon)
+		else if (object instanceof Moon)
         {
             Moon moon = (Moon) object;
             RegisterEvent registerEvent = new RegisterEvent(moon, Loader.instance().activeModContainer());
@@ -214,8 +246,7 @@ public class GalaxyRegistry
             objects.add(moon);
             MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-
-        if (object instanceof Satellite)
+        else if (object instanceof Satellite)
         {
             Satellite satellite = (Satellite) object;
             RegisterEvent registerEvent = new RegisterEvent(satellite, Loader.instance().activeModContainer());
@@ -223,8 +254,7 @@ public class GalaxyRegistry
             objects.add(satellite);
             MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-        
-        if (object instanceof CelestialBody)
+        else if (object instanceof CelestialBody)
         {
             CelestialBody celestialType = (CelestialBody) object;
             String unlocalizedPrefix = ((CelestialBody) object).getUnlocalizedNamePrefix();
@@ -241,7 +271,7 @@ public class GalaxyRegistry
     }
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#register(T object)}
+     * @ReplaceWith {@link GalaxyRegistry#<SolarSystem>register(T object)}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.register(T object)")
@@ -252,7 +282,7 @@ public class GalaxyRegistry
     }
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#register(T object)}
+     * @ReplaceWith {@link GalaxyRegistry#<Planet>register(T object)}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.register(T object)")
@@ -263,7 +293,7 @@ public class GalaxyRegistry
     }
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#register(T object)}
+     * @ReplaceWith {@link GalaxyRegistry#<Moon>register(T object)}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.register(T object)")
@@ -275,7 +305,7 @@ public class GalaxyRegistry
     }
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#register(T object)}
+     * @ReplaceWith {@link GalaxyRegistry#<Satellite>register(T object)}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.register(T object)")
@@ -315,6 +345,13 @@ public class GalaxyRegistry
         return moons.toImmutableList();
     }
 
+	/**
+	 * Returns a read-only list containing all registered Stars
+	 */
+	public static ImmutableCelestialList<Star> getStars() {
+		return stars.toImmutableList();
+	}
+
     /**
      * Returns a read-only list containing all registered Solar Systems
      */
@@ -346,7 +383,7 @@ public class GalaxyRegistry
 
     /**
      * Returns a read-only map containing Solar System Names and their associated Solar Systems.
-     * 
+     *
      * @ReplaceWith {@link GalaxyRegistry#getSolarSystems()}
      */
     @Deprecated
@@ -359,7 +396,7 @@ public class GalaxyRegistry
 
     /**
      * Returns a read-only map containing Planet Names and their associated Planets.
-     * 
+     *
      * @ReplaceWith {@link GalaxyRegistry#getPlanets()}
      */
     @Deprecated
@@ -372,7 +409,7 @@ public class GalaxyRegistry
 
     /**
      * Returns a read-only map containing Moon Names and their associated Moons.
-     * 
+     *
      * @ReplaceWith {@link GalaxyRegistry#getMoons()}
      */
     @Deprecated
@@ -385,7 +422,7 @@ public class GalaxyRegistry
 
     /**
      * Returns a read-only map containing Satellite Names and their associated Satellite.
-     * 
+     *
      * @ReplaceWith {@link GalaxyRegistry#getSatellites()}
      */
     @Deprecated

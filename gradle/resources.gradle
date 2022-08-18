@@ -1,8 +1,8 @@
 def resourceTargets = [ 'mcmod.info' ]
-def intoTargets = [ 
+def intoTargets = [
 	"$rootDir/out/production/resources/", 
 	"$rootDir/out/production/${project.name}.main/", 
-	"$rootDir/bin/main/" 
+	"$rootDir/bin/main/"
 ]
 def replaceProperties = [ mod_version: version.toString(), minecraft_version: "${mc_version}" ]
 

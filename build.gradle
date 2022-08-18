@@ -159,6 +159,8 @@ jar {
     archiveVersion.set("${mc_version}-${version}")
 }
 
+compileJava.finalizedBy('processResources')
+
 jar.finalizedBy('reobfJar')
 
 task sourcesJar(type: Jar, dependsOn: classes) {
