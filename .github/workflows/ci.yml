@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
@@ -14,9 +12,6 @@ jobs:
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v3
-
-      - name: Fetch Tags
-        run: git fetch --unshallow --tags
 
       - name: 'Cache'
         uses: actions/cache@v3
@@ -36,46 +31,22 @@ jobs:
           java-version: 17
           cache: 'gradle'
 
-      - name: 'Mark tag as release'
-        if: startsWith(github.ref, 'refs/tags/')
-        run: echo "RELEASE=true" >> $GITHUB_ENV
-
       - name: 'Build'
         run: ./gradlew build
-
-      - name: 'Create GitHub release'
-        id: create_release
-        if: ${{ env.RELEASE == 'true' }}
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-
-      - name: 'Set Nexus Release Repository Variable'
-        if: ${{ env.RELEASE == 'true' }}
-        env:
-          URL: ${{ secrets.NEXUS_NEXUS_RELEASE_URL }}
-        run: echo "NEXUS_REPOSITORY_URL=$URL" >> $GITHUB_ENV
-
-      - name: 'Set Nexus Snapshot Repository Variable'
-        if: ${{ env.RELEASE != 'true' }}
-        env:
-          URL: ${{ secrets.NEXUS_SNAPSHOT_URL }}
-        run: echo "NEXUS_REPOSITORY_URL=$URL" >> $GITHUB_ENV
 
       - name: Decode
         run: |
           echo "${{secrets.SIGNING_SECRET_KEY_RING_FILE}}" > ~/.gradle/secring.gpg.b64
           base64 -d ~/.gradle/secring.gpg.b64 > ~/.gradle/secring.gpg
 
-      - name: 'Deploy to Nexus'
+      - name: 'Deploy to Nexus Snapshots'
         env:
-          NEXUS_URL: ${{ env.NEXUS_REPOSITORY_URL }}
+          signing.keyId: ${{secrets.GPG_PRIVATE_KEY}}
+          signing.password: ${{secrets.GPG_PRIVATE_KEY_PASSPHRASE}}
+          signing.secretKeyRingFile: $(echo ~/.gradle/secring.gpg)
           NEXUS_USER: ${{ secrets.NEXUS_USER }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-        run: ./gradlew publish -Psigning.keyId=${{secrets.GPG_PRIVATE_KEY}} -Psigning.password=${{secrets.GPG_PRIVATE_KEY_PASSPHRASE}} -Psigning.secretKeyRingFile=$(echo ~/.gradle/secring.gpg)
+        run: ./gradlew publishGalacticraftPublicationToSnapshotsRepository
 
       - name: Capture build artifacts
         if: ${{ env.RELEASE != 'true' }}

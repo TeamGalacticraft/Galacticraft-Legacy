@@ -3,34 +3,26 @@ apply plugin: 'signing'
 
 def defaultFolder = project.rootProject.file('repo')
 
-Boolean isSnapshot() {
-    version.toString().endsWith("SNAPSHOT")
-}
-
 publishing {
     repositories {
-        if (System.getenv().GITHUB_RUN_ID) {
-            maven {
-                url System.getenv().NEXUS_REPOSITORY_URL
-                credentials {
-                    username = System.getenv().NEXUS_USER
-                    password = System.getenv().NEXUS_PASSWORD
-                }
-            }
-        }
-        
-        if (!System.getenv().GITHUB_RUN_ID) {
-            maven {
-                url System.getenv().NEXUS_RELEASE_URL
-                credentials {
-                    username = System.getenv().NEXUS_USER
-                    password = System.getenv().NEXUS_PASSWORD
-                }
-            }
-        }
-        
         maven {
-            name 'local'
+            name 'Releases'
+            url 'https://maven.galacticraft.net/repository/maven-releases/'
+            credentials {
+                username = project.NEXUS_USER
+                password = project.NEXUS_PASSWORD
+            }
+        }
+        maven {
+            name 'Snapshots'
+            url 'https://maven.galacticraft.net/repository/maven-snapshots/'
+            credentials {
+                username = project.NEXUS_USER
+                password = project.NEXUS_PASSWORD
+            }
+        }
+        maven {
+            name 'ProjectDirectory'
             url 'file://' + defaultFolder.getAbsolutePath()
         }
     }
@@ -42,7 +34,7 @@ publishing {
 
             artifact deobfJar
             artifact sourcesJar
-            
+
             pom {
                 name = 'Galacticraft'
                 description = 'An advanced space exploration mod for Minecraft'

@@ -9,6 +9,7 @@ plugins {
     id 'eclipse'
     id 'io.freefair.lombok' version '6.5.0.2'
     id 'wtf.gofancy.fancygradle' version '1.+'
+    id 'org.cadixdev.licenser' version '0.6.1'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -17,7 +18,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 group = "micdoodle8.mods.galacticraft"
 archivesBaseName = "Galacticraft"
 
-version = '4.0.3-tts'
+version = '4.0.4-tts-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -187,6 +188,15 @@ artifacts {
 
 apply from: 'gradle/maven.gradle'
 apply from: 'gradle/resources.gradle'
+
+license {
+    header = project.file('etc/license/HEADER')
+    properties {
+        name = 'Team Galacticraft'
+        year = Calendar.getInstance().get(Calendar.YEAR);
+    }
+    include '**/*.java'
+}
 
 clean {
     def filteredDelete = new HashSet<>()
