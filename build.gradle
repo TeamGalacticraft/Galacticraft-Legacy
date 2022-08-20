@@ -163,7 +163,7 @@ jar {
 jar.finalizedBy('reobfJar')
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    duplicatesStrategy(DuplicatesStrategy.WARN)
+    duplicatesStrategy(DuplicatesStrategy.FAIL)
     archiveClassifier.set('sources')
     archiveVersion.set("${mc_version}-${version}")
     from sourceSets.main.allSource    
@@ -174,7 +174,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 // deobfuscator configuration since (iirc) there is no way
 // to exclude miccore's classes
 task deobfJar(type: Jar) {
-    duplicatesStrategy(DuplicatesStrategy.WARN)
+    duplicatesStrategy(DuplicatesStrategy.FAIL)
     archiveVersion.set("${mc_version}-${version}-deobf")
     from sourceSets.main.output
 }
