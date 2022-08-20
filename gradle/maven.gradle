@@ -9,16 +9,16 @@ publishing {
             name 'Releases'
             url 'https://maven.galacticraft.net/repository/maven-releases/'
             credentials {
-                username = project.NEXUS_USER
-                password = project.NEXUS_PASSWORD
+                username = project.hasProperty('NEXUS_USER') ? project.NEXUS_USER : ''
+                password = project.hasProperty('NEXUS_PASSWORD') ? project.NEXUS_PASSWORD : ''
             }
         }
         maven {
             name 'Snapshots'
             url 'https://maven.galacticraft.net/repository/maven-snapshots/'
             credentials {
-                username = project.NEXUS_USER
-                password = project.NEXUS_PASSWORD
+                username = System.getenv().NEXUS_USER
+                password = System.getenv().NEXUS_PASSWORD
             }
         }
         maven {
