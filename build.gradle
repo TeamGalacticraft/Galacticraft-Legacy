@@ -18,7 +18,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 group = "micdoodle8.mods.galacticraft"
 archivesBaseName = "Galacticraft"
 
-version = '4.0.4-tts-SNAPSHOT'
+version = '4.0.4-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -159,8 +159,6 @@ jar {
     manifest(setManifest)
     archiveVersion.set("${mc_version}-${version}")
 }
-
-compileJava.finalizedBy('processResources')
 
 jar.finalizedBy('reobfJar')
 
