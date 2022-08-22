@@ -73,8 +73,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
 	public int gasTankType = -1;
 	@NetworkedField(targetSide = Side.CLIENT)
 	public int fluidTankType = -1;
-	@NetworkedField(targetSide = Side.CLIENT)
-	public int fluidTank2Type = -1;
+
 
 	public enum TankGases {
 
@@ -268,7 +267,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
 					this.processTicks = -10;
 				}
 			}
-			this.produceOutput(this.getElectricInputDirection().getOpposite());
+			this.produceOutput(this.getGasInputDirection().getOpposite());
 
 		}
 
@@ -327,7 +326,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
 			return false;
 		}
 
-		if (this.fluidTankType == -1 || this.fluidTank2Type == -1) {
+		if (this.fluidTankType == -1 ) {
 			return true;
 		}
 
@@ -338,7 +337,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
 			int airProducts = this.airProducts;
 			do {
 				int thisProduct = (airProducts & 15) - 1;
-				if ((thisProduct == this.fluidTankType && tank1HasSpace) || (thisProduct == this.fluidTank2Type)) {
+				if (thisProduct == this.fluidTankType && tank1HasSpace) {
 					return true;
 				}
 				airProducts = airProducts >> 4;
@@ -346,7 +345,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
 			return false;
 		}
 
-		return (this.gasTankType == this.fluidTankType && tank1HasSpace) || (this.gasTankType == this.fluidTank2Type);
+		return (this.gasTankType == this.fluidTankType && tank1HasSpace);
 	}
 
 	public int getAirProducts() {
@@ -668,7 +667,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
 		}
 
 		if (type == NetworkType.FLUID) {
-			return direction == getGasInputDirection() || direction == this.getGasInputDirection().getOpposite() || direction == this.getGasInputDirection().rotateY() || direction == EnumFacing.UP;
+			return direction == getGasInputDirection() || direction == this.getGasInputDirection().getOpposite() || direction == this.getGasInputDirection().rotateY() ;
 		}
 
 		if (type == NetworkType.POWER) {

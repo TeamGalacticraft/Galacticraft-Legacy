@@ -7,6 +7,6 @@
         "north": "galacticraftplanets:blocks/gas_liquefier",
         "east": "galacticraftplanets:blocks/machine_oxygen_input_warning",
         "south": "galacticraftplanets:blocks/machine_side_warning",
-        "west": "galacticraftplanets:blocks/machine_side_warning"
+        "west": "galacticraftplanets:blocks/machine_oxygen_output_warning"
     }
 }
