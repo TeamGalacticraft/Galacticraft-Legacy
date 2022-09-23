@@ -99,7 +99,7 @@ public class BlockTorchBase extends Block
             return true;
         } else
         {
-            if (worldIn.getBlockState(pos).getBlock() == this)
+            if (state.getBlock() == this)
             {
                 this.dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);

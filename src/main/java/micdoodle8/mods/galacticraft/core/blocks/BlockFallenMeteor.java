@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import java.util.Random;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
@@ -32,6 +31,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockFallenMeteor extends Block implements ITileEntityProvider, IShiftDescription, ISortableBlock
 {
@@ -187,17 +188,17 @@ public class BlockFallenMeteor extends Block implements ITileEntityProvider, ISh
 
     private boolean canFallBelow(World world, BlockPos pos)
     {
-        Block block = world.getBlockState(pos).getBlock();
+        IBlockState state = world.getBlockState(pos);
 
-        if (block.getMaterial(world.getBlockState(pos)) == Material.AIR)
+        if (state.getMaterial() == Material.AIR)
         {
             return true;
-        } else if (block == Blocks.FIRE)
+        } else if (state.getBlock() == Blocks.FIRE)
         {
             return true;
         } else
         {
-            return block.getMaterial(world.getBlockState(pos)) == Material.WATER ? true : block.getMaterial(world.getBlockState(pos)) == Material.LAVA;
+            return state.getMaterial() == Material.WATER ? true : state.getMaterial() == Material.LAVA;
         }
     }
 

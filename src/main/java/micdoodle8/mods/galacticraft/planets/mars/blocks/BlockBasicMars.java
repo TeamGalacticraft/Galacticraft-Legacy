@@ -1,7 +1,6 @@
 package micdoodle8.mods.galacticraft.planets.mars.blocks;
 
 import com.google.common.base.Predicate;
-import java.util.Random;
 import micdoodle8.mods.galacticraft.api.block.IDetectableResource;
 import micdoodle8.mods.galacticraft.api.block.IPlantableBlock;
 import micdoodle8.mods.galacticraft.api.block.ITerraformableBlock;
@@ -36,6 +35,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class BlockBasicMars extends Block implements IDetectableResource, IPlantableBlock, ITerraformableBlock, ISortableBlock
 {
@@ -107,7 +108,7 @@ public class BlockBasicMars extends Block implements IDetectableResource, IPlant
     @Override
     public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion)
     {
-        EnumBlockBasic type = (EnumBlockBasic) world.getBlockState(pos).getValue(BASIC_TYPE);
+        EnumBlockBasic type = world.getBlockState(pos).getValue(BASIC_TYPE);
 
         if (type == EnumBlockBasic.DUNGEON_BRICK)
         {
@@ -130,9 +131,7 @@ public class BlockBasicMars extends Block implements IDetectableResource, IPlant
     @Override
     public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos)
     {
-        IBlockState state = worldIn.getBlockState(pos);
-
-        if (state.getValue(BASIC_TYPE) == EnumBlockBasic.DUNGEON_BRICK)
+		if (blockState.getValue(BASIC_TYPE) == EnumBlockBasic.DUNGEON_BRICK)
         {
             return 4.0F;
         }

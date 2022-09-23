@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import java.util.Random;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
@@ -22,6 +21,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class BlockSlabGC extends BlockSlab implements ISortableBlock
 {
@@ -77,7 +78,7 @@ public class BlockSlabGC extends BlockSlab implements ISortableBlock
     @Override
     public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos)
     {
-        Block block = worldIn.getBlockState(pos).getBlock();
+        Block block = blockState.getBlock();
 
         if (!(block instanceof BlockSlabGC)) // This will prevent game crashing
                                              // when harvest block
@@ -85,7 +86,7 @@ public class BlockSlabGC extends BlockSlab implements ISortableBlock
             return 0;
         }
 
-        switch (this.getMetaFromState(worldIn.getBlockState(pos)))
+        switch (this.getMetaFromState(blockState))
         {
             case 2:
             case 3:

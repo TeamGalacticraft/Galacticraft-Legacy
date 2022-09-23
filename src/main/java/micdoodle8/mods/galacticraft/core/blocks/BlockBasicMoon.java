@@ -1,10 +1,6 @@
 package micdoodle8.mods.galacticraft.core.blocks;
 
 import com.google.common.base.Predicate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import micdoodle8.mods.galacticraft.api.block.IDetectableResource;
 import micdoodle8.mods.galacticraft.api.block.IPlantableBlock;
 import micdoodle8.mods.galacticraft.api.block.ITerraformableBlock;
@@ -39,6 +35,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class BlockBasicMoon extends Block implements IDetectableResource, IPlantableBlock, ITerraformableBlock, ISortableBlock
 {
@@ -109,7 +110,7 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
     @Override
     public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion)
     {
-        EnumBlockBasicMoon type = ((EnumBlockBasicMoon) world.getBlockState(pos).getValue(BASIC_TYPE_MOON));
+        EnumBlockBasicMoon type = world.getBlockState(pos).getValue(BASIC_TYPE_MOON);
 
         if (type == EnumBlockBasicMoon.MOON_DUNGEON_BRICK)
         {
@@ -128,7 +129,7 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
     @Override
     public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos)
     {
-        EnumBlockBasicMoon type = ((EnumBlockBasicMoon) worldIn.getBlockState(pos).getValue(BASIC_TYPE_MOON));
+        EnumBlockBasicMoon type = blockState.getValue(BASIC_TYPE_MOON);
 
         if (type == EnumBlockBasicMoon.MOON_DIRT || type == EnumBlockBasicMoon.MOON_TURF)
         {
@@ -159,7 +160,7 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
         IBlockState bs = world.getBlockState(pos);
         if (bs.getBlock() != this)
             return false;
-        EnumBlockBasicMoon type = (EnumBlockBasicMoon) bs.getValue(BASIC_TYPE_MOON);
+        EnumBlockBasicMoon type = bs.getValue(BASIC_TYPE_MOON);
         if (type == EnumBlockBasicMoon.MOON_DIRT || type == EnumBlockBasicMoon.MOON_TURF)
         {
             return true;
@@ -245,7 +246,7 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
     @Override
     public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable)
     {
-        EnumBlockBasicMoon type = ((EnumBlockBasicMoon) world.getBlockState(pos).getValue(BASIC_TYPE_MOON));
+        EnumBlockBasicMoon type = state.getValue(BASIC_TYPE_MOON);
 
         if (type != EnumBlockBasicMoon.MOON_TURF)
         {
@@ -273,7 +274,7 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
     @Override
     public boolean isTerraformable(World world, BlockPos pos)
     {
-        EnumBlockBasicMoon type = ((EnumBlockBasicMoon) world.getBlockState(pos).getValue(BASIC_TYPE_MOON));
+        EnumBlockBasicMoon type = world.getBlockState(pos).getValue(BASIC_TYPE_MOON);
 
         if (type == EnumBlockBasicMoon.MOON_TURF)
         {
@@ -332,7 +333,7 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
     @Override
     public boolean isReplaceableOreGen(IBlockState state, IBlockAccess world, BlockPos pos, Predicate<IBlockState> target)
     {
-        EnumBlockBasicMoon type = ((EnumBlockBasicMoon) world.getBlockState(pos).getValue(BASIC_TYPE_MOON));
+        EnumBlockBasicMoon type = state.getValue(BASIC_TYPE_MOON);
         return type == EnumBlockBasicMoon.MOON_STONE || type == EnumBlockBasicMoon.MOON_DIRT;
     }
 

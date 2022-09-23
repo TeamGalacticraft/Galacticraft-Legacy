@@ -85,7 +85,7 @@ public class BlockBeamReceiver extends BlockTileGC implements IShiftDescription,
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
-        int oldMeta = getMetaFromState(worldIn.getBlockState(pos));
+        int oldMeta = getMetaFromState(state);
         int meta = this.getMetadataFromAngle(worldIn, pos, EnumFacing.byIndex(oldMeta).getOpposite());
 
         if (meta == -1)

@@ -60,7 +60,7 @@ public class BlockScreen extends BlockAdvanced implements IShiftDescription, IPa
     @Override
     public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing direction)
     {
-        return direction.ordinal() != getMetaFromState(world.getBlockState(pos));
+        return direction.ordinal() != getMetaFromState(base_state);
     }
 
     @Override

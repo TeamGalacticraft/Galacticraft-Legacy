@@ -1,6 +1,5 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.blocks;
 
-import java.util.Random;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.blocks.BlockAdvancedTile;
 import micdoodle8.mods.galacticraft.planets.asteroids.tile.TileEntityTelepadFake;
@@ -27,6 +26,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockTelepadFake extends BlockAdvancedTile implements ITileEntityProvider
 {
@@ -79,7 +80,7 @@ public class BlockTelepadFake extends BlockAdvancedTile implements ITileEntityPr
 
             if (mainBlockPosition != null)
             {
-                return worldIn.getBlockState(mainBlockPosition).getBlock().getBlockHardness(worldIn.getBlockState(mainBlockPosition), worldIn, mainBlockPosition);
+                return worldIn.getBlockState(mainBlockPosition).getBlockHardness(worldIn, mainBlockPosition);
             }
         }
 
@@ -149,11 +150,12 @@ public class BlockTelepadFake extends BlockAdvancedTile implements ITileEntityPr
 
         if (mainBlockPosition != null)
         {
-            Block mainBlockID = world.getBlockState(mainBlockPosition).getBlock();
+			IBlockState mainBlockState = world.getBlockState(mainBlockPosition);
+			Block mainBlockID = mainBlockState.getBlock();
 
             if (Blocks.AIR != mainBlockID)
             {
-                return mainBlockID.getPickBlock(world.getBlockState(mainBlockPosition), target, world, mainBlockPosition, player);
+                return mainBlockID.getPickBlock(mainBlockState, target, world, mainBlockPosition, player);
             }
         }
 
@@ -168,7 +170,8 @@ public class BlockTelepadFake extends BlockAdvancedTile implements ITileEntityPr
 
         if (mainBlockPosition != null)
         {
-            return world.getBlockState(pos).getBlock().getBedDirection(world.getBlockState(mainBlockPosition), world, mainBlockPosition);
+			IBlockState mainBlockState = world.getBlockState(mainBlockPosition);
+			return mainBlockState.getBlock().getBedDirection(mainBlockState, world, mainBlockPosition);
         }
 
         return getActualState(world.getBlockState(pos), world, pos).getValue(BlockDirectional.FACING);

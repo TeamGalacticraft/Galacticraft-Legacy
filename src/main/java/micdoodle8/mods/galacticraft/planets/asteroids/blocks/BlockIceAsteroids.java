@@ -1,7 +1,5 @@
 package micdoodle8.mods.galacticraft.planets.asteroids.blocks;
 
-import java.util.ArrayList;
-import java.util.Random;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.blocks.ISortableBlock;
@@ -31,6 +29,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class BlockIceAsteroids extends BlockBreakable implements ISortableBlock
 {
@@ -65,7 +66,7 @@ public class BlockIceAsteroids extends BlockBreakable implements ISortableBlock
         player.addStat(StatList.getBlockStats(this));
         player.addExhaustion(0.025F);
 
-        if (this.canSilkHarvest(worldIn, pos, worldIn.getBlockState(pos), player) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0)
+        if (this.canSilkHarvest(worldIn, pos, state, player) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0)
         {
             ArrayList<ItemStack> items = new ArrayList<ItemStack>();
             items.add(this.getSilkTouchDrop(state));
@@ -114,7 +115,7 @@ public class BlockIceAsteroids extends BlockBreakable implements ISortableBlock
                 return;
             }
 
-            this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
+            this.dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockState(pos, Blocks.WATER.getDefaultState());
         }
     }
