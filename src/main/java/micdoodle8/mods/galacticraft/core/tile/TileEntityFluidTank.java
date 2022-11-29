@@ -276,7 +276,7 @@ public class TileEntityFluidTank extends TileEntityAdvanced implements IFluidHan
     {
         super.readFromNBT(nbt);
 
-        if (nbt.hasKey("fuelTank"))
+        if (nbt.hasKey("fluidTank"))
         {
             fluidTank.readFromNBT(nbt.getCompoundTag("fluidTank"));
         }
