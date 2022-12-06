@@ -1,4 +1,4 @@
-**Notice:** This project has been moved to [TeamGalacticraft/Galacticraft](https://github.com/TeamGalacticraft/Galacticraft).
+**Notice:** For newer versions of galacticraft, the project is now in the [TeamGalacticraft/Galacticraft](https://github.com/TeamGalacticraft/Galacticraft) repository. This repository is for 1.12.
 
 <p align="center"><img src="https://cloud.githubusercontent.com/assets/6842258/25335525/4f21552e-28eb-11e7-91bb-de5e1ef602da.jpg"></p>
 
