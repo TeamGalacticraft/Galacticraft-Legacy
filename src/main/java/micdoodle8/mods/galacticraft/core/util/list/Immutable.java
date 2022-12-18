@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.util.list;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -13,7 +20,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Predicate;
 
-public abstract class Immutable<E> extends ArrayList<E> implements Serializable
+abstract class Immutable<E> extends ArrayList<E> implements Serializable
 {
 
     private static final long serialVersionUID            = -3175142460104260006L;

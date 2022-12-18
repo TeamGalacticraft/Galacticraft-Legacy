@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.util.list;
 
 import com.google.common.collect.ImmutableMap;
@@ -8,6 +15,8 @@ import micdoodle8.mods.galacticraft.api.galaxies.CelestialObject;
 
 public class CelestialList<T extends CelestialObject> extends ArrayList<T>
 {
+
+    private static final long serialVersionUID = 1L;
     private Map<String, T>    celestialListMap;
 
     public static <E extends CelestialObject> CelestialList<E> create()

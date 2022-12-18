@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.blocks;
 
 import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
@@ -60,7 +67,7 @@ public class BlockScreen extends BlockAdvanced implements IShiftDescription, IPa
     @Override
     public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing direction)
     {
-        return direction.ordinal() != getMetaFromState(world.getBlockState(pos));
+        return direction.ordinal() != getMetaFromState(base_state);
     }
 
     @Override

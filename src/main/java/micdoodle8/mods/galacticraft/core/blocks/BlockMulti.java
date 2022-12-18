@@ -1,9 +1,12 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
 import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
@@ -41,6 +44,11 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, ITileEntityProvider
 {
@@ -171,7 +179,7 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
 
             if (mainBlockPosition != null && !mainBlockPosition.equals(pos))
             {
-                return worldIn.getBlockState(mainBlockPosition).getBlock().getBlockHardness(blockState, worldIn, pos);
+                return worldIn.getBlockState(mainBlockPosition).getBlockHardness(worldIn, pos);
             }
         }
 
@@ -307,7 +315,7 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
             if (mainBlockPosition != null && !mainBlockPosition.equals(pos))
             {
                 IBlockState mainState = world.getBlockState(mainBlockPosition);
-                return mainState.getBlock().isBed(state, world, mainBlockPosition, player);
+                return mainState.getBlock().isBed(mainState, world, mainBlockPosition, player);
             }
         }
 

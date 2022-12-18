@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core;
 
 import static micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore.PLAYER_Y_OFFSET;
@@ -74,22 +81,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 /**
- * These methods are called from vanilla minecraft through bytecode injection
- * done in MicdoodleCore
- *
- * See https://github.com/micdoodle8/MicdoodleCore
+ * These methods are called from vanilla minecraft through bytecode injection done in MicdoodleCore See https://github.com/micdoodle8/MicdoodleCore
  */
 public class TransformerHooks
 {
 
-    private static List<IWorldGenerator> otherModGeneratorsWhitelist = new LinkedList<>();
-    private static IWorldGenerator generatorTCAuraNodes = null;
-    private static Method generateTCAuraNodes = null;
-    private static boolean generatorsInitialised = false;
-    public static List<Block> spawnListAE2_GC = new LinkedList<>();
-    public static ThreadLocal<BufferBuilder> renderBuilder = new ThreadLocal<>();
-    private static int rainSoundCounter = 0;
-    private static Random random = new Random();
+    private static List<IWorldGenerator>     otherModGeneratorsWhitelist = new LinkedList<>();
+    private static IWorldGenerator           generatorTCAuraNodes        = null;
+    private static Method                    generateTCAuraNodes         = null;
+    private static boolean                   generatorsInitialised       = false;
+    public static List<Block>                spawnListAE2_GC             = new LinkedList<>();
+    public static ThreadLocal<BufferBuilder> renderBuilder               = new ThreadLocal<>();
+    private static int                       rainSoundCounter            = 0;
+    private static Random                    random                      = new Random();
 
     public static double getGravityForEntity(Entity entity)
     {
@@ -299,8 +303,7 @@ public class TransformerHooks
     }
 
     /*
-     * Used to supplement the hard-coded blocklist in AE2's MeteoritePlacer
-     * class
+     * Used to supplement the hard-coded blocklist in AE2's MeteoritePlacer class
      */
     public static boolean addAE2MeteorSpawn(Object o, Block b)
     {
@@ -378,8 +381,7 @@ public class TransformerHooks
     public static Vec3d getSkyColorHook(World world)
     {
         EntityPlayerSP player = FMLClientHandler.instance().getClient().player;
-        if (world.provider.getSkyRenderer() instanceof SkyProviderOverworld
-            || (player != null && player.posY > Constants.OVERWORLD_CLOUD_HEIGHT && player.getRidingEntity() instanceof EntitySpaceshipBase))
+        if (world.provider.getSkyRenderer() instanceof SkyProviderOverworld || (player != null && player.posY > Constants.OVERWORLD_CLOUD_HEIGHT && player.getRidingEntity() instanceof EntitySpaceshipBase))
         {
             float f1 = world.getCelestialAngle(1.0F);
             float f2 = MathHelper.cos(f1 * Constants.twoPI) * 2.0F + 0.5F;
@@ -399,9 +401,9 @@ public class TransformerHooks
             int k = MathHelper.floor(player.posZ);
             BlockPos pos = new BlockPos(i, j, k);
             int l = ForgeHooksClient.getSkyBlendColour(world, pos);
-            float f4 = (float) (l >> 16 & 255) / 255.0F;
-            float f5 = (float) (l >> 8 & 255) / 255.0F;
-            float f6 = (float) (l & 255) / 255.0F;
+            float f4 = (l >> 16 & 255) / 255.0F;
+            float f5 = (l >> 8 & 255) / 255.0F;
+            float f6 = (l & 255) / 255.0F;
             f4 *= f2;
             f5 *= f2;
             f6 *= f2;
@@ -508,13 +510,11 @@ public class TransformerHooks
             GL11.glRotatef(yaw * gDir.getYawGravityY(), 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(yaw * gDir.getYawGravityZ(), 0.0F, 0.0F, 1.0F);
 
-
             GL11.glTranslatef(eyeHeightChange * gDir.getEyeVecX(), eyeHeightChange * gDir.getEyeVecY(), eyeHeightChange * gDir.getEyeVecZ());
 
             if (stats.getGravityTurnRate() < 1.0F)
             {
-                GL11.glRotatef(90.0F * (stats.getGravityTurnRatePrev() + (stats.getGravityTurnRate() - stats.getGravityTurnRatePrev()) * partialTicks), stats.getGravityTurnVecX(),
-                    stats.getGravityTurnVecY(), stats.getGravityTurnVecZ());
+                GL11.glRotatef(90.0F * (stats.getGravityTurnRatePrev() + (stats.getGravityTurnRate() - stats.getGravityTurnRatePrev()) * partialTicks), stats.getGravityTurnVecX(), stats.getGravityTurnVecY(), stats.getGravityTurnVecZ());
             }
         }
     }
@@ -633,7 +633,7 @@ public class TransformerHooks
         }
         IWeatherProvider moddedProvider = ((IWeatherProvider) world.provider);
 
-        random.setSeed((long) rendererUpdateCount * 312987231L);
+        random.setSeed(rendererUpdateCount * 312987231L);
         Entity entity = mc.getRenderViewEntity();
         BlockPos blockpos = new BlockPos(entity);
         int i = 10;
@@ -692,7 +692,15 @@ public class TransformerHooks
             }
         }
 
-        if (j > 0 && random.nextInt(moddedProvider.getSoundInterval(f)) < rainSoundCounter++)
+        if (moddedProvider.getSoundInterval(f) > 0)
+        {
+            if (j > 0 && random.nextInt(moddedProvider.getSoundInterval(f)) < rainSoundCounter++)
+            {
+                rainSoundCounter = 0;
+
+                moddedProvider.weatherSounds(j, mc, world, blockpos, xx, yy, zz, random);
+            }
+        } else if (j > 0 && 0 < rainSoundCounter++)
         {
             rainSoundCounter = 0;
 

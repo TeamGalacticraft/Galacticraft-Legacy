@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.api.galaxies;
 
 import java.util.ArrayList;
@@ -20,7 +27,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-@SuppressWarnings("deprecation")
 public abstract class CelestialBody extends CelestialObject implements Comparable<CelestialBody>
 {
 

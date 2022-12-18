@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.blocks;
 
 import net.minecraft.block.Block;
@@ -99,7 +106,7 @@ public class BlockTorchBase extends Block
             return true;
         } else
         {
-            if (worldIn.getBlockState(pos).getBlock() == this)
+            if (state.getBlock() == this)
             {
                 this.dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);

@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.energy.tile;
 
 import buildcraft.api.mj.MjAPI;
@@ -34,7 +41,6 @@ import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
 
-// @noformat
 @InterfaceList(value = {
     @Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = CompatibilityManager.modidIC2), 
     @Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = CompatibilityManager.modidIC2),
@@ -144,12 +150,12 @@ public abstract class TileBaseUniversalElectricalSource extends TileBaseUniversa
                 {
                     ISpecialElectricItem specialElectricItem = (ISpecialElectricItem) item;
                     IElectricItemManager manager = specialElectricItem.getManager(itemStack);
-                    double result = manager.charge(itemStack, (double) (energyToCharge * EnergyConfigHandler.TO_IC2_RATIO), this.tierGC + 1, false, false);
+                    double result = manager.charge(itemStack, energyToCharge * EnergyConfigHandler.TO_IC2_RATIO, this.tierGC + 1, false, false);
                     float energy = (float) result / EnergyConfigHandler.TO_IC2_RATIO;
                     this.storage.extractEnergyGC(energy, false);
                 } else if (item instanceof IElectricItem)
                 {
-                    double result = ElectricItem.manager.charge(itemStack, (double) (energyToCharge * EnergyConfigHandler.TO_IC2_RATIO), this.tierGC + 1, false, false);
+                    double result = ElectricItem.manager.charge(itemStack, energyToCharge * EnergyConfigHandler.TO_IC2_RATIO, this.tierGC + 1, false, false);
                     float energy = (float) result / EnergyConfigHandler.TO_IC2_RATIO;
                     this.storage.extractEnergyGC(energy, false);
                 }
@@ -161,6 +167,7 @@ public abstract class TileBaseUniversalElectricalSource extends TileBaseUniversa
         }
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidIC2)
     public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing direction)
     {
@@ -176,6 +183,7 @@ public abstract class TileBaseUniversalElectricalSource extends TileBaseUniversa
         return this.getElectricalOutputDirections().contains(direction);
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidIC2)
     public double getOfferedEnergy()
     {
@@ -187,6 +195,7 @@ public abstract class TileBaseUniversalElectricalSource extends TileBaseUniversa
         return this.getProvide(null) * EnergyConfigHandler.TO_IC2_RATIO;
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidIC2)
     public void drawEnergy(double amount)
     {
@@ -198,6 +207,7 @@ public abstract class TileBaseUniversalElectricalSource extends TileBaseUniversa
         this.storage.extractEnergyGC((float) amount / EnergyConfigHandler.TO_IC2_RATIO, false);
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidIC2)
     public int getSourceTier()
     {
@@ -216,18 +226,21 @@ public abstract class TileBaseUniversalElectricalSource extends TileBaseUniversa
         return 0D;
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidMekanism)
     public double getEnergy()
     {
         return this.storage.getEnergyStoredGC() * EnergyConfigHandler.TO_MEKANISM_RATIO;
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidMekanism)
     public double getMaxEnergy()
     {
         return this.storage.getCapacityGC() * EnergyConfigHandler.TO_MEKANISM_RATIO;
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidMekanism)
     public void setEnergy(double energy)
     {

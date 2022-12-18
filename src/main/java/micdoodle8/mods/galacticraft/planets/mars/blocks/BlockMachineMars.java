@@ -1,6 +1,12 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.planets.mars.blocks;
 
-import java.util.Random;
 import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
@@ -44,6 +50,8 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class BlockMachineMars extends BlockTileGC implements IShiftDescription, ISortableBlock, IPartialSealableBlock
 {
@@ -203,7 +211,7 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
     @Override
     public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
     {
-        if (getMetaFromState(world.getBlockState(pos)) >= BlockMachineMars.LAUNCH_CONTROLLER_METADATA)
+        if (getMetaFromState(state) >= BlockMachineMars.LAUNCH_CONTROLLER_METADATA)
         {
             WorldUtil.markAdjacentPadForUpdate(world, pos);
         }
@@ -253,7 +261,7 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
     @Override
     public boolean isBed(IBlockState state, IBlockAccess world, BlockPos pos, Entity player)
     {
-        return world.getBlockState(pos).getValue(TYPE) == EnumMachineType.CRYOGENIC_CHAMBER;
+        return state.getValue(TYPE) == EnumMachineType.CRYOGENIC_CHAMBER;
     }
 
     @Override
@@ -269,7 +277,7 @@ public class BlockMachineMars extends BlockTileGC implements IShiftDescription, 
 
         if (tile instanceof TileEntityCryogenicChamber)
         {
-            ((TileEntityCryogenicChamber) tile).isOccupied = true;
+            ((TileEntityCryogenicChamber) tile).isOccupied = occupied;
         }
     }
 

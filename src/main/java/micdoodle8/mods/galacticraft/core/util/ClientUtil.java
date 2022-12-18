@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.util;
 
 import com.google.common.base.Function;
@@ -27,6 +34,7 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -37,6 +45,8 @@ import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -231,5 +241,17 @@ public class ClientUtil
         }
 
         tessellator.draw();
+    }
+
+    public static boolean isKeyPressed(KeyBinding keyBinding)
+    {
+        try
+        {
+            int key = keyBinding.getKeyCode();
+            return key < 0 ? Mouse.isButtonDown(key + 100) : Keyboard.isKeyDown(key);
+        } catch (Exception e)
+        {
+            return false;
+        }
     }
 }

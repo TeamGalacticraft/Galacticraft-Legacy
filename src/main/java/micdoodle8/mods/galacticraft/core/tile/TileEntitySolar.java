@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.tile;
 
 import java.util.ArrayList;
@@ -365,7 +372,7 @@ public class TileEntitySolar extends TileBaseUniversalElectricalSource implement
 
             if (stateAt.getBlock() == GCBlocks.fakeBlock)
             {
-                EnumBlockMultiType type = (EnumBlockMultiType) stateAt.getValue(BlockMulti.MULTI_TYPE);
+                EnumBlockMultiType type = stateAt.getValue(BlockMulti.MULTI_TYPE);
                 if ((type == EnumBlockMultiType.SOLAR_PANEL_0 || type == EnumBlockMultiType.SOLAR_PANEL_1))
                 {
                     if (this.world.isRemote && this.world.rand.nextDouble() < 0.1D)
@@ -508,6 +515,31 @@ public class TileEntitySolar extends TileBaseUniversalElectricalSource implement
     {
         return slotID == 0 && ItemElectricBase.isElectricItem(itemstack.getItem());
     }
+
+    //    @Override
+    //    public boolean hasCapability(Capability<?> cap, EnumFacing side)
+    //    {
+    //        if (cap == Capabilities.ENERGY_OUTPUTTER_CAPABILITY && this.canOutputEnergy(side))
+    //        {
+    //            return true;
+    //        }
+    //
+    //        return super.hasCapability(cap, side);
+    //    }
+    //
+    //    @Override
+    //    public <T> T getCapability(Capability<T> cap, EnumFacing side)
+    //    {
+    //        if (CompatibilityManager.isMekanismLoaded())
+    //        {
+    //            if (cap != null && (cap == EnergyUtil.mekCableOutput))
+    //            {
+    //                return Capabilities.ENERGY_OUTPUTTER_CAPABILITY.cast(this);
+    //            }
+    //        }
+    //
+    //        return super.getCapability(cap, side);
+    //    }
 
     @Override
     public boolean canConnect(EnumFacing direction, NetworkType type)

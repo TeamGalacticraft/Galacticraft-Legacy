@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.energy;
 
 import buildcraft.api.mj.IMjPassiveProvider;
@@ -56,6 +63,7 @@ public class EnergyUtil
     private static boolean isRF1Loaded = EnergyConfigHandler.isRFAPIv1Loaded();
     private static boolean isRF2Loaded = EnergyConfigHandler.isRFAPIv2Loaded();
     private static boolean isIC2Loaded = EnergyConfigHandler.isIndustrialCraft2Loaded();
+    private static boolean isIC2ClassicLoaded = CompatibilityManager.isIc2ClassicLoaded();
     private static boolean isIC2TileLoaded = false;
     private static boolean isBCReallyLoaded = EnergyConfigHandler.isBuildcraftLoaded();
 
@@ -111,7 +119,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isMekLoaded && (tileEntity instanceof IStrictEnergyAcceptor || tileEntity instanceof IStrictEnergyOutputter))
+            if ((!EnergyConfigHandler.disableMekanismOutput || !EnergyConfigHandler.disableMekanismInput) && isMekLoaded && (tileEntity instanceof IStrictEnergyAcceptor || tileEntity instanceof IStrictEnergyOutputter))
             {
                 // Do not connect GC wires directly to Mek Universal Cables
                 try
@@ -135,7 +143,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isBCReallyLoaded)
+            if ((!EnergyConfigHandler.disableBuildCraftOutput || !EnergyConfigHandler.disableBuildCraftInput) && isBCReallyLoaded)
             {
                 // Do not connect GC wires directly to BC pipes of any type
                 try
@@ -156,7 +164,7 @@ public class EnergyUtil
                 }
             }
 
-            if (isRFLoaded && tileEntity instanceof IEnergyConnection)
+            if ((!EnergyConfigHandler.disableRFOutput || !EnergyConfigHandler.disableRFInput) && isRFLoaded && tileEntity instanceof IEnergyConnection)
             {
                 if (isRF2Loaded && (tileEntity instanceof IEnergyProvider || tileEntity instanceof IEnergyReceiver) || isRF1Loaded && tileEntity instanceof IEnergyHandler
                     || clazzRailcraftEngine != null && clazzRailcraftEngine.isInstance(tileEntity))
@@ -174,7 +182,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isIC2Loaded)
+            if ((!EnergyConfigHandler.disableIC2Output || !EnergyConfigHandler.disableIC2Input) && isIC2Loaded && !isIC2ClassicLoaded)
             {
                 if (tileEntity instanceof IEnergyConductor)
                 {
@@ -293,7 +301,7 @@ public class EnergyUtil
      * entered in the Lists more than once, with a different direction each
      * time: this would represent GC wires connected to the acceptor on more
      * than one side.)
-     * 
+     *
      * @param conductor
      * @param connectedAcceptors
      * @param directions
@@ -335,7 +343,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isMekLoaded && tileEntity instanceof IStrictEnergyAcceptor)
+            if (!EnergyConfigHandler.disableMekanismOutput && isMekLoaded && tileEntity instanceof IStrictEnergyAcceptor)
             {
                 if (clazzMekCable != null && clazzMekCable.isInstance(tileEntity))
                 {
@@ -349,7 +357,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isIC2Loaded && !world.isRemote)
+            if (!EnergyConfigHandler.disableIC2Output && isIC2Loaded && !world.isRemote)
             {
                 IEnergyTile IC2tile = null;
                 BlockPos checkingIC2 = thisVec.toBlockPos().offset(direction);
@@ -376,7 +384,7 @@ public class EnergyUtil
                 }
             }
 
-            if (isBCReallyLoaded)
+            if (!EnergyConfigHandler.disableBuildCraftOutput && isBCReallyLoaded)
             {
                 if (clazzPipeTile != null && clazzPipeTile.isInstance(tileEntity))
                 {
@@ -392,7 +400,7 @@ public class EnergyUtil
                 }
             }
 
-            if ((isRF2Loaded && tileEntity instanceof IEnergyReceiver) || (isRF1Loaded && tileEntity instanceof IEnergyHandler))
+            if (!EnergyConfigHandler.disableRFOutput && (isRF2Loaded && tileEntity instanceof IEnergyReceiver) || (isRF1Loaded && tileEntity instanceof IEnergyHandler))
             {
                 if (clazzMFRRednetEnergyCable != null && clazzMFRRednetEnergyCable.isInstance(tileEntity))
                 {
@@ -498,7 +506,7 @@ public class EnergyUtil
         {
             IMjReceiver bcReceiver = getCapability(tileAdj, MjAPI.CAP_RECEIVER, inputAdj);
             long toSendBC = Math.min((long) (toSend * EnergyConfigHandler.TO_BC_RATIO), bcReceiver.getPowerRequested());
-            float sent = (float) (toSendBC - bcReceiver.receivePower(toSendBC, simulate)) / EnergyConfigHandler.TO_BC_RATIO;
+            float sent = (toSendBC - bcReceiver.receivePower(toSendBC, simulate)) / EnergyConfigHandler.TO_BC_RATIO;
             return sent;
         } else if (isRF2Loaded && !EnergyConfigHandler.disableRFOutput && tileAdj instanceof IEnergyReceiver)
         {
@@ -563,7 +571,7 @@ public class EnergyUtil
         {
             IMjPassiveProvider bcEmitter = getCapability(tileAdj, MjAPI.CAP_PASSIVE_PROVIDER, inputAdj);
             long toSendBC = (long) (toPull * EnergyConfigHandler.TO_BC_RATIO);
-            float sent = (float) bcEmitter.extractPower(toSendBC, toSendBC, simulate) / EnergyConfigHandler.TO_BC_RATIO;
+            float sent = bcEmitter.extractPower(toSendBC, toSendBC, simulate) / EnergyConfigHandler.TO_BC_RATIO;
             return sent;
         } else if (isRF2Loaded && !EnergyConfigHandler.disableRFInput && tileAdj instanceof IEnergyProvider)
         {
@@ -659,7 +667,7 @@ public class EnergyUtil
         // Initialise a couple of non-IC2 classes
         try
         {
-            clazzMekCable = Class.forName("codechicken.multipart.TileMultipart");
+            clazzMekCable = Class.forName("mekanism.common.tile.transmitter.TileEntityUniversalCable");
         } catch (Exception e)
         {
         }
@@ -677,7 +685,7 @@ public class EnergyUtil
         }
         try
         {
-            clazzRailcraftEngine = Class.forName("mods.railcraft.common.blocks.machine.beta.TileEngine");
+            clazzRailcraftEngine = Class.forName("mods.railcraft.common.blocks.single.TileEngine");
         } catch (Exception e)
         {
         }

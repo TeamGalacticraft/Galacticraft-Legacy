@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.energy.tile;
 
 import buildcraft.api.mj.IMjConnector;
@@ -29,7 +36,6 @@ import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-// @noformat
 @InterfaceList(value = {
     @Interface(iface = "net.minecraft.util.ITickable", modid = CompatibilityManager.modidIC2), 
     @Interface(iface = "ic2.api.energy.tile.IEnergyAcceptor", modid = CompatibilityManager.modidIC2),

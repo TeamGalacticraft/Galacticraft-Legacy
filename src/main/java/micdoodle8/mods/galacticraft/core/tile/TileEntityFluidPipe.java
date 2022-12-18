@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.tile;
 
 import mekanism.api.gas.Gas;
@@ -40,8 +47,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityFluidPipe extends TileEntityFluidTransmitter implements IColorable, IGasHandler
 {
 
-    public FluidTankGC buffer = new FluidTankGC(1000, this);
-    private boolean dataRequest = false;
+    public FluidTankGC    buffer      = new FluidTankGC(1000, this);
+    private boolean       dataRequest = false;
     private AxisAlignedBB renderAABB;
 
     public TileEntityFluidPipe()
@@ -82,10 +89,10 @@ public class TileEntityFluidPipe extends TileEntityFluidTransmitter implements I
         {
             if (adjacentTile instanceof IColorable)
             {
-                IBlockState state = this.world.getBlockState(this.getPos());
+                IBlockState state             = this.world.getBlockState(this.getPos());
                 IBlockState adjacentTileState = adjacentTile.getWorld().getBlockState(adjacentTile.getPos());
-                byte thisCol = this.getColor(state);
-                byte otherCol = ((IColorable) adjacentTile).getColor(adjacentTileState);
+                byte        thisCol           = this.getColor(state);
+                byte        otherCol          = ((IColorable) adjacentTile).getColor(adjacentTileState);
                 return thisCol == otherCol || thisCol == EnumDyeColor.WHITE.getDyeDamage() || otherCol == EnumDyeColor.WHITE.getDyeDamage();
             }
 
@@ -119,8 +126,7 @@ public class TileEntityFluidPipe extends TileEntityFluidTransmitter implements I
         if (this.world.isRemote)
         {
             this.world.notifyLightSet(getPos());
-            GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_DATA, GCCoreUtil.getDimensionID(this.world), new Object[]
-            {GCCoreUtil.getDimensionID(this.world), this.getPos()}));
+            GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_DATA, GCCoreUtil.getDimensionID(this.world), new Object[] {GCCoreUtil.getDimensionID(this.world), this.getPos()}));
         }
     }
 

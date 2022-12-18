@@ -1,6 +1,12 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import java.util.Random;
 import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
@@ -26,6 +32,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class BlockCheese extends Block implements IShiftDescription, ISortableBlock
 {
@@ -79,7 +87,7 @@ public class BlockCheese extends Block implements IShiftDescription, ISortableBl
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        this.eatCheeseSlice(worldIn, pos, worldIn.getBlockState(pos), playerIn);
+        this.eatCheeseSlice(worldIn, pos, state, playerIn);
         return true;
     }
 

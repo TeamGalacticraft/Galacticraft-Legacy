@@ -1,6 +1,12 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.planets.asteroids.tick;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,8 +15,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
+import micdoodle8.mods.galacticraft.core.util.ASMUtil;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
 import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
 import micdoodle8.mods.galacticraft.planets.asteroids.dimension.ShortRangeTelepadHandler;
@@ -21,6 +27,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -33,7 +40,6 @@ public class AsteroidsTickHandlerServer
     public static ShortRangeTelepadHandler spaceRaceData = null;
     public static List<EntityAstroMiner> activeMiners = new ArrayList<>();
     public static AtomicBoolean loadingSavedChunks = new AtomicBoolean();
-    private static Field droppedChunks = null;
 
     public static void restart()
     {
@@ -166,13 +172,7 @@ public class AsteroidsTickHandlerServer
 
                     try
                     {
-                        if (droppedChunks == null)
-                        {
-                            Class clazz = ((WorldServer) miner.world).getChunkProvider().getClass();
-                            droppedChunks = clazz.getDeclaredField(GCCoreUtil.isDeobfuscated() ? "droppedChunks" : "field_73248_b");
-                            droppedChunks.setAccessible(true);
-                        }
-                        Set<Long> undrop = (Set<Long>) droppedChunks.get(((WorldServer) miner.world).getChunkProvider());
+                        Set<Long> undrop = ASMUtil.getPrivateValue(ChunkProviderServer.class, ((WorldServer) miner.world).getChunkProvider(), "droppedChunks", "field_73248_b");
                         undrop.remove(ChunkPos.asLong(miner.chunkCoordX, miner.chunkCoordZ));
                     } catch (Exception ignore)
                     {

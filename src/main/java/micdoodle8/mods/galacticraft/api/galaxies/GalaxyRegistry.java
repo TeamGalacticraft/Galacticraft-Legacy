@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.api.galaxies;
 
 import java.util.ArrayList;
@@ -185,8 +192,7 @@ public class GalaxyRegistry
         return getPlanetOrMoonFromTranslationkey(unlocalizedName);
     }
 
-    @SuppressWarnings("deprecation")
-    public static <T> void register(T object)
+    public static <T> boolean register(T object)
     {
         if (object instanceof SolarSystem)
         {
@@ -194,7 +200,7 @@ public class GalaxyRegistry
             RegisterEvent registerEvent = new RegisterEvent(solarSystem, Loader.instance().activeModContainer());
             solarSystems.add(solarSystem);
             objects.add(solarSystem);
-            MinecraftForge.EVENT_BUS.post(registerEvent);
+            return MinecraftForge.EVENT_BUS.post(registerEvent);
         }
 
         if (object instanceof Planet)
@@ -203,7 +209,7 @@ public class GalaxyRegistry
             RegisterEvent registerEvent = new RegisterEvent(planet, Loader.instance().activeModContainer());
             planets.add(planet);
             objects.add(planet);
-            MinecraftForge.EVENT_BUS.post(registerEvent);
+            return MinecraftForge.EVENT_BUS.post(registerEvent);
         }
 
         if (object instanceof Moon)
@@ -212,7 +218,7 @@ public class GalaxyRegistry
             RegisterEvent registerEvent = new RegisterEvent(moon, Loader.instance().activeModContainer());
             moons.add(moon);
             objects.add(moon);
-            MinecraftForge.EVENT_BUS.post(registerEvent);
+            return MinecraftForge.EVENT_BUS.post(registerEvent);
         }
 
         if (object instanceof Satellite)
@@ -221,7 +227,7 @@ public class GalaxyRegistry
             RegisterEvent registerEvent = new RegisterEvent(satellite, Loader.instance().activeModContainer());
             satellites.add(satellite);
             objects.add(satellite);
-            MinecraftForge.EVENT_BUS.post(registerEvent);
+            return MinecraftForge.EVENT_BUS.post(registerEvent);
         }
         
         if (object instanceof CelestialBody)
@@ -236,7 +242,20 @@ public class GalaxyRegistry
 
             RegisterEvent registerEvent = new RegisterEvent(celestialType, Loader.instance().activeModContainer());
             objects.add(celestialType);
-            MinecraftForge.EVENT_BUS.post(registerEvent);
+            return MinecraftForge.EVENT_BUS.post(registerEvent);
+        }
+
+        throw new GalacticraftRegistryException("Unable to register " + object);
+    }
+
+    public static class GalacticraftRegistryException extends RuntimeException
+    {
+
+        private static final long serialVersionUID = -6874512550357215087L;
+
+        public GalacticraftRegistryException(String message)
+        {
+            super(message);
         }
     }
 

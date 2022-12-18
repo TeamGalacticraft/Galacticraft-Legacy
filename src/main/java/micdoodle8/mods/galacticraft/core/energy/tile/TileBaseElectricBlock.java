@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.energy.tile;
 
 import com.google.common.collect.Lists;
@@ -148,24 +155,28 @@ public abstract class TileBaseElectricBlock extends TileBaseUniversalElectrical 
         return this.disabled;
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidIC2)
     public EnumFacing getFacing(World world, BlockPos pos)
     {
         return this.getFront();
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidIC2)
     public boolean setFacing(World world, BlockPos pos, EnumFacing newDirection, EntityPlayer player)
     {
         return false;
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidIC2)
     public boolean wrenchCanRemove(World world, BlockPos pos, EntityPlayer player)
     {
         return false;
     }
 
+    @Override
     @Method(modid = CompatibilityManager.modidIC2)
     public List<ItemStack> getWrenchDrops(World world, BlockPos pos, IBlockState state, TileEntity te, EntityPlayer player, int fortune)
     {

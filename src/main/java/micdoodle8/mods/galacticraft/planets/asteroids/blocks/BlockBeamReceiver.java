@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.planets.asteroids.blocks;
 
 import micdoodle8.mods.galacticraft.api.transmission.tile.IConductor;
@@ -85,7 +92,7 @@ public class BlockBeamReceiver extends BlockTileGC implements IShiftDescription,
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
-        int oldMeta = getMetaFromState(worldIn.getBlockState(pos));
+        int oldMeta = getMetaFromState(state);
         int meta = this.getMetadataFromAngle(worldIn, pos, EnumFacing.byIndex(oldMeta).getOpposite());
 
         if (meta == -1)

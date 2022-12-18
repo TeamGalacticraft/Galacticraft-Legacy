@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.planets;
 
 import java.io.File;
@@ -210,6 +217,6 @@ public class GalacticraftPlanets
         info.version = Constants.VERSION;
         info.description = "Planets addon for Galacticraft.";
         info.authorList = Arrays.asList("micdoodle8", "radfast", "EzerArch", "fishtaco", "SpaceViking", "SteveKunG");
-        info.logoFile = "assets/galacticraftplanets/logo.png";
+        info.logoFile = "assets/galacticraftplanets/planets-logo.png";
     }
 }

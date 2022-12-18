@@ -20,7 +20,7 @@
     },
     "Z": {
       "item": "minecraft:bed",
-      "data": 0
+      "data": 32767
     }
   }
 }

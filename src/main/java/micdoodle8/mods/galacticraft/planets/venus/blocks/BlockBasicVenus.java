@@ -1,8 +1,13 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.planets.venus.blocks;
 
 import com.google.common.base.Predicate;
-import java.util.ArrayList;
-import java.util.Random;
 import micdoodle8.mods.galacticraft.api.block.IDetectableResource;
 import micdoodle8.mods.galacticraft.api.block.IPlantableBlock;
 import micdoodle8.mods.galacticraft.api.block.ITerraformableBlock;
@@ -40,6 +45,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class BlockBasicVenus extends Block implements IDetectableResource, IPlantableBlock, ITerraformableBlock, ISortableBlock
 {
@@ -119,12 +127,12 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
         player.addStat(StatList.getBlockStats(this));
         player.addExhaustion(0.025F);
 
-        if (this.canSilkHarvest(worldIn, pos, worldIn.getBlockState(pos), player) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0)
+        if (this.canSilkHarvest(worldIn, pos, state, player) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0)
         {
             ArrayList<ItemStack> items = new ArrayList<ItemStack>();
             items.add(this.getSilkTouchDrop(state));
 
-            net.minecraftforge.event.ForgeEventFactory.fireBlockHarvesting(items, worldIn, pos, worldIn.getBlockState(pos), 0, 1.0f, true, player);
+            net.minecraftforge.event.ForgeEventFactory.fireBlockHarvesting(items, worldIn, pos, state, 0, 1.0f, true, player);
 
             for (ItemStack is : items)
             {
@@ -146,7 +154,7 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
     @Override
     public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion)
     {
-        EnumBlockBasicVenus type = ((EnumBlockBasicVenus) world.getBlockState(pos).getValue(BASIC_TYPE_VENUS));
+        EnumBlockBasicVenus type = world.getBlockState(pos).getValue(BASIC_TYPE_VENUS);
 
         if (type == EnumBlockBasicVenus.ROCK_HARD)
         {
@@ -166,7 +174,7 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
     @Override
     public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos)
     {
-        EnumBlockBasicVenus type = ((EnumBlockBasicVenus) worldIn.getBlockState(pos).getValue(BASIC_TYPE_VENUS));
+        EnumBlockBasicVenus type = blockState.getValue(BASIC_TYPE_VENUS);
 
         if (type == EnumBlockBasicVenus.ROCK_HARD)
         {
@@ -330,7 +338,7 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
     @Override
     public boolean isTerraformable(World world, BlockPos pos)
     {
-        EnumBlockBasicVenus type = ((EnumBlockBasicVenus) world.getBlockState(pos).getValue(BASIC_TYPE_VENUS));
+        EnumBlockBasicVenus type = world.getBlockState(pos).getValue(BASIC_TYPE_VENUS);
 
         if (type == EnumBlockBasicVenus.ROCK_HARD || type == EnumBlockBasicVenus.ROCK_SOFT)
         {
@@ -345,7 +353,7 @@ public class BlockBasicVenus extends Block implements IDetectableResource, IPlan
     @Override
     public boolean isReplaceableOreGen(IBlockState state, IBlockAccess world, BlockPos pos, Predicate<IBlockState> target)
     {
-        EnumBlockBasicVenus type = ((EnumBlockBasicVenus) world.getBlockState(pos).getValue(BASIC_TYPE_VENUS));
+        EnumBlockBasicVenus type = state.getValue(BASIC_TYPE_VENUS);
         return type == EnumBlockBasicVenus.ROCK_HARD;
     }
 

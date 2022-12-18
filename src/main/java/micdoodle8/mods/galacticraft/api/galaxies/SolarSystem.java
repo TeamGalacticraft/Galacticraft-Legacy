@@ -1,9 +1,14 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.api.galaxies;
 
-import java.util.Locale;
 import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
-import micdoodle8.mods.galacticraft.core.util.TranslateUtil;
 
 public class SolarSystem extends CelestialObject
 {
@@ -14,7 +19,7 @@ public class SolarSystem extends CelestialObject
 
     public SolarSystem(String solarSystem, String parentGalaxy)
     {
-        super(CelestialType.SOLARSYSTEM, solarSystem.toLowerCase(Locale.ENGLISH));
+        super(CelestialType.SOLARSYSTEM, solarSystem);
         this.unlocalizedGalaxyName = parentGalaxy;
     }
 
@@ -49,7 +54,7 @@ public class SolarSystem extends CelestialObject
 
     public String getTranslatedParentGalaxyName()
     {
-        return TranslateUtil.getInstance().translate(this.getTranslationKey());
+        return super.getTranslatedName();
     }
 
     public String getParentGalaxyTranslationKey()

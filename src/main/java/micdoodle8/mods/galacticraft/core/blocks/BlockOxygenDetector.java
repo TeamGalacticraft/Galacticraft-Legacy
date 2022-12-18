@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.blocks;
 
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
@@ -71,7 +78,7 @@ public class BlockOxygenDetector extends BlockContainer implements ITileEntityPr
     @Override
     public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
     {
-        return getMetaFromState(blockAccess.getBlockState(pos)) == 1 ? 15 : 0;
+        return getMetaFromState(blockState) == 1 ? 15 : 0;
     }
 
     @Override

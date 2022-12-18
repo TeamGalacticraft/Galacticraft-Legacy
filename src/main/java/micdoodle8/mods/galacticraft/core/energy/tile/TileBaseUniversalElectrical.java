@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022 Team Galacticraft
+ *
+ * Licensed under the MIT license.
+ * See LICENSE file in the project root for details.
+ */
+
 package micdoodle8.mods.galacticraft.core.energy.tile;
 
 import buildcraft.api.mj.IMjConnector;
@@ -37,9 +44,8 @@ import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-// @noformat
 @InterfaceList(value = {
-    @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = CompatibilityManager.modidIC2), 
+    @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = CompatibilityManager.modidIC2),
     @Interface(iface = "ic2.api.energy.tile.IEnergyAcceptor", modid = CompatibilityManager.modidIC2),
     @Interface(iface = "buildcraft.api.mj.IMjReceiver", modid = CompatibilityManager.modBCraftEnergy),
     @Interface(iface = "mekanism.api.energy.IStrictEnergyOutputter", modid = CompatibilityManager.modidMekanism),
@@ -314,15 +320,15 @@ public abstract class TileBaseUniversalElectrical extends EnergyStorageTile impl
         return amount;
     }
 
-    @Method(modid = CompatibilityManager.modidIC2)
     @Override
+    @Method(modid = CompatibilityManager.modidIC2)
     public int getSinkTier()
     {
         return 3;
     }
 
-    @Method(modid = CompatibilityManager.modidIC2)
     @Override
+    @Method(modid = CompatibilityManager.modidIC2)
     public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing direction)
     {
         if (this.tileEntityInvalid)
