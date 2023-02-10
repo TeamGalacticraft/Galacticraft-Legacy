@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -20,7 +20,8 @@ public class Constants
 
     public static final String DEPENDENCIES_FORGE                    = "required-after:forge@[14.23.5.2847,); ";
     public static final String DEPENDENCIES_MICCORE                  = "required-after:micdoodlecore; ";
-    @Deprecated @ForRemoval(deadline = "4.1.0")
+    @Deprecated
+    @ForRemoval(deadline = "4.1.0")
     public static final String DEPENDENCIES_MODS                     = "after:ic2; after:tconstruct; after:mantle;";
 
     public static final String MCVERSION                             = "[1.12)";
@@ -43,9 +44,14 @@ public class Constants
 
     public static final float  LOX_GAS_RATIO                         = 5F / 54;
 
-    public static final String CONFIG_FILE                           = "Galacticraft/core.conf";
-    public static final String POWER_CONFIG_FILE                     = "Galacticraft/power-GC3.conf";
-    public static final String CHUNKLOADER_CONFIG_FILE               = "Galacticraft/chunkloading.conf";
+    public static final String CONFIG_FILE                           = "Galacticraft/core.cfg";
+    public static final String POWER_CONFIG_FILE                     = "Galacticraft/energy.cfg";
+    public static final String CHUNKLOADER_CONFIG_FILE               = "Galacticraft/chunkloading.cfg";
+    public static final String PLANETS_CONFIG_FILE                   = "Galacticraft/planets.cfg";
+
+    public static final String OLD_CONFIG_FILE                       = "Galacticraft/core.conf";
+    public static final String OLD_POWER_CONFIG_FILE                 = "Galacticraft/power-GC3.conf";
+    public static final String OLD_CHUNKLOADER_CONFIG_FILE           = "Galacticraft/chunkloading.conf";
 
     public static final String ASSET_PREFIX                          = "galacticraftcore";
     public static final String TEXTURE_PREFIX                        = ASSET_PREFIX + ":";

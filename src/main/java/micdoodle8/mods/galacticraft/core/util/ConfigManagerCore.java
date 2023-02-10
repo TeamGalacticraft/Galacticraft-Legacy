@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,7 +7,6 @@
 
 package micdoodle8.mods.galacticraft.core.util;
 
-import com.google.common.primitives.Ints;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,17 +15,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import micdoodle8.mods.galacticraft.api.vector.BlockTuple;
-import micdoodle8.mods.galacticraft.core.Constants;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
-import micdoodle8.mods.galacticraft.core.recipe.RecipeManagerGC;
-import micdoodle8.mods.galacticraft.core.tick.TickHandlerClient;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
@@ -34,6 +29,16 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import micdoodle8.mods.galacticraft.api.vector.BlockTuple;
+import micdoodle8.mods.galacticraft.core.Constants;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
+import micdoodle8.mods.galacticraft.core.recipe.RecipeManagerGC;
+import micdoodle8.mods.galacticraft.core.tick.TickHandlerClient;
+
+import com.google.common.primitives.Ints;
+
 import org.lwjgl.input.Keyboard;
 
 public class ConfigManagerCore
@@ -72,8 +77,7 @@ public class ConfigManagerCore
     public static int                        biomeIDbase                    = 102;
     public static boolean                    disableBiomeTypeRegistrations;
     public static int[]                      staticLoadDimensions           = {};
-    public static int[]                      disableRocketLaunchDimensions  =
-    {-1, 1};
+    public static int[]                      disableRocketLaunchDimensions  = {-1, 1};
     public static boolean                    disableRocketLaunchAllNonGC;
     public static int                        otherPlanetWorldBorders        = 0;
     public static boolean                    keepLoadedNewSpaceStations;
@@ -226,8 +230,7 @@ public class ConfigManagerCore
             keepLoadedNewSpaceStations = prop.getBoolean();
             finishProp(prop);
 
-            prop = getConfig(Constants.CONFIG_CATEGORY_DIMENSIONS, "Dimensions where rockets cannot launch", new String[]
-            {"1", "-1"});
+            prop = getConfig(Constants.CONFIG_CATEGORY_DIMENSIONS, "Dimensions where rockets cannot launch", new String[] {"1", "-1"});
             prop.setComment("IDs of dimensions where rockets should not launch - this should always include the Nether.");
             prop.setLanguageKey("gc.configgui.rocket_disabled_dimensions");
             disableRocketLaunchDimensions = prop.getIntList();
@@ -326,8 +329,7 @@ public class ConfigManagerCore
             oilGenFactor = prop.getDouble(1.8);
             finishProp(prop);
 
-            prop = getConfig(Constants.CONFIG_CATEGORY_WORLDGEN, "Oil gen in external dimensions", new int[]
-            {0});
+            prop = getConfig(Constants.CONFIG_CATEGORY_WORLDGEN, "Oil gen in external dimensions", new int[] {0});
             prop.setComment("List of non-galacticraft dimension IDs to generate oil in.");
             prop.setLanguageKey("gc.configgui.external_oil_gen");
             externalOilGen = prop.getIntList();
@@ -470,21 +472,18 @@ public class ConfigManagerCore
 
             try
             {
-                prop = getConfig(Constants.CONFIG_CATEGORY_COMPATIBILITY, "External Sealable IDs", new String[]
-                {Block.REGISTRY.getNameForObject(Blocks.GLASS_PANE) + ":0"});
+                prop = getConfig(Constants.CONFIG_CATEGORY_COMPATIBILITY, "External Sealable IDs", new String[] {Block.REGISTRY.getNameForObject(Blocks.GLASS_PANE) + ":0"});
                 prop.setComment("List non-opaque blocks from other mods (for example, special types of glass) that the Oxygen Sealer should recognize as solid seals. Format is BlockName or BlockName:metadata");
                 prop.setLanguageKey("gc.configgui.sealable_i_ds").setRequiresMcRestart(true);
                 sealableIDs = prop.getStringList();
                 finishProp(prop);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 GalacticraftCore.logger.error("[Galacticraft] It appears you have installed the 'Dev' version of Galacticraft instead of the regular version (or vice versa).  Please re-install.");
             }
 
-            prop = getConfig(Constants.CONFIG_CATEGORY_COMPATIBILITY, "External Detectable IDs", new String[]
-            {Block.REGISTRY.getNameForObject(Blocks.COAL_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.DIAMOND_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.GOLD_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.IRON_ORE).getPath(),
-            Block.REGISTRY.getNameForObject(Blocks.LAPIS_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.REDSTONE_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.LIT_REDSTONE_ORE).getPath()});
+            prop = getConfig(Constants.CONFIG_CATEGORY_COMPATIBILITY, "External Detectable IDs", new String[] {Block.REGISTRY.getNameForObject(Blocks.COAL_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.DIAMOND_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.GOLD_ORE)
+                .getPath(), Block.REGISTRY.getNameForObject(Blocks.IRON_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.LAPIS_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.REDSTONE_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.LIT_REDSTONE_ORE).getPath()});
             prop.setComment("List blocks from other mods that the Sensor Glasses should recognize as solid blocks. Format is BlockName or BlockName:metadata.");
             prop.setLanguageKey("gc.configgui.detectable_i_ds").setRequiresMcRestart(true);
             detectableIDs = prop.getStringList();
@@ -506,10 +505,6 @@ public class ConfigManagerCore
             prop.setComment("Set this to true for a challenging adventure where the player starts the game stranded in the Asteroids dimension with low resources (only effective if Galacticraft Planets installed).");
             prop.setLanguageKey("gc.configgui.asteroids_start");
             challengeMode = prop.getBoolean(false);
-            if (!GalacticraftCore.isPlanetsLoaded)
-            {
-                challengeMode = false;
-            }
             finishProp(prop);
 
             prop = getConfig(Constants.CONFIG_CATEGORY_DIFFICULTY, "Adventure Game Mode Flags", 15);
@@ -587,18 +582,6 @@ public class ConfigManagerCore
             rocketFuelFactor = prop.getInt(1);
             finishProp(prop);
 
-            //            prop = getConfig(Constants.CONFIG_CATEGORY_GENERAL, "Map factor", 1);
-            //            prop.setComment("Allowed values 1-4 etc";
-            //            prop.setLanguageKey("gc.configgui.mapFactor");
-            //            mapfactor = prop.getInt(1);
-            //            finishProp(prop);
-            //            
-            //            prop = getConfig(Constants.CONFIG_CATEGORY_GENERAL, "Map size", 400);
-            //            prop.setComment("Suggested value 400";
-            //            prop.setLanguageKey("gc.configgui.mapSize");
-            //            mapsize = prop.getInt(400);
-            //            finishProp(prop);
-            //            
             prop = getConfig(Constants.CONFIG_CATEGORY_CONTROLS, "Map Scroll Mouse Sensitivity", 1.0);
             prop.setComment("Increase to make the mouse drag scroll more sensitive, decrease to lower sensitivity.");
             prop.setLanguageKey("gc.configgui.map_scroll_sensitivity");
@@ -661,8 +644,7 @@ public class ConfigManagerCore
             }
 
             challengeModeUpdate();
-        }
-        catch (final Exception e)
+        } catch (final Exception e)
         {
             GalacticraftCore.logger.error("Problem loading core config (\"core.conf\")");
             e.printStackTrace();
@@ -808,7 +790,7 @@ public class ConfigManagerCore
 
         if (foundCount > 0)
         {
-            List<Integer> idArray = new ArrayList<Integer>(Ints.asList(ConfigManagerCore.staticLoadDimensions));
+            List<Integer> idArray = new ArrayList<>(Ints.asList(ConfigManagerCore.staticLoadDimensions));
             idArray.removeAll(Collections.singleton(idToRemove));
 
             ConfigManagerCore.staticLoadDimensions = new int[idArray.size()];
@@ -875,7 +857,7 @@ public class ConfigManagerCore
 
     public static List<IConfigElement> getConfigElements()
     {
-        List<IConfigElement> list = new ArrayList<IConfigElement>();
+        List<IConfigElement> list = new ArrayList<>();
         list.addAll(new ConfigElement(config.getCategory(Constants.CONFIG_CATEGORY_DIFFICULTY)).getChildElements());
         list.addAll(new ConfigElement(config.getCategory(Constants.CONFIG_CATEGORY_GENERAL)).getChildElements());
         list.addAll(new ConfigElement(config.getCategory(Constants.CONFIG_CATEGORY_CLIENT)).getChildElements());
@@ -902,8 +884,7 @@ public class ConfigManagerCore
             try
             {
                 meta = Integer.parseInt(s.substring(lastColon + 1, s.length()));
-            }
-            catch (NumberFormatException ex)
+            } catch (NumberFormatException ex)
             {}
         }
 
@@ -919,7 +900,7 @@ public class ConfigManagerCore
         Block block = Block.getBlockFromName(name);
         if (block == null)
         {
-            Item item = (Item) Item.REGISTRY.getObject(new ResourceLocation(name));
+            Item item = Item.REGISTRY.getObject(new ResourceLocation(name));
             if (item instanceof ItemBlock)
             {
                 block = ((ItemBlock) item).getBlock();
@@ -936,13 +917,12 @@ public class ConfigManagerCore
         try
         {
             Integer.parseInt(name);
-            String bName = (String) Block.REGISTRY.getNameForObject(block).toString();
+            String bName = Block.REGISTRY.getNameForObject(block).toString();
             if (logging)
             {
                 GalacticraftCore.logger.info("[config] " + caller + ": the use of numeric IDs is discouraged, please use " + bName + " instead of " + name);
             }
-        }
-        catch (NumberFormatException ex)
+        } catch (NumberFormatException ex)
         {}
         if (Blocks.AIR == block)
         {

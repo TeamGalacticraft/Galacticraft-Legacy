@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,16 +7,26 @@
 
 package micdoodle8.mods.galacticraft.core;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import mezz.jei.api.ingredients.IIngredientBlacklist;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistry;
+
 import micdoodle8.mods.galacticraft.core.items.ISortableItem;
 import micdoodle8.mods.galacticraft.core.items.ItemArmorGC;
 import micdoodle8.mods.galacticraft.core.items.ItemAxeGC;
@@ -60,83 +70,77 @@ import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.StackSorted;
 import micdoodle8.mods.galacticraft.core.wrappers.PartialCanister;
-import net.minecraft.block.Block;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.registries.IForgeRegistry;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
+
+import mezz.jei.api.ingredients.IIngredientBlacklist;
 
 public class GCItems
 {
+    //@noformat
+	public static Item oxTankLight;
+	public static Item oxTankMedium;
+	public static Item oxTankHeavy;
+	public static Item oxMask;
+	public static Item rocketTier1;
+	public static Item sensorGlasses;
+	public static Item sensorLens;
+	public static Item steelPickaxe;
+	public static Item steelAxe;
+	public static Item steelHoe;
+	public static Item steelSpade;
+	public static Item steelSword;
+	public static Item steelHelmet;
+	public static Item steelChestplate;
+	public static Item steelLeggings;
+	public static Item steelBoots;
+	public static Item canister;
+	public static Item oxygenVent;
+	public static Item oxygenFan;
+	public static Item oxygenConcentrator;
+	public static Item rocketEngine;
+	public static Item heavyPlatingTier1;
+	public static Item partNoseCone;
+	public static Item partFins;
+	public static Item buggy;
+	public static Item flag;
+	public static Item oxygenGear;
+	public static Item parachute;
+	public static Item canvas;
+	public static Item flagPole;
+	public static Item oilCanister;
+	public static Item fuelCanister;
+	public static Item oxygenCanisterInfinite;
+	public static Item schematic;
+	public static Item key;
+	public static Item partBuggy;
+	public static Item basicItem;
+	public static Item foodItem;
+	public static Item battery;
+	public static Item infiniteBatery;
+	public static Item meteorChunk;
+	public static Item wrench;
+	public static Item cheeseCurd;
+	public static Item meteoricIronRaw;
+	public static Item itemBasicMoon;
+	public static Item bucketOil;
+	public static Item bucketFuel;
+	public static Item prelaunchChecklist;
+	public static Item dungeonFinder;
+	public static Item ic2compat;
+	public static Item emergencyKit;
+	//@format
 
-    public static Item oxTankLight;
-    public static Item oxTankMedium;
-    public static Item oxTankHeavy;
-    public static Item oxMask;
-    public static Item rocketTier1;
-    public static Item sensorGlasses;
-    public static Item sensorLens;
-    public static Item steelPickaxe;
-    public static Item steelAxe;
-    public static Item steelHoe;
-    public static Item steelSpade;
-    public static Item steelSword;
-    public static Item steelHelmet;
-    public static Item steelChestplate;
-    public static Item steelLeggings;
-    public static Item steelBoots;
-    public static Item canister;
-    public static Item oxygenVent;
-    public static Item oxygenFan;
-    public static Item oxygenConcentrator;
-    public static Item rocketEngine;
-    public static Item heavyPlatingTier1;
-    public static Item partNoseCone;
-    public static Item partFins;
-    public static Item buggy;
-    public static Item flag;
-    public static Item oxygenGear;
-    public static Item parachute;
-    public static Item canvas;
-    public static Item flagPole;
-    public static Item oilCanister;
-    public static Item fuelCanister;
-    public static Item oxygenCanisterInfinite;
-    public static Item schematic;
-    public static Item key;
-    public static Item partBuggy;
-    public static Item basicItem;
-    public static Item foodItem;
-    public static Item battery;
-    public static Item infiniteBatery;
-    public static Item meteorChunk;
-    public static Item wrench;
-    public static Item cheeseCurd;
-    public static Item meteoricIronRaw;
-    public static Item itemBasicMoon;
-    public static Item bucketOil;
-    public static Item bucketFuel;
-    public static Item prelaunchChecklist;
-    public static Item dungeonFinder;
-    public static Item ic2compat;
-    public static Item emergencyKit;
+    public static ArmorMaterial                                ARMOR_SENSOR_GLASSES = EnumHelper.addArmorMaterial("SENSORGLASSES", "", 200, new int[] {0, 0, 0, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
+    public static ArmorMaterial                                ARMOR_STEEL          = EnumHelper.addArmorMaterial("steel", "", 30, new int[] {3, 6, 8, 3}, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0F);
+    public static ToolMaterial                                 TOOL_STEEL           = EnumHelper.addToolMaterial("steel", 3, 768, 5.0F, 2, 8);
 
-    public static ArmorMaterial ARMOR_SENSOR_GLASSES = EnumHelper.addArmorMaterial("SENSORGLASSES", "", 200, new int[]
-    {0, 0, 0, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
-    public static ArmorMaterial ARMOR_STEEL = EnumHelper.addArmorMaterial("steel", "", 30, new int[]
-    {3, 6, 8, 3}, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0F);
-    public static ToolMaterial TOOL_STEEL = EnumHelper.addToolMaterial("steel", 3, 768, 5.0F, 2, 8);
-
-    public static ArrayList<Item> hiddenItems = new ArrayList<Item>();
-    public static LinkedList<ItemCanisterGeneric> canisterTypes = new LinkedList<ItemCanisterGeneric>();
-    public static Map<EnumSortCategoryItem, List<StackSorted>> sortMapItems = Maps.newHashMap();
-    public static HashMap<ItemStack, ItemStack> itemChanges = new HashMap<>(4, 1.0F);
+    public static ArrayList<Item>                              hiddenItems          = new ArrayList<>();
+    public static LinkedList<ItemCanisterGeneric>              canisterTypes        = new LinkedList<>();
+    public static Map<EnumSortCategoryItem, List<StackSorted>> sortMapItems         = Maps.newHashMap();
+    public static HashMap<ItemStack, ItemStack>                itemChanges          = new HashMap<>(4, 1.0F);
 
     public static void initItems()
     {
@@ -262,7 +266,7 @@ public class GCItems
                 jeiHidden.addIngredientToBlacklist(new ItemStack(block, 1, 0));
                 if (block == GCBlocks.slabGCDouble)
                 {
-                    for (int j = 1; j < (GalacticraftCore.isPlanetsLoaded ? 7 : 4); j++)
+                    for (int j = 1; j < 7; j++)
                         jeiHidden.addIngredientToBlacklist(new ItemStack(block, 1, j));
                 }
             }
@@ -278,7 +282,8 @@ public class GCItems
             if (stackSorteds != null)
             {
                 itemOrderListItems.addAll(stackSorteds);
-            } else
+            }
+            else
             {
                 System.out.println("ERROR: null sort stack: " + type.toString());
             }
@@ -312,7 +317,8 @@ public class GCItems
                 }
                 sortMapItems.get(categoryItem).add(new StackSorted(stack.getItem(), stack.getItemDamage()));
             }
-        } else if (item.getCreativeTab() == GalacticraftCore.galacticraftItemsTab)
+        }
+        else if (item.getCreativeTab() == GalacticraftCore.galacticraftItemsTab)
         {
             throw new RuntimeException(item.getClass() + " must inherit " + ISortableItem.class.getSimpleName() + "!");
         }
@@ -363,7 +369,7 @@ public class GCItems
         GCItems.registerItem(GCItems.cheeseCurd);
         GCItems.registerItem(GCItems.meteoricIronRaw);
         GCItems.registerItem(GCItems.itemBasicMoon);
-//		GCItems.registerItem(GCItems.cheeseBlock);
+        //		GCItems.registerItem(GCItems.cheeseBlock);
         GCItems.registerItem(GCItems.flag);
         GCItems.registerItem(GCItems.parachute);
         GCItems.registerItem(GCItems.prelaunchChecklist);

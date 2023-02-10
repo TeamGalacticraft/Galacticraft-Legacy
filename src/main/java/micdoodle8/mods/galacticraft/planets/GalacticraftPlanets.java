@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -96,8 +96,16 @@ public class GalacticraftPlanets
             oldMarsConf.renameTo(newPlanetsConf);
             update = true;
         }
+
+        File planetsConfig = new File(event.getModConfigurationDirectory(), Constants.PLANETS_CONFIG_FILE);
+
+        if (newPlanetsConf.exists())
+        {
+            newPlanetsConf.renameTo(planetsConfig);
+        }
+
         this.configSyncStart();
-        new ConfigManagerMars(newPlanetsConf, update);
+        new ConfigManagerMars(planetsConfig, update);
         new ConfigManagerAsteroids(new File(event.getModConfigurationDirectory(), "Galacticraft/asteroids.conf"));
         new ConfigManagerVenus(new File(event.getModConfigurationDirectory(), "Galacticraft/venus.conf"));
         this.configSyncEnd(true);

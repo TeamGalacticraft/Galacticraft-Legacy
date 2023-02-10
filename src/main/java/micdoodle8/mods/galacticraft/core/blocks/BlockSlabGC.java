@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,9 +7,8 @@
 
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
@@ -26,10 +25,13 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Random;
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 
 public class BlockSlabGC extends BlockSlab implements ISortableBlock
 {
@@ -52,7 +54,7 @@ public class BlockSlabGC extends BlockSlab implements ISortableBlock
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)
     {
-        for (int i = 0; i < (GalacticraftCore.isPlanetsLoaded ? 7 : 4); ++i)
+        for (int i = 0; i < 7; ++i)
         {
             list.add(new ItemStack(this, 1, i));
         }
@@ -112,7 +114,7 @@ public class BlockSlabGC extends BlockSlab implements ISortableBlock
     @Override
     public String getTranslationKey(int meta)
     {
-        BlockType type = ((BlockType) this.getStateFromMeta(meta).getValue(VARIANT));
+        BlockType type = (this.getStateFromMeta(meta).getValue(VARIANT));
         return type.getLangName();
     }
 
@@ -150,7 +152,7 @@ public class BlockSlabGC extends BlockSlab implements ISortableBlock
     public int getMetaFromState(IBlockState state)
     {
         byte b0 = 0;
-        int i = b0 | ((BlockType) state.getValue(VARIANT)).getMetadata();
+        int i = b0 | state.getValue(VARIANT).getMetadata();
 
         if (!this.isDouble() && state.getValue(HALF) == EnumBlockHalf.TOP)
         {
@@ -174,16 +176,10 @@ public class BlockSlabGC extends BlockSlab implements ISortableBlock
     public enum BlockType implements IStringSerializable
     {
 
-        TIN_SLAB_1(0, "tin_slab_1"),
-        TIN_SLAB_2(1, "tin_slab_2"),
-        MOON_STONE_SLAB(2, "moon_slab"),
-        MOON_DUNGEON_BRICK_SLAB(3, "moon_bricks_slab"),
-        MARS_COBBLESTONE_SLAB(4, "mars_slab"),
-        MARS_DUNGEON_SLAB(5, "mars_bricks_slab"),
-        ASTEROIDS_DECO(6, "asteroids_slab");
+        TIN_SLAB_1(0, "tin_slab_1"), TIN_SLAB_2(1, "tin_slab_2"), MOON_STONE_SLAB(2, "moon_slab"), MOON_DUNGEON_BRICK_SLAB(3, "moon_bricks_slab"), MARS_COBBLESTONE_SLAB(4, "mars_slab"), MARS_DUNGEON_SLAB(5, "mars_bricks_slab"), ASTEROIDS_DECO(6, "asteroids_slab");
 
-        private int meta;
-        private String langName;
+        private int                meta;
+        private String             langName;
         private static BlockType[] META_LOOKUP = new BlockType[values().length];
 
         BlockType(int meta, String langName)

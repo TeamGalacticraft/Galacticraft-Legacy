@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -12,35 +12,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
+
 import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.event.celestial.RegisterEvent;
 import micdoodle8.mods.galacticraft.core.util.list.CelestialCollector;
 import micdoodle8.mods.galacticraft.core.util.list.CelestialList;
 import micdoodle8.mods.galacticraft.core.util.list.ImmutableCelestialList;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
 
 public class GalaxyRegistry
 {
 
-    static CelestialList<SolarSystem> solarSystems = CelestialList.create();
-    static CelestialList<Planet> planets = CelestialList.create();
-    static CelestialList<Moon> moons = CelestialList.create();
-    static CelestialList<Satellite> satellites = CelestialList.create();
-
-    static CelestialList<CelestialObject> objects = CelestialList.create();
-
-    static Map<Planet, CelestialList<Moon>> moonList = new HashMap<>();
-    static Map<CelestialBody, CelestialList<Satellite>> satelliteList = new HashMap<>();
-    static Map<SolarSystem, CelestialList<Planet>> solarSystemList = new HashMap<>();
+    static CelestialList<SolarSystem>                   solarSystems    = CelestialList.create();
+    static CelestialList<Planet>                        planets         = CelestialList.create();
+    static CelestialList<Moon>                          moons           = CelestialList.create();
+    static CelestialList<Satellite>                     satellites      = CelestialList.create();
+    static CelestialList<CelestialObject>               objects         = CelestialList.create();
+    static Map<Planet, CelestialList<Moon>>             moonList        = new HashMap<>();
+    static Map<CelestialBody, CelestialList<Satellite>> satelliteList   = new HashMap<>();
+    static Map<SolarSystem, CelestialList<Planet>>      solarSystemList = new HashMap<>();
 
     public static void refreshGalaxies()
     {
         moonList.clear();
         satelliteList.clear();
         solarSystemList.clear();
-
         for (Moon moon : getMoons())
         {
             Planet planet = moon.getParentPlanet();
@@ -52,7 +51,6 @@ public class GalaxyRegistry
             list.add(moon);
             moonList.put(planet, list);
         }
-
         for (Satellite satellite : getSatellites())
         {
             CelestialBody celestialBody = satellite.getParentPlanet();
@@ -64,7 +62,6 @@ public class GalaxyRegistry
             list.add(satellite);
             satelliteList.put(celestialBody, list);
         }
-
         for (Planet planet : getPlanets())
         {
             SolarSystem solarSystem = planet.getParentSolarSystem();
@@ -94,7 +91,6 @@ public class GalaxyRegistry
                 return celestialObject;
             }
         }
-
         return null;
     }
 
@@ -114,7 +110,6 @@ public class GalaxyRegistry
                 return planet;
             }
         }
-
         for (Moon moon : moons)
         {
             if (moon.getDimensionID() == dimensionID)
@@ -122,7 +117,6 @@ public class GalaxyRegistry
                 return moon;
             }
         }
-
         for (Satellite satellite : satellites)
         {
             if (satellite.getDimensionID() == dimensionID)
@@ -130,7 +124,6 @@ public class GalaxyRegistry
                 return satellite;
             }
         }
-
         return null;
     }
 
@@ -166,7 +159,6 @@ public class GalaxyRegistry
         for (Planet planet : planets)
         {
             if (planet.getTranslationKey().equals(translationKey))
-
             {
                 return planet;
             }
@@ -174,7 +166,6 @@ public class GalaxyRegistry
         for (Moon moon : moons)
         {
             if (moon.getTranslationKey().equals(translationKey))
-
             {
                 return moon;
             }
@@ -202,7 +193,6 @@ public class GalaxyRegistry
             objects.add(solarSystem);
             return MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-
         if (object instanceof Planet)
         {
             Planet planet = (Planet) object;
@@ -211,7 +201,6 @@ public class GalaxyRegistry
             objects.add(planet);
             return MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-
         if (object instanceof Moon)
         {
             Moon moon = (Moon) object;
@@ -220,7 +209,6 @@ public class GalaxyRegistry
             objects.add(moon);
             return MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-
         if (object instanceof Satellite)
         {
             Satellite satellite = (Satellite) object;
@@ -229,22 +217,18 @@ public class GalaxyRegistry
             objects.add(satellite);
             return MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-        
         if (object instanceof CelestialBody)
         {
             CelestialBody celestialType = (CelestialBody) object;
             String unlocalizedPrefix = ((CelestialBody) object).getUnlocalizedNamePrefix();
-
             if (!unlocalizedPrefix.equals("unset"))
             {
                 ((CelestialBody) object).setType(CelestialType.create(unlocalizedPrefix));
             }
-
             RegisterEvent registerEvent = new RegisterEvent(celestialType, Loader.instance().activeModContainer());
             objects.add(celestialType);
             return MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-
         throw new GalacticraftRegistryException("Unable to register " + object);
     }
 
@@ -290,7 +274,6 @@ public class GalaxyRegistry
     {
         GalaxyRegistry.register(moon);
         return moons.contains(moon);
-
     }
 
     /**
@@ -315,7 +298,6 @@ public class GalaxyRegistry
     public static ImmutableCelestialList<SolarSystem> getSolarSystems()
     {
         return solarSystems.toImmutableList();
-
     }
 
     /**
@@ -373,7 +355,6 @@ public class GalaxyRegistry
     public static Map<String, SolarSystem> getRegisteredSolarSystems()
     {
         return solarSystems.getRegistered();
-
     }
 
     /**
@@ -386,7 +367,6 @@ public class GalaxyRegistry
     public static Map<String, Planet> getRegisteredPlanets()
     {
         return planets.getRegistered();
-
     }
 
     /**
@@ -399,7 +379,6 @@ public class GalaxyRegistry
     public static Map<String, Moon> getRegisteredMoons()
     {
         return moons.getRegistered();
-
     }
 
     /**
@@ -412,6 +391,5 @@ public class GalaxyRegistry
     public static Map<String, Satellite> getRegisteredSatellites()
     {
         return satellites.getRegistered();
-
     }
 }

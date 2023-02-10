@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,8 +7,6 @@
 
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.material.Material;
@@ -27,29 +25,44 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockWallGC extends Block  implements ISortableBlock
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
+
+public class BlockWallGC extends Block implements ISortableBlock
 {
-
+    //@noformat
     protected static final AxisAlignedBB[] AABB_BY_INDEX = new AxisAlignedBB[]
-    {new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D),
-            new AxisAlignedBB(0.0D, 0.0D, 0.25D, 0.75D, 1.0D, 1.0D), new AxisAlignedBB(0.25D, 0.0D, 0.0D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.3125D, 0.0D, 0.0D, 0.6875D, 0.875D, 1.0D),
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.75D, 1.0D, 1.0D), new AxisAlignedBB(0.25D, 0.0D, 0.25D, 1.0D, 1.0D, 0.75D),
-            new AxisAlignedBB(0.25D, 0.0D, 0.25D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.3125D, 1.0D, 0.875D, 0.6875D), new AxisAlignedBB(0.0D, 0.0D, 0.25D, 1.0D, 1.0D, 1.0D),
-            new AxisAlignedBB(0.25D, 0.0D, 0.0D, 1.0D, 1.0D, 0.75D), new AxisAlignedBB(0.25D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.75D),
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
+    {
+    	new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 1.0D), 
+    	new AxisAlignedBB(0.0D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.0D, 0.0D, 0.25D, 0.75D, 1.0D, 1.0D), 
+    	new AxisAlignedBB(0.25D, 0.0D, 0.0D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.3125D, 0.0D, 0.0D, 0.6875D, 0.875D, 1.0D),
+        new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.75D, 1.0D, 1.0D), 
+        new AxisAlignedBB(0.25D, 0.0D, 0.25D, 1.0D, 1.0D, 0.75D), new AxisAlignedBB(0.25D, 0.0D, 0.25D, 1.0D, 1.0D, 1.0D), 
+        new AxisAlignedBB(0.0D, 0.0D, 0.3125D, 1.0D, 0.875D, 0.6875D), new AxisAlignedBB(0.0D, 0.0D, 0.25D, 1.0D, 1.0D, 1.0D), 
+        new AxisAlignedBB(0.25D, 0.0D, 0.0D, 1.0D, 1.0D, 0.75D), new AxisAlignedBB(0.25D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), 
+        new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.75D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)
+    };
+    
     protected static final AxisAlignedBB[] CLIP_AABB_BY_INDEX = new AxisAlignedBB[]
-    {AABB_BY_INDEX[0].setMaxY(1.5D), AABB_BY_INDEX[1].setMaxY(1.5D), AABB_BY_INDEX[2].setMaxY(1.5D), AABB_BY_INDEX[3].setMaxY(1.5D), AABB_BY_INDEX[4].setMaxY(1.5D), AABB_BY_INDEX[5].setMaxY(1.5D),
-            AABB_BY_INDEX[6].setMaxY(1.5D), AABB_BY_INDEX[7].setMaxY(1.5D), AABB_BY_INDEX[8].setMaxY(1.5D), AABB_BY_INDEX[9].setMaxY(1.5D), AABB_BY_INDEX[10].setMaxY(1.5D),
-            AABB_BY_INDEX[11].setMaxY(1.5D), AABB_BY_INDEX[12].setMaxY(1.5D), AABB_BY_INDEX[13].setMaxY(1.5D), AABB_BY_INDEX[14].setMaxY(1.5D), AABB_BY_INDEX[15].setMaxY(1.5D)};
-
-    public final static PropertyBool UP = PropertyBool.create("up");
-    public final static PropertyBool NORTH = PropertyBool.create("north");
-    public final static PropertyBool EAST = PropertyBool.create("east");
-    public final static PropertyBool SOUTH = PropertyBool.create("south");
-    public final static PropertyBool WEST = PropertyBool.create("west");
+    {
+    	AABB_BY_INDEX[0].setMaxY(1.5D), AABB_BY_INDEX[1].setMaxY(1.5D), AABB_BY_INDEX[2].setMaxY(1.5D), 
+    	AABB_BY_INDEX[3].setMaxY(1.5D), AABB_BY_INDEX[4].setMaxY(1.5D), AABB_BY_INDEX[5].setMaxY(1.5D),
+        AABB_BY_INDEX[6].setMaxY(1.5D), AABB_BY_INDEX[7].setMaxY(1.5D), AABB_BY_INDEX[8].setMaxY(1.5D), 
+        AABB_BY_INDEX[9].setMaxY(1.5D), AABB_BY_INDEX[10].setMaxY(1.5D), AABB_BY_INDEX[11].setMaxY(1.5D), 
+        AABB_BY_INDEX[12].setMaxY(1.5D), AABB_BY_INDEX[13].setMaxY(1.5D), AABB_BY_INDEX[14].setMaxY(1.5D), 
+        AABB_BY_INDEX[15].setMaxY(1.5D)
+    };
+    
+    //@format
+    public final static PropertyBool            UP      = PropertyBool.create("up");
+    public final static PropertyBool            NORTH   = PropertyBool.create("north");
+    public final static PropertyBool            EAST    = PropertyBool.create("east");
+    public final static PropertyBool            SOUTH   = PropertyBool.create("south");
+    public final static PropertyBool            WEST    = PropertyBool.create("west");
     public final static PropertyEnum<BlockType> VARIANT = PropertyEnum.create("variant", BlockType.class);
 
     public BlockWallGC(String name)
@@ -57,8 +70,7 @@ public class BlockWallGC extends Block  implements ISortableBlock
         super(Material.ROCK);
         this.setHardness(1.5F);
         this.setResistance(2.5F);
-        this.setDefaultState(this.getDefaultState().withProperty(UP, Boolean.FALSE).withProperty(NORTH, Boolean.FALSE).withProperty(EAST, Boolean.FALSE).withProperty(SOUTH, Boolean.FALSE)
-            .withProperty(WEST, Boolean.FALSE).withProperty(VARIANT, BlockType.TIN_1_WALL));
+        this.setDefaultState(this.getDefaultState().withProperty(UP, Boolean.FALSE).withProperty(NORTH, Boolean.FALSE).withProperty(EAST, Boolean.FALSE).withProperty(SOUTH, Boolean.FALSE).withProperty(WEST, Boolean.FALSE).withProperty(VARIANT, BlockType.TIN_1_WALL));
         this.setTranslationKey(name);
     }
 
@@ -137,15 +149,14 @@ public class BlockWallGC extends Block  implements ISortableBlock
     {
         IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
-        return block == Blocks.BARRIER ? false
-            : block != this && !(block instanceof BlockFenceGate) ? block.getMaterial(state).isOpaque() && block.isFullCube(state) ? block.getMaterial(state) != Material.GOURD : false : true;
+        return block == Blocks.BARRIER ? false : block != this && !(block instanceof BlockFenceGate) ? block.getMaterial(state).isOpaque() && block.isFullCube(state) ? block.getMaterial(state) != Material.GOURD : false : true;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)
     {
-        for (int i = 0; i < (GalacticraftCore.isPlanetsLoaded ? 6 : 4); ++i)
+        for (int i = 0; i < 6; ++i)
         {
             list.add(new ItemStack(this, 1, i));
         }
@@ -178,7 +189,7 @@ public class BlockWallGC extends Block  implements ISortableBlock
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        return ((BlockType) state.getValue(VARIANT)).ordinal();
+        return state.getValue(VARIANT).ordinal();
     }
 
     @Override
@@ -189,15 +200,13 @@ public class BlockWallGC extends Block  implements ISortableBlock
         boolean flag2 = this.canConnectTo(world, pos.south());
         boolean flag3 = this.canConnectTo(world, pos.west());
         boolean flag4 = flag && !flag1 && flag2 && !flag3 || !flag && flag1 && !flag2 && flag3;
-        return state.withProperty(UP, Boolean.valueOf(!flag4 || !world.isAirBlock(pos.up()))).withProperty(NORTH, Boolean.valueOf(flag)).withProperty(EAST, Boolean.valueOf(flag1))
-            .withProperty(SOUTH, Boolean.valueOf(flag2)).withProperty(WEST, Boolean.valueOf(flag3));
+        return state.withProperty(UP, !flag4 || !world.isAirBlock(pos.up())).withProperty(NORTH, flag).withProperty(EAST, flag1).withProperty(SOUTH, flag2).withProperty(WEST, flag3);
     }
 
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, new IProperty[]
-        {UP, NORTH, EAST, WEST, SOUTH, VARIANT});
+        return new BlockStateContainer(this, new IProperty[] {UP, NORTH, EAST, WEST, SOUTH, VARIANT});
     }
 
     @Override
@@ -209,12 +218,7 @@ public class BlockWallGC extends Block  implements ISortableBlock
     public enum BlockType implements IStringSerializable
     {
 
-        TIN_1_WALL("tin_1_wall"),
-        TIN_2_WALL("tin_2_wall"),
-        MOON_STONE_WALL("moon_stone_wall"),
-        MOON_DUNGEON_BRICK_WALL("moon_dungeon_brick_wall"),
-        MARS_COBBLESTONE_WALL("mars_cobblestone_wall"),
-        MARS_DUNGEON_BRICK_WALL("mars_dungeon_brick_wall");
+        TIN_1_WALL("tin_1_wall"), TIN_2_WALL("tin_2_wall"), MOON_STONE_WALL("moon_stone_wall"), MOON_DUNGEON_BRICK_WALL("moon_dungeon_brick_wall"), MARS_COBBLESTONE_WALL("mars_cobblestone_wall"), MARS_DUNGEON_BRICK_WALL("mars_dungeon_brick_wall");
 
         private String name;
 

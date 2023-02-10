@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -11,24 +11,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
-import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
-import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
-import micdoodle8.mods.galacticraft.api.transmission.tile.IConnector;
-import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
-import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
-import micdoodle8.mods.galacticraft.api.world.ISolarLevel;
-import micdoodle8.mods.galacticraft.core.Constants;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
-import micdoodle8.mods.galacticraft.core.blocks.BlockMulti.EnumBlockMultiType;
-import micdoodle8.mods.galacticraft.core.blocks.BlockSolar;
-import micdoodle8.mods.galacticraft.core.dimension.WorldProviderSpaceStation;
-import micdoodle8.mods.galacticraft.core.energy.item.ItemElectricBase;
-import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseUniversalElectricalSource;
-import micdoodle8.mods.galacticraft.core.inventory.IInventoryDefaults;
-import micdoodle8.mods.galacticraft.planets.venus.dimension.WorldProviderVenus;
-import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -41,24 +24,48 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import micdoodle8.mods.miccore.Annotations.NetworkedField;
+
+import micdoodle8.mods.galacticraft.api.tile.IDisableableMachine;
+import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
+import micdoodle8.mods.galacticraft.api.transmission.tile.IConnector;
+import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
+import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
+import micdoodle8.mods.galacticraft.api.world.ISolarLevel;
+import micdoodle8.mods.galacticraft.core.Constants;
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
+import micdoodle8.mods.galacticraft.core.blocks.BlockMulti.EnumBlockMultiType;
+import micdoodle8.mods.galacticraft.core.blocks.BlockSolar;
+import micdoodle8.mods.galacticraft.core.dimension.WorldProviderSpaceStation;
+import micdoodle8.mods.galacticraft.core.energy.item.ItemElectricBase;
+import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseUniversalElectricalSource;
+import micdoodle8.mods.galacticraft.core.inventory.IInventoryDefaults;
+import micdoodle8.mods.galacticraft.planets.venus.dimension.WorldProviderVenus;
+
 public class TileEntitySolar extends TileBaseUniversalElectricalSource implements IMultiBlock, IDisableableMachine, IInventoryDefaults, ISidedInventory, IConnector
 {
 
-    @NetworkedField(targetSide = Side.CLIENT) public int solarStrength = 0;
-    public float targetAngle;
-    public float currentAngle;
-    @NetworkedField(targetSide = Side.CLIENT) public boolean disabled = false;
-    @NetworkedField(targetSide = Side.CLIENT) public int disableCooldown = 0;
+    @NetworkedField(targetSide = Side.CLIENT)
+    public int              solarStrength      = 0;
+    public float            targetAngle;
+    public float            currentAngle;
+    @NetworkedField(targetSide = Side.CLIENT)
+    public boolean          disabled           = false;
+    @NetworkedField(targetSide = Side.CLIENT)
+    public int              disableCooldown    = 0;
     public static final int MAX_GENERATE_WATTS = 200;
-    @NetworkedField(targetSide = Side.CLIENT) public int generateWatts = 0;
+    @NetworkedField(targetSide = Side.CLIENT)
+    public int              generateWatts      = 0;
 
-    private boolean initialised = false;
-    private boolean initialisedMulti = false;
-    private AxisAlignedBB renderAABB;
+    private boolean         initialised        = false;
+    private boolean         initialisedMulti   = false;
+    private AxisAlignedBB   renderAABB;
 
     public TileEntitySolar()
     {
@@ -190,7 +197,7 @@ public class TileEntitySolar extends TileBaseUniversalElectricalSource implement
         float celestialAngle = (this.world.getCelestialAngle(1.0F) + angle) * 360.0F;
         if (!(this.world.provider instanceof WorldProviderSpaceStation))
             celestialAngle += 12.5F;
-        if (GalacticraftCore.isPlanetsLoaded && this.world.provider instanceof WorldProviderVenus)
+        if (this.world.provider instanceof WorldProviderVenus)
             celestialAngle = 180F - celestialAngle;
         celestialAngle %= 360;
         boolean isDaytime = this.world.isDaytime() && (celestialAngle < 180.5F || celestialAngle > 359.5F) || this.world.provider instanceof WorldProviderSpaceStation;
@@ -278,7 +285,7 @@ public class TileEntitySolar extends TileBaseUniversalElectricalSource implement
         if (!(this.world.provider instanceof WorldProviderSpaceStation))
             celestialAngle += 12.5F;
 
-        if (GalacticraftCore.isPlanetsLoaded && this.world.provider instanceof WorldProviderVenus)
+        if (this.world.provider instanceof WorldProviderVenus)
             celestialAngle = 180F - celestialAngle;
         celestialAngle %= 360F;
 
@@ -290,13 +297,12 @@ public class TileEntitySolar extends TileBaseUniversalElectricalSource implement
     public float getSolarBoost()
     {
         float result = (float) (this.world.provider instanceof ISolarLevel ? ((ISolarLevel) this.world.provider).getSolarEnergyMultiplier() : 1.0F);
-        if (GalacticraftCore.isPlanetsLoaded && this.world.provider instanceof WorldProviderVenus)
+        if (this.world.provider instanceof WorldProviderVenus)
         {
             if (this.pos.getY() > 90)
             {
-                result += (this.pos.getY() - 90) / 1000F; // Small improvement
-                                                          // on Venus at higher
-                                                          // altitudes
+                // Small improvement on Venus at higher altitudes
+                result += (this.pos.getY() - 90) / 1000F;
             }
         }
         return result;
@@ -305,15 +311,8 @@ public class TileEntitySolar extends TileBaseUniversalElectricalSource implement
     @Override
     public boolean onActivated(EntityPlayer entityPlayer)
     {
-        return false; // TODO
-//        return this.getBlockType().onBlockActivated(this.world, this.getPos(), this.world.getBlockState(getPos()), entityPlayer, EnumFacing.DOWN, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
+        return false;
     }
-
-//    @Override
-//    public boolean canUpdate()
-//    {
-//        return true;
-//    }
 
     @Override
     public void onCreate(World world, BlockPos placedPosition)
@@ -500,8 +499,7 @@ public class TileEntitySolar extends TileBaseUniversalElectricalSource implement
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return new int[]
-        {0};
+        return new int[] {0};
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -181,7 +181,6 @@ public class SkyProviderVenus extends IRenderHandler
         float b = f8 * f18;
         float a = afloat[3] * 2 / f18;
         worldRenderer1.pos(0.0D, 100.0D, 0.0D).color(r, g, b, a).endVertex();
-        byte b0 = 16;
         r = afloat[0] * f18;
         g = afloat[1] * f18;
         b = afloat[2] * f18 / 20.0F;
@@ -212,7 +211,7 @@ public class SkyProviderVenus extends IRenderHandler
         a = 0.0F;
 
         // Render larger sun aura
-        f10 = 40.0F;
+        f10 = 20.0F;
         worldRenderer1.pos(-f10, 100.0D, -f10).color(r, g, b, a).endVertex();
         worldRenderer1.pos(0, 100.0D, (double) -f10 * 1.5F).color(r, g, b, a).endVertex();
         worldRenderer1.pos(f10, 100.0D, -f10).color(r, g, b, a).endVertex();
@@ -249,30 +248,6 @@ public class SkyProviderVenus extends IRenderHandler
         tessellator1.draw();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.1F);
-        f10 = this.sunSize;
-        mc.renderEngine.bindTexture(SkyProviderVenus.sunTexture);
-        worldRenderer1.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        worldRenderer1.pos(-f10, 100.0D, -f10).tex(0.0D, 0.0D).endVertex();
-        worldRenderer1.pos(f10, 100.0D, -f10).tex(1.0D, 0.0D).endVertex();
-        worldRenderer1.pos(f10, 100.0D, f10).tex(1.0D, 1.0D).endVertex();
-        worldRenderer1.pos(-f10, 100.0D, f10).tex(0.0D, 1.0D).endVertex();
-        tessellator1.draw();
-
-        // Render earth
-        f10 = 0.5F;
-        GL11.glScalef(0.6F, 0.6F, 0.6F);
-        GL11.glRotatef(40.0F, 0.0F, 0.0F, 1.0F);
-        GL11.glRotatef(200F, 1.0F, 0.0F, 0.0F);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1F);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(SkyProviderVenus.overworldTexture);
-        worldRenderer1.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        worldRenderer1.pos(-f10, -100.0D, f10).tex(0, 1.0).endVertex();
-        worldRenderer1.pos(f10, -100.0D, f10).tex(1.0, 1.0).endVertex();
-        worldRenderer1.pos(f10, -100.0D, -f10).tex(1.0, 0).endVertex();
-        worldRenderer1.pos(-f10, -100.0D, -f10).tex(0, 0).endVertex();
-        tessellator1.draw();
-
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_BLEND);
@@ -388,11 +363,6 @@ public class SkyProviderVenus extends IRenderHandler
         }
 
         var2.draw();
-    }
-
-    private Vec3d getCustomSkyColor()
-    {
-        return new Vec3d(0.26796875D, 0.1796875D, 0.0D);
     }
 
     public float getSkyBrightness(float par1)

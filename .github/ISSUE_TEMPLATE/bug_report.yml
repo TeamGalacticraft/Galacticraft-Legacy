@@ -1,8 +1,10 @@
 name: Bug Report
 description: File a bug report
+title: "[Bug]: "
 labels:
-  - '[Type] Bug Report'
   - '[Status] Triage'
+assignees:
+  - ROMVoid95
 body:
   - type: markdown
     attributes:
@@ -88,8 +90,15 @@ body:
     attributes:
       label: Log or Crash Report
       description: >-
+        If you have any logs (`latest.log`, `crash-report<side>-<date>.txt`, etc...)
+        Please upload the entire content in the log(s) to any paste site
+        *Examples:*
+         - [Github Gist](https://gist.github.com/)
+         - [Hastebin](https://hastebin.com/)
+         - [paste.gg](https://paste.gg/)
+         - []
         Please upload your log (latest.log and/or crash report) to [Github
-        Gist](https://gist.github.com/) then paste the gist url here, you 
+        Gist](https://gist.github.com/) then paste the gist url here, you
         can paste as many links as needed
       placeholder: 'https://gist.github.com/ROMVoid95/9392b3f0f7b44f9732087007aaa95e32'
   - type: textarea
@@ -104,4 +113,4 @@ body:
         ...
     validations:
       required: true
-      
+

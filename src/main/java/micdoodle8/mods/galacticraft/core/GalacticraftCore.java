@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -12,9 +12,58 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
+
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.world.DimensionType;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldProviderSurface;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome.SpawnListEntry;
+
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.registries.GameData;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryManager;
+import net.minecraftforge.server.permission.DefaultPermissionLevel;
+import net.minecraftforge.server.permission.PermissionAPI;
+
+import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.client.IGameScreen;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
@@ -77,6 +126,7 @@ import micdoodle8.mods.galacticraft.core.entities.EntityParachest;
 import micdoodle8.mods.galacticraft.core.entities.EntitySkeletonBoss;
 import micdoodle8.mods.galacticraft.core.entities.EntityTier1Rocket;
 import micdoodle8.mods.galacticraft.core.entities.player.GCCapabilities;
+import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerBaseMP;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerHandler;
 import micdoodle8.mods.galacticraft.core.event.EventHandlerGC;
 import micdoodle8.mods.galacticraft.core.event.LootHandlerGC;
@@ -156,103 +206,69 @@ import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
 import micdoodle8.mods.galacticraft.planets.asteroids.recipe.RecipeManagerAsteroids;
 import micdoodle8.mods.galacticraft.planets.mars.recipe.RecipeManagerMars;
 import micdoodle8.mods.galacticraft.planets.venus.recipe.RecipeManagerVenus;
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldProviderSurface;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biome.SpawnListEntry;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.ModMetadata;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.registries.GameData;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryManager;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 
-@Mod(modid = Constants.MOD_ID_CORE,
-    name = GalacticraftCore.NAME,
-    version = Constants.VERSION,
-    dependencies = Constants.DEPENDENCIES_FORGE + Constants.DEPENDENCIES_MICCORE,
-    useMetadata = false,
-    acceptedMinecraftVersions = "[1.12, 1.13)",
-    guiFactory = "micdoodle8.mods.galacticraft.core.client.gui.screen.ConfigGuiFactoryCore")
+import api.player.server.ServerPlayerAPI;
+
+//@noformat
+@Mod(
+	modid = Constants.MOD_ID_CORE, 
+	name = GalacticraftCore.NAME, 
+	version = Constants.VERSION, 
+	dependencies = Constants.DEPENDENCIES_FORGE + Constants.DEPENDENCIES_MICCORE, 
+	useMetadata = false, 
+	acceptedMinecraftVersions = "[1.12, 1.13)", 
+	guiFactory = "micdoodle8.mods.galacticraft.core.client.gui.screen.ConfigGuiFactoryCore"
+)
 public class GalacticraftCore
 {
+	public static final String NAME = "Galacticraft Core";
+	//@format
 
-    public static final String NAME = "Galacticraft Core";
-    private File GCCoreSource;
+    private File                             GCCoreSource;
 
     @SidedProxy(clientSide = "micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore", serverSide = "micdoodle8.mods.galacticraft.core.proxy.CommonProxyCore")
-    public static CommonProxyCore proxy;
+    public static CommonProxyCore            proxy;
 
     @Instance(Constants.MOD_ID_CORE)
-    public static GalacticraftCore instance;
+    public static GalacticraftCore           instance;
 
-    public static boolean isPlanetsLoaded;
+    /**
+     * This will be TRUE from this point forward at all times
+     */
+    @Deprecated
+    @ReplaceWith("Remove all checks to this")
+    public static boolean                    isPlanetsLoaded = true;
 
-    public static boolean isHeightConflictingModInstalled;
+    public static boolean                    isHeightConflictingModInstalled;
 
     public static GalacticraftChannelHandler packetPipeline;
-    public static GCPlayerHandler handler;
+    public static GCPlayerHandler            handler;
 
-    public static CreativeTabGC galacticraftBlocksTab;
-    public static CreativeTabGC galacticraftItemsTab;
+    public static CreativeTabGC              galacticraftBlocksTab;
+    public static CreativeTabGC              galacticraftItemsTab;
 
-    public static SolarSystem solarSystemSol;
-    public static Planet planetMercury;
-    public static Planet planetVenus;
-    public static Planet planetMars; // Used only if GCPlanets not loaded
-    public static Planet planetOverworld;
-    public static Planet planetJupiter;
-    public static Planet planetSaturn;
-    public static Planet planetUranus;
-    public static Planet planetNeptune;
-    public static Moon moonMoon;
-    public static Satellite satelliteSpaceStation;
+    public static SolarSystem                solarSystemSol;
+    public static Planet                     planetMercury;
+    public static Planet                     planetVenus;
+    public static Planet                     planetMars;
+    public static Planet                     planetOverworld;
+    public static Planet                     planetJupiter;
+    public static Planet                     planetSaturn;
+    public static Planet                     planetUranus;
+    public static Planet                     planetNeptune;
+    public static Moon                       moonMoon;
+    public static Satellite                  satelliteSpaceStation;
 
-    public static LinkedList<ItemStack> itemList = new LinkedList<>();
-    public static LinkedList<Item> itemListTrue = new LinkedList<>();
-    public static LinkedList<Block> blocksList = new LinkedList<>();
-    public static LinkedList<BiomeGenBaseGC> biomesList = new LinkedList<>();
+    public static LinkedList<ItemStack>      itemList        = new LinkedList<>();
+    public static LinkedList<Item>           itemListTrue    = new LinkedList<>();
+    public static LinkedList<Block>          blocksList      = new LinkedList<>();
+    public static LinkedList<BiomeGenBaseGC> biomesList      = new LinkedList<>();
 
-    public static ImageWriter jpgWriter;
-    public static ImageWriteParam writeParam;
-    public static boolean enableJPEG = false;
+    public static ImageWriter                jpgWriter;
+    public static ImageWriteParam            writeParam;
+    public static boolean                    enableJPEG      = false;
 
-    public static GalacticLog logger;
+    public static GalacticLog                logger;
 
     public GalacticraftCore()
     {
@@ -271,7 +287,6 @@ public class GalacticraftCore
         this.initModInfo(event.getModMetadata());
         GCCapabilities.register();
 
-        isPlanetsLoaded = Loader.isModLoaded(Constants.MOD_ID_PLANETS);
         GCCoreUtil.nextID = 0;
 
         if (CompatibilityManager.isSmartMovingLoaded || CompatibilityManager.isWitcheryLoaded)
@@ -292,13 +307,17 @@ public class GalacticraftCore
         ConnectionPacket.bus = NetworkRegistry.INSTANCE.newEventDrivenChannel(ConnectionPacket.CHANNEL);
         ConnectionPacket.bus.register(new ConnectionPacket());
 
-        ConfigManagerCore.initialize(new File(event.getModConfigurationDirectory(), Constants.CONFIG_FILE));
-        EnergyConfigHandler.setDefaultValues(new File(event.getModConfigurationDirectory(), Constants.POWER_CONFIG_FILE));
+        this.handleConfigFilenameChange(event);
 
         GalacticraftCore.galacticraftBlocksTab = new CreativeTabGC(CreativeTabs.getNextID(), "galacticraft_blocks", null, null);
         GalacticraftCore.galacticraftItemsTab = new CreativeTabGC(CreativeTabs.getNextID(), "galacticraft_items", null, null);
 
         GCFluids.registerOilandFuel();
+
+        if (CompatibilityManager.PlayerAPILoaded)
+        {
+            ServerPlayerAPI.register(Constants.MOD_ID_CORE, GCPlayerBaseMP.class);
+        }
 
         GCBlocks.initBlocks();
         GCItems.initItems();
@@ -354,7 +373,7 @@ public class GalacticraftCore
         GalacticraftCore.satelliteSpaceStation.setAtmosphere(new AtmosphereInfo(false, false, false, 0.0F, 0.1F, 0.02F));
         GalacticraftCore.satelliteSpaceStation.addChecklistKeys("equip_oxygen_suit", "create_grapple");
 
-        ForgeChunkManager.setForcedChunkLoadingCallback(GalacticraftCore.instance, new ChunkLoadingCallback());
+        ForgeChunkManager.setForcedChunkLoadingCallback(this, new ChunkLoadingCallback());
         MinecraftForge.EVENT_BUS.register(new ConnectionEvents());
 
         SchematicRegistry.registerSchematicRecipe(new SchematicRocketT1());
@@ -498,7 +517,8 @@ public class GalacticraftCore
                 if (type != null)
                 {
                     body.initialiseMobSpawns();
-                } else
+                }
+                else
                 {
                     body.setUnreachable();
                     GalacticraftCore.logger.error("Tried to register dimension for body: " + body.getTranslationKey() + " hit conflict with ID " + body.getDimensionID());
@@ -602,6 +622,36 @@ public class GalacticraftCore
         }
     }
 
+    private void handleConfigFilenameChange(FMLPreInitializationEvent event)
+    {
+        File oldCoreConfig = new File(event.getModConfigurationDirectory(), Constants.OLD_CONFIG_FILE);
+        File oldPowerConfig = new File(event.getModConfigurationDirectory(), Constants.OLD_POWER_CONFIG_FILE);
+        File oldChunkLoaderConfig = new File(event.getModConfigurationDirectory(), Constants.OLD_CHUNKLOADER_CONFIG_FILE);
+
+        File coreConfig = new File(event.getModConfigurationDirectory(), Constants.CONFIG_FILE);
+        File powerConfig = new File(event.getModConfigurationDirectory(), Constants.POWER_CONFIG_FILE);
+        File chunkLoaderConfig = new File(event.getModConfigurationDirectory(), Constants.CHUNKLOADER_CONFIG_FILE);
+
+        if (oldCoreConfig.exists())
+        {
+            oldCoreConfig.renameTo(coreConfig);
+        }
+
+        if (oldPowerConfig.exists())
+        {
+            oldPowerConfig.renameTo(powerConfig);
+        }
+
+        if (oldChunkLoaderConfig.exists())
+        {
+            oldChunkLoaderConfig.renameTo(chunkLoaderConfig);
+        }
+
+        ConfigManagerCore.initialize(coreConfig);
+        EnergyConfigHandler.setDefaultValues(powerConfig);
+        ChunkLoadingCallback.loadConfig(chunkLoaderConfig);
+    }
+
     private void moveLegacyGCFileLocations(File worldFolder)
     {
         File destFolder = new File(worldFolder, "galacticraft");
@@ -680,7 +730,8 @@ public class GalacticraftCore
             GalacticraftRegistry.registerScreen(rendererCelest);
             // Type 4 - render test
             GalacticraftRegistry.registerScreen(rendererCelest);
-        } else
+        }
+        else
         {
             GalacticraftRegistry.registerScreensServer(5);
         }
@@ -840,22 +891,18 @@ public class GalacticraftCore
         {
             RecipeManagerGC.addUniversalRecipes();
             RecipeManagerGC.setConfigurableRecipes();
-            if (isPlanetsLoaded)
-            {
-                RecipeManagerAsteroids.addUniversalRecipes();
-                RecipeManagerMars.addUniversalRecipes();
-                RecipeManagerVenus.addUniversalRecipes();
-            }
+
+            // PLANETS
+            RecipeManagerAsteroids.addUniversalRecipes();
+            RecipeManagerMars.addUniversalRecipes();
+            RecipeManagerVenus.addUniversalRecipes();
         }
 
         @SubscribeEvent
         public static void registerModels(ModelRegistryEvent event)
         {
             proxy.registerVariants();
-            if (isPlanetsLoaded)
-            {
-                GalacticraftPlanets.proxy.registerVariants();
-            }
+            GalacticraftPlanets.proxy.registerVariants();
         }
 
         @SubscribeEvent

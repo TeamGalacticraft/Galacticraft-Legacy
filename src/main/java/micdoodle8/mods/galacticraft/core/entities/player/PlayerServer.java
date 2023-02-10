@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -9,15 +9,7 @@ package micdoodle8.mods.galacticraft.core.entities.player;
 
 import java.util.LinkedList;
 import java.util.List;
-import micdoodle8.mods.galacticraft.api.entity.IIgnoreShift;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.dimension.WorldProviderMoon;
-import micdoodle8.mods.galacticraft.core.entities.EntityCelestialFake;
-import micdoodle8.mods.galacticraft.core.event.EventWakePlayer;
-import micdoodle8.mods.galacticraft.core.util.DamageSourceGC;
-import micdoodle8.mods.galacticraft.planets.asteroids.dimension.WorldProviderAsteroids;
-import micdoodle8.mods.galacticraft.planets.asteroids.items.ItemArmorAsteroids;
-import micdoodle8.mods.galacticraft.planets.mars.items.ItemArmorMars;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -27,15 +19,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 
+import micdoodle8.mods.galacticraft.api.entity.IIgnoreShift;
+import micdoodle8.mods.galacticraft.core.dimension.WorldProviderMoon;
+import micdoodle8.mods.galacticraft.core.entities.EntityCelestialFake;
+import micdoodle8.mods.galacticraft.core.event.EventWakePlayer;
+import micdoodle8.mods.galacticraft.core.util.DamageSourceGC;
+import micdoodle8.mods.galacticraft.planets.asteroids.dimension.WorldProviderAsteroids;
+import micdoodle8.mods.galacticraft.planets.asteroids.items.ItemArmorAsteroids;
+import micdoodle8.mods.galacticraft.planets.mars.items.ItemArmorMars;
+
 public class PlayerServer implements IPlayerServer
 {
 
-    private boolean updatingRidden = false;
-    static List<EntityPlayer> noClipList = new LinkedList<>();
+    private boolean           updatingRidden = false;
+    static List<EntityPlayer> noClipList     = new LinkedList<>();
 
     @Override
     public void updateRiddenPre(EntityPlayerMP player)
@@ -94,40 +96,39 @@ public class PlayerServer implements IPlayerServer
             return -1F;
         }
 
-        if (GalacticraftCore.isPlanetsLoaded)
+        if (par1DamageSource == DamageSource.OUT_OF_WORLD)
         {
-            if (par1DamageSource == DamageSource.OUT_OF_WORLD)
+            if (player.world.provider instanceof WorldProviderAsteroids)
             {
-                if (player.world.provider instanceof WorldProviderAsteroids)
+                if (player.posY > -120D)
                 {
-                    if (player.posY > -120D)
-                    {
-                        return -1F;
-                    }
-                    if (player.posY > -180D)
-                    {
-                        par2 /= 2;
-                    }
+                    return -1F;
                 }
-            } else if (par1DamageSource == DamageSource.FALL || par1DamageSource == DamageSourceGC.spaceshipCrash)
-            {
-                int titaniumCount = 0;
-                if (player.inventory != null)
+                if (player.posY > -180D)
                 {
-                    for (ItemStack armorPiece : player.getArmorInventoryList())
-                    {
-                        if (armorPiece != null && armorPiece.getItem() instanceof ItemArmorAsteroids)
-                        {
-                            titaniumCount++;
-                        }
-                    }
+                    par2 /= 2;
                 }
-                if (titaniumCount == 4)
-                {
-                    titaniumCount = 5;
-                }
-                par2 *= (1 - 0.15D * titaniumCount);
             }
+        }
+        else if (par1DamageSource == DamageSource.FALL || par1DamageSource == DamageSourceGC.spaceshipCrash)
+        {
+            int titaniumCount = 0;
+            if (player.inventory != null)
+            {
+                for (ItemStack armorPiece : player.getArmorInventoryList())
+                {
+                    if (armorPiece != null && armorPiece.getItem() instanceof ItemArmorAsteroids)
+                    {
+                        titaniumCount++;
+                    }
+                }
+            }
+            if (titaniumCount == 4)
+            {
+                titaniumCount = 5;
+            }
+
+            par2 *= (1 - 0.15D * titaniumCount);
         }
 
         return (par2 == -1F) ? -0.9999F : par2;
@@ -141,7 +142,7 @@ public class PlayerServer implements IPlayerServer
             return;
 
         int deshCount = 0;
-        if (player.inventory != null && GalacticraftCore.isPlanetsLoaded)
+        if (player.inventory != null)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -188,7 +189,8 @@ public class PlayerServer implements IPlayerServer
         {
             if (!noClipList.contains(player))
                 noClipList.add(player);
-        } else
+        }
+        else
         {
             noClipList.remove(player);
         }

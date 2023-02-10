@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
-		maven {
-			url = 'https://maven.galacticraft.net/repository/gradle/'
-		}
+		maven { url = 'https://maven.minecraftforge.net/' }
+		maven { url = 'https://maven.galacticraft.net/repository/internal-plugins/' }
+		gradlePluginPortal()
     }
 }

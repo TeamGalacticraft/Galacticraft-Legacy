@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,16 +7,27 @@
 
 package micdoodle8.mods.galacticraft.core;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.ObjectArrays;
-import com.google.common.collect.Ordering;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistry;
+
 import micdoodle8.mods.galacticraft.annotations.ForRemoval;
 import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.core.blocks.BlockAirLockFrame;
@@ -107,22 +118,15 @@ import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.StackSorted;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.registries.IForgeRegistry;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.ObjectArrays;
+import com.google.common.collect.Ordering;
 
 public class GCBlocks
 {
-
+    //@noformat
     public static Block breatheableAir;
     public static Block brightAir;
     public static Block brightBreatheableAir;
@@ -194,15 +198,16 @@ public class GCBlocks
     public static Block grating;
     public static Block gratingWater;
     public static Block gratingLava;
+    // @format
 
-    public static final Material machine = new Material(MapColor.IRON);
+    public static final Material                                machine              = new Material(MapColor.IRON);
 
-    public static ArrayList<Block> hiddenBlocks = new ArrayList<>();
-    public static ArrayList<Block> otherModTorchesLit = new ArrayList<>();
-    public static ArrayList<Block> otherModTorchesUnlit = new ArrayList<>();
+    public static ArrayList<Block>                              hiddenBlocks         = new ArrayList<>();
+    public static ArrayList<Block>                              otherModTorchesLit   = new ArrayList<>();
+    public static ArrayList<Block>                              otherModTorchesUnlit = new ArrayList<>();
 
-    public static Map<EnumSortCategoryBlock, List<StackSorted>> sortMapBlocks = Maps.newHashMap();
-    public static HashMap<Block, Block> itemChanges = new HashMap<>(4, 1.0F);
+    public static Map<EnumSortCategoryBlock, List<StackSorted>> sortMapBlocks        = Maps.newHashMap();
+    public static HashMap<Block, Block>                         itemChanges          = new HashMap<>(4, 1.0F);
 
     public static void initBlocks()
     {
@@ -225,19 +230,16 @@ public class GCBlocks
         GCBlocks.basicBlock = new BlockBasic("basic_block_core");
         GCBlocks.airLockFrame = new BlockAirLockFrame("air_lock_frame");
         GCBlocks.airLockSeal = new BlockAirLockWall("air_lock_seal");
-        // These glass types have to be registered as 6 separate blocks, (a) to
-        // allow different coloring of each one and (b) because the Forge
-        // MultiLayer custom model does not allow for different textures to be
-        // set for different variants
+        // These glass types have to be registered as 6 separate blocks, 
+        //   - (a) to allow different coloring of each one and 
+        //   - (b) because the Forge
+        // MultiLayer custom model does not allow for different textures to be set for different variants
         GCBlocks.spaceGlassVanilla = (BlockSpaceGlass) new BlockSpaceGlass("space_glass_vanilla", GlassType.VANILLA, GlassFrame.PLAIN, null).setHardness(0.3F).setResistance(3F);
         GCBlocks.spaceGlassClear = (BlockSpaceGlass) new BlockSpaceGlass("space_glass_clear", GlassType.CLEAR, GlassFrame.PLAIN, null).setHardness(0.3F).setResistance(3F);
         GCBlocks.spaceGlassStrong = (BlockSpaceGlass) new BlockSpaceGlass("space_glass_strong", GlassType.STRONG, GlassFrame.PLAIN, null).setHardness(4F).setResistance(35F);
-        GCBlocks.spaceGlassTinVanilla =
-            (BlockSpaceGlass) new BlockSpaceGlass("space_glass_vanilla_tin", GlassType.VANILLA, GlassFrame.TIN_DECO, GCBlocks.spaceGlassVanilla).setHardness(0.3F).setResistance(4F);
-        GCBlocks.spaceGlassTinClear =
-            (BlockSpaceGlass) new BlockSpaceGlass("space_glass_clear_tin", GlassType.CLEAR, GlassFrame.TIN_DECO, GCBlocks.spaceGlassClear).setHardness(0.3F).setResistance(4F);
-        GCBlocks.spaceGlassTinStrong =
-            (BlockSpaceGlass) new BlockSpaceGlass("space_glass_strong_tin", GlassType.STRONG, GlassFrame.TIN_DECO, GCBlocks.spaceGlassStrong).setHardness(4F).setResistance(35F);
+        GCBlocks.spaceGlassTinVanilla = (BlockSpaceGlass) new BlockSpaceGlass("space_glass_vanilla_tin", GlassType.VANILLA, GlassFrame.TIN_DECO, GCBlocks.spaceGlassVanilla).setHardness(0.3F).setResistance(4F);
+        GCBlocks.spaceGlassTinClear = (BlockSpaceGlass) new BlockSpaceGlass("space_glass_clear_tin", GlassType.CLEAR, GlassFrame.TIN_DECO, GCBlocks.spaceGlassClear).setHardness(0.3F).setResistance(4F);
+        GCBlocks.spaceGlassTinStrong = (BlockSpaceGlass) new BlockSpaceGlass("space_glass_strong_tin", GlassType.STRONG, GlassFrame.TIN_DECO, GCBlocks.spaceGlassStrong).setHardness(4F).setResistance(35F);
         GCBlocks.crafting = new BlockCrafting("magnetic_table");
         GCBlocks.refinery = new BlockRefinery("refinery");
         GCBlocks.oxygenCompressor = new BlockOxygenCompressor(false, "oxygen_compressor");
@@ -268,14 +270,10 @@ public class GCBlocks
         GCBlocks.bossSpawner = new BlockBossSpawner("boss_spawner");
         GCBlocks.slabGCHalf = new BlockSlabGC("slab_gc_half", Material.ROCK);
         GCBlocks.slabGCDouble = new BlockDoubleSlabGC("slab_gc_double", Material.ROCK);
-        GCBlocks.tinStairs1 =
-            new BlockStairsGC("tin_stairs_1", basicBlock.getDefaultState().withProperty(BlockBasic.BASIC_TYPE, BlockBasic.EnumBlockBasic.ALUMINUM_DECORATION_BLOCK_0)).setHardness(2.0F);
-        GCBlocks.tinStairs2 =
-            new BlockStairsGC("tin_stairs_2", basicBlock.getDefaultState().withProperty(BlockBasic.BASIC_TYPE, BlockBasic.EnumBlockBasic.ALUMINUM_DECORATION_BLOCK_1)).setHardness(2.0F);
-        GCBlocks.moonStoneStairs =
-            new BlockStairsGC("moon_stairs_stone", blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_STONE)).setHardness(1.5F);
-        GCBlocks.moonBricksStairs =
-            new BlockStairsGC("moon_stairs_brick", blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_DUNGEON_BRICK)).setHardness(4.0F);
+        GCBlocks.tinStairs1 = new BlockStairsGC("tin_stairs_1", basicBlock.getDefaultState().withProperty(BlockBasic.BASIC_TYPE, BlockBasic.EnumBlockBasic.ALUMINUM_DECORATION_BLOCK_0)).setHardness(2.0F);
+        GCBlocks.tinStairs2 = new BlockStairsGC("tin_stairs_2", basicBlock.getDefaultState().withProperty(BlockBasic.BASIC_TYPE, BlockBasic.EnumBlockBasic.ALUMINUM_DECORATION_BLOCK_1)).setHardness(2.0F);
+        GCBlocks.moonStoneStairs = new BlockStairsGC("moon_stairs_stone", blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_STONE)).setHardness(1.5F);
+        GCBlocks.moonBricksStairs = new BlockStairsGC("moon_stairs_brick", blockMoon.getDefaultState().withProperty(BlockBasicMoon.BASIC_TYPE_MOON, BlockBasicMoon.EnumBlockBasicMoon.MOON_DUNGEON_BRICK)).setHardness(4.0F);
         GCBlocks.wallGC = new BlockWallGC("wall_gc");
         GCBlocks.concealedRedstone = new BlockConcealedRedstone("concealed_redstone");
         GCBlocks.concealedRepeater_Powered = new BlockConcealedRepeater("concealed_repeater_pow", true);
@@ -330,13 +328,14 @@ public class GCBlocks
         List<StackSorted> itemOrderListBlocks = Lists.newArrayList();
         for (EnumSortCategoryBlock type : EnumSortCategoryBlock.values())
         {
-            if (!GalacticraftCore.isPlanetsLoaded && type == EnumSortCategoryBlock.EGG)
+            if (type == EnumSortCategoryBlock.EGG)
                 continue;
             List<StackSorted> stackSorteds = sortMapBlocks.get(type);
             if (stackSorteds != null)
             {
                 itemOrderListBlocks.addAll(stackSorteds);
-            } else
+            }
+            else
             {
                 System.out.println("ERROR: null sort stack: " + type.toString());
             }
@@ -446,10 +445,8 @@ public class GCBlocks
 
         setHarvestLevel(GCBlocks.wallGC, "shovel", 0, 5);
 
-        setHarvestLevel(GCBlocks.blockMoon, "pickaxe", 3, 14); // Moon dungeon
-        // brick
-        // (actually
-        // unharvestable)
+        // Moon dungeon brick (actually unharvestable)
+        setHarvestLevel(GCBlocks.blockMoon, "pickaxe", 3, 14);
     }
 
     public static void register(String modid, Block block, Class<? extends ItemBlock> itemClass, Object... itemCtorArgs)
@@ -578,7 +575,8 @@ public class GCBlocks
                 }
                 sortMapBlocks.get(categoryBlock).add(new StackSorted(stack.getItem(), stack.getItemDamage()));
             }
-        } else if (block.getCreativeTab() == GalacticraftCore.galacticraftBlocksTab)
+        }
+        else if (block.getCreativeTab() == GalacticraftCore.galacticraftBlocksTab)
         {
             throw new RuntimeException(block.getClass() + " must inherit " + ISortableBlock.class.getSimpleName() + "!");
         }

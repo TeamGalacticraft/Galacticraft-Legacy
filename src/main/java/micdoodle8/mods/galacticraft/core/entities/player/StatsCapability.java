@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,14 +7,24 @@
 
 package micdoodle8.mods.galacticraft.core.entities.player;
 
-import com.google.common.collect.Maps;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.annotation.Nullable;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
+
 import micdoodle8.mods.galacticraft.api.recipe.ISchematicPage;
 import micdoodle8.mods.galacticraft.api.recipe.SchematicRegistry;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
@@ -29,18 +39,13 @@ import micdoodle8.mods.galacticraft.core.util.ColorUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
 import micdoodle8.mods.galacticraft.planets.asteroids.tick.AsteroidsTickHandlerServer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.NonNullList;
+
+import com.google.common.collect.Maps;
 
 public class StatsCapability extends GCPlayerStats
 {
 
+    //@noformat
     public WeakReference<EntityPlayerMP> player;
 
     public InventoryExtended extendedInventory = new InventoryExtended();
@@ -153,6 +158,7 @@ public class StatsCapability extends GCPlayerStats
 
     private IBlockState[] panelLightingBases = new IBlockState[BlockPanelLighting.PANELTYPES_LENGTH];
     private int panelLightingColor = 0xf0f0e0;
+    //@format
 
     @Override
     public WeakReference<EntityPlayerMP> getPlayer()
@@ -1046,7 +1052,7 @@ public class StatsCapability extends GCPlayerStats
 
         for (int i = 0; i < this.stacks.size(); ++i)
         {
-            ItemStack itemstack = (ItemStack) this.stacks.get(i);
+            ItemStack itemstack = this.stacks.get(i);
 
             if (!itemstack.isEmpty())
             {
@@ -1066,7 +1072,8 @@ public class StatsCapability extends GCPlayerStats
         if (this.launchpadStack != null)
         {
             nbt.setTag("LaunchpadStack", this.launchpadStack.writeToNBT(var4));
-        } else
+        }
+        else
         {
             nbt.setTag("LaunchpadStack", var4);
         }
@@ -1168,7 +1175,8 @@ public class StatsCapability extends GCPlayerStats
                 // If loading from an old save file, the home space station is
                 // always the overworld, so use 0 as home planet
                 this.spaceStationDimensionData = WorldUtil.stringToSpaceStationData("0$" + nbt.getInteger("spaceStationDimensionID"));
-            } else
+            }
+            else
             {
                 this.spaceStationDimensionData = WorldUtil.stringToSpaceStationData(nbt.getString("spaceStationDimensionInfo"));
             }
@@ -1198,7 +1206,7 @@ public class StatsCapability extends GCPlayerStats
                 }
             }
 
-            this.unlockedSchematics = new ArrayList<ISchematicPage>();
+            this.unlockedSchematics = new ArrayList<>();
 
             if (p != null)
             {
@@ -1228,7 +1236,8 @@ public class StatsCapability extends GCPlayerStats
             if (nbt.hasKey("LaunchpadStack"))
             {
                 this.launchpadStack = new ItemStack(nbt.getCompoundTag("LaunchpadStack"));
-            } else
+            }
+            else
             {
                 // for backwards compatibility with saves which don't have this
                 // tag - players can't lose launchpads
@@ -1259,10 +1268,7 @@ public class StatsCapability extends GCPlayerStats
                     BlockVec3 data = BlockVec3.readFromNBT(nbttagcompound);
                     this.activeAstroMinerChunks.add(data);
                 }
-                if (GalacticraftCore.isPlanetsLoaded)
-                {
-                    AsteroidsTickHandlerServer.loadAstroChunkList(this.activeAstroMinerChunks);
-                }
+                AsteroidsTickHandlerServer.loadAstroChunkList(this.activeAstroMinerChunks);
             }
 
             if (nbt.hasKey("GlassColor1"))

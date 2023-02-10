@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,13 +7,25 @@
 
 package micdoodle8.mods.galacticraft.api;
 
-import com.google.common.collect.Lists;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.DimensionType;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldProviderSurface;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import micdoodle8.mods.galacticraft.api.client.IGameScreen;
 import micdoodle8.mods.galacticraft.api.item.EnumExtendedInventorySlot;
 import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
@@ -22,35 +34,25 @@ import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.api.world.ITeleportType;
 import micdoodle8.mods.galacticraft.api.world.SpaceStationType;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldProviderSurface;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class GalacticraftRegistry
 {
 
-    private static Map<Class<? extends WorldProvider>, ITeleportType> teleportTypeMap = new HashMap<Class<? extends WorldProvider>, ITeleportType>();
-    private static List<SpaceStationType> spaceStations = new ArrayList<SpaceStationType>();
-    private static List<INasaWorkbenchRecipe> rocketBenchT1Recipes = new ArrayList<INasaWorkbenchRecipe>();
-    private static List<INasaWorkbenchRecipe> buggyBenchRecipes = new ArrayList<INasaWorkbenchRecipe>();
-    private static List<INasaWorkbenchRecipe> rocketBenchT2Recipes = new ArrayList<INasaWorkbenchRecipe>();
-    private static List<INasaWorkbenchRecipe> cargoRocketRecipes = new ArrayList<INasaWorkbenchRecipe>();
-    private static List<INasaWorkbenchRecipe> rocketBenchT3Recipes = new ArrayList<INasaWorkbenchRecipe>();
-    private static List<INasaWorkbenchRecipe> astroMinerRecipes = new ArrayList<INasaWorkbenchRecipe>();
-    private static Map<Class<? extends WorldProvider>, ResourceLocation> rocketGuiMap = new HashMap<Class<? extends WorldProvider>, ResourceLocation>();
-    private static Map<Integer, List<ItemStack>> dungeonLootMap = new HashMap<Integer, List<ItemStack>>();
-    private static List<Integer> dimensionTypeIDs = new ArrayList<Integer>();
-    private static List<IGameScreen> gameScreens = new ArrayList<IGameScreen>();
+    private static Map<Class<? extends WorldProvider>, ITeleportType> teleportTypeMap = new HashMap<>();
+    private static List<SpaceStationType> spaceStations = new ArrayList<>();
+    private static List<INasaWorkbenchRecipe> rocketBenchT1Recipes = new ArrayList<>();
+    private static List<INasaWorkbenchRecipe> buggyBenchRecipes = new ArrayList<>();
+    private static List<INasaWorkbenchRecipe> rocketBenchT2Recipes = new ArrayList<>();
+    private static List<INasaWorkbenchRecipe> cargoRocketRecipes = new ArrayList<>();
+    private static List<INasaWorkbenchRecipe> rocketBenchT3Recipes = new ArrayList<>();
+    private static List<INasaWorkbenchRecipe> astroMinerRecipes = new ArrayList<>();
+    private static Map<Class<? extends WorldProvider>, ResourceLocation> rocketGuiMap = new HashMap<>();
+    private static Map<Integer, List<ItemStack>> dungeonLootMap = new HashMap<>();
+    private static List<Integer> dimensionTypeIDs = new ArrayList<>();
+    private static List<IGameScreen> gameScreens = new ArrayList<>();
     private static int maxScreenTypes;
     private static Map<Integer, List<Object>> gearMap = new HashMap<>();
     private static Map<Integer, List<EnumExtendedInventorySlot>> gearSlotMap = new HashMap<>();
-    private static Method gratingRegister = null;
 
     /**
      * Register a new Teleport type for the world provider passed
@@ -101,7 +103,7 @@ public class GalacticraftRegistry
             dungeonStacks.add(loot);
         } else
         {
-            dungeonStacks = new ArrayList<ItemStack>();
+            dungeonStacks = new ArrayList<>();
             dungeonStacks.add(loot);
         }
 
@@ -311,7 +313,16 @@ public class GalacticraftRegistry
 
     public static int getDimensionTypeID(int index)
     {
-        return GalacticraftRegistry.dimensionTypeIDs.get(index);
+        // Not the best solution but is better than the very unuseful IndexOutOfBoundsException message
+        try
+        {
+            return GalacticraftRegistry.dimensionTypeIDs.get(index);
+        } catch (IndexOutOfBoundsException e)
+        {
+            GalacticraftCore.logger.error("Attempted to get index[%d] while 'dimensionTypeIDs' size was %d", index, GalacticraftRegistry.dimensionTypeIDs.size());
+            return 0;
+        }
+
     }
 
     public static boolean isDimensionTypeIDRegistered(int typeId)

@@ -13,7 +13,7 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/stale@v4.1.0
+    - uses: actions/stale@v7
       with:
         repo-token: ${{ github.token }}
         stale-issue-message: 'Issue has been marked stale because it has been open 7 days with no activity. Issue will be closed in 24 hours if not updated'

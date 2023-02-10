@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -591,7 +591,7 @@ public class TransformerHooks
 
     public static double armorDamageHook(EntityLivingBase entity)
     {
-        if (entity instanceof EntityPlayer && GalacticraftCore.isPlanetsLoaded)
+        if (entity instanceof EntityPlayer)
         {
             GCPlayerStats stats = GCPlayerStats.get(entity);
             if (stats != null)

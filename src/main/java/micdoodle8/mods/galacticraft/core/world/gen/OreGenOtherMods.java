@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -9,6 +9,15 @@ package micdoodle8.mods.galacticraft.core.world.gen;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.gen.feature.WorldGenerator;
+
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
 import micdoodle8.mods.galacticraft.api.event.wgen.GCCoreEventPopulate;
 import micdoodle8.mods.galacticraft.api.vector.BlockTuple;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
@@ -19,26 +28,16 @@ import micdoodle8.mods.galacticraft.core.dimension.WorldProviderSpaceStation;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
 import micdoodle8.mods.galacticraft.planets.mars.dimension.WorldProviderMars;
-import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 
 //TODO: Seriously redo this
 public class OreGenOtherMods
 {
 
-    private World world;
-    private Random randomGenerator;
-
-    private BlockPos pos;
-
-    private WorldGenerator oreGen;
-    public static ArrayList<OreGenData> data = new ArrayList<OreGenData>();
-
+    private World                       world;
+    private Random                      randomGenerator;
+    private BlockPos                    pos;
+    private WorldGenerator              oreGen;
+    public static ArrayList<OreGenData> data = new ArrayList<>();
     static
     {
         for (final String str : ConfigManagerCore.oregenIDs)
@@ -52,7 +51,6 @@ public class OreGenOtherMods
                 int size = 1; // 0 = single 1 = standard 2 = large
                 boolean extraRandom = false;
                 int dim = 0;
-
                 if (slash >= 0)
                 {
                     s = str.substring(0, slash).trim();
@@ -60,57 +58,54 @@ public class OreGenOtherMods
                     if (params.contains("UNCOMMON"))
                     {
                         rarity = 1;
-                    } else if (params.contains("RARE"))
+                    }
+                    else if (params.contains("RARE"))
                     {
                         rarity = 2;
                     }
-
                     if (params.contains("DEEP"))
                     {
                         depth = 1;
-                    } else if (params.contains("SHALLOW"))
+                    }
+                    else if (params.contains("SHALLOW"))
                     {
                         depth = 2;
                     }
-
                     if (params.contains("SINGLE"))
                     {
                         size = 0;
-                    } else if (params.contains("LARGE"))
+                    }
+                    else if (params.contains("LARGE"))
                     {
                         size = 2;
                     }
-
                     if (params.contains("XTRARANDOM"))
                     {
                         extraRandom = true;
                     }
-
                     if (params.contains("ONLYMOON"))
                     {
                         dim = 1;
-                    } else if (params.contains("ONLYMARS"))
+                    }
+                    else if (params.contains("ONLYMARS"))
                     {
                         dim = 2;
                     }
-
-                } else
+                }
+                else
                 {
                     s = str;
                 }
-
                 BlockTuple bt = ConfigManagerCore.stringToBlock(s, "Other mod ore generate IDs", true);
                 if (bt == null)
                 {
                     continue;
                 }
-
                 int meta = bt.meta;
                 if (meta == -1)
                 {
                     meta = 0;
                 }
-
                 OreGenOtherMods.addOre(bt.block, meta, rarity, depth, size, extraRandom, dim);
             } catch (final Exception e)
             {
@@ -125,7 +120,6 @@ public class OreGenOtherMods
         int size = 4;
         int min = 0;
         int max = 64;
-
         switch (depth)
         {
             case 0:
@@ -137,7 +131,8 @@ public class OreGenOtherMods
                 {
                     clusters = 9;
                     size = 4;
-                } else if (rarity == 2)
+                }
+                else if (rarity == 2)
                 {
                     clusters = 6;
                     size = 3;
@@ -154,7 +149,8 @@ public class OreGenOtherMods
                     clusters = 6;
                     size = 4;
                     max = 20;
-                } else if (rarity == 2)
+                }
+                else if (rarity == 2)
                 {
                     clusters = 2;
                     size = 3;
@@ -173,7 +169,8 @@ public class OreGenOtherMods
                     size = 4;
                     min = 32;
                     max = 72;
-                } else if (rarity == 2)
+                }
+                else if (rarity == 2)
                 {
                     clusters = 3;
                     size = 3;
@@ -181,28 +178,27 @@ public class OreGenOtherMods
                     max = 64;
                 }
         }
-
         if (clumpSize == 0)
         {
             size = 1;
             clusters = (3 * clusters) / 2;
-        } else if (clumpSize == 2)
+        }
+        else if (clumpSize == 2)
         {
             size *= 4;
             clusters /= 2;
         }
-
         if (extraRandom)
         {
             if (depth == 1)
             {
                 min = -max * 3;
-            } else
+            }
+            else
             {
                 max *= 4;
             }
         }
-
         OreGenData ore = new OreGenData(block, meta, clusters, size, min, max, dim);
         OreGenOtherMods.data.add(ore);
     }
@@ -213,35 +209,30 @@ public class OreGenOtherMods
         this.world = event.world;
         this.randomGenerator = event.rand;
         this.pos = event.pos;
-
         int dimDetected = 0;
-
         WorldProvider prov = world.provider;
         if (!(prov instanceof IGalacticraftWorldProvider) || (prov instanceof WorldProviderSpaceStation))
         {
             return;
         }
-
         Block stoneBlock = null;
         int stoneMeta = 0;
-
         if (prov instanceof WorldProviderMoon)
         {
             stoneBlock = GCBlocks.blockMoon;
             stoneMeta = 4;
             dimDetected = 1;
-        } else if (GalacticraftCore.isPlanetsLoaded && prov instanceof WorldProviderMars)
+        }
+        else if (prov instanceof WorldProviderMars)
         {
             stoneBlock = MarsBlocks.marsBlock;
             stoneMeta = 9;
             dimDetected = 2;
         }
-
         if (stoneBlock == null)
         {
             return;
         }
-
         for (OreGenData ore : OreGenOtherMods.data)
         {
             if (ore.dimRestrict == 0 || ore.dimRestrict == dimDetected)
@@ -264,13 +255,13 @@ public class OreGenOtherMods
     public static class OreGenData
     {
 
-        public Block oreBlock = GCBlocks.blockMoon;
-        public int oreMeta = 0;
-        public int sizeCluster = 4;
-        public int numClusters = 8;
-        public int minHeight = 0;
-        public int maxHeight = 128;
-        public int dimRestrict = 0;
+        public Block oreBlock    = GCBlocks.blockMoon;
+        public int   oreMeta     = 0;
+        public int   sizeCluster = 4;
+        public int   numClusters = 8;
+        public int   minHeight   = 0;
+        public int   maxHeight   = 128;
+        public int   dimRestrict = 0;
 
         public OreGenData(Block block, int meta, int num, int cluster, int min, int max, int dim)
         {

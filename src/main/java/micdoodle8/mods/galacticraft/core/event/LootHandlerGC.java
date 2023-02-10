@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,10 +7,10 @@
 
 package micdoodle8.mods.galacticraft.core.event;
 
-import micdoodle8.mods.galacticraft.core.Constants;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
+
+import micdoodle8.mods.galacticraft.core.Constants;
 
 public class LootHandlerGC
 {
@@ -19,8 +19,7 @@ public class LootHandlerGC
 
     public static void registerAll()
     {
-        if (GalacticraftCore.isPlanetsLoaded)
-            TABLE_CRASHED_PROBE = register("crashed_probe");
+        TABLE_CRASHED_PROBE = register("crashed_probe");
     }
 
     private static ResourceLocation register(String table)

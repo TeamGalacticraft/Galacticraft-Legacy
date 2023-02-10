@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,15 +7,11 @@
 
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.tile.IMultiBlock;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityMulti;
-import micdoodle8.mods.galacticraft.core.util.EnumColor;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
-import micdoodle8.mods.galacticraft.planets.mars.blocks.BlockMachineMars;
-import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -45,21 +41,25 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.tile.IMultiBlock;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityMulti;
+import micdoodle8.mods.galacticraft.core.util.EnumColor;
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+import micdoodle8.mods.galacticraft.planets.mars.blocks.BlockMachineMars;
+import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
 
 public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, ITileEntityProvider
 {
 
-    public static final PropertyEnum<EnumBlockMultiType> MULTI_TYPE = PropertyEnum.create("type", EnumBlockMultiType.class);
-    public static final PropertyInteger RENDER_TYPE = PropertyInteger.create("rendertype", 0, 7);
+    public static final PropertyEnum<EnumBlockMultiType> MULTI_TYPE      = PropertyEnum.create("type", EnumBlockMultiType.class);
+    public static final PropertyInteger                  RENDER_TYPE     = PropertyInteger.create("rendertype", 0, 7);
 
-    protected static final AxisAlignedBB AABB_PAD = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
-    protected static final AxisAlignedBB AABB_SOLAR = new AxisAlignedBB(0.0F, 0.2F, 0.0F, 1.0F, 0.8F, 1.0F);
-    protected static final AxisAlignedBB AABB_SOLAR_POLE = new AxisAlignedBB(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
-    protected static final AxisAlignedBB AABB_TURRET = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+    protected static final AxisAlignedBB                 AABB_PAD        = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
+    protected static final AxisAlignedBB                 AABB_SOLAR      = new AxisAlignedBB(0.0F, 0.2F, 0.0F, 1.0F, 0.8F, 1.0F);
+    protected static final AxisAlignedBB                 AABB_SOLAR_POLE = new AxisAlignedBB(0.3F, 0.0F, 0.3F, 0.7F, 1.0F, 0.7F);
+    protected static final AxisAlignedBB                 AABB_TURRET     = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 
     public enum EnumBlockMultiType implements IStringSerializable
     {
@@ -75,7 +75,7 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
         DISH_LARGE(8, "dish_large"),
         LASER_TURRET(9, "laser_turret");
 
-        private final int meta;
+        private final int    meta;
         private final String name;
 
         EnumBlockMultiType(int meta, String name)
@@ -115,7 +115,7 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        switch ((EnumBlockMultiType) state.getValue(MULTI_TYPE))
+        switch (state.getValue(MULTI_TYPE))
         {
             case SOLAR_PANEL_0:
             case SOLAR_PANEL_1:
@@ -331,7 +331,8 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
         if (mainBlockPosition != null && !mainBlockPosition.equals(pos))
         {
             world.getBlockState(mainBlockPosition).getBlock().setBedOccupied(world, mainBlockPosition, player, occupied);
-        } else
+        }
+        else
         {
             super.setBedOccupied(world, pos, player, occupied);
         }
@@ -350,9 +351,9 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
         BlockPos mainBlockPosition = ((TileEntityMulti) tileEntity).mainBlockPosition;
         IBlockState cryoChamber = worldIn.getBlockState(mainBlockPosition);
         EnumFacing enumfacing = EnumFacing.NORTH;
-        if (GalacticraftCore.isPlanetsLoaded && cryoChamber.getBlock() == MarsBlocks.machine)
+        if (cryoChamber.getBlock() == MarsBlocks.machine)
         {
-            enumfacing = (EnumFacing) cryoChamber.getValue(BlockMachineMars.FACING);
+            enumfacing = cryoChamber.getValue(BlockMachineMars.FACING);
         }
         int i = pos.getX();
         int j = pos.getY();
@@ -389,8 +390,7 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
 
     private static boolean hasRoomForPlayer(World worldIn, BlockPos pos)
     {
-        return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP) && !worldIn.getBlockState(pos).getMaterial().isSolid()
-            && !worldIn.getBlockState(pos.up()).getMaterial().isSolid();
+        return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP) && !worldIn.getBlockState(pos).getMaterial().isSolid() && !worldIn.getBlockState(pos.up()).getMaterial().isSolid();
     }
 
     @Override
@@ -443,11 +443,12 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
                 if (stateAbove.getBlock() == this && (stateAbove.getValue(MULTI_TYPE)) == EnumBlockMultiType.CRYO_CHAMBER)
                 {
                     renderType = 0;
-                } else
+                }
+                else
                 {
                     renderType = 4;
                 }
-                if (tile != null && tile.mainBlockPosition != null && GalacticraftCore.isPlanetsLoaded)
+                if (tile != null && tile.mainBlockPosition != null)
                 {
                     IBlockState stateMain = worldIn.getBlockState(tile.mainBlockPosition);
                     if (stateMain.getBlock() == MarsBlocks.machine && stateMain.getValue(BlockMachineMars.TYPE) == BlockMachineMars.EnumMachineType.CRYOGENIC_CHAMBER)

@@ -2,8 +2,10 @@ plugins {
     id 'java'
     id 'eclipse'
     id 'org.cadixdev.licenser' version '0.6.1'
-    id 'net.galacticraft.token' version '1.0.0'
-    id 'net.galacticraft.internal.legacy.defaults' version '1.0.0'
+    id 'net.galacticraft.changelog' version '1.0.1'
+    id 'net.galacticraft.tokenizer' version '1.0.0'
+    id 'net.galacticraft.publish' version '1.0.0'
+    id 'net.galacticraft.internal.legacy' version '1.0.0'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
@@ -50,11 +52,6 @@ tasks.withType(Copy).all {
     duplicatesStrategy 'EXCLUDE'
 }
 
-tokens {
-    replaceIn("micdoodle8/mods/galacticraft/core/Constants.java")
-    replace([ gcVersion: version ])
-}
-
 license {
     header = project.file('etc/HEADER')
     properties {
@@ -75,4 +72,41 @@ clean {
         }
     }
     setDelete(filteredDelete)
+}
+
+tokens {
+    replaceIn("micdoodle8/mods/galacticraft/core/Constants.java")
+    withTokens([ gcVersion: version ])
+}
+
+changelog {
+	fromTag('4.0.4')
+}
+
+modpublishing {
+
+	changelogPath(changelog.changelogFile)
+
+    curseforge('364345') {
+    	if (System.getenv().CI)
+    		apiKey = 'none'
+	    relations {
+	        optional('mekanism', 'jei', 'journeymap', 'playerapi', 
+	        	'actually-additions', 'redstone-flux', 
+	        	'applied-energistics-2', 'biomes-o-plenty', 
+	        	'buildcraft', 'industrial-craft')
+	        incompatible('betterportals' , 'vics-modern-warfare-mod')
+	    }
+	}
+
+	modrinth('ZnmdXAk2') {
+		if (System.getenv().CI)
+    		token('none')
+		dependencies {
+			// Mekanism
+			optional.version 'KIzASRO5'
+			// JourneyMap
+			optional.version 'vacvhRKp'
+		}
+	}
 }

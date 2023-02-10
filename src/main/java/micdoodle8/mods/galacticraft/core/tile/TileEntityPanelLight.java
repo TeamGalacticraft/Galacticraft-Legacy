@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,18 +7,8 @@
 
 package micdoodle8.mods.galacticraft.core.tile;
 
-import io.netty.buffer.ByteBuf;
 import java.util.ArrayList;
-import micdoodle8.mods.galacticraft.core.Constants;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.blocks.BlockPanelLighting;
-import micdoodle8.mods.galacticraft.core.blocks.BlockPanelLighting.PanelType;
-import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
-import micdoodle8.mods.galacticraft.core.network.IPacketReceiver;
-import micdoodle8.mods.galacticraft.core.network.PacketDynamic;
-import micdoodle8.mods.galacticraft.core.util.RedstoneUtil;
-import micdoodle8.mods.galacticraft.planets.asteroids.blocks.AsteroidBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,16 +18,28 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import micdoodle8.mods.galacticraft.core.Constants;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.blocks.BlockPanelLighting;
+import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
+import micdoodle8.mods.galacticraft.core.network.IPacketReceiver;
+import micdoodle8.mods.galacticraft.core.network.PacketDynamic;
+import micdoodle8.mods.galacticraft.core.util.RedstoneUtil;
+import micdoodle8.mods.galacticraft.planets.asteroids.blocks.AsteroidBlocks;
+
+import io.netty.buffer.ByteBuf;
 
 public class TileEntityPanelLight extends TileEntity implements IPacketReceiver
 {
 
     public int meta;
     private IBlockState superState;
-    private static IBlockState defaultLook = GalacticraftCore.isPlanetsLoaded ? AsteroidBlocks.blockBasic.getStateFromMeta(6) : GCBlocks.basicBlock.getStateFromMeta(4);
+    private static IBlockState defaultLook = AsteroidBlocks.blockBasic.getStateFromMeta(6);
     public int color = 0xf0f0e0;
     @SideOnly(Side.CLIENT) private AxisAlignedBB renderAABB;
 
@@ -76,7 +78,7 @@ public class TileEntityPanelLight extends TileEntity implements IPacketReceiver
             IBlockState b = this.world.getBlockState(this.pos);
             if (b.getBlock() instanceof BlockPanelLighting)
             {
-                return (PanelType) b.getValue(BlockPanelLighting.TYPE);
+                return b.getValue(BlockPanelLighting.TYPE);
             }
         }
         return BlockPanelLighting.PanelType.SQUARE;
@@ -138,6 +140,8 @@ public class TileEntityPanelLight extends TileEntity implements IPacketReceiver
         return this.writeToNBT(new NBTTagCompound());
     }
 
+    //TODO Create datafixer to transition to NBTUtil methods
+
     /**
      * Reads a blockstate from the given tag. In MC1.10+ use NBTUtil instead!
      */
@@ -148,7 +152,7 @@ public class TileEntityPanelLight extends TileEntity implements IPacketReceiver
             return Blocks.AIR.getDefaultState();
         } else
         {
-            Block block = (Block) Block.REGISTRY.getObject(new ResourceLocation(tag.getString("Name")));
+            Block block = Block.REGISTRY.getObject(new ResourceLocation(tag.getString("Name")));
 
             if (tag.hasKey("Meta"))
             {
@@ -169,14 +173,15 @@ public class TileEntityPanelLight extends TileEntity implements IPacketReceiver
      */
     public static NBTTagCompound writeBlockState(NBTTagCompound tag, IBlockState state)
     {
-        tag.setString("Name", ((ResourceLocation) Block.REGISTRY.getNameForObject(state.getBlock())).toString());
+
+        tag.setString("Name", Block.REGISTRY.getNameForObject(state.getBlock()).toString());
         tag.setInteger("Meta", state.getBlock().getMetaFromState(state));
         return tag;
     }
 
     public static IBlockState readBlockState(String name, Integer meta)
     {
-        Block block = (Block) Block.REGISTRY.getObject(new ResourceLocation(name));
+        Block block = Block.REGISTRY.getObject(new ResourceLocation(name));
         if (block == null)
         {
             return Blocks.AIR.getDefaultState();
@@ -189,8 +194,7 @@ public class TileEntityPanelLight extends TileEntity implements IPacketReceiver
     {
         if (this.world.isRemote)
         {
-            // Request any networked information from server on first client
-            // update
+            // Request any networked information from server on first client update
             GalacticraftCore.packetPipeline.sendToServer(new PacketDynamic(this));
         }
     }
@@ -214,7 +218,7 @@ public class TileEntityPanelLight extends TileEntity implements IPacketReceiver
                 return;
             }
 
-            sendData.add(((ResourceLocation) Block.REGISTRY.getNameForObject(block)).toString());
+            sendData.add(Block.REGISTRY.getNameForObject(block).toString());
             sendData.add((byte) block.getMetaFromState(this.superState));
         }
     }

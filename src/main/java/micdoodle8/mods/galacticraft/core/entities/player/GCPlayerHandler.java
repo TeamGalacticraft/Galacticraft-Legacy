@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -14,6 +14,41 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.MobEffects;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketRespawn;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.Chunk;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.server.permission.PermissionAPI;
+
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.event.oxygen.GCCoreOxygenSuffocationEvent;
 import micdoodle8.mods.galacticraft.api.item.EnumExtendedInventorySlot;
@@ -60,50 +95,18 @@ import micdoodle8.mods.galacticraft.core.wrappers.Footprint;
 import micdoodle8.mods.galacticraft.planets.asteroids.dimension.WorldProviderAsteroids;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.ItemArmorAsteroids;
 import micdoodle8.mods.galacticraft.planets.venus.VenusItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketRespawn;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.server.permission.PermissionAPI;
 
 public class GCPlayerHandler
 {
 
-    private static final int OXYGENHEIGHTLIMIT = 450;
-    public static final int GEAR_NOT_PRESENT = -1;
+    private static final int              OXYGENHEIGHTLIMIT = 450;
+    public static final int               GEAR_NOT_PRESENT  = -1;
 
-    private List<Item> torchItemsSpace = new ArrayList<>(2);
-    private List<Item> torchItemsRegular = new ArrayList<>(2);
-    private List<ItemStack> itemChangesPre = new ArrayList<>(6);
-    private List<ItemStack> itemChangesPost = new ArrayList<>(6);
-    private static HashMap<UUID, Integer> deathTimes = new HashMap<>();
+    private List<Item>                    torchItemsSpace   = new ArrayList<>(2);
+    private List<Item>                    torchItemsRegular = new ArrayList<>(2);
+    private List<ItemStack>               itemChangesPre    = new ArrayList<>(6);
+    private List<ItemStack>               itemChangesPost   = new ArrayList<>(6);
+    private static HashMap<UUID, Integer> deathTimes        = new HashMap<>();
 
     @SubscribeEvent
     public void onPlayerLogin(PlayerLoggedInEvent event)
@@ -137,7 +140,8 @@ public class GCPlayerHandler
                     event.getOriginal().sendMessage(new TextComponentString(msg));
                 }
                 deathTimes.put(uu, bb);
-            } else
+            }
+            else
             {
                 deathTimes.remove(uu);
             }
@@ -150,7 +154,8 @@ public class GCPlayerHandler
         if (event.getObject() instanceof EntityPlayerMP)
         {
             event.addCapability(GCCapabilities.GC_PLAYER_PROP, new CapabilityProviderStats((EntityPlayerMP) event.getObject()));
-        } else if (event.getObject() instanceof EntityPlayer && ((EntityPlayer) event.getObject()).world.isRemote)
+        }
+        else if (event.getObject() instanceof EntityPlayer && ((EntityPlayer) event.getObject()).world.isRemote)
         {
             this.onAttachCapabilityClient(event);
         }
@@ -165,46 +170,45 @@ public class GCPlayerHandler
         }
     }
 
-//    @SubscribeEvent
-//    public void onEntityConstructing(EntityEvent.EntityConstructing event)
-//    {
-//        if (event.getEntity() instanceof EntityPlayerMP && GCPlayerStats.get((EntityPlayerMP) event.getEntity()) == null)
-//        {
-//            GCPlayerStats.register((EntityPlayerMP) event.getEntity());
-//        }
-//
-//        if (event.entity instanceof EntityPlayer && event.entity.world.isRemote)
-//        {
-//            this.onEntityConstructingClient(event);
-//        }
-//    }
-//
-//    @SideOnly(Side.CLIENT)
-//    public void onEntityConstructingClient(EntityEvent.EntityConstructing event)
-//    {
-//        if (event.getEntity() instanceof EntityPlayerSP)
-//        {
-//            if (GCPlayerStatsClient.get((EntityPlayerSP) event.getEntity()) == null)
-//            {
-//                GCPlayerStatsClient.register((EntityPlayerSP) event.getEntity());
-//            }
-//
-//            Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
-//        }
-//    }
+    //    @SubscribeEvent
+    //    public void onEntityConstructing(EntityEvent.EntityConstructing event)
+    //    {
+    //        if (event.getEntity() instanceof EntityPlayerMP && GCPlayerStats.get((EntityPlayerMP) event.getEntity()) == null)
+    //        {
+    //            GCPlayerStats.register((EntityPlayerMP) event.getEntity());
+    //        }
+    //
+    //        if (event.entity instanceof EntityPlayer && event.entity.world.isRemote)
+    //        {
+    //            this.onEntityConstructingClient(event);
+    //        }
+    //    }
+    //
+    //    @SideOnly(Side.CLIENT)
+    //    public void onEntityConstructingClient(EntityEvent.EntityConstructing event)
+    //    {
+    //        if (event.getEntity() instanceof EntityPlayerSP)
+    //        {
+    //            if (GCPlayerStatsClient.get((EntityPlayerSP) event.getEntity()) == null)
+    //            {
+    //                GCPlayerStatsClient.register((EntityPlayerSP) event.getEntity());
+    //            }
+    //
+    //            Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
+    //        }
+    //    }
 
     private void onPlayerLogin(EntityPlayerMP player)
     {
-//        GCPlayerStats oldData = this.playerStatsMap.remove(player.getPersistentID());
-//        if (oldData != null)
-//        {
-//            oldData.saveNBTData(player.getEntityData());
-//        }
+        //        GCPlayerStats oldData = this.playerStatsMap.remove(player.getPersistentID());
+        //        if (oldData != null)
+        //        {
+        //            oldData.saveNBTData(player.getEntityData());
+        //        }
 
         GCPlayerStats stats = GCPlayerStats.get(player);
 
-        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_GET_CELESTIAL_BODY_LIST, GCCoreUtil.getDimensionID(player.world), new Object[]
-        {}), player);
+        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_GET_CELESTIAL_BODY_LIST, GCCoreUtil.getDimensionID(player.world), new Object[] {}), player);
         int repeatCount = stats.getBuildFlags() >> 9;
         if (repeatCount < 3)
         {
@@ -214,22 +218,22 @@ public class GCPlayerHandler
         ColorUtil.sendUpdatedColorsToPlayer(stats);
     }
 
-//    private void onPlayerLogout(EntityPlayerMP player)
-//    {
-//    }
-//
-//    private void onPlayerRespawn(EntityPlayerMP player)
-//    {
-//        GCPlayerStats oldData = this.playerStatsMap.remove(player.getPersistentID());
-//        GCPlayerStats stats = GCPlayerStats.get(player);
-//
-//        if (oldData != null)
-//        {
-//            stats.copyFrom(oldData, false);
-//        }
-//
-//        stats.player = new WeakReference<EntityPlayerMP>(player);
-//    }
+    //    private void onPlayerLogout(EntityPlayerMP player)
+    //    {
+    //    }
+    //
+    //    private void onPlayerRespawn(EntityPlayerMP player)
+    //    {
+    //        GCPlayerStats oldData = this.playerStatsMap.remove(player.getPersistentID());
+    //        GCPlayerStats stats = GCPlayerStats.get(player);
+    //
+    //        if (oldData != null)
+    //        {
+    //            stats.copyFrom(oldData, false);
+    //        }
+    //
+    //        stats.player = new WeakReference<EntityPlayerMP>(player);
+    //    }
 
     public static void checkGear(EntityPlayerMP player, GCPlayerStats stats, boolean forceSend)
     {
@@ -254,7 +258,8 @@ public class GCPlayerHandler
                 {
                     GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.FREQUENCY_MODULE);
                     TileEntityTelemetry.frequencyModulePlayer(stats.getLastFrequencyModuleInSlot(), player, true);
-                } else if (stats.getLastFrequencyModuleInSlot().isEmpty())
+                }
+                else if (stats.getLastFrequencyModuleInSlot().isEmpty())
                 {
                     int gearID = GalacticraftRegistry.findMatchingGearID(stats.getFrequencyModuleInSlot(), EnumExtendedInventorySlot.FREQUENCY_MODULE);
 
@@ -276,7 +281,8 @@ public class GCPlayerHandler
             if (stats.getMaskInSlot().isEmpty())
             {
                 GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.MASK);
-            } else if (stats.getLastMaskInSlot().isEmpty() || forceSend)
+            }
+            else if (stats.getLastMaskInSlot().isEmpty() || forceSend)
             {
                 int gearID = GalacticraftRegistry.findMatchingGearID(stats.getMaskInSlot(), EnumExtendedInventorySlot.MASK);
 
@@ -296,7 +302,8 @@ public class GCPlayerHandler
             if (stats.getGearInSlot().isEmpty())
             {
                 GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.GEAR);
-            } else if (stats.getGearInSlot().getItem() == GCItems.oxygenGear && (stats.getLastGearInSlot().isEmpty() || forceSend))
+            }
+            else if (stats.getGearInSlot().getItem() == GCItems.oxygenGear && (stats.getLastGearInSlot().isEmpty() || forceSend))
             {
                 int gearID = GalacticraftRegistry.findMatchingGearID(stats.getGearInSlot(), EnumExtendedInventorySlot.GEAR);
 
@@ -318,7 +325,8 @@ public class GCPlayerHandler
                 GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.LEFT_TANK);
                 stats.setAirRemaining(0);
                 GCPlayerHandler.sendAirRemainingPacket(player, stats);
-            } else if (stats.getLastTankInSlot1().isEmpty() || forceSend)
+            }
+            else if (stats.getLastTankInSlot1().isEmpty() || forceSend)
             {
                 int gearID = GalacticraftRegistry.findMatchingGearID(stats.getTankInSlot1(), EnumExtendedInventorySlot.LEFT_TANK);
 
@@ -361,7 +369,8 @@ public class GCPlayerHandler
                 GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.RIGHT_TANK);
                 stats.setAirRemaining2(0);
                 GCPlayerHandler.sendAirRemainingPacket(player, stats);
-            } else if (stats.getLastTankInSlot2().isEmpty() || forceSend)
+            }
+            else if (stats.getLastTankInSlot2().isEmpty() || forceSend)
             {
                 int gearID = GalacticraftRegistry.findMatchingGearID(stats.getTankInSlot2(), EnumExtendedInventorySlot.RIGHT_TANK);
 
@@ -404,7 +413,8 @@ public class GCPlayerHandler
                 if (stats.getParachuteInSlot().isEmpty())
                 {
                     GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.PARACHUTE);
-                } else if (forceSend || stats.getLastParachuteInSlot().isEmpty() || stats.getParachuteInSlot().getItemDamage() != stats.getLastParachuteInSlot().getItemDamage())
+                }
+                else if (forceSend || stats.getLastParachuteInSlot().isEmpty() || stats.getParachuteInSlot().getItemDamage() != stats.getLastParachuteInSlot().getItemDamage())
                 {
                     int gearID = GalacticraftRegistry.findMatchingGearID(stats.getParachuteInSlot(), EnumExtendedInventorySlot.PARACHUTE);
 
@@ -430,7 +440,8 @@ public class GCPlayerHandler
                 if (stats.getThermalHelmetInSlot().isEmpty() || armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.REMOVE)
                 {
                     GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.THERMAL_HELMET);
-                } else if (armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.ADD && (stats.getLastThermalHelmetInSlot().isEmpty() || forceSend))
+                }
+                else if (armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.ADD && (stats.getLastThermalHelmetInSlot().isEmpty() || forceSend))
                 {
                     int gearID = GalacticraftRegistry.findMatchingGearID(stats.getThermalHelmetInSlot(), EnumExtendedInventorySlot.THERMAL_HELMET);
 
@@ -454,7 +465,8 @@ public class GCPlayerHandler
                 if (stats.getThermalChestplateInSlot().isEmpty() || armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.REMOVE)
                 {
                     GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.THERMAL_CHESTPLATE);
-                } else if (armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.ADD && (stats.getLastThermalChestplateInSlot().isEmpty() || forceSend))
+                }
+                else if (armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.ADD && (stats.getLastThermalChestplateInSlot().isEmpty() || forceSend))
                 {
                     int gearID = GalacticraftRegistry.findMatchingGearID(stats.getThermalChestplateInSlot(), EnumExtendedInventorySlot.THERMAL_CHESTPLATE);
 
@@ -478,7 +490,8 @@ public class GCPlayerHandler
                 if (stats.getThermalLeggingsInSlot().isEmpty() || armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.REMOVE)
                 {
                     GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.THERMAL_LEGGINGS);
-                } else if (armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.ADD && (stats.getLastThermalLeggingsInSlot().isEmpty() || forceSend))
+                }
+                else if (armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.ADD && (stats.getLastThermalLeggingsInSlot().isEmpty() || forceSend))
                 {
                     int gearID = GalacticraftRegistry.findMatchingGearID(stats.getThermalLeggingsInSlot(), EnumExtendedInventorySlot.THERMAL_LEGGINGS);
 
@@ -502,7 +515,8 @@ public class GCPlayerHandler
                 if (stats.getThermalBootsInSlot().isEmpty() || armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.REMOVE)
                 {
                     GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.THERMAL_BOOTS);
-                } else if (armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.ADD && (stats.getLastThermalBootsInSlot().isEmpty() || forceSend))
+                }
+                else if (armorEvent.armorResult == ThermalArmorEvent.ArmorAddResult.ADD && (stats.getLastThermalBootsInSlot().isEmpty() || forceSend))
                 {
                     int gearID = GalacticraftRegistry.findMatchingGearID(stats.getThermalBootsInSlot(), EnumExtendedInventorySlot.THERMAL_BOOTS);
 
@@ -516,12 +530,13 @@ public class GCPlayerHandler
             stats.setLastThermalBootsInSlot(stats.getThermalBootsInSlot());
         }
 
-        if ((stats.getShieldControllerInSlot() != stats.getLastShieldControllerInSlot() || forceSend) && GalacticraftCore.isPlanetsLoaded)
+        if ((stats.getShieldControllerInSlot() != stats.getLastShieldControllerInSlot() || forceSend))
         {
             if (stats.getShieldControllerInSlot().isEmpty())
             {
                 GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.SHIELD_CONTROLLER);
-            } else if (stats.getShieldControllerInSlot().getItem() == VenusItems.basicItem && (stats.getLastShieldControllerInSlot().isEmpty() || forceSend))
+            }
+            else if (stats.getShieldControllerInSlot().getItem() == VenusItems.basicItem && (stats.getLastShieldControllerInSlot().isEmpty() || forceSend))
             {
                 int gearID = GalacticraftRegistry.findMatchingGearID(stats.getShieldControllerInSlot(), EnumExtendedInventorySlot.SHIELD_CONTROLLER);
 
@@ -652,7 +667,7 @@ public class GCPlayerHandler
                 if ((player.ticksExisted - 1) % thermalLevelTickCooldownSingle == 0)
                 {
                     int last = playerStats.getThermalLevel();
-                    playerStats.setThermalLevel((int) Math.min(Math.max(last + (thermalLevelMod < 0 ? -1 : 1), -22), 22));
+                    playerStats.setThermalLevel(Math.min(Math.max(last + (thermalLevelMod < 0 ? -1 : 1), -22), 22));
 
                     if (playerStats.getThermalLevel() != last)
                     {
@@ -661,8 +676,7 @@ public class GCPlayerHandler
                 }
 
                 // If the normalisation is outpacing the freeze/overheat
-                playerStats.setThermalLevelNormalising(thermalLevelTickCooldownSingle > normaliseCooldown && !thermalPaddingHelm.isEmpty() && !thermalPaddingChestplate.isEmpty()
-                    && !thermalPaddingLeggings.isEmpty() && !thermalPaddingBoots.isEmpty());
+                playerStats.setThermalLevelNormalising(thermalLevelTickCooldownSingle > normaliseCooldown && !thermalPaddingHelm.isEmpty() && !thermalPaddingChestplate.isEmpty() && !thermalPaddingLeggings.isEmpty() && !thermalPaddingBoots.isEmpty());
 
                 if (!playerStats.isThermalLevelNormalising())
                 {
@@ -684,14 +698,16 @@ public class GCPlayerHandler
                         player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 5, 2, true, true));
                     }
                 }
-            } else
+            }
+            else
             // Normalise thermal level if on Space Station or non-modifier
             // planet
             {
                 playerStats.setThermalLevelNormalising(true);
                 this.normaliseThermalLevel(player, playerStats, 2);
             }
-        } else
+        }
+        else
         // Normalise thermal level if on Overworld or any non-GC dimension
         {
             playerStats.setThermalLevelNormalising(true);
@@ -706,7 +722,8 @@ public class GCPlayerHandler
         if (stats.getThermalLevel() < 0)
         {
             stats.setThermalLevel(stats.getThermalLevel() + Math.min(increment, -stats.getThermalLevel()));
-        } else if (stats.getThermalLevel() > 0)
+        }
+        else if (stats.getThermalLevel() > 0)
         {
             stats.setThermalLevel(stats.getThermalLevel() - Math.min(increment, stats.getThermalLevel()));
         }
@@ -752,10 +769,7 @@ public class GCPlayerHandler
 
     protected void checkOxygen(EntityPlayerMP player, GCPlayerStats stats)
     {
-        if ((player.dimension == 0 || player.world.provider instanceof IGalacticraftWorldProvider)
-            && (!(player.dimension == 0 || ((IGalacticraftWorldProvider) player.world.provider).hasBreathableAtmosphere()) || player.posY > GCPlayerHandler.OXYGENHEIGHTLIMIT)
-            && !player.capabilities.isCreativeMode && !(player.getRidingEntity() instanceof EntityLanderBase) && !(player.getRidingEntity() instanceof EntityAutoRocket)
-            && !(player.getRidingEntity() instanceof EntityCelestialFake) && !CompatibilityManager.isAndroid(player))
+        if ((player.dimension == 0 || player.world.provider instanceof IGalacticraftWorldProvider) && (((player.dimension != 0) && !((IGalacticraftWorldProvider) player.world.provider).hasBreathableAtmosphere()) || player.posY > GCPlayerHandler.OXYGENHEIGHTLIMIT) && !player.capabilities.isCreativeMode && !(player.getRidingEntity() instanceof EntityLanderBase) && !(player.getRidingEntity() instanceof EntityAutoRocket) && !(player.getRidingEntity() instanceof EntityCelestialFake) && !CompatibilityManager.isAndroid(player))
         {
             final ItemStack tankInSlot = stats.getExtendedInventory().getStackInSlot(2);
             final ItemStack tankInSlot2 = stats.getExtendedInventory().getStackInSlot(3);
@@ -765,7 +779,8 @@ public class GCPlayerHandler
             if (tankInSlot.isEmpty())
             {
                 stats.setAirRemaining(0);
-            } else
+            }
+            else
             {
                 stats.setAirRemaining(tankInSlot.getMaxDamage() - tankInSlot.getItemDamage());
             }
@@ -773,7 +788,8 @@ public class GCPlayerHandler
             if (tankInSlot2.isEmpty())
             {
                 stats.setAirRemaining2(0);
-            } else
+            }
+            else
             {
                 stats.setAirRemaining2(tankInSlot2.getMaxDamage() - tankInSlot2.getItemDamage());
             }
@@ -799,7 +815,8 @@ public class GCPlayerHandler
                         toTake = 0;
                     }
                 }
-            } else
+            }
+            else
             {
                 if ((player.ticksExisted - 1) % 60 == 0)
                 {
@@ -814,7 +831,8 @@ public class GCPlayerHandler
                         {
                             stats.setAirRemaining2(Math.min(stats.getAirRemaining2() + 1, tankInSlot2.getMaxDamage() - tankInSlot2.getItemDamage()));
                         }
-                    } else
+                    }
+                    else
                     {
                         if (stats.getAirRemaining() > 0)
                         {
@@ -834,9 +852,10 @@ public class GCPlayerHandler
             if (player.isOnLadder())
             {
                 stats.setOxygenSetupValid(stats.isLastOxygenSetupValid());
-            } else
+            }
+            else
             {
-                stats.setOxygenSetupValid(!((!OxygenUtil.hasValidOxygenSetup(player) || airEmpty) && !OxygenUtil.isAABBInBreathableAirBlock(player)));
+                stats.setOxygenSetupValid(((OxygenUtil.hasValidOxygenSetup(player) && !airEmpty) || OxygenUtil.isAABBInBreathableAirBlock(player)));
             }
 
             if (!player.world.isRemote && player.isEntityAlive())
@@ -859,20 +878,25 @@ public class GCPlayerHandler
                             GCCoreOxygenSuffocationEvent suffocationEventPost = new GCCoreOxygenSuffocationEvent.Post(player);
                             MinecraftForge.EVENT_BUS.post(suffocationEventPost);
                         }
-                    } else
+                    }
+                    else
                         stats.setOxygenSetupValid(true);
-                } else
+                }
+                else
                     stats.setIncrementalDamage(0);
             }
-        } else if ((player.ticksExisted - 1) % 20 == 0 && !player.capabilities.isCreativeMode && stats.getAirRemaining() < 90)
+        }
+        else if ((player.ticksExisted - 1) % 20 == 0 && !player.capabilities.isCreativeMode && stats.getAirRemaining() < 90)
         {
             stats.setAirRemaining(stats.getAirRemaining() + 1);
             stats.setAirRemaining2(stats.getAirRemaining2() + 1);
-        } else if (player.capabilities.isCreativeMode)
+        }
+        else if (player.capabilities.isCreativeMode)
         {
             stats.setAirRemaining(90);
             stats.setAirRemaining2(90);
-        } else
+        }
+        else
         {
             stats.setOxygenSetupValid(true);
         }
@@ -960,7 +984,8 @@ public class GCPlayerHandler
                     if (offhand)
                     {
                         player.inventory.offHandInventory.set(0, stack);
-                    } else
+                    }
+                    else
                     {
                         player.inventory.mainInventory.set(player.inventory.currentItem, stack);
                     }
@@ -999,7 +1024,8 @@ public class GCPlayerHandler
         {
             checkItemAndSwitch(theCurrentItem, player, torchItemsRegular, torchItemsSpace, false);
             checkItemAndSwitch(offHandItem, player, torchItemsRegular, torchItemsSpace, true);
-        } else
+        }
+        else
         {
             checkItemAndSwitch(theCurrentItem, player, torchItemsSpace, torchItemsRegular, false);
             checkItemAndSwitch(offHandItem, player, torchItemsSpace, torchItemsRegular, true);
@@ -1018,7 +1044,8 @@ public class GCPlayerHandler
                     ItemStack copyOffHandItem = offHandItem.copy();
                     copyOffHandItem.setAnimationsToGo(5);
                     player.inventory.mainInventory.set(emptyStack, copyOffHandItem);
-                } else
+                }
+                else
                 {
                     player.dropItem(offHandItem, false);
                 }
@@ -1067,7 +1094,8 @@ public class GCPlayerHandler
             }
 
             GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.ADD, EnumExtendedInventorySlot.PARACHUTE, subtype);
-        } else
+        }
+        else
         {
             GCPlayerHandler.sendGearUpdatePacket(player, EnumModelPacketType.REMOVE, EnumExtendedInventorySlot.PARACHUTE);
         }
@@ -1121,7 +1149,8 @@ public class GCPlayerHandler
                         // Increment and cap step counter at 1
                         stats.setLastStep((stats.getLastStep() + 1) % 2);
                         stats.setDistanceSinceLastStep(0);
-                    } else
+                    }
+                    else
                     {
                         stats.setDistanceSinceLastStep(stats.getDistanceSinceLastStep() + motionSqrd);
                     }
@@ -1147,7 +1176,7 @@ public class GCPlayerHandler
                 iArray[i] = page == null ? -2 : page.getPageID();
             }
 
-            List<Object> objList = new ArrayList<Object>();
+            List<Object> objList = new ArrayList<>();
             objList.add(iArray);
 
             GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_SCHEMATIC_LIST, GCCoreUtil.getDimensionID(player.world), objList), player);
@@ -1157,8 +1186,8 @@ public class GCPlayerHandler
     public static class ThermalArmorEvent extends Event
     {
 
-        public ArmorAddResult armorResult = ArmorAddResult.NOTHING;
-        public final int armorIndex;
+        public ArmorAddResult  armorResult = ArmorAddResult.NOTHING;
+        public final int       armorIndex;
         public final ItemStack armorStack;
 
         public ThermalArmorEvent(int armorIndex, ItemStack armorStack)
@@ -1188,7 +1217,8 @@ public class GCPlayerHandler
         // planets or moons were (contrary to GC default) set to hotload
         {
             map = WorldUtil.getArrayOfPossibleDimensions(stats.getSpaceshipTier(), player);
-        } else
+        }
+        else
         {
             map = WorldUtil.getArrayOfPossibleDimensionsAgain(stats.getSpaceshipTier(), player);
         }
@@ -1205,8 +1235,7 @@ public class GCPlayerHandler
         if (!temp.equals(stats.getSavedPlanetList()) || (player.ticksExisted % 100 == 0))
         {
             boolean canCreateStations = PermissionAPI.hasPermission(player, Constants.PERMISSION_CREATE_STATION);
-            GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_DIMENSION_LIST, GCCoreUtil.getDimensionID(player.world), new Object[]
-            {PlayerUtil.getName(player), temp, canCreateStations}), player);
+            GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_DIMENSION_LIST, GCCoreUtil.getDimensionID(player.world), new Object[] {PlayerUtil.getName(player), temp, canCreateStations}), player);
             stats.setSavedPlanetList(temp);
             // GalacticraftCore.logger.debug("Sending to " + PlayerUtil.getName(player) + ": " +
             // temp);
@@ -1217,20 +1246,17 @@ public class GCPlayerHandler
     {
         final float f1 = stats.getTankInSlot1().isEmpty() ? 0.0F : stats.getTankInSlot1().getMaxDamage() / 90.0F;
         final float f2 = stats.getTankInSlot2().isEmpty() ? 0.0F : stats.getTankInSlot2().getMaxDamage() / 90.0F;
-        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_AIR_REMAINING, GCCoreUtil.getDimensionID(player.world), new Object[]
-        {MathHelper.floor(stats.getAirRemaining() / f1), MathHelper.floor(stats.getAirRemaining2() / f2), PlayerUtil.getName(player)}), player);
+        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_AIR_REMAINING, GCCoreUtil.getDimensionID(player.world), new Object[] {MathHelper.floor(stats.getAirRemaining() / f1), MathHelper.floor(stats.getAirRemaining2() / f2), PlayerUtil.getName(player)}), player);
     }
 
     protected void sendThermalLevelPacket(EntityPlayerMP player, GCPlayerStats stats)
     {
-        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_THERMAL_LEVEL, GCCoreUtil.getDimensionID(player.world), new Object[]
-        {stats.getThermalLevel(), stats.isThermalLevelNormalising()}), player);
+        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_THERMAL_LEVEL, GCCoreUtil.getDimensionID(player.world), new Object[] {stats.getThermalLevel(), stats.isThermalLevelNormalising()}), player);
     }
 
     protected void sendDungeonDirectionPacket(EntityPlayerMP player, GCPlayerStats stats)
     {
-        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_DUNGEON_DIRECTION, GCCoreUtil.getDimensionID(player.world), new Object[]
-        {MapGenDungeon.directionToNearestDungeon(player.world, player.posX + player.motionX, player.posZ + player.motionZ)}), player);
+        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_DUNGEON_DIRECTION, GCCoreUtil.getDimensionID(player.world), new Object[] {MapGenDungeon.directionToNearestDungeon(player.world, player.posX + player.motionX, player.posZ + player.motionZ)}), player);
     }
 
     public static void sendGearUpdatePacket(EntityPlayerMP player, EnumModelPacketType packetType, EnumExtendedInventorySlot gearType)
@@ -1243,8 +1269,7 @@ public class GCPlayerHandler
         MinecraftServer theServer = player.server;
         if (theServer != null && PlayerUtil.getPlayerForUsernameVanilla(theServer, PlayerUtil.getName(player)) != null)
         {
-            GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_UPDATE_GEAR_SLOT, GCCoreUtil.getDimensionID(player.world), new Object[]
-            {PlayerUtil.getName(player), packetType.ordinal(), gearType.ordinal(), gearID}), new TargetPoint(GCCoreUtil.getDimensionID(player.world), player.posX, player.posY, player.posZ, 50.0D));
+            GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_UPDATE_GEAR_SLOT, GCCoreUtil.getDimensionID(player.world), new Object[] {PlayerUtil.getName(player), packetType.ordinal(), gearType.ordinal(), gearID}), new TargetPoint(GCCoreUtil.getDimensionID(player.world), player.posX, player.posY, player.posZ, 50.0D));
         }
     }
 
@@ -1265,7 +1290,8 @@ public class GCPlayerHandler
             if (stats.getStartDimension().length() > 0)
             {
                 stats.setStartDimension("");
-            } else
+            }
+            else
             {
                 // PlayerAPI is installed
                 WorldServer worldOld = (WorldServer) player.world;
@@ -1273,8 +1299,7 @@ public class GCPlayerHandler
                 {
                     worldOld.getPlayerChunkMap().removePlayer(player);
                 } catch (Exception e)
-                {
-                }
+                {}
                 worldOld.playerEntities.remove(player);
                 worldOld.updateAllPlayersSleepingFlag();
                 worldOld.loadedEntityList.remove(player);
@@ -1295,12 +1320,11 @@ public class GCPlayerHandler
 
                 if (worldNew.provider instanceof WorldProviderSpaceStation)
                 {
-                    GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_RESET_THIRD_PERSON, GCCoreUtil.getDimensionID(player.world), new Object[]
-                    {}), player);
+                    GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_RESET_THIRD_PERSON, GCCoreUtil.getDimensionID(player.world), new Object[] {}), player);
                 }
                 worldNew.spawnEntity(player);
                 player.setWorld(worldNew);
-                player.server.getPlayerList().preparePlayer(player, (WorldServer) worldOld);
+                player.server.getPlayerList().preparePlayer(player, worldOld);
             }
 
             // This is a mini version of the code at WorldUtil.teleportEntity
@@ -1326,8 +1350,7 @@ public class GCPlayerHandler
 
                 if (race == null || race.teamName.equals(SpaceRace.DEFAULT_NAME))
                 {
-                    GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_SPACE_RACE_GUI, GCCoreUtil.getDimensionID(player.world), new Object[]
-                    {}), player);
+                    GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_SPACE_RACE_GUI, GCCoreUtil.getDimensionID(player.world), new Object[] {}), player);
                 }
 
                 stats.setOpenedSpaceRaceManager(true);
@@ -1435,7 +1458,8 @@ public class GCPlayerHandler
             {
                 stats.setInLander(true);
                 stats.setJustLanded(false);
-            } else
+            }
+            else
             {
                 if (stats.isInLander())
                 {
@@ -1461,12 +1485,10 @@ public class GCPlayerHandler
                     stats.setNewAdventureSpawn(false);
                 }
 
-                GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_RESET_THIRD_PERSON, GCCoreUtil.getDimensionID(player.world), new Object[]
-                {}), player);
+                GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_RESET_THIRD_PERSON, GCCoreUtil.getDimensionID(player.world), new Object[] {}), player);
             }
 
-            if (player.world.provider instanceof WorldProviderSpaceStation || player.world.provider instanceof IZeroGDimension
-                || GalacticraftCore.isPlanetsLoaded && player.world.provider instanceof WorldProviderAsteroids)
+            if (player.world.provider instanceof WorldProviderSpaceStation || player.world.provider instanceof IZeroGDimension || player.world.provider instanceof WorldProviderAsteroids)
             {
                 this.preventFlyingKicks(player);
                 if (player.world.provider instanceof WorldProviderSpaceStation && stats.isNewInOrbit())
@@ -1474,11 +1496,13 @@ public class GCPlayerHandler
                     ((WorldProviderSpaceStation) player.world.provider).getSpinManager().sendPackets(player);
                     stats.setNewInOrbit(false);
                 }
-            } else
+            }
+            else
             {
                 stats.setNewInOrbit(true);
             }
-        } else
+        }
+        else
         {
             stats.setNewInOrbit(true);
         }
@@ -1519,16 +1543,14 @@ public class GCPlayerHandler
 
         if (isInGCDimension && (stats.isOxygenSetupValid() != stats.isLastOxygenSetupValid() || tick % 100 == 0))
         {
-            GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_OXYGEN_VALIDITY, player.world.provider.getDimension(), new Object[]
-            {stats.isOxygenSetupValid()}), player);
+            GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_OXYGEN_VALIDITY, player.world.provider.getDimension(), new Object[] {stats.isOxygenSetupValid()}), player);
         }
 
         this.throwMeteors(player);
 
         this.updateSchematics(player, stats);
 
-        if (tick % 250 == 0 && stats.getFrequencyModuleInSlot().isEmpty() && !stats.hasReceivedSoundWarning() && isInGCDimension && player.onGround && tick > 0
-            && ((IGalacticraftWorldProvider) player.world.provider).getSoundVolReductionAmount() > 1.0F)
+        if (tick % 250 == 0 && stats.getFrequencyModuleInSlot().isEmpty() && !stats.hasReceivedSoundWarning() && isInGCDimension && player.onGround && tick > 0 && ((IGalacticraftWorldProvider) player.world.provider).getSoundVolReductionAmount() > 1.0F)
         {
             String[] string2 = GCCoreUtil.translate("gui.frequencymodule.warning1").split(" ");
             StringBuilder sb = new StringBuilder();
@@ -1536,13 +1558,12 @@ public class GCPlayerHandler
             {
                 sb.append(" ").append(EnumColor.YELLOW).append(aString2);
             }
-            player.sendMessage(new TextComponentString(EnumColor.YELLOW + GCCoreUtil.translate("gui.frequencymodule.warning0") + " " + EnumColor.AQUA
-                + GCItems.basicItem.getItemStackDisplayName(new ItemStack(GCItems.basicItem, 1, 19)) + sb.toString()));
+            player.sendMessage(new TextComponentString(EnumColor.YELLOW + GCCoreUtil.translate("gui.frequencymodule.warning0") + " " + EnumColor.AQUA + GCItems.basicItem.getItemStackDisplayName(new ItemStack(GCItems.basicItem, 1, 19)) + sb.toString()));
             stats.setReceivedSoundWarning(true);
         }
 
         // Player moves and sprints 18% faster with full set of Titanium Armor
-        if (GalacticraftCore.isPlanetsLoaded && tick % 40 == 1 && player.inventory != null)
+        if (tick % 40 == 1 && player.inventory != null)
         {
             int titaniumCount = 0;
             for (ItemStack armorPiece : player.getArmorInventoryList())
@@ -1571,7 +1592,8 @@ public class GCPlayerHandler
                         }
                     }
                 }
-            } else if (titaniumCount < 4)
+            }
+            else if (titaniumCount < 4)
             {
                 try
                 {

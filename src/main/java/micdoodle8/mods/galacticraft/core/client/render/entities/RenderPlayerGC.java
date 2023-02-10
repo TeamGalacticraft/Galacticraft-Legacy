@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -9,24 +9,7 @@ package micdoodle8.mods.galacticraft.core.client.render.entities;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import micdoodle8.mods.galacticraft.api.entity.ICameraZoomEntity;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
-import micdoodle8.mods.galacticraft.core.client.model.ModelPlayerGC;
-import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerFrequencyModule;
-import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerHeldItemGC;
-import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerOxygenGear;
-import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerOxygenMask;
-import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerOxygenParachute;
-import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerOxygenTanks;
-import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerShield;
-import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerThermalPadding;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityMulti;
-import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
-import micdoodle8.mods.galacticraft.planets.mars.blocks.BlockMachineMars;
-import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -42,9 +25,29 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
+
+import micdoodle8.mods.galacticraft.api.entity.ICameraZoomEntity;
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
+import micdoodle8.mods.galacticraft.core.client.model.ModelPlayerGC;
+import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerFrequencyModule;
+import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerHeldItemGC;
+import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerOxygenGear;
+import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerOxygenMask;
+import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerOxygenParachute;
+import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerOxygenTanks;
+import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerShield;
+import micdoodle8.mods.galacticraft.core.client.render.entities.layer.LayerThermalPadding;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityMulti;
+import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+import micdoodle8.mods.galacticraft.planets.mars.blocks.BlockMachineMars;
+import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
+
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -64,8 +67,8 @@ public class RenderPlayerGC extends RenderPlayer
     public static ResourceLocation thermalPaddingTexture1;
     public static ResourceLocation thermalPaddingTexture1_T2;
     public static ResourceLocation heatShieldTexture;
-    public static boolean flagThermalOverride = false;
-    private static Boolean isSmartRenderLoaded = null;
+    public static boolean          flagThermalOverride = false;
+    private static Boolean         isSmartRenderLoaded = null;
 
     public RenderPlayerGC()
     {
@@ -89,8 +92,7 @@ public class RenderPlayerGC extends RenderPlayer
             f1 = LayerArmorBase.class.getDeclaredField(GCCoreUtil.isDeobfuscated() ? "renderer" : "field_177190_a");
             f1.setAccessible(true);
         } catch (Exception ignore)
-        {
-        }
+        {}
         // The following code removes the vanilla skull and item layer renderers
         // and replaces them with the Galacticraft ones
         // Also updates all armor layers (including layers added by other mods)
@@ -103,7 +105,8 @@ public class RenderPlayerGC extends RenderPlayer
             if (layer instanceof LayerHeldItem)
             {
                 itemLayerIndex = i;
-            } else if (layer instanceof LayerArmorBase)
+            }
+            else if (layer instanceof LayerArmorBase)
             {
                 if (f1 != null)
                 {
@@ -111,10 +114,10 @@ public class RenderPlayerGC extends RenderPlayer
                     {
                         f1.set(layer, this);
                     } catch (Exception ignore)
-                    {
-                    }
+                    {}
                 }
-            } else if (layer instanceof LayerCustomHead)
+            }
+            else if (layer instanceof LayerCustomHead)
             {
                 skullLayerIndex = i;
             }
@@ -134,17 +137,14 @@ public class RenderPlayerGC extends RenderPlayer
         this.addLayer(new LayerOxygenParachute(this));
         this.addLayer(new LayerFrequencyModule(this));
 
-        if (GalacticraftCore.isPlanetsLoaded)
-        {
-            this.addLayer(new LayerThermalPadding(this));
+        this.addLayer(new LayerThermalPadding(this));
 
-            RenderPlayerGC.thermalPaddingTexture0 = new ResourceLocation("galacticraftplanets", "textures/misc/thermal_padding_0.png");
-            RenderPlayerGC.thermalPaddingTexture1 = new ResourceLocation("galacticraftplanets", "textures/misc/thermal_padding_1.png");
-            RenderPlayerGC.thermalPaddingTexture1_T2 = new ResourceLocation("galacticraftplanets", "textures/misc/thermal_padding_t2_1.png");
-            RenderPlayerGC.heatShieldTexture = new ResourceLocation("galacticraftplanets", "textures/misc/shield.png");
+        RenderPlayerGC.thermalPaddingTexture0 = new ResourceLocation("galacticraftplanets", "textures/misc/thermal_padding_0.png");
+        RenderPlayerGC.thermalPaddingTexture1 = new ResourceLocation("galacticraftplanets", "textures/misc/thermal_padding_1.png");
+        RenderPlayerGC.thermalPaddingTexture1_T2 = new ResourceLocation("galacticraftplanets", "textures/misc/thermal_padding_t2_1.png");
+        RenderPlayerGC.heatShieldTexture = new ResourceLocation("galacticraftplanets", "textures/misc/shield.png");
 
-            this.addLayer(new LayerShield(this));
-        }
+        this.addLayer(new LayerShield(this));
     }
 
     private <V extends EntityLivingBase, U extends LayerRenderer<V>> void setLayer(int index, U layer)
@@ -168,8 +168,7 @@ public class RenderPlayerGC extends RenderPlayer
                 f = clazz.getDeclaredField(GCCoreUtil.isDeobfuscated() ? "layerRenderers" : "field_177097_h");
                 f.setAccessible(true);
             } catch (Exception ignore)
-            {
-            }
+            {}
             clazz = clazz.getSuperclass();
         } while (f == null && clazz != null);
         if (f != null)
@@ -186,8 +185,7 @@ public class RenderPlayerGC extends RenderPlayer
                         old = (RenderPlayer) g.get(old);
                         layers = (List<LayerRenderer<?>>) f.get(old);
                     } catch (Exception ignore)
-                    {
-                    }
+                    {}
                 }
                 if (layers.size() > 0)
                 {
@@ -200,16 +198,14 @@ public class RenderPlayerGC extends RenderPlayer
                             {
                                 newInstance = oldLayer.getClass().getConstructor(RenderLivingBase.class).newInstance(this);
                             } catch (Exception ignore)
-                            {
-                            }
+                            {}
                             if (newInstance == null)
                             {
                                 try
                                 {
                                     newInstance = oldLayer.getClass().getConstructor(RenderPlayer.class).newInstance(this);
                                 } catch (Exception ignore)
-                                {
-                                }
+                                {}
                             }
                             if (newInstance == null)
                             {
@@ -217,8 +213,7 @@ public class RenderPlayerGC extends RenderPlayer
                                 {
                                     newInstance = oldLayer.getClass().getConstructor(boolean.class, ModelPlayer.class).newInstance(smallArms, this.mainModel);
                                 } catch (Exception ignore)
-                                {
-                                }
+                                {}
                             }
                             if (newInstance != null)
                             {
@@ -259,7 +254,8 @@ public class RenderPlayerGC extends RenderPlayer
             if (!event.vanillaOverride)
             {
                 super.preRenderCallback(entitylivingbaseIn, partialTickTime);
-            } else if (event.shouldRotate == null || event.shouldRotate)
+            }
+            else if (event.shouldRotate == null || event.shouldRotate)
             {
                 entitylivingbaseIn.rotationYawHead = 0;
                 entitylivingbaseIn.prevRotationYawHead = 0;
@@ -279,10 +275,12 @@ public class RenderPlayerGC extends RenderPlayer
             if (!event.vanillaOverride)
             {
                 super.applyRotations(abstractClientPlayer, par2, par3, par4);
-            } else if (event.shouldRotate == null)
+            }
+            else if (event.shouldRotate == null)
             {
                 GL11.glRotatef(abstractClientPlayer.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
-            } else if (event.shouldRotate)
+            }
+            else if (event.shouldRotate)
             {
                 float rotation = 0.0F;
 
@@ -324,11 +322,12 @@ public class RenderPlayerGC extends RenderPlayer
 
                 GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
             }
-        } else
+        }
+        else
         {
             if (Minecraft.getMinecraft().gameSettings.thirdPersonView != 0)
             {
-                final EntityPlayer player = (EntityPlayer) abstractClientPlayer;
+                final EntityPlayer player = abstractClientPlayer;
 
                 if (player.getRidingEntity() instanceof ICameraZoomEntity)
                 {
@@ -352,7 +351,7 @@ public class RenderPlayerGC extends RenderPlayer
     public static class RotatePlayerEvent extends PlayerEvent
     {
 
-        public Boolean shouldRotate = null;
+        public Boolean shouldRotate    = null;
         public boolean vanillaOverride = false;
 
         public RotatePlayerEvent(AbstractClientPlayer player)

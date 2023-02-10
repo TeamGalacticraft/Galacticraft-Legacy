@@ -1,11 +1,22 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
  */
 
 package micdoodle8.mods.galacticraft.core.client.model;
+
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
+
+import net.minecraftforge.common.MinecraftForge;
 
 import micdoodle8.mods.galacticraft.api.entity.ICameraZoomEntity;
 import micdoodle8.mods.galacticraft.api.item.IHoldableItem;
@@ -16,15 +27,6 @@ import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.render.entities.RenderPlayerGC;
 import micdoodle8.mods.galacticraft.core.wrappers.PlayerGearData;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.MinecraftForge;
 
 public class ModelBipedGC
 {
@@ -37,8 +39,7 @@ public class ModelBipedGC
         final ItemStack currentItemStack = player.inventory.getCurrentItem();
         final float floatPI = 3.1415927F;
 
-        if (!par7Entity.onGround && par7Entity.world.provider instanceof IGalacticraftWorldProvider && par7Entity.getRidingEntity() == null
-            && !(currentItemStack != null && currentItemStack.getItem() instanceof IHoldableItem))
+        if (!par7Entity.onGround && par7Entity.world.provider instanceof IGalacticraftWorldProvider && par7Entity.getRidingEntity() == null && ((currentItemStack == null) || !(currentItemStack.getItem() instanceof IHoldableItem)))
         {
             float speedModifier = 0.1162F * 2;
 
@@ -139,7 +140,7 @@ public class ModelBipedGC
             }
         }
 
-        if (player.isPlayerSleeping() && GalacticraftCore.isPlanetsLoaded)
+        if (player.isPlayerSleeping())
         {
             RenderPlayerGC.RotatePlayerEvent event = new RenderPlayerGC.RotatePlayerEvent((AbstractClientPlayer) player);
             MinecraftForge.EVENT_BUS.post(event);
