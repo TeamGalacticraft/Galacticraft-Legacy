@@ -213,12 +213,12 @@ import api.player.server.ServerPlayerAPI;
 
 //@noformat
 @Mod(
-	modid = Constants.MOD_ID_CORE, 
-	name = GalacticraftCore.NAME, 
-	version = Constants.VERSION, 
-	dependencies = Constants.DEPENDENCIES_FORGE + Constants.DEPENDENCIES_MICCORE, 
-	useMetadata = false, 
-	acceptedMinecraftVersions = "[1.12, 1.13)", 
+	modid = Constants.MOD_ID_CORE,
+	name = GalacticraftCore.NAME,
+	version = Constants.VERSION,
+	dependencies = Constants.DEPENDENCIES_FORGE + Constants.DEPENDENCIES_MICCORE,
+	useMetadata = false,
+	acceptedMinecraftVersions = "[1.12, 1.13)",
 	guiFactory = "micdoodle8.mods.galacticraft.core.client.gui.screen.ConfigGuiFactoryCore"
 )
 public class GalacticraftCore
@@ -504,11 +504,7 @@ public class GalacticraftCore
 
         GalacticraftCore.proxy.postInit(event);
 
-        ArrayList<CelestialBody> cBodyList = new ArrayList<>();
-        cBodyList.addAll(GalaxyRegistry.getPlanets());
-        cBodyList.addAll(GalaxyRegistry.getMoons());
-
-        for (CelestialBody body : cBodyList)
+        for (CelestialBody body : GalaxyRegistry.getAllLandableBodies())
         {
             if (body.shouldAutoRegister())
             {
@@ -608,18 +604,14 @@ public class GalacticraftCore
         WorldUtil.initialiseDimensionNames();
         WorldUtil.registerSpaceStations(event.getServer(), new File(worldFolder, "galacticraft"));
 
-        ArrayList<CelestialBody> cBodyList = new ArrayList<>();
-        cBodyList.addAll(GalaxyRegistry.getPlanets());
-        cBodyList.addAll(GalaxyRegistry.getMoons());
-
-        for (CelestialBody body : cBodyList)
+        for (CelestialBody body : GalaxyRegistry.getAllRegisteredLandableBodies())
         {
             if (body.shouldAutoRegister())
             {
-                if (!WorldUtil.registerPlanet(body.getDimensionID(), body.isReachable(), 0))
-                {
-                    body.setUnreachable();
-                }
+				if (!WorldUtil.registerPlanet(body.getDimensionID(), body.isReachable(), 0))
+				{
+					body.setUnreachable();
+				}
             }
         }
     }

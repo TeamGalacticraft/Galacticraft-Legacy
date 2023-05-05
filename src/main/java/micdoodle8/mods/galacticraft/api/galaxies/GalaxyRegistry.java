@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import micdoodle8.mods.galacticraft.api.event.celestial.RefreshEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
@@ -30,7 +31,8 @@ public class GalaxyRegistry
     static CelestialList<Planet>                        planets         = CelestialList.create();
     static CelestialList<Moon>                          moons           = CelestialList.create();
     static CelestialList<Satellite>                     satellites      = CelestialList.create();
-    static CelestialList<CelestialObject>               objects         = CelestialList.create();
+	static CelestialList<CelestialBody> 				landableBodies = CelestialList.create();
+	static CelestialList<CelestialObject>               objects         = CelestialList.create();
     static Map<Planet, CelestialList<Moon>>             moonList        = new HashMap<>();
     static Map<CelestialBody, CelestialList<Satellite>> satelliteList   = new HashMap<>();
     static Map<SolarSystem, CelestialList<Planet>>      solarSystemList = new HashMap<>();
@@ -73,6 +75,8 @@ public class GalaxyRegistry
             list.add(planet);
             solarSystemList.put(solarSystem, list);
         }
+		RefreshEvent event = new RefreshEvent(moonList, satelliteList, solarSystemList);
+		MinecraftForge.EVENT_BUS.post(event);
     }
 
     /**
@@ -103,25 +107,11 @@ public class GalaxyRegistry
      */
     public static CelestialBody getCelestialBodyFromDimensionID(int dimensionID)
     {
-        for (Planet planet : planets)
+        for (CelestialBody landableBody : landableBodies)
         {
-            if (planet.getDimensionID() == dimensionID)
+            if (landableBody.getDimensionID() == dimensionID)
             {
-                return planet;
-            }
-        }
-        for (Moon moon : moons)
-        {
-            if (moon.getDimensionID() == dimensionID)
-            {
-                return moon;
-            }
-        }
-        for (Satellite satellite : satellites)
-        {
-            if (satellite.getDimensionID() == dimensionID)
-            {
-                return satellite;
+                return landableBody;
             }
         }
         return null;
@@ -154,20 +144,13 @@ public class GalaxyRegistry
         return satelliteList.get(celestialBody);
     }
 
-    public static CelestialBody getPlanetOrMoonFromTranslationkey(String translationKey)
+    public static CelestialBody getReachableBodyFromTranslationkey(String translationKey)
     {
-        for (Planet planet : planets)
+        for (CelestialBody reachableBody : landableBodies)
         {
-            if (planet.getTranslationKey().equals(translationKey))
+            if (reachableBody.getTranslationKey().equals(translationKey))
             {
-                return planet;
-            }
-        }
-        for (Moon moon : moons)
-        {
-            if (moon.getTranslationKey().equals(translationKey))
-            {
-                return moon;
+                return reachableBody;
             }
         }
         return null;
@@ -183,40 +166,32 @@ public class GalaxyRegistry
             objects.add(solarSystem);
             MinecraftForge.EVENT_BUS.post(registerEvent);
         }
-        if (object instanceof Planet)
-        {
-            Planet planet = (Planet) object;
-            RegisterEvent registerEvent = new RegisterEvent(planet, Loader.instance().activeModContainer());
-            planets.add(planet);
-            objects.add(planet);
-            MinecraftForge.EVENT_BUS.post(registerEvent);
-        }
-        if (object instanceof Moon)
-        {
-            Moon moon = (Moon) object;
-            RegisterEvent registerEvent = new RegisterEvent(moon, Loader.instance().activeModContainer());
-            moons.add(moon);
-            objects.add(moon);
-            MinecraftForge.EVENT_BUS.post(registerEvent);
-        }
-        if (object instanceof Satellite)
-        {
-            Satellite satellite = (Satellite) object;
-            RegisterEvent registerEvent = new RegisterEvent(satellite, Loader.instance().activeModContainer());
-            satellites.add(satellite);
-            objects.add(satellite);
-            MinecraftForge.EVENT_BUS.post(registerEvent);
-        }
         if (object instanceof CelestialBody)
         {
-            CelestialBody celestialType = (CelestialBody) object;
+            CelestialBody celestialBody = (CelestialBody) object;
             String unlocalizedPrefix = ((CelestialBody) object).getUnlocalizedNamePrefix();
             if (!unlocalizedPrefix.equals("unset"))
             {
                 ((CelestialBody) object).setType(CelestialType.create(unlocalizedPrefix));
             }
-            RegisterEvent registerEvent = new RegisterEvent(celestialType, Loader.instance().activeModContainer());
-            objects.add(celestialType);
+            RegisterEvent registerEvent = new RegisterEvent(celestialBody, Loader.instance().activeModContainer());
+            if (celestialBody.isReachable())
+			{
+				landableBodies.add(celestialBody);
+			}
+			if (celestialBody instanceof Planet)
+			{
+				planets.add((Planet) celestialBody);
+			}
+			if (celestialBody instanceof Moon)
+			{
+				moons.add((Moon) celestialBody);
+			}
+			if (celestialBody instanceof Satellite)
+			{
+				satellites.add((Satellite) celestialBody);
+			}
+			objects.add(celestialBody);
             MinecraftForge.EVENT_BUS.post(registerEvent);
         }
     }
@@ -228,6 +203,14 @@ public class GalaxyRegistry
     {
         return ImmutableCelestialList.of(objects);
     }
+
+	/**
+	 * Returns a read-only list containing all registered landable CelestialBodies
+	 */
+	public static ImmutableCelestialList<CelestialBody> getAllRegisteredLandableBodies()
+	{
+		return ImmutableCelestialList.of(landableBodies);
+	}
 
     /**
      * Returns a read-only list containing all registered Solar Systems
@@ -262,14 +245,11 @@ public class GalaxyRegistry
     }
 
     /**
-     * Returns a read-only list containing all CelestialObjects that are reachable
+     * Returns a read-only list containing all CelestialObjects that are landable
      */
-    public static ImmutableCelestialList<CelestialBody> getAllReachableBodies()
+    public static ImmutableCelestialList<CelestialBody> getAllLandableBodies()
     {//@noformat
-        return ImmutableCelestialList.from(
-            planets.stream().filter(CelestialBody.filterReachable()).collect(CelestialCollector.toList()),
-            moons.stream().filter(CelestialBody.filterReachable()).collect(CelestialCollector.toList())
-        );
+        return ImmutableCelestialList.of(landableBodies);
     }
 
     /**
@@ -295,14 +275,21 @@ public class GalaxyRegistry
 
     // -- DEPRECIATED METHODS -- //
 
+	@Deprecated
+	@ReplaceWith("getReachableBodyFromTranslationKey()")
+	public static CelestialBody getPlanetOrMoonFromTranslationkey(String translationKey)
+	{
+		return getReachableBodyFromTranslationkey(translationKey);
+	}
+
     /**
-     * @ReplaceWith {@link GalaxyRegistry#getPlanetOrMoonFromTranslationkey(String translationKey)}
+     * @ReplaceWith {@link GalaxyRegistry#getReachableBodyFromTranslationkey(String translationKey)}
      */
     @Deprecated
-    @ReplaceWith("GalaxyRegistry.getPlanetOrMoonFromTranslationkey(String translationKey)")
+    @ReplaceWith("GalaxyRegistry.getReachableBodyFromTranslationkey(String translationKey)")
     public static CelestialBody getCelestialBodyFromUnlocalizedName(String unlocalizedName)
     {
-        return getPlanetOrMoonFromTranslationkey(unlocalizedName);
+        return getReachableBodyFromTranslationkey(unlocalizedName);
     }
 
     /**

@@ -332,9 +332,9 @@ public abstract class CelestialBody extends CelestialObject implements Comparabl
         {
 
             @Override
-            public boolean test(CelestialBody celestialObject)
+            public boolean test(CelestialBody celestialBody)
             {
-                return celestialObject.isReachable();
+                return celestialBody.isReachable();
             }
         };
     }

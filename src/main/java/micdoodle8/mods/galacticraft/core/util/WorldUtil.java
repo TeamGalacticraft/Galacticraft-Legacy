@@ -61,8 +61,6 @@ import micdoodle8.mods.galacticraft.api.entity.IAntiGrav;
 import micdoodle8.mods.galacticraft.api.entity.IWorldTransferCallback;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
-import micdoodle8.mods.galacticraft.api.galaxies.Moon;
-import micdoodle8.mods.galacticraft.api.galaxies.Planet;
 import micdoodle8.mods.galacticraft.api.galaxies.Satellite;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntityAutoRocket;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntitySpaceshipBase;
@@ -303,41 +301,35 @@ public class WorldUtil
         return temp;
     }
 
-    public static CelestialBody getReachableCelestialBodiesForDimensionID(int id)
-    {
-        List<CelestialBody> celestialBodyList = Lists.newArrayList();
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredMoons().values());
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredPlanets().values());
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredSatellites().values());
+	public static CelestialBody getReachableCelestialBodiesForDimensionID(int id)
+	{
+		List<CelestialBody> landableBodiesList = GalaxyRegistry.getAllRegisteredLandableBodies();
 
-        for (CelestialBody cBody : celestialBodyList)
-        {
-            if (cBody.isReachable())
-            {
-                if (cBody.getDimensionID() == id)
-                {
-                    return cBody;
-                }
-            }
-        }
+		for (CelestialBody lBody : landableBodiesList)
+		{
+			if (lBody.isReachable())
+			{
+				if (lBody.getDimensionID() == id)
+				{
+					return lBody;
+				}
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
     public static CelestialBody getReachableCelestialBodiesForName(String name)
     {
-        List<CelestialBody> celestialBodyList = Lists.newArrayList();
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredMoons().values());
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredPlanets().values());
-        celestialBodyList.addAll(GalaxyRegistry.getRegisteredSatellites().values());
+        List<CelestialBody> landableBodyList = GalaxyRegistry.getAllRegisteredLandableBodies();
 
-        for (CelestialBody cBody : celestialBodyList)
+        for (CelestialBody lBody : landableBodyList)
         {
-            if (cBody.isReachable())
+            if (lBody.isReachable())
             {
-                if (cBody.getName().equals(name))
+                if (lBody.getName().equals(name))
                 {
-                    return cBody;
+                    return lBody;
                 }
             }
         }
@@ -412,41 +404,41 @@ public class WorldUtil
 
         for (Integer id : ids)
         {
-            CelestialBody celestialBody = getReachableCelestialBodiesForDimensionID(id);
+            CelestialBody landableBody = getReachableCelestialBodiesForDimensionID(id);
 
             // It's a space station
-            if (id > 0 && celestialBody == null)
+            if (id > 0 && landableBody == null)
             {
-                celestialBody = GalacticraftCore.satelliteSpaceStation;
+				landableBody = GalacticraftCore.satelliteSpaceStation;
                 // This no longer checks whether a WorldProvider can be created,
                 // for performance reasons (that causes the dimension to load
                 // unnecessarily at map building stage)
                 if (playerBase != null)
                 {
                     final SpaceStationWorldData data = SpaceStationWorldData.getStationData(playerBase.world, id, null);
-                    map.put(celestialBody.getName() + "$" + data.getOwner() + "$" + data.getSpaceStationName() + "$" + id + "$" + data.getHomePlanet(), id);
+                    map.put(landableBody.getName() + "$" + data.getOwner() + "$" + data.getSpaceStationName() + "$" + id + "$" + data.getHomePlanet(), id);
                 }
-            } else if (celestialBody == GalacticraftCore.planetOverworld)
+            } else if (landableBody == GalacticraftCore.planetOverworld)
             {
-                map.put(celestialBody.getName(), id);
+                map.put(landableBody.getName(), id);
             } else
             {
                 WorldProvider provider = WorldUtil.getProviderForDimensionServer(id);
-                if (celestialBody != null && provider != null)
+                if (landableBody != null && provider != null)
                 {
                     if (provider instanceof IGalacticraftWorldProvider && !(provider instanceof IOrbitDimension) || GCCoreUtil.getDimensionID(provider) == 0)
                     {
-                        map.put(celestialBody.getName(), GCCoreUtil.getDimensionID(provider));
+                        map.put(landableBody.getName(), GCCoreUtil.getDimensionID(provider));
                     }
                 }
             }
         }
 
-        ArrayList<CelestialBody> cBodyList = new ArrayList<>();
-        cBodyList.addAll(GalaxyRegistry.getRegisteredPlanets().values());
-        cBodyList.addAll(GalaxyRegistry.getRegisteredMoons().values());
+        ArrayList<CelestialBody> lBodyList = new ArrayList<>();
+        lBodyList.addAll(GalaxyRegistry.getPlanets());
+        lBodyList.addAll(GalaxyRegistry.getMoons());
 
-        for (CelestialBody body : cBodyList)
+        for (CelestialBody body : lBodyList)
         {
             if (!body.isReachable())
             {
@@ -727,17 +719,8 @@ public class WorldUtil
                 ConfigManagerCore.setLoaded(dimID);
             }
 
-            int id = Arrays.binarySearch(ConfigManagerCore.staticLoadDimensions, dimID);
-
-            if (id >= 0)
-            {
-                DimensionManager.registerDimension(dimID, WorldUtil.getDimensionTypeById(staticProviderID));
-                WorldUtil.registeredSpaceStations.put(dimID, staticProviderID);
-            } else
-            {
-                DimensionManager.registerDimension(dimID, WorldUtil.getDimensionTypeById(dynamicProviderID));
-                WorldUtil.registeredSpaceStations.put(dimID, dynamicProviderID);
-            }
+			DimensionManager.registerDimension(dimID, WorldUtil.getDimensionTypeById(staticProviderID));
+			WorldUtil.registeredSpaceStations.put(dimID, staticProviderID);
         } else
         {
             GalacticraftCore.logger.error("Dimension already registered to another mod: unable to register space station dimension " + dimID);
@@ -1598,19 +1581,9 @@ public class WorldUtil
         List<List<String>> checklistValues = Lists.newArrayList();
         List<CelestialBody> bodiesDone = Lists.newArrayList();
 
-        for (Planet planet : GalaxyRegistry.getRegisteredPlanets().values())
+        for (CelestialBody landableBody : GalaxyRegistry.getAllRegisteredLandableBodies())
         {
-            insertChecklistEntries(planet, bodiesDone, checklistValues);
-        }
-
-        for (Moon moon : GalaxyRegistry.getRegisteredMoons().values())
-        {
-            insertChecklistEntries(moon, bodiesDone, checklistValues);
-        }
-
-        for (Satellite satellite : GalaxyRegistry.getRegisteredSatellites().values())
-        {
-            insertChecklistEntries(satellite, bodiesDone, checklistValues);
+            insertChecklistEntries(landableBody, bodiesDone, checklistValues);
         }
 
         return checklistValues;

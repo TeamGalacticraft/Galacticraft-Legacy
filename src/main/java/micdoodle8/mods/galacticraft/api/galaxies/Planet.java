@@ -28,7 +28,7 @@ public class Planet extends CelestialBody
         this.parentSolarSystem = galaxy;
         return this;
     }
-    
+
     public static void addMobToSpawn(String planetName, SpawnListEntry mobData)
     {
         GalaxyRegistry.getPlanetOrMoonFromTranslationkey("planet." + planetName).addMobInfo(mobData);
