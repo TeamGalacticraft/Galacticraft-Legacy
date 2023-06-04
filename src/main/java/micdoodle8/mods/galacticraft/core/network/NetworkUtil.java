@@ -7,8 +7,6 @@
 
 package micdoodle8.mods.galacticraft.core.network;
 
-import com.google.common.math.DoubleMath;
-import io.netty.buffer.ByteBuf;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,13 +14,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
-import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
-import micdoodle8.mods.galacticraft.api.vector.Vector3;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.energy.tile.EnergyStorage;
-import micdoodle8.mods.galacticraft.core.tile.FluidTankGC;
-import micdoodle8.mods.galacticraft.core.wrappers.FlagData;
-import micdoodle8.mods.galacticraft.core.wrappers.Footprint;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
@@ -33,11 +25,24 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
+
+import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
+import micdoodle8.mods.galacticraft.api.vector.Vector3;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.energy.tile.EnergyStorage;
+import micdoodle8.mods.galacticraft.core.tile.FluidTankGC;
+import micdoodle8.mods.galacticraft.core.wrappers.FlagData;
+import micdoodle8.mods.galacticraft.core.wrappers.Footprint;
+
+import com.google.common.math.DoubleMath;
+
+import io.netty.buffer.ByteBuf;
 
 public class NetworkUtil
 {

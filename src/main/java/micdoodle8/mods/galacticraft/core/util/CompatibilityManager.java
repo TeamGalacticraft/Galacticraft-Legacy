@@ -4,83 +4,88 @@
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
  */
-
 package micdoodle8.mods.galacticraft.core.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 //import cpw.mods.fml.common.Loader;
 //import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.ChunkProviderServer;
+
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.oredict.OreDictionary;
+
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class CompatibilityManager
 {
-
-    public final static String modidIC2 = "ic2";
-    public final static String modidMekanism = "mekanism";
-    public final static String modidBuildcraft = "buildcraftcore";
-    public final static String modBCraftTransport = "buildcrafttransport";
-    public final static String modBCraftEnergy = "buildcraftenergy";
-
-    public static boolean PlayerAPILoaded = Loader.isModLoaded("PlayerAPI");
-    public static boolean RenderPlayerAPILoaded = Loader.isModLoaded("RenderPlayerAPI");
-
-    public static boolean modJEILoaded = Loader.isModLoaded("jei");
-    private static boolean modIc2Loaded = Loader.isModLoaded(modidIC2);
-    private static boolean modICClassicLoaded;
-    public static boolean modBCraftLoaded = Loader.isModLoaded(modidBuildcraft);
-    private static boolean modBCraftEnergyLoaded = Loader.isModLoaded(modBCraftEnergy);
-    private static boolean modBCraftTransportLoaded;
-    private static boolean modGTLoaded;
-    private static boolean modTELoaded = Loader.isModLoaded("thermalexpansion");
-    private static boolean modMekLoaded = Loader.isModLoaded(modidMekanism);
-    private static boolean modAetherIILoaded;
-    private static boolean modAppEngLoaded;
-    private static boolean modPneumaticCraftLoaded;
-    private static boolean modBOPLoaded = Loader.isModLoaded("biomesoplenty");
-    private static boolean modEIOLoaded = Loader.isModLoaded("enderio");
-    public static boolean modAALoaded = Loader.isModLoaded("actuallyadditions");
-    private static boolean spongeLoaded;
-    private static boolean modMatterOverdriveLoaded;
-    private static boolean wailaLoaded;
-    public static boolean isSmartMovingLoaded = Loader.isModLoaded("smartmoving");
-    public static boolean isTConstructLoaded = Loader.isModLoaded("tconstruct");
-    public static boolean isWitcheryLoaded = Loader.isModLoaded("witchery");
-    public static boolean isCubicChunksLoaded;
-
-    public static Class<?> classGTOre = null;
-    private static Method spongeOverrideSet = null;
-    private static Method spongeOverrideGet = null;
-    public static Class classBCTransport;
-    public static Class classBCTransportPipeTile;
-    public static Class classBOPWorldType = null;
-    public static Class classBOPws = null;
-    public static Class classBOPwcm = null;
-    public static Class classIC2wrench = null;
-    public static Class classIC2wrenchElectric = null;
-    public static Class classIC2tileEventLoad;
-    public static Class classIC2tileEventUnload;
-    public static Field fieldIC2tickhandler;
-    public static Field fieldIC2networkManager;
-    public static Class classIc2ClassicNetworkManager;
-    public static Class classIC2cableType = null;
-    public static Constructor constructorIC2cableTE = null;
-    private static Method androidPlayerGet;
-    private static Method androidPlayerIsAndroid;
-    public static Class classIc2ClassicTileCable;
-
+    public final static String modidIC2               = "ic2";
+    public final static String modidMekanism          = "mekanism";
+    public final static String modidBuildcraft        = "buildcraftcore";
+    public final static String modBCraftTransport     = "buildcrafttransport";
+    public final static String modBCraftEnergy        = "buildcraftenergy";
+    public static boolean      PlayerAPILoaded        = Loader.isModLoaded("PlayerAPI");
+    public static boolean      RenderPlayerAPILoaded  = Loader.isModLoaded("RenderPlayerAPI");
+    public static boolean      modJEILoaded           = Loader.isModLoaded("jei");
+    private static boolean     modIc2Loaded           = Loader.isModLoaded(modidIC2);
+    private static boolean     modICClassicLoaded;
+    public static boolean      modBCraftLoaded        = Loader.isModLoaded(modidBuildcraft);
+    private static boolean     modBCraftEnergyLoaded  = Loader.isModLoaded(modBCraftEnergy);
+    private static boolean     modBCraftTransportLoaded;
+    private static boolean     modGTLoaded;
+    private static boolean     modTELoaded            = Loader.isModLoaded("thermalexpansion");
+    private static boolean     modMekLoaded           = Loader.isModLoaded(modidMekanism);
+    private static boolean     modAetherIILoaded;
+    private static boolean     modAppEngLoaded;
+    private static boolean     modPneumaticCraftLoaded;
+    private static boolean     modBOPLoaded           = Loader.isModLoaded("biomesoplenty");
+    private static boolean     modEIOLoaded           = Loader.isModLoaded("enderio");
+    public static boolean      modAALoaded            = Loader.isModLoaded("actuallyadditions");
+    private static boolean     spongeLoaded;
+    private static boolean     modMatterOverdriveLoaded;
+    private static boolean     wailaLoaded;
+    public static boolean      isSmartMovingLoaded    = Loader.isModLoaded("smartmoving");
+    public static boolean      isTConstructLoaded     = Loader.isModLoaded("tconstruct");
+    public static boolean      isWitcheryLoaded       = Loader.isModLoaded("witchery");
+    public static boolean      isCubicChunksLoaded;
+    public static Class<?>     classGTOre             = null;
+    private static Method      spongeOverrideSet      = null;
+    private static Method      spongeOverrideGet      = null;
+    public static Class        classBCTransport;
+    public static Class        classBCTransportPipeTile;
+    public static Class        classBOPWorldType      = null;
+    public static Class        classBOPws             = null;
+    public static Class        classBOPwcm            = null;
+    public static Class        classIC2wrench         = null;
+    public static Class        classIC2wrenchElectric = null;
+    public static Class        classIC2tileEventLoad;
+    public static Class        classIC2tileEventUnload;
+    public static Field        fieldIC2tickhandler;
+    public static Field        fieldIC2networkManager;
+    public static Class        classIc2ClassicNetworkManager;
+    public static Class        classIC2cableType      = null;
+    public static Constructor  constructorIC2cableTE  = null;
+    private static Method      androidPlayerGet;
+    private static Method      androidPlayerIsAndroid;
+    public static Class        classIc2ClassicTileCable;
 
     public static void checkForCompatibleMods()
     {
@@ -88,80 +93,38 @@ public class CompatibilityManager
         {
             CompatibilityManager.modGTLoaded = true;
         }
-
         if (CompatibilityManager.modMekLoaded)
         {
             GalacticraftCore.logger.info("Activating Mekanism compatibility.");
         }
-
         if (CompatibilityManager.modTELoaded)
         {
             GalacticraftCore.logger.info("Activating ThermalExpansion compatibility features.");
         }
-
         if (CompatibilityManager.isTConstructLoaded)
         {
             GalacticraftCore.logger.info("Activating Tinker's Construct compatibility features.");
         }
-
         if (CompatibilityManager.modIc2Loaded)
         {
-            try
+            if (tryClass("ic2.api.classic.addon.IC2Plugin") != null)
             {
-                classIc2ClassicTileCable = Class.forName("ic2.core.block.wiring.tile.TileEntityCable");
-                classIc2ClassicNetworkManager = Class.forName("ic2.core.network.NetworkManager");
                 modICClassicLoaded = true;
-            } catch (ClassNotFoundException e)
+                classIc2ClassicTileCable = tryClass("ic2.core.block.wiring.tile.TileEntityCable");
+                classIc2ClassicNetworkManager = tryClass("ic2.core.network.NetworkManager");
+            } else
             {
-                // Silent error - there will always be an Exception here if IC2
-                // (not IC2 Classic) is present.
+                classIC2cableType = tryClass("ic2.core.block.wiring.CableType");
             }
-
-            if (!modICClassicLoaded)
-            {
-                // Ic2 loaded
-                try
-                {
-                    classIC2cableType = Class.forName("ic2.core.block.wiring.CableType");
-                } catch (ClassNotFoundException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-
             try
             {
-                try
-                {
-                    classIC2wrench = Class.forName("ic2.core.item.tool.ItemToolWrench");
-                } catch (ClassNotFoundException e)
-                {
-                }
-
-                try
-                {
-                    classIC2wrenchElectric = Class.forName("ic2.core.item.tool.ItemToolWrenchElectric");
-                } catch (ClassNotFoundException e)
-                {
-                }
-
-                try
-                {
-                    classIC2tileEventLoad = Class.forName("ic2.api.energy.event.EnergyTileLoadEvent");
-                    classIC2tileEventUnload = Class.forName("ic2.api.energy.event.EnergyTileUnloadEvent");
-                } catch (ClassNotFoundException e)
-                {
-                }
-
-                try
-                {
-                    Class clazzIC2 = Class.forName("ic2.core.IC2");
-                    fieldIC2networkManager = clazzIC2.getDeclaredField("network");
-                    fieldIC2tickhandler = clazzIC2.getDeclaredField("tickHandler");
-                } catch (Exception e)
-                {
-                }
-
+                classIC2wrench = tryClass("ic2.core.item.tool.ItemToolWrench");
+                classIC2wrenchElectric = tryClass("ic2.core.item.tool.ItemToolWrenchElectric");
+                classIC2tileEventLoad = tryClass("ic2.api.energy.event.EnergyTileLoadEvent");
+                classIC2tileEventUnload = tryClass("ic2.api.energy.event.EnergyTileUnloadEvent");
+                Class clazzIC2 = tryClass("ic2.core.IC2");
+                fieldIC2networkManager = clazzIC2.getDeclaredField("network");
+                fieldIC2tickhandler = clazzIC2.getDeclaredField("tickHandler");
                 Class classIC2cable;
                 try
                 {
@@ -191,7 +154,6 @@ public class CompatibilityManager
                             BlockEnclosed.onBlockNeighbourChangeIC2a = classIC2cable.getMethod("onBlockUpdate", Block.class);
                         }
                     }
-
                     Constructor<?>[] constructors = classIC2cable.getDeclaredConstructors();
                     for (Constructor<?> constructor2 : constructors)
                     {
@@ -207,13 +169,10 @@ public class CompatibilityManager
             {
                 e.printStackTrace();
             }
-
         }
-
         if (Loader.isModLoaded(modBCraftTransport))
         {
             CompatibilityManager.modBCraftTransportLoaded = true;
-
             try
             {
                 classBCTransport = Class.forName("buildcraft.transport.BCTransportItems");
@@ -222,9 +181,7 @@ public class CompatibilityManager
             {
                 e.printStackTrace();
             }
-
             BlockEnclosed.initialiseBC();
-
             if (CompatibilityManager.classBCTransportPipeTile == null)
             {
                 CompatibilityManager.modBCraftTransportLoaded = false;
@@ -233,7 +190,6 @@ public class CompatibilityManager
                 GalacticraftCore.logger.info("Activating BuildCraft Transport (Pipes) compatibility features.");
             }
         }
-
         if (CompatibilityManager.modBOPLoaded)
         {
             try
@@ -247,31 +203,26 @@ public class CompatibilityManager
                 e.printStackTrace();
             }
         }
-
         if (Loader.isModLoaded("aetherii"))
         {
             CompatibilityManager.modAetherIILoaded = true;
             GalacticraftCore.logger.info("Activating AetherII compatibility feature.");
         }
-
         if (Loader.isModLoaded("appliedenergistics2"))
         {
             CompatibilityManager.modAppEngLoaded = true;
             GalacticraftCore.logger.info("Activating AppliedEnergistics2 compatibility features.");
         }
-
         if (Loader.isModLoaded("pneumaticcraft"))
         {
             CompatibilityManager.modPneumaticCraftLoaded = true;
             GalacticraftCore.logger.info("Activating PneumaticCraft compatibility features.");
         }
-
         if (Loader.isModLoaded("waila"))
         {
             CompatibilityManager.wailaLoaded = true;
             GalacticraftCore.logger.info("Activating WAILA compatibility features.");
         }
-
         if (Loader.isModLoaded("sponge"))
         {
             try
@@ -294,17 +245,15 @@ public class CompatibilityManager
                 }
             }
         }
-
         if (Loader.isModLoaded("cubicchunks"))
         {
             CompatibilityManager.isCubicChunksLoaded = true;
         }
-
         if (Loader.isModLoaded("matteroverdrive"))
         {
             try
             {
-                Class<?> androidPlayer = Class.forName("matteroverdrive.entity.android_player.AndroidPlayer");
+                Class<?> androidPlayer     = Class.forName("matteroverdrive.entity.android_player.AndroidPlayer");
                 Class<?> androidCapability = Class.forName("matteroverdrive.entity.player.MOPlayerCapabilityProvider");
                 CompatibilityManager.androidPlayerGet = androidCapability.getMethod("GetAndroidCapability", Entity.class);
                 CompatibilityManager.androidPlayerIsAndroid = androidPlayer.getMethod("isAndroid");
@@ -313,6 +262,40 @@ public class CompatibilityManager
             {
                 e.printStackTrace();
             }
+        }
+        if (CompatibilityManager.isIc2ClassicLoaded())
+        {
+            Item ic2Coal = ForgeRegistries.ITEMS.getValue(new ResourceLocation("ic2", "itemmisc"));
+            // Coal Chunk
+            OreDictionary.registerOre("coal", new ItemStack(ic2Coal, 1, 252));
+            // Coal Ball
+            OreDictionary.registerOre("coal", new ItemStack(ic2Coal, 1, 250));
+            // Compressed Coal Ball
+            OreDictionary.registerOre("compressedCoal", new ItemStack(ic2Coal, 1, 251));
+            // Charcoal Block
+            OreDictionary.registerOre("blockCharcoal", new ItemStack(ic2Coal, 1, 250));
+        } else if (CompatibilityManager.isIc2Loaded())
+        {
+            Item ic2Coal = ForgeRegistries.ITEMS.getValue(new ResourceLocation("ic2", "crafting"));
+            // Coal Chunk
+            OreDictionary.registerOre("coal", new ItemStack(ic2Coal, 1, 18));
+            // Coal Ball
+            OreDictionary.registerOre("coal", new ItemStack(ic2Coal, 1, 16));
+            // Compressed Coal Ball
+            OreDictionary.registerOre("compressedCoal", new ItemStack(ic2Coal, 1, 17));
+        }
+        OreDictionary.registerOre("charcoal", new ItemStack(Items.COAL, 1, 1));
+    }
+
+    @Nullable
+    private static Class<?> tryClass(String name)
+    {
+        try
+        {
+            return Class.forName(name);
+        } catch (ClassNotFoundException e)
+        {
+            return null;
         }
     }
 
@@ -426,8 +409,8 @@ public class CompatibilityManager
             Class clazz = Class.forName("codechicken.microblock.MicroMaterialRegistry");
             if (clazz != null)
             {
-                Method registerMethod = null;
-                Method[] methodz = clazz.getMethods();
+                Method   registerMethod = null;
+                Method[] methodz        = clazz.getMethods();
                 for (Method m : methodz)
                 {
                     if (m.getName().equals("registerMaterial"))
@@ -458,9 +441,9 @@ public class CompatibilityManager
     {
         if (CompatibilityManager.modMatterOverdriveLoaded)
         {
-//          Equivalent to:
-//            AndroidPlayer androidPlayer = AndroidPlayer.get(player);
-//            return (androidPlayer != null && androidPlayer.isAndroid());
+            //          Equivalent to:
+            //            AndroidPlayer androidPlayer = AndroidPlayer.get(player);
+            //            return (androidPlayer != null && androidPlayer.isAndroid());
             try
             {
                 Object androidPlayer = CompatibilityManager.androidPlayerGet.invoke(null, player);

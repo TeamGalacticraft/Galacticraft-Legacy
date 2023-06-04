@@ -7,12 +7,8 @@
 
 package micdoodle8.mods.galacticraft.core.network;
 
-import io.netty.buffer.ByteBuf;
 import java.io.IOException;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.inventory.IInventorySettable;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityCrafting;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,6 +16,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.inventory.IInventorySettable;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityCrafting;
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
+import io.netty.buffer.ByteBuf;
 
 public class PacketDynamicInventory extends PacketBase
 {

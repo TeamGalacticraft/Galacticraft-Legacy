@@ -8,7 +8,7 @@
 package micdoodle8.mods.galacticraft.core.inventory;
 
 import javax.annotation.Nonnull;
-import micdoodle8.mods.galacticraft.api.inventory.IInventoryGC;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
@@ -16,6 +16,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
+
+import micdoodle8.mods.galacticraft.api.inventory.IInventoryGC;
 
 public class InventoryExtended implements IInventoryGC
 {

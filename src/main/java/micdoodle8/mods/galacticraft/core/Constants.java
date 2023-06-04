@@ -16,7 +16,7 @@ public class Constants
     public static final String MOD_ID_PLANETS                        = "galacticraftplanets";
     public static final String MOD_NAME_SIMPLE                       = "Galacticraft";
 
-    public static final String VERSION                               = "${gcVersion}";
+    public static final String VERSION                               = "${version}";
 
     public static final String DEPENDENCIES_FORGE                    = "required-after:forge@[14.23.5.2847,); ";
     public static final String DEPENDENCIES_MICCORE                  = "required-after:micdoodlecore; ";

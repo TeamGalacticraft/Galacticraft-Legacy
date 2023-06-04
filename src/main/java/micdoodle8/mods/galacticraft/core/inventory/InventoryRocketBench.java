@@ -130,7 +130,7 @@ public class InventoryRocketBench implements IInventory
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer par1EntityPlayer)
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
     {
         return true;
     }

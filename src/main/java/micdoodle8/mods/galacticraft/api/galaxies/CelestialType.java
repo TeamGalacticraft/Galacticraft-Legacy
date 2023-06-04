@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public final class CelestialType
 {
 

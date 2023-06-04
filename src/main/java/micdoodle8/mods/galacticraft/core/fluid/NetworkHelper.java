@@ -10,13 +10,15 @@ package micdoodle8.mods.galacticraft.core.fluid;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.grid.IElectricityNetwork;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IConnector;
 import micdoodle8.mods.galacticraft.api.transmission.tile.INetworkProvider;
 import micdoodle8.mods.galacticraft.api.vector.BlockVec3;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 
 /**
  * A helper class that provides additional useful functions to interact with the

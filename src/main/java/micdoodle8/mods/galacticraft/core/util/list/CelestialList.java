@@ -7,11 +7,15 @@
 
 package micdoodle8.mods.galacticraft.core.util.list;
 
-import com.google.common.collect.ImmutableMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialObject;
+
+import com.google.common.collect.ImmutableMap;
 
 public class CelestialList<T extends CelestialObject> extends ArrayList<T>
 {
@@ -24,30 +28,56 @@ public class CelestialList<T extends CelestialObject> extends ArrayList<T>
         return new CelestialList<>();
     }
 
+    @SafeVarargs
+    public static <E extends CelestialObject> CelestialList<E> of(CelestialList<E>... lists)
+    {
+        List<E> temp = new ArrayList<>();
+        for (List<E> l : lists)
+        {
+            temp.addAll(l);
+        }
+        return new CelestialList<>(temp);
+    }
+
+    public CelestialList(Collection<? extends T> s)
+    {
+        super(s);
+    }
+
     public CelestialList()
     {
         super();
         this.celestialListMap = new HashMap<>();
     }
 
+    private T mapPut(String name, T t)
+    {//@noformat
+        if (celestialListMap.containsKey(name)) { return celestialListMap.get(name); }
+        return celestialListMap.put(name, t);
+    }
+
     @Override
     public boolean add(T e)
-    {
-        if (this.contains(e))
-        {
-            return false;
-        }
-        this.celestialListMap.put(e.getName(), e);
+    {//@noformat
+        if (this.contains(e)) { return false; }
+        mapPut(e.getName(), e);
         return super.add(e);
     }
 
-    public ImmutableCelestialList<T> toImmutableList()
-    {
-        return new ImmutableCelestialList<>(this);
+    @Override
+    public boolean addAll(Collection<? extends T> c)
+    {//@noformat
+        for (T t : c) { add(t); }
+        return true;
     }
-    
+
     public Map<String, T> getRegistered()
     {
         return ImmutableMap.copyOf(this.celestialListMap);
+    }
+    
+    public ImmutableCelestialList<T> toUnmodifiableList()
+    {
+        return ImmutableCelestialList.unmodifiable(this);
     }
 }

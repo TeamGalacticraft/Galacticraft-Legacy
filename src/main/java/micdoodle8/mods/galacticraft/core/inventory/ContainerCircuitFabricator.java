@@ -10,11 +10,7 @@ package micdoodle8.mods.galacticraft.core.inventory;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import micdoodle8.mods.galacticraft.api.item.IItemElectric;
-import micdoodle8.mods.galacticraft.api.recipe.CircuitFabricatorRecipes;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityCircuitFabricator;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -25,6 +21,12 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.api.item.IItemElectric;
+import micdoodle8.mods.galacticraft.api.recipe.CircuitFabricatorRecipes;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityCircuitFabricator;
 
 public class ContainerCircuitFabricator extends Container
 {
@@ -76,9 +78,9 @@ public class ContainerCircuitFabricator extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
-        return this.tileEntity.isUsableByPlayer(par1EntityPlayer);
+        return this.tileEntity.isUsableByPlayer(entityPlayer);
     }
 
     @Override
@@ -92,7 +94,7 @@ public class ContainerCircuitFabricator extends Container
      * clicking.
      */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int par1)
     {
         ItemStack var2 = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(par1);
@@ -172,7 +174,7 @@ public class ContainerCircuitFabricator extends Container
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(par1EntityPlayer, var4);
+            slot.onTake(entityPlayer, var4);
         }
 
         return var2;

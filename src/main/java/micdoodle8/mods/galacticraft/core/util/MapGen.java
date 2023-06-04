@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.miccore.IntCache;
+
 import net.minecraft.init.Biomes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -31,6 +30,11 @@ import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.storage.WorldInfo;
+
+import micdoodle8.mods.miccore.IntCache;
+
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+
 import org.apache.commons.io.FileUtils;
 
 public class MapGen extends BiomeProvider implements Runnable

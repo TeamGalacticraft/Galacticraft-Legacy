@@ -29,11 +29,11 @@ public class SoundUpdaterRocket extends MovingSound
     private boolean soundStopped;
     private boolean ignition = false;
 
-    public SoundUpdaterRocket(EntityPlayerSP par1EntityPlayerSP, EntityAutoRocket par2Entity)
+    public SoundUpdaterRocket(EntityPlayerSP entityPlayerSP, EntityAutoRocket par2Entity)
     {
         super(GCSounds.shuttle, SoundCategory.NEUTRAL);
         this.theRocket = par2Entity;
-        this.thePlayer = par1EntityPlayerSP;
+        this.thePlayer = entityPlayerSP;
         this.attenuationType = ISound.AttenuationType.NONE;
         this.volume = 0.00001F; // If it's zero it won't start playing
         this.pitch = 0.0F; // pitch

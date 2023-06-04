@@ -12,5 +12,7 @@ public interface ICelestial
 
     public String getName();
 
+    public CelestialType getCelestialType();
+
     public void setOwnerId(String ownerId);
 }

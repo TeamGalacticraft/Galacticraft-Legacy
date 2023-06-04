@@ -7,11 +7,12 @@
 
 package micdoodle8.mods.galacticraft.core.items;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemFood;
+
 import micdoodle8.mods.galacticraft.api.item.GCRarity;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemFood;
 
 public class ItemCheese extends ItemFood implements ISortableItem, GCRarity
 {

@@ -7,11 +7,13 @@
 
 package micdoodle8.mods.galacticraft.core.tile;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import micdoodle8.mods.galacticraft.core.tile.IMachineSides.Face;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.util.IStringSerializable;
+
+import micdoodle8.mods.galacticraft.core.tile.IMachineSides.Face;
+
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 /**
  * Used to create the blockState property corresponding to the machine sides,

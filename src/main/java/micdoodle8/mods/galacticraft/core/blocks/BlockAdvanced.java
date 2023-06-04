@@ -8,8 +8,7 @@
 package micdoodle8.mods.galacticraft.core.blocks;
 
 import java.lang.reflect.Method;
-import micdoodle8.mods.galacticraft.core.GCItems;
-import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -21,6 +20,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import micdoodle8.mods.galacticraft.core.GCItems;
+import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 
 /**
  * An advanced block class that is to be extended for wrenching capabilities.

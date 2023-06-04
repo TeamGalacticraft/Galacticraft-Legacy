@@ -28,11 +28,11 @@ public class SoundUpdaterMiner extends MovingSound
     private float targetVolume;
     private float targetPitch;
 
-    public SoundUpdaterMiner(EntityPlayerSP par1EntityPlayerSP, EntityAstroMiner par2Entity)
+    public SoundUpdaterMiner(EntityPlayerSP entityPlayerSP, EntityAstroMiner par2Entity)
     {
         super(GCSounds.astroMiner, SoundCategory.AMBIENT);
         this.theRocket = par2Entity;
-        this.thePlayer = par1EntityPlayerSP;
+        this.thePlayer = entityPlayerSP;
         this.volume = 0.00001F; // If it's zero it won't start playing
         this.targetVolume = 0.6F;
         this.targetPitch = 1.0F;

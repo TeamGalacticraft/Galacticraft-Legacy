@@ -7,16 +7,17 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import micdoodle8.mods.galacticraft.api.item.IItemElectric;
-import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
-import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseElectricBlock;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityFuelLoader;
-import micdoodle8.mods.galacticraft.core.util.FluidUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.api.item.IItemElectric;
+import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
+import micdoodle8.mods.galacticraft.core.energy.tile.TileBaseElectricBlock;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityFuelLoader;
+import micdoodle8.mods.galacticraft.core.util.FluidUtil;
 
 public class ContainerFuelLoader extends Container
 {
@@ -55,7 +56,7 @@ public class ContainerFuelLoader extends Container
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int par2)
     {
         ItemStack var3 = ItemStack.EMPTY;
         final Slot slot = this.inventorySlots.get(par2);
@@ -125,7 +126,7 @@ public class ContainerFuelLoader extends Container
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(par1EntityPlayer, var5);
+            slot.onTake(entityPlayer, var5);
         }
 
         return var3;

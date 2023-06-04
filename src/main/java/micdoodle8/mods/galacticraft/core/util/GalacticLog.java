@@ -7,11 +7,14 @@
 
 package micdoodle8.mods.galacticraft.core.util;
 
-import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+
 import lombok.Getter;
+//import lombok.Getter;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.Level;

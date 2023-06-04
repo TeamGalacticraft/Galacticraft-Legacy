@@ -321,6 +321,8 @@ public class GCBlocks
         OreDictionary.registerOre("blockSilicon", new ItemStack(GCBlocks.basicBlock, 1, 13));
 
         OreDictionary.registerOre("turfMoon", new ItemStack(GCBlocks.blockMoon, 1, EnumBlockBasicMoon.MOON_TURF.getMeta()));
+        OreDictionary.registerOre("itemCharcoal", new ItemStack(Items.COAL, 1, 1));
+        OreDictionary.registerOre("itemCoal", new ItemStack(Items.COAL, 1));
     }
 
     public static void finalizeSort()

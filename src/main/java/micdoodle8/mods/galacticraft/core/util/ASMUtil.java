@@ -7,21 +7,27 @@
 
 package micdoodle8.mods.galacticraft.core.util;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Preconditions;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Optional;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.BiomeProperties;
+
 import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
+
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class ASMUtil {

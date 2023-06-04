@@ -7,13 +7,14 @@
 
 package micdoodle8.mods.galacticraft.core.items;
 
-import micdoodle8.mods.galacticraft.api.item.GCRarity;
-import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import micdoodle8.mods.galacticraft.api.item.GCRarity;
+import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 
 public class ItemBlockLandingPad extends ItemBlockDesc implements GCRarity
 {

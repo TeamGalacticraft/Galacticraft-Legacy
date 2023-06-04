@@ -7,12 +7,6 @@
 
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import micdoodle8.mods.galacticraft.core.tile.IMachineSides;
-import micdoodle8.mods.galacticraft.core.tile.IMachineSidesProperties;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityCircuitFabricator;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityDeconstructor;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityElectricIngotCompressor;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenStorageModule;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -21,6 +15,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+
+import micdoodle8.mods.galacticraft.core.tile.IMachineSides;
+import micdoodle8.mods.galacticraft.core.tile.IMachineSidesProperties;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityCircuitFabricator;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityDeconstructor;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityElectricIngotCompressor;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenStorageModule;
 
 public class BlockMachine2 extends BlockMachineBase
 {

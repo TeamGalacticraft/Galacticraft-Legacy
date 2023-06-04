@@ -67,6 +67,8 @@ import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
 import micdoodle8.mods.galacticraft.api.client.IGameScreen;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
+import micdoodle8.mods.galacticraft.api.galaxies.CelestialObject;
+import micdoodle8.mods.galacticraft.api.galaxies.CelestialType;
 import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
 import micdoodle8.mods.galacticraft.api.galaxies.Moon;
 import micdoodle8.mods.galacticraft.api.galaxies.Planet;
@@ -830,9 +832,9 @@ public class GalacticraftCore
     {
         // Loop through all planets to make sure it's not registered as a
         // reachable dimension first
-        for (CelestialBody body : new ArrayList<>(GalaxyRegistry.getPlanets()))
+        for (CelestialObject body : new ArrayList<>(GalaxyRegistry.getPlanets()))
         {
-            if (body instanceof Planet && name.equalsIgnoreCase(body.getName()))
+            if (body.isEqualTo(CelestialType.PLANET, name))
             {
                 if (((Planet) body).getParentSolarSystem() == system)
                 {

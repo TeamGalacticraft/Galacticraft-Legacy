@@ -7,12 +7,13 @@
 
 package micdoodle8.mods.galacticraft.core.items;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemPickaxe;
+
 import micdoodle8.mods.galacticraft.api.item.GCRarity;
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemPickaxe;
 
 public class ItemPickaxeGC extends ItemPickaxe implements ISortableItem, GCRarity
 {

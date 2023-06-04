@@ -7,6 +7,10 @@
 
 package micdoodle8.mods.galacticraft.core.util;
 
+import java.util.Objects;
+
+import net.minecraftforge.common.property.IUnlistedProperty;
+
 /**
  * This class was originally created by <williewillus> as
  * part of the Botania mod API. Original source:
@@ -19,8 +23,6 @@ package micdoodle8.mods.galacticraft.core.util;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import java.util.Objects;
-import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class PropertyObject<T> implements IUnlistedProperty<T>
 {

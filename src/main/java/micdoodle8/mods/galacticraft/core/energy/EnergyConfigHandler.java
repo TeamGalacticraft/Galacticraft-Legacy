@@ -7,15 +7,18 @@
 
 package micdoodle8.mods.galacticraft.core.energy;
 
-import buildcraft.api.mj.MjAPI;
 import java.io.File;
 import java.util.ArrayList;
-import mekanism.api.gas.Gas;
-import mekanism.api.gas.GasRegistry;
+
+import net.minecraftforge.common.config.Configuration;
+
 import micdoodle8.mods.galacticraft.core.GCFluids;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
-import net.minecraftforge.common.config.Configuration;
+
+import buildcraft.api.mj.MjAPI;
+import mekanism.api.gas.Gas;
+import mekanism.api.gas.GasRegistry;
 
 /**
  * The universal energy compatibility module allows Galacticraft to be

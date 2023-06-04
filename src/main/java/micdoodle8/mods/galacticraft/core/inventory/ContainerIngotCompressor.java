@@ -7,7 +7,6 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import micdoodle8.mods.galacticraft.core.tile.TileEntityIngotCompressor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -16,6 +15,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
+
+import micdoodle8.mods.galacticraft.core.tile.TileEntityIngotCompressor;
 
 public class ContainerIngotCompressor extends Container
 {
@@ -66,9 +67,9 @@ public class ContainerIngotCompressor extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
-        return this.tileEntity.isUsableByPlayer(par1EntityPlayer);
+        return this.tileEntity.isUsableByPlayer(entityPlayer);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class ContainerIngotCompressor extends Container
      * clicking.
      */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int par1)
     {
         ItemStack var2 = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(par1);
@@ -137,7 +138,7 @@ public class ContainerIngotCompressor extends Container
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(par1EntityPlayer, var4);
+            slot.onTake(entityPlayer, var4);
         }
 
         return var2;

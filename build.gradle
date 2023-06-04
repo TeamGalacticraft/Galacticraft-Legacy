@@ -2,17 +2,17 @@ plugins {
     id 'java'
     id 'eclipse'
     id 'org.cadixdev.licenser' version '0.6.1'
-    id 'net.galacticraft.changelog' version '1.0.1'
-    id 'net.galacticraft.tokenizer' version '1.0.0'
-    id 'net.galacticraft.publish' version '1.0.0'
+    id 'com.diffplug.spotless' version '6.13.0'
+    id 'net.minecraftforge.gradle' version '5.1.+'
     id 'net.galacticraft.internal.legacy' version '1.0.0'
+    id 'net.galacticraft.internal.maven' version '1.0.1'
 }
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 group = "dev.galacticraft"
 archivesBaseName = "Galacticraft"
 version = "${mod_version}${version_suffix}"
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 repositories {
     mavenCentral()
@@ -22,16 +22,12 @@ repositories {
     }
 }
 
-configurations {
-    compileOnly.extendsFrom compileRequire
-}
-
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    compileRequire fg.deobf('mod.dependency:mekanism:9.8.3.390')
-    compileRequire fg.deobf('mod.dependency:industrialcraft-2:2.8.222-ex112')
-    compileRequire fg.deobf('mod.dependency:buildcraft-api:7.99.24.8')
+    compileRequired fg.deobf('mod.dependency:mekanism:9.8.3.390')
+    compileRequired fg.deobf('mod.dependency:industrialcraft-2:2.8.222-ex112')
+    compileRequired fg.deobf('mod.dependency:buildcraft-api:7.99.24.8')
     compileOnly fg.deobf('mod.dependency:biomes-o-plenty:7.0.1.2445')
     compileOnly fg.deobf('mod.dependency:appliedenergistics2:rv6-stable-7')
     compileOnly fg.deobf('mod.dependency:redstoneflux:2.1.1.1')
@@ -48,8 +44,15 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
 
-tasks.withType(Copy).all {
-    duplicatesStrategy 'EXCLUDE'
+spotless {
+	enforceCheck false
+    java {
+        target 'src/*/java/micdoodle8/mods/**/*.java'
+        endWithNewline()
+        trimTrailingWhitespace()
+        removeUnusedImports()
+        indentWithSpaces()
+    }
 }
 
 license {
@@ -75,13 +78,20 @@ clean {
 }
 
 tokens {
-    replaceIn("micdoodle8/mods/galacticraft/core/Constants.java")
-    withTokens([ gcVersion: version ])
+    withToken('version', version)
+    classes("Constants.java")
+    resources("mcmod.info")
 }
 
 changelog {
 	fromTag('4.0.4')
 }
+
+maven {
+	excludeDependencies('forge', 'jei')
+	artifacts(mavenJar, deobfJar, sourcesJar)
+}
+
 
 modpublishing {
 
@@ -91,11 +101,22 @@ modpublishing {
     	if (System.getenv().CI)
     		apiKey = 'none'
 	    relations {
-	        optional('mekanism', 'jei', 'journeymap', 'playerapi', 
-	        	'actually-additions', 'redstone-flux', 
-	        	'applied-energistics-2', 'biomes-o-plenty', 
-	        	'buildcraft', 'industrial-craft')
-	        incompatible('betterportals' , 'vics-modern-warfare-mod')
+	        optional(
+	        	'mekanism',
+	        	'jei', 
+	        	'journeymap',
+	        	'playerapi', 
+	        	'actually-additions',
+	        	'redstone-flux', 
+	        	'applied-energistics-2',
+	        	'biomes-o-plenty', 
+	        	'buildcraft',
+	        	'industrial-craft'
+	        )
+	        incompatible(
+	        	'betterportals' ,
+	        	'vics-modern-warfare-mod'
+	        )
 	    }
 	}
 
@@ -109,4 +130,12 @@ modpublishing {
 			optional.version 'vacvhRKp'
 		}
 	}
+}
+
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
+}
+
+build {
+    mustRunAfter(clean)
 }

@@ -7,8 +7,9 @@
 
 package micdoodle8.mods.galacticraft.core.items;
 
-import micdoodle8.mods.galacticraft.api.item.GCRarity;
 import net.minecraft.item.Item;
+
+import micdoodle8.mods.galacticraft.api.item.GCRarity;
 
 public class ItemFuel extends Item implements GCRarity
 {

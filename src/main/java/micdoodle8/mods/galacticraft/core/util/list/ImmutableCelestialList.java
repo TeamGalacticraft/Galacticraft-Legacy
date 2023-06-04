@@ -7,13 +7,27 @@
 
 package micdoodle8.mods.galacticraft.core.util.list;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialObject;
 
 public class ImmutableCelestialList<E extends CelestialObject> extends Immutable<E>
 {
 
     private static final long serialVersionUID = -186156409078238142L;
+
+    @SafeVarargs
+    public static <T extends CelestialObject> ImmutableCelestialList<T> from(CelestialList<T>... lists)
+    {
+        List<T> temp = new ArrayList<>();
+        for (List<T> l : lists)
+        {
+            temp.addAll(l);
+        }
+        return new ImmutableCelestialList<>(temp);
+    }
 
     public static <E extends CelestialObject> ImmutableCelestialList<E> of(Collection<E> collection)
     {

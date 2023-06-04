@@ -204,9 +204,9 @@ public class InventorySlimeling implements IInventory
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer par1EntityPlayer)
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
     {
-        return !this.slimeling.isDead && par1EntityPlayer.getDistanceSq(this.slimeling) <= 64.0D;
+        return !this.slimeling.isDead && entityPlayer.getDistanceSq(this.slimeling) <= 64.0D;
     }
 
     @Override

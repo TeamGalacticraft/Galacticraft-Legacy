@@ -8,6 +8,7 @@
 package micdoodle8.mods.galacticraft.core.inventory;
 
 import javax.annotation.Nonnull;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
@@ -144,7 +145,7 @@ public class PersistantInventoryCrafting extends InventoryCrafting
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer par1EntityPlayer)
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
     {
         return true;
     }

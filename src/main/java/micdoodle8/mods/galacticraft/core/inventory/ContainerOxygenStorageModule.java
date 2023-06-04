@@ -7,13 +7,14 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import micdoodle8.mods.galacticraft.api.item.IItemOxygenSupply;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenStorageModule;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.api.item.IItemOxygenSupply;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenStorageModule;
 
 public class ContainerOxygenStorageModule extends Container
 {
@@ -51,7 +52,7 @@ public class ContainerOxygenStorageModule extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
         return true;
     }
@@ -61,7 +62,7 @@ public class ContainerOxygenStorageModule extends Container
      * clicking.
      */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int par1)
     {
         ItemStack var2 = ItemStack.EMPTY;
         final Slot slot = this.inventorySlots.get(par1);
@@ -114,7 +115,7 @@ public class ContainerOxygenStorageModule extends Container
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(par1EntityPlayer, stack);
+            slot.onTake(entityPlayer, stack);
         }
 
         return var2;

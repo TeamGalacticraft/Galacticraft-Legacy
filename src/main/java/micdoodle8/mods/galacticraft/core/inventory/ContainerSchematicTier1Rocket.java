@@ -7,8 +7,6 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import micdoodle8.mods.galacticraft.core.GCItems;
-import micdoodle8.mods.galacticraft.core.util.RecipeUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -18,7 +16,11 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import net.minecraftforge.oredict.OreDictionary;
+
+import micdoodle8.mods.galacticraft.core.GCItems;
+import micdoodle8.mods.galacticraft.core.util.RecipeUtil;
 
 public class ContainerSchematicTier1Rocket extends Container
 {
@@ -86,9 +88,9 @@ public class ContainerSchematicTier1Rocket extends Container
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer par1EntityPlayer)
+    public void onContainerClosed(EntityPlayer entityPlayer)
     {
-        super.onContainerClosed(par1EntityPlayer);
+        super.onContainerClosed(entityPlayer);
 
         if (!this.world.isRemote)
         {
@@ -98,7 +100,7 @@ public class ContainerSchematicTier1Rocket extends Container
 
                 if (!var3.isEmpty())
                 {
-                    par1EntityPlayer.entityDropItem(var3, 0.0F);
+                    entityPlayer.entityDropItem(var3, 0.0F);
                 }
             }
         }
@@ -111,7 +113,7 @@ public class ContainerSchematicTier1Rocket extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
         return true;
     }
@@ -121,7 +123,7 @@ public class ContainerSchematicTier1Rocket extends Container
      * clicking.
      */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int par1)
     {
         ItemStack var2 = ItemStack.EMPTY;
         final Slot var3 = (Slot) this.inventorySlots.get(par1);
@@ -202,7 +204,7 @@ public class ContainerSchematicTier1Rocket extends Container
             {
                 if (par1 == 0)
                 {
-                    var3.onTake(par1EntityPlayer, var4);
+                    var3.onTake(entityPlayer, var4);
                 }
                 var3.putStack(ItemStack.EMPTY);
                 return var2;
@@ -213,7 +215,7 @@ public class ContainerSchematicTier1Rocket extends Container
                 return ItemStack.EMPTY;
             }
 
-            var3.onTake(par1EntityPlayer, var4);
+            var3.onTake(entityPlayer, var4);
             if (par1 == 0)
             {
                 var3.onSlotChanged();

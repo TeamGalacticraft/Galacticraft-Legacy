@@ -7,11 +7,12 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import micdoodle8.mods.galacticraft.core.items.ItemParaChute;
-import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.core.items.ItemParaChute;
+import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
 
 public class SlotTankRefill extends Slot
 {

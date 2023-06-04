@@ -8,13 +8,15 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
 import java.util.ArrayList;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.blocks.BlockLandingPadFull;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.blocks.BlockLandingPadFull;
 
 public class TileEntityBuggyFuelerSingle extends TileEntity implements ITickable
 {

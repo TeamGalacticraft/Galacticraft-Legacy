@@ -7,12 +7,13 @@
 
 package micdoodle8.mods.galacticraft.core.items;
 
-import micdoodle8.mods.galacticraft.api.item.GCRarity;
-import micdoodle8.mods.galacticraft.core.blocks.BlockDoubleSlabGC;
-import micdoodle8.mods.galacticraft.core.blocks.BlockSlabGC;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.api.item.GCRarity;
+import micdoodle8.mods.galacticraft.core.blocks.BlockDoubleSlabGC;
+import micdoodle8.mods.galacticraft.core.blocks.BlockSlabGC;
 
 public class ItemBlockSlabGC extends ItemSlab implements GCRarity
 {

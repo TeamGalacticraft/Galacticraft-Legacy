@@ -8,6 +8,7 @@
 package micdoodle8.mods.galacticraft.core.perlin;
 
 import java.util.Random;
+
 import micdoodle8.mods.galacticraft.annotations.ReplaceWith;
 
 public class FishyNoise

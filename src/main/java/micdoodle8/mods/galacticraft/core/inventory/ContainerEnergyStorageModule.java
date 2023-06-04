@@ -7,14 +7,15 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import micdoodle8.mods.galacticraft.api.item.IItemElectric;
-import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityEnergyStorageModule;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.api.item.IItemElectric;
+import micdoodle8.mods.galacticraft.core.energy.EnergyUtil;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityEnergyStorageModule;
 
 public class ContainerEnergyStorageModule extends Container
 {
@@ -54,9 +55,9 @@ public class ContainerEnergyStorageModule extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
-        return this.tileEntity.isUsableByPlayer(par1EntityPlayer);
+        return this.tileEntity.isUsableByPlayer(entityPlayer);
     }
 
     /**
@@ -64,7 +65,7 @@ public class ContainerEnergyStorageModule extends Container
      * clicking.
      */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotID)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int slotID)
     {
         ItemStack returnStack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(slotID);
@@ -138,7 +139,7 @@ public class ContainerEnergyStorageModule extends Container
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(par1EntityPlayer, itemStack);
+            slot.onTake(entityPlayer, itemStack);
         }
 
         return returnStack;

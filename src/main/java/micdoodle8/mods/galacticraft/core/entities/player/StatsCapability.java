@@ -9,6 +9,7 @@ package micdoodle8.mods.galacticraft.core.entities.player;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -1024,6 +1025,8 @@ public class StatsCapability extends GCPlayerStats
         nbt.setInteger("thermalLevel", this.thermalLevel);
 
         Collections.sort(this.unlockedSchematics);
+
+        Arrays.sort(new int[6]);
 
         NBTTagList tagList = new NBTTagList();
 

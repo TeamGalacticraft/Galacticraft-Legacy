@@ -9,9 +9,11 @@ package micdoodle8.mods.galacticraft.core.util;
 
 import java.util.Collections;
 import java.util.Comparator;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -56,9 +58,8 @@ public class CreativeTabGC extends CreativeTabs
             try
             {
                 Collections.sort(list, tabSorter);
-            } catch (Exception e)
+            } catch (Exception ingored)
             {
-                e.printStackTrace();
             }
         }
     }

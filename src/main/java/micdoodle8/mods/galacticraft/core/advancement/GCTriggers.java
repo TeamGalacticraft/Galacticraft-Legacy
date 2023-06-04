@@ -7,18 +7,21 @@
 
 package micdoodle8.mods.galacticraft.core.advancement;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
 import java.lang.reflect.Method;
-import micdoodle8.mods.galacticraft.api.prefab.entity.EntitySpaceshipBase;
-import micdoodle8.mods.galacticraft.core.advancement.criterion.GenericTrigger;
-import micdoodle8.mods.galacticraft.core.entities.EntitySkeletonBoss;
-import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
+
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+
+import micdoodle8.mods.galacticraft.api.prefab.entity.EntitySpaceshipBase;
+import micdoodle8.mods.galacticraft.core.advancement.criterion.GenericTrigger;
+import micdoodle8.mods.galacticraft.core.entities.EntitySkeletonBoss;
+import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonObject;
 
 public class GCTriggers
 {

@@ -7,10 +7,6 @@
 
 package micdoodle8.mods.galacticraft.core.util.list;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndex;
-
-import com.google.common.collect.ObjectArrays;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +15,11 @@ import java.util.NoSuchElementException;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Predicate;
+
+import com.google.common.collect.ObjectArrays;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndex;
 
 abstract class Immutable<E> extends ArrayList<E> implements Serializable
 {

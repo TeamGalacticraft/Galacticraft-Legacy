@@ -8,6 +8,7 @@
 package micdoodle8.mods.galacticraft.core.util;
 
 import java.util.Optional;
+
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 

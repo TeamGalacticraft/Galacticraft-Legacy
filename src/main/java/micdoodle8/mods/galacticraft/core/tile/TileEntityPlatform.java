@@ -10,12 +10,7 @@ package micdoodle8.mods.galacticraft.core.tile;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import micdoodle8.mods.galacticraft.api.world.IZeroGDimension;
-import micdoodle8.mods.galacticraft.core.Constants;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.blocks.BlockPlatform;
-import micdoodle8.mods.galacticraft.core.blocks.BlockPlatform.EnumCorner;
-import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStatsClient;
+
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -27,9 +22,17 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import micdoodle8.mods.galacticraft.api.world.IZeroGDimension;
+import micdoodle8.mods.galacticraft.core.Constants;
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.blocks.BlockPlatform;
+import micdoodle8.mods.galacticraft.core.blocks.BlockPlatform.EnumCorner;
+import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStatsClient;
 
 public class TileEntityPlatform extends TileEntity implements ITickable
 {

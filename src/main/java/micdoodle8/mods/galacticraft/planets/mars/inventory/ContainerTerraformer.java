@@ -92,13 +92,13 @@ public class ContainerTerraformer extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
-        return this.tileEntity.isUsableByPlayer(par1EntityPlayer);
+        return this.tileEntity.isUsableByPlayer(entityPlayer);
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int par1)
     {
         ItemStack var2 = ItemStack.EMPTY;
         final Slot slot = this.inventorySlots.get(par1);
@@ -172,7 +172,7 @@ public class ContainerTerraformer extends Container
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(par1EntityPlayer, var4);
+            slot.onTake(entityPlayer, var4);
         }
 
         return var2;

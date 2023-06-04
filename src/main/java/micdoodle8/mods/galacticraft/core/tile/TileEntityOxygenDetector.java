@@ -7,15 +7,16 @@
 
 package micdoodle8.mods.galacticraft.core.tile;
 
-import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
-import micdoodle8.mods.galacticraft.core.blocks.BlockOxygenDetector;
-import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+
+import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
+import micdoodle8.mods.galacticraft.core.blocks.BlockOxygenDetector;
+import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
 
 public class TileEntityOxygenDetector extends TileEntity implements ITickable
 {

@@ -3,8 +3,8 @@
     "modid": "galacticraftcore",
     "name": "Galacticraft",
     "description": "An advanced space travel mod for Minecraft!",
-    "version": "${mod_version}",
-    "mcversion": "${minecraft_version}",
+    "version": "${version}",
+    "mcversion": "1.12.2",
     "logoFile": "assets/galacticraftcore/core-logo.png",
     "authorList": [
       "micdoodle8",

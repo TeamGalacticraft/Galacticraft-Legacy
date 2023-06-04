@@ -9,9 +9,7 @@ package micdoodle8.mods.galacticraft.core.tile;
 
 import java.util.ArrayList;
 import java.util.List;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.blocks.BlockAdvanced;
-import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +19,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.blocks.BlockAdvanced;
+import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
 
 public class TileEntityMulti extends TileEntity
 {

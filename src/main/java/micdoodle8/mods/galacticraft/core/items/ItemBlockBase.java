@@ -7,10 +7,11 @@
 
 package micdoodle8.mods.galacticraft.core.items;
 
-import micdoodle8.mods.galacticraft.api.item.GCRarity;
-import micdoodle8.mods.galacticraft.core.blocks.BlockBasic;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.api.item.GCRarity;
+import micdoodle8.mods.galacticraft.core.blocks.BlockBasic;
 
 public class ItemBlockBase extends ItemBlockDesc implements GCRarity
 {

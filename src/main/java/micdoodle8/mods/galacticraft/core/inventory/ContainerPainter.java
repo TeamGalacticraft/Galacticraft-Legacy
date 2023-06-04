@@ -7,8 +7,6 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import micdoodle8.mods.galacticraft.api.item.IPaintable;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityPainter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -16,6 +14,9 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.api.item.IPaintable;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityPainter;
 
 public class ContainerPainter extends Container
 {
@@ -57,9 +58,9 @@ public class ContainerPainter extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
-        return this.tileEntity.isUsableByPlayer(par1EntityPlayer);
+        return this.tileEntity.isUsableByPlayer(entityPlayer);
     }
 
     /**
@@ -67,7 +68,7 @@ public class ContainerPainter extends Container
      * clicking.
      */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int index)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int index)
     {
         ItemStack stackOrig = ItemStack.EMPTY;
         Slot slot = (Slot) this.inventorySlots.get(index);
@@ -119,7 +120,7 @@ public class ContainerPainter extends Container
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(par1EntityPlayer, stack);
+            slot.onTake(entityPlayer, stack);
         }
 
         return stackOrig;

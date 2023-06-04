@@ -386,15 +386,6 @@ public class ClientProxyCore extends CommonProxyCore implements ISelectiveResour
             ModelLoader.setCustomModelResourceLocation(GCItems.buggy, i, modelResourceLocation);
         }
 
-        //        for (PartialCanister container : ClientProxyCore.canisters)
-        //        {
-        //            modelResourceLocation = new ModelResourceLocation(container.getModID() + ":" + container.getBaseName() + "_0", "inventory");
-        //            for (int i = 0; i < container.getItem().getMaxDamage(); ++i)
-        //            {
-        //                ModelLoader.setCustomModelResourceLocation(container.getItem(), i, modelResourceLocation);
-        //            }
-        //        }
-
         modelResourceLocation = new ModelResourceLocation("galacticraftcore:flag", "inventory");
         ModelLoader.setCustomModelResourceLocation(GCItems.flag, 0, modelResourceLocation);
         ModelLoader.setCustomStateMapper(GCBlocks.oxygenDetector, new StateMap.Builder().ignore(BlockOxygenDetector.ACTIVE).build());

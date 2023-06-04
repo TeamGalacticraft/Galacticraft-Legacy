@@ -7,13 +7,14 @@
 
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import micdoodle8.mods.galacticraft.core.tile.TileEntityPainter;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
+
+import micdoodle8.mods.galacticraft.core.tile.TileEntityPainter;
 
 /**
  * A block for several types of UNPOWERED Galacticraft machine with a base

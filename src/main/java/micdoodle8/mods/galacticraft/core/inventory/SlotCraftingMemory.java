@@ -7,12 +7,13 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import micdoodle8.mods.galacticraft.core.tile.TileEntityCrafting;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.core.tile.TileEntityCrafting;
 
 public class SlotCraftingMemory extends SlotCrafting
 {

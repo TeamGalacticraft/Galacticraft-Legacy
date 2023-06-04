@@ -7,6 +7,23 @@
 
 package micdoodle8.mods.galacticraft.core.items;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
+
+import micdoodle8.mods.galacticraft.api.item.GCRarity;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
+import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
+
 import static net.minecraft.item.EnumDyeColor.BLACK;
 import static net.minecraft.item.EnumDyeColor.BLUE;
 import static net.minecraft.item.EnumDyeColor.BROWN;
@@ -23,22 +40,6 @@ import static net.minecraft.item.EnumDyeColor.RED;
 import static net.minecraft.item.EnumDyeColor.SILVER;
 import static net.minecraft.item.EnumDyeColor.WHITE;
 import static net.minecraft.item.EnumDyeColor.YELLOW;
-
-import micdoodle8.mods.galacticraft.api.item.GCRarity;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
-import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryItem;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.world.World;
 
 public class ItemParaChute extends Item implements ISortableItem, IClickableItem, GCRarity
 {

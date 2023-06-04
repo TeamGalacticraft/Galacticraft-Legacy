@@ -7,9 +7,10 @@
 
 package micdoodle8.mods.galacticraft.core.entities;
 
-import micdoodle8.mods.galacticraft.core.Constants;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
+
+import micdoodle8.mods.galacticraft.core.Constants;
 
 public class EntityAIThrowPlayer extends EntityAIBase
 {

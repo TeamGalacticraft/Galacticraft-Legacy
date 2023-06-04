@@ -7,18 +7,23 @@
 
 package micdoodle8.mods.galacticraft.core.network;
 
-import com.google.common.collect.Sets;
-import io.netty.buffer.ByteBuf;
 import java.util.Collection;
-import micdoodle8.mods.galacticraft.api.transmission.tile.IBufferTransmitter;
-import micdoodle8.mods.galacticraft.core.fluid.FluidNetwork;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
+
+import micdoodle8.mods.galacticraft.api.transmission.tile.IBufferTransmitter;
+import micdoodle8.mods.galacticraft.core.fluid.FluidNetwork;
+
+import com.google.common.collect.Sets;
+
+import io.netty.buffer.ByteBuf;
 
 public class PacketFluidNetworkUpdate extends PacketBase
 {

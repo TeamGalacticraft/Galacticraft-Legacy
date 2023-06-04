@@ -7,13 +7,9 @@
 
 package micdoodle8.mods.galacticraft.core.blocks;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneRepeater;
 import net.minecraft.block.SoundType;
@@ -28,6 +24,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class BlockConcealedRedstone extends Block implements ISortableBlock
 {

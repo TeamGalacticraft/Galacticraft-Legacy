@@ -8,7 +8,7 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
 import java.util.HashMap;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -20,15 +20,18 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 public abstract class TileEntityInventory extends TileEntity implements ISidedInventory
 {
 
-    public NonNullList<ItemStack> inventory;
+    public NonNullList<ItemStack>             inventory;
     private HashMap<EnumFacing, IItemHandler> itemHandlers = new HashMap<>();
     private String tileName;
 
@@ -50,15 +53,8 @@ public abstract class TileEntityInventory extends TileEntity implements ISidedIn
     @Override
     public boolean isEmpty()
     {
-        for (ItemStack stack : getInventory())
-        {
-            if (!stack.isEmpty())
-            {
-                return false;
-            }
-        }
-
-        return true;
+		if(inventory == null) { return true; }
+		return getInventory().isEmpty();
     }
 
     @Override

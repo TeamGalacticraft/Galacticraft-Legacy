@@ -7,13 +7,8 @@
 
 package micdoodle8.mods.galacticraft.core.items;
 
-import appeng.api.AEApi;
-import appeng.api.util.AEColor;
 import java.lang.reflect.Method;
-import micdoodle8.mods.galacticraft.api.item.GCRarity;
-import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed;
-import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed.EnumEnclosedBlockType;
-import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -25,6 +20,14 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import micdoodle8.mods.galacticraft.api.item.GCRarity;
+import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed;
+import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed.EnumEnclosedBlockType;
+import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
+
+import appeng.api.AEApi;
+import appeng.api.util.AEColor;
 
 public class ItemBlockEnclosed extends ItemBlockDesc implements GCRarity
 {

@@ -9,8 +9,7 @@ package micdoodle8.mods.galacticraft.core.tile;
 
 import java.util.Arrays;
 import java.util.List;
-import micdoodle8.mods.galacticraft.api.tile.ITileClientUpdates;
-import micdoodle8.mods.galacticraft.core.tile.IMachineSidesProperties.MachineSidesModel;
+
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,8 +17,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import micdoodle8.mods.galacticraft.api.tile.ITileClientUpdates;
+import micdoodle8.mods.galacticraft.core.tile.IMachineSidesProperties.MachineSidesModel;
 
 /**
  * Used as a common interface for any TileEntity with configurable power, pipe,

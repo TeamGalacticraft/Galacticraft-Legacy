@@ -7,38 +7,37 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
-import micdoodle8.mods.galacticraft.core.tile.TileEntityCoalGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
+import micdoodle8.mods.galacticraft.core.tile.TileEntityCoalGenerator;
 
 public class ContainerCoalGenerator extends Container
 {
 
     private TileEntityCoalGenerator tileEntity;
 
-    public ContainerCoalGenerator(InventoryPlayer par1InventoryPlayer, TileEntityCoalGenerator tileEntity)
+    public ContainerCoalGenerator(InventoryPlayer inventoryPlayer, TileEntityCoalGenerator tileEntity)
     {
         this.tileEntity = tileEntity;
-        this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 33, 34, new ItemStack(Items.COAL), new ItemStack(Item.getItemFromBlock(Blocks.COAL_BLOCK))));
-        int var3;
+        this.addSlotToContainer(new SlotCoalGenerator(tileEntity, 0, 33, 34));
+        int i;
 
-        for (var3 = 0; var3 < 3; ++var3)
+        for (i = 0; i < 3; ++i)
         {
-            for (int var4 = 0; var4 < 9; ++var4)
+            for (int k = 0; k < 9; ++k)
             {
-                this.addSlotToContainer(new Slot(par1InventoryPlayer, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
+                this.addSlotToContainer(new Slot(inventoryPlayer, k + i * 9 + 9, 8 + k * 18, 84 + i * 18));
             }
         }
 
-        for (var3 = 0; var3 < 9; ++var3)
+        for (i = 0; i < 9; ++i)
         {
-            this.addSlotToContainer(new Slot(par1InventoryPlayer, var3, 8 + var3 * 18, 142));
+            this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
         }
     }
 
@@ -49,9 +48,9 @@ public class ContainerCoalGenerator extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
-        return this.tileEntity.isUsableByPlayer(par1EntityPlayer);
+        return this.tileEntity.isUsableByPlayer(entityPlayer);
     }
 
     /**
@@ -59,17 +58,17 @@ public class ContainerCoalGenerator extends Container
      * clicking.
      */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int index)
     {
-        ItemStack var2 = ItemStack.EMPTY;
-        Slot var3 = this.inventorySlots.get(par1);
+        ItemStack stack = ItemStack.EMPTY;
+        Slot slot = this.inventorySlots.get(index);
 
-        if (var3 != null && var3.getHasStack())
+        if (slot != null && slot.getHasStack())
         {
-            ItemStack var4 = var3.getStack();
-            var2 = var4.copy();
+            ItemStack var4 = slot.getStack();
+            stack = var4.copy();
 
-            if (par1 != 0)
+            if (index != 0)
             {
                 if (var4.getItem() == Items.COAL)
                 {
@@ -77,7 +76,7 @@ public class ContainerCoalGenerator extends Container
                     {
                         return ItemStack.EMPTY;
                     }
-                } else if (par1 >= 28)
+                } else if (index >= 28)
                 {
                     if (!this.mergeItemStack(var4, 1, 28, false))
                     {
@@ -95,20 +94,20 @@ public class ContainerCoalGenerator extends Container
 
             if (var4.getCount() == 0)
             {
-                var3.putStack(ItemStack.EMPTY);
+                slot.putStack(ItemStack.EMPTY);
             } else
             {
-                var3.onSlotChanged();
+                slot.onSlotChanged();
             }
 
-            if (var4.getCount() == var2.getCount())
+            if (var4.getCount() == stack.getCount())
             {
                 return ItemStack.EMPTY;
             }
 
-            var3.onTake(par1EntityPlayer, var4);
+            slot.onTake(entityPlayer, var4);
         }
 
-        return var2;
+        return stack;
     }
 }

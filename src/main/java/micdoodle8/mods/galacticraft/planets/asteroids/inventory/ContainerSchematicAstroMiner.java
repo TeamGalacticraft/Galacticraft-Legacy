@@ -77,9 +77,9 @@ public class ContainerSchematicAstroMiner extends Container
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer par1EntityPlayer)
+    public void onContainerClosed(EntityPlayer entityPlayer)
     {
-        super.onContainerClosed(par1EntityPlayer);
+        super.onContainerClosed(entityPlayer);
 
         if (!this.world.isRemote)
         {
@@ -89,7 +89,7 @@ public class ContainerSchematicAstroMiner extends Container
 
                 if (!var3.isEmpty())
                 {
-                    par1EntityPlayer.entityDropItem(var3, 0.0F);
+                    entityPlayer.entityDropItem(var3, 0.0F);
                 }
             }
         }
@@ -102,13 +102,13 @@ public class ContainerSchematicAstroMiner extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
         return true;
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int par1)
     {
         ItemStack var2 = ItemStack.EMPTY;
         final Slot var3 = this.inventorySlots.get(par1);
@@ -179,7 +179,7 @@ public class ContainerSchematicAstroMiner extends Container
                 return ItemStack.EMPTY;
             }
 
-            var3.onTake(par1EntityPlayer, var4);
+            var3.onTake(entityPlayer, var4);
         }
 
         return var2;
