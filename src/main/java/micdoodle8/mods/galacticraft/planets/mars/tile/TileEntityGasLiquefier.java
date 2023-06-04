@@ -552,17 +552,9 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        if (side == EnumFacing.DOWN)
-        {
-            return new int[] {0, 1, 2, 3};
-        }
-
-        if (side == EnumFacing.UP)
-        {
-            return new int[] {0};
-        }
-
-        return new int[] {1, 2, 3};
+       
+       
+        return side == EnumFacing.UP ? new int[] { 0 } : new int[] { 0, 1, 2 };
     }
 
     @Override
@@ -596,7 +588,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
             case 1:
                 return FluidUtil.isEmptyContainer(itemstack);
             case 2:
-            case 3:
+        
                 return FluidUtil.isFullContainer(itemstack);
 
             default:
@@ -613,7 +605,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
                 return ItemElectricBase.isElectricItem(itemstack.getItem());
             case 1:
             case 2:
-            case 3:
+            
                 return FluidUtil.isValidContainer(itemstack);
         }
 
