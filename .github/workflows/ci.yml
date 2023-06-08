@@ -2,8 +2,6 @@ name: 'CI'
 on:
   push:
     branches: [ "master-1.12" ]
-  pull_request:
-    branches: [ "master-1.12" ]
 jobs:
   build:
     env:
