@@ -7,6 +7,7 @@
 
 package micdoodle8.mods.galacticraft.core.inventory;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
@@ -38,6 +39,15 @@ public class SlotArmorGC extends Slot
     {
         return 1;
     }
+    @Override
+    public boolean canTakeStack(EntityPlayer playerIn) {
+    	ItemStack item = this.inventory.getStackInSlot(getSlotIndex());
+    	if(EnchantmentHelper.hasBindingCurse(item)) {
+    		return false;
+        }
+    	return super.canTakeStack(playerIn);
+    }
+
 
     @Override
     public boolean isItemValid(ItemStack par1ItemStack)
