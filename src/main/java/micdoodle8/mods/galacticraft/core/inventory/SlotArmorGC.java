@@ -39,6 +39,7 @@ public class SlotArmorGC extends Slot
     {
         return 1;
     }
+	
     @Override
     public boolean canTakeStack(EntityPlayer playerIn) {
     	ItemStack item = this.inventory.getStackInSlot(getSlotIndex());
@@ -47,7 +48,6 @@ public class SlotArmorGC extends Slot
         }
     	return super.canTakeStack(playerIn);
     }
-
 
     @Override
     public boolean isItemValid(ItemStack par1ItemStack)
