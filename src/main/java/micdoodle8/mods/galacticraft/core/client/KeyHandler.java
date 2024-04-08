@@ -117,7 +117,16 @@ public abstract class KeyHandler
             int keyCode = keyBinding.getKeyCode();
             if (keyCode == Keyboard.KEY_NONE)
                 continue;
-            boolean state = keyCode < 0 ? Mouse.isButtonDown(keyCode + 100) : Keyboard.isKeyDown(keyCode);
+            boolean state;
+            try
+            {
+                state = keyCode < 0 ? Mouse.isButtonDown(keyCode + 100) : Keyboard.isKeyDown(keyCode);
+            } catch (IndexOutOfBoundsException e)
+            {
+                GalacticraftCore.logger.error("Invalid keybinding! " + keyBinding.getKeyDescription());
+                continue;
+            }
+
             if (state != this.keyDown[i + this.keyBindings.length] || state && this.vRepeatings[i])
             {
                 if (state)
