@@ -28,7 +28,8 @@ import micdoodle8.mods.galacticraft.core.util.CompatibilityManager;
 
 import appeng.api.AEApi;
 import appeng.api.util.AEColor;
-import java.lang.ClassNotFoundException
+import java.lang.ClassNotFoundException;
+import java.lang.NoSuchMethodException;
 
 public class ItemBlockEnclosed extends ItemBlockDesc implements GCRarity
 {
@@ -105,7 +106,7 @@ public class ItemBlockEnclosed extends ItemBlockDesc implements GCRarity
                         Method methPl = clazzpp.getMethod("place", ItemStack.class, BlockPos.class, EnumFacing.class, EntityPlayer.class, EnumHand.class, World.class, enumPlaceType, int.class);
                         methPl.invoke(null, itemME, origPos, side, playerIn, hand, worldIn, enumPlaceType.getEnumConstants()[2], 0);
                     }
-					catch (ClassNotFoundException) {
+					catch (ClassNotFoundException | NoSuchMethodException ignored ) {
 						Class clazzpp = Class.forName("appeng.parts.PartPlacement");
 						Method methPl = clazzpp.getMethod("place", ItemStack.class, BlockPos.class, EnumFacing.class, EntityPlayer.class, EnumHand.class, World.class);
 						methPl.invoke(null,itemME, origPos, side, playerIn, hand, worldIn);
