@@ -106,6 +106,7 @@ public class ItemBlockEnclosed extends ItemBlockDesc implements GCRarity
                         methPl.invoke(null, itemME, origPos, side, playerIn, hand, worldIn, enumPlaceType.getEnumConstants()[2], 0);
                     }
 					catch (ClassNotFoundException) {
+						Class clazzpp = Class.forName("appeng.parts.PartPlacement");
 						Method methPl = clazzpp.getMethod("place", ItemStack.class, BlockPos.class, EnumFacing.class, EntityPlayer.class, EnumHand.class, World.class);
 						methPl.invoke(null,itemME, origPos, side, playerIn, hand, worldIn);
 					}
