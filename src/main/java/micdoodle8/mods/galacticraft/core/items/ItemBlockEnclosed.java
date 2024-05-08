@@ -81,11 +81,7 @@ public class ItemBlockEnclosed extends ItemBlockDesc implements GCRarity {
 					ItemStack itemME = AEApi.instance().definitions().parts().cableGlass().stack(AEColor.TRANSPARENT, 1);
 					itemME.setCount(2); // Fool AppEng into not destroying
 					// anything in the player inventory
-					if (AEApi.instance().partHelper().placeBus(itemME, origPos, side, playerIn, hand, worldIn) != EnumActionResult.SUCCESS) {
-						SoundType soundType = this.getBlock().getSoundType(iblockstate, worldIn, pos, playerIn);
-						worldIn.playSound(playerIn, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F,
-							soundType.getPitch() * 0.8F);
-					}
+					AEApi.instance().partHelper().placeBus(itemME, origPos, side, playerIn, hand, worldIn);
 				}
 				return EnumActionResult.SUCCESS;
 			} else {
@@ -95,6 +91,10 @@ public class ItemBlockEnclosed extends ItemBlockDesc implements GCRarity {
 			return super.onItemUse(playerIn, worldIn, pos, hand, side, hitX, hitY, hitZ);
 		}
 	}
+
+
+
+
 
 	@Override
 	public int getMetadata(int damage) {
