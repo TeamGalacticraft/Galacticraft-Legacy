@@ -76,22 +76,15 @@ public class ItemBlockEnclosed extends ItemBlockDesc implements GCRarity {
 				IBlockState iblockstate1 = this.block.getStateForPlacement(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn);
 
 				if (placeBlockAt(itemstack, playerIn, worldIn, pos, side, hitX, hitY, hitZ, iblockstate1)) {
-					SoundType soundType = this.getBlock().getSoundType(iblockstate, worldIn, pos, playerIn);
-					worldIn.playSound(playerIn, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F,
-						soundType.getPitch() * 0.8F);
 					itemstack.shrink(1);
 
 					ItemStack itemME = AEApi.instance().definitions().parts().cableGlass().stack(AEColor.TRANSPARENT, 1);
 					itemME.setCount(2); // Fool AppEng into not destroying
 					// anything in the player inventory
-					AEApi.instance().partHelper().placeBus(itemME, origPos, side, playerIn, hand, worldIn);
-					// Emulate appeng.parts.PartPlacement.place( is, pos, side,
-					// player, w, PartPlacement.PlaceType.INTERACT_SECOND_PASS,
-					// 0 );
-					try {
-						PartPlacement.place(itemME, origPos, side, playerIn, hand, worldIn, PartPlacement.PlaceType.INTERACT_SECOND_PASS, 0);
-					} catch (Exception e) {
-						GalacticraftCore.logger.catching(e);
+					if (AEApi.instance().partHelper().placeBus(itemME, origPos, side, playerIn, hand, worldIn) != EnumActionResult.SUCCESS) {
+						SoundType soundType = this.getBlock().getSoundType(iblockstate, worldIn, pos, playerIn);
+						worldIn.playSound(playerIn, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F,
+							soundType.getPitch() * 0.8F);
 					}
 				}
 				return EnumActionResult.SUCCESS;
