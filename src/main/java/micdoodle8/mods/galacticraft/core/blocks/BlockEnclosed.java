@@ -11,6 +11,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import appeng.tile.networking.TileCableBus;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -387,23 +388,12 @@ public class BlockEnclosed extends Block implements IPartialSealableBlock, ITile
         {
             if (CompatibilityManager.isAppEngLoaded())
             {
-                // Emulate Api.INSTANCE.partHelper().getCombinedInstance(
-                // TileCableBus.class )
-                try
-                {
-                    IPartHelper apiPart = AEApi.instance().partHelper();
-                    Class classTileCableBus = Class.forName("appeng.tile.networking.TileCableBus");
-                    for (Method m : apiPart.getClass().getMethods())
-                    {
-                        if ("getCombinedInstance".equals(m.getName()))
-                        {
-                            return (TileEntity) ((Class) m.invoke(apiPart, classTileCableBus)).newInstance();
-                        }
-                    }
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+				try {
+					Class<?> cableBusClass = Class.forName("appeng.tile.networking.TileCableBus");
+					return (TileEntity) cableBusClass.newInstance();
+				}catch (Exception e){
+					GalacticraftCore.logger.catching(e);
+				}
             }
         } else if (metadata <= EnumEnclosedBlockType.ALUMINUM_WIRE.getMeta())
         {
