@@ -169,7 +169,7 @@ public class ItemFood extends net.minecraft.item.ItemFood implements ISortableIt
         worldIn.playSound(null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
         if (!worldIn.isRemote && (stack.getItemDamage() < 4 || stack.getItemDamage() == 9))
         {
-            entityLiving.entityDropItem(new ItemStack(GCItems.canister, 1, 0), 0.0F);
+            ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(GCItems.canister, 1, 0), 0);
         }
         stack.shrink(1);
         return stack;
