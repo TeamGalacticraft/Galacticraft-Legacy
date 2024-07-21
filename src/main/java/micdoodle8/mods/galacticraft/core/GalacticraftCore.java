@@ -213,12 +213,12 @@ import api.player.server.ServerPlayerAPI;
 
 //@noformat
 @Mod(
-	modid = Constants.MOD_ID_CORE, 
-	name = GalacticraftCore.NAME, 
-	version = Constants.VERSION, 
-	dependencies = Constants.DEPENDENCIES_FORGE + Constants.DEPENDENCIES_MICCORE, 
-	useMetadata = false, 
-	acceptedMinecraftVersions = "[1.12, 1.13)", 
+	modid = Constants.MOD_ID_CORE,
+	name = GalacticraftCore.NAME,
+	version = Constants.VERSION,
+	dependencies = Constants.DEPENDENCIES_FORGE + Constants.DEPENDENCIES_MICCORE,
+	useMetadata = false,
+	acceptedMinecraftVersions = "[1.12, 1.13)",
 	guiFactory = "micdoodle8.mods.galacticraft.core.client.gui.screen.ConfigGuiFactoryCore"
 )
 public class GalacticraftCore
@@ -291,7 +291,7 @@ public class GalacticraftCore
 
         GCCoreUtil.nextID = 0;
 
-        if (CompatibilityManager.isSmartMovingLoaded || CompatibilityManager.isWitcheryLoaded)
+        if (CompatibilityManager.isSmartMovingLoaded || CompatibilityManager.isWitcheryLoaded || CompatibilityManager.isAquaAcrobaticsLoaded)
         {
             isHeightConflictingModInstalled = true;
         }

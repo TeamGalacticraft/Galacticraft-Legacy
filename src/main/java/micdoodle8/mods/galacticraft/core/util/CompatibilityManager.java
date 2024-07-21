@@ -65,6 +65,7 @@ public class CompatibilityManager
     public static boolean      isSmartMovingLoaded    = Loader.isModLoaded("smartmoving");
     public static boolean      isTConstructLoaded     = Loader.isModLoaded("tconstruct");
     public static boolean      isWitcheryLoaded       = Loader.isModLoaded("witchery");
+	public static boolean      isAquaAcrobaticsLoaded = Loader.isModLoaded("aquaacrobatics");
     public static boolean      isCubicChunksLoaded;
     public static Class<?>     classGTOre             = null;
     private static Method      spongeOverrideSet      = null;
