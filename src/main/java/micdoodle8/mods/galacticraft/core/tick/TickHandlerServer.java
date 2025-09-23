@@ -186,7 +186,7 @@ public class TickHandlerServer
      * Only use this for AIR blocks (any type of BlockAir)
      *
      * @param dimID
-     * @param changeAdd List of <ScheduledBlockChange>
+     * @param changeAdd List of {@link micdoodle8.mods.galacticraft.core.wrappers.ScheduledBlockChange}
      */
     public static void scheduleNewBlockChange(int dimID, List<ScheduledBlockChange> changeAdd)
     {

@@ -26,7 +26,7 @@ public interface IGalacticraftWorldProvider
 
     /**
      * Gets custom arrow gravity, overriding the vanilla gravity for arrows
-     * 
+     *
      * @return added y-motion per tick for arrows
      */
     float getArrowGravity();
@@ -66,7 +66,7 @@ public interface IGalacticraftWorldProvider
     float getFallDamageModifier();
 
     /**
-     * 
+     *
      * @return true if this world has no type of atmosphere at all - e.g. the
      *         Moon
      */
@@ -94,7 +94,7 @@ public interface IGalacticraftWorldProvider
      * If false (the default) then Nether Portals will have no function on this
      * world. Nether Portals can still be constructed, if the player can make
      * fire, they just won't do anything.
-     * 
+     *
      * @return True if Nether Portals should work like on the Overworld.
      */
     boolean netherPortalsOperational();
@@ -125,9 +125,9 @@ public interface IGalacticraftWorldProvider
     float getWindLevel();
 
     /**
-     * Factor by which the sun is to be drawn smaller (<1.0) or larger (>1.0)
+     * Factor by which the sun is to be drawn smaller (&lt;1.0) or larger (&gt;1.0)
      * than the sun on the Overworld
-     * 
+     *
      * @return factor
      */
     float getSolarSize();

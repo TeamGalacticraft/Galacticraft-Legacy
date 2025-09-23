@@ -19,7 +19,7 @@ import net.minecraft.world.WorldServer;
 
 /**
  * This class provides various hooks which are missing from Forge or don't quite
- * do what we need. </p> Do not reference this or test 'instance of' this in
+ * do what we need. <p> Do not reference this or test 'instance of' this in
  * your code: if PlayerAPI is installed, GCEntityPlayerMP will not be used.
  */
 public class GCEntityPlayerMP extends EntityPlayerMP

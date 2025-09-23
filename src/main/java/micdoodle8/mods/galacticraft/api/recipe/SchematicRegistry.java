@@ -121,7 +121,6 @@ public class SchematicRegistry
      *
      * @param currentIndex the current index of unlocked schematics the player
      *        is viewing
-     * @return the schematic page that will be shown when the player clicks NEXT
      */
     @SideOnly(Side.CLIENT)
     public static void flipToNextPage(GuiScreen cs, int currentIndex)
@@ -138,7 +137,6 @@ public class SchematicRegistry
      *
      * @param currentIndex the current index of unlocked schematics the player
      *        is viewing
-     * @return the schematic page that will be shown when the player clicks BACK
      */
     @SideOnly(Side.CLIENT)
     public static void flipToLastPage(GuiScreen cs, int currentIndex)
