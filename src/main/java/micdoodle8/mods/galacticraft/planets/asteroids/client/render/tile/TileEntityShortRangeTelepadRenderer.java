@@ -55,7 +55,7 @@ public class TileEntityShortRangeTelepadRenderer extends TileEntitySpecialRender
     @Override
     public void render(TileEntityShortRangeTelepad te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
     {
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
 
         RenderHelper.disableStandardItemLighting();
         this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -69,14 +69,14 @@ public class TileEntityShortRangeTelepadRenderer extends TileEntitySpecialRender
 
         updateModels();
 
-        GL11.glTranslatef((float) x + 0.5F, (float) y, (float) z + 0.5F);
+        GlStateManager.translate((float) x + 0.5F, (float) y, (float) z + 0.5F);
 
-        GL11.glScalef(0.745F, 1.0F, 0.745F);
+        GlStateManager.scale(0.745F, 1.0F, 0.745F);
 
         ClientUtil.drawBakedModel(teleporterBottom);
-        GL11.glTranslatef(0.0F, -0.7F, 0.0F);
+        GlStateManager.translate(0.0F, -0.7F, 0.0F);
         ClientUtil.drawBakedModel(teleporterTop);
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 }

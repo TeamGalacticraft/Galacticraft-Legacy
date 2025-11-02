@@ -12,6 +12,7 @@ import java.util.List;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.planets.asteroids.tile.TileEntityBeamOutput;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
@@ -46,7 +47,7 @@ public class NetworkRenderer
         double interpPosY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
         double interpPosZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
 
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GlStateManager.disableTexture2D();
 
         for (TileEntityBeamOutput tileEntity : nodes)
         {
@@ -55,7 +56,7 @@ public class NetworkRenderer
                 continue;
             }
 
-            GL11.glPushMatrix();
+            GlStateManager.pushMatrix();
 
             Vector3 outputPoint = tileEntity.getOutputPoint(true);
             Vector3 targetInputPoint = tileEntity.getTarget().getInputPoint();
@@ -66,12 +67,12 @@ public class NetworkRenderer
             float posX = (float) (tileEntity.getPos().getX() - interpPosX);
             float posY = (float) (tileEntity.getPos().getY() - interpPosY);
             float posZ = (float) (tileEntity.getPos().getZ() - interpPosZ);
-            GL11.glTranslatef(posX, posY, posZ);
+            GlStateManager.translate(posX, posY, posZ);
 
-            GL11.glTranslatef(outputPoint.floatX() - tileEntity.getPos().getX(), outputPoint.floatY() - tileEntity.getPos().getY(), outputPoint.floatZ() - tileEntity.getPos().getZ());
-            GL11.glRotatef(tileEntity.yaw + 180, 0, 1, 0);
-            GL11.glRotatef(-tileEntity.pitch, 1, 0, 0);
-            GL11.glRotatef(tileEntity.ticks * 10, 0, 0, 1);
+            GlStateManager.translate(outputPoint.floatX() - tileEntity.getPos().getX(), outputPoint.floatY() - tileEntity.getPos().getY(), outputPoint.floatZ() - tileEntity.getPos().getZ());
+            GlStateManager.rotate(tileEntity.yaw + 180, 0, 1, 0);
+            GlStateManager.rotate(-tileEntity.pitch, 1, 0, 0);
+            GlStateManager.rotate(tileEntity.ticks * 10, 0, 0, 1);
 
             tess.getBuffer().begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
 
@@ -85,11 +86,11 @@ public class NetworkRenderer
 
             tess.draw();
 
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GlStateManager.enableTexture2D();
 
-        GL11.glColor4f(1, 1, 1, 1);
+        GlStateManager.color(1, 1, 1, 1);
     }
 }

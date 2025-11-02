@@ -22,6 +22,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -485,13 +486,13 @@ public class TransformerHooks
             if (offset > -10F)
             {
                 offset += PLAYER_Y_OFFSET;
-                GL11.glTranslatef(0, -offset, 0);
+                GlStateManager.translate(0, -offset, 0);
                 float anglePitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
                 float angleYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
-                GL11.glRotatef(-anglePitch, 0.0F, 0.0F, 1.0F);
-                GL11.glRotatef(angleYaw, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(-anglePitch, 0.0F, 0.0F, 1.0F);
+                GlStateManager.rotate(angleYaw, 0.0F, 1.0F, 0.0F);
 
-                GL11.glTranslatef(0, offset, 0);
+                GlStateManager.translate(0, offset, 0);
             }
         }
 
@@ -501,24 +502,24 @@ public class TransformerHooks
             float yaw = viewEntity.prevRotationYaw + (viewEntity.rotationYaw - viewEntity.prevRotationYaw) * partialTicks + 180.0F;
             float eyeHeightChange = viewEntity.width / 2.0F;
 
-            GL11.glRotatef(-yaw, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(-pitch, 1.0F, 0.0F, 0.0F);
-            GL11.glTranslatef(0.0F, 0.0F, 0.1F);
+            GlStateManager.rotate(-yaw, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(-pitch, 1.0F, 0.0F, 0.0F);
+            GlStateManager.translate(0.0F, 0.0F, 0.1F);
 
             EnumGravity gDir = stats.getGdir();
-            GL11.glRotatef(180.0F * gDir.getThetaX(), 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(180.0F * gDir.getThetaZ(), 0.0F, 0.0F, 1.0F);
-            GL11.glRotatef(pitch * gDir.getPitchGravityX(), 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(pitch * gDir.getPitchGravityY(), 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(yaw * gDir.getYawGravityX(), 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(yaw * gDir.getYawGravityY(), 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(yaw * gDir.getYawGravityZ(), 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotate(180.0F * gDir.getThetaX(), 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(180.0F * gDir.getThetaZ(), 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotate(pitch * gDir.getPitchGravityX(), 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(pitch * gDir.getPitchGravityY(), 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(yaw * gDir.getYawGravityX(), 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(yaw * gDir.getYawGravityY(), 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(yaw * gDir.getYawGravityZ(), 0.0F, 0.0F, 1.0F);
 
-            GL11.glTranslatef(eyeHeightChange * gDir.getEyeVecX(), eyeHeightChange * gDir.getEyeVecY(), eyeHeightChange * gDir.getEyeVecZ());
+            GlStateManager.translate(eyeHeightChange * gDir.getEyeVecX(), eyeHeightChange * gDir.getEyeVecY(), eyeHeightChange * gDir.getEyeVecZ());
 
             if (stats.getGravityTurnRate() < 1.0F)
             {
-                GL11.glRotatef(90.0F * (stats.getGravityTurnRatePrev() + (stats.getGravityTurnRate() - stats.getGravityTurnRatePrev()) * partialTicks), stats.getGravityTurnVecX(), stats.getGravityTurnVecY(), stats.getGravityTurnVecZ());
+                GlStateManager.rotate(90.0F * (stats.getGravityTurnRatePrev() + (stats.getGravityTurnRate() - stats.getGravityTurnRatePrev()) * partialTicks), stats.getGravityTurnVecX(), stats.getGravityTurnVecY(), stats.getGravityTurnVecZ());
             }
         }
     }
@@ -544,10 +545,10 @@ public class TransformerHooks
 
         Tessellator tessellator = Tessellator.getInstance();
         float f1 = ClientProxyCore.mc.player.getBrightness() / 3.0F;
-        GL11.glColor4f(f1, f1, f1, 1.0F);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glPushMatrix();
+        GlStateManager.color(f1, f1, f1, 1.0F);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.pushMatrix();
         float f2 = 4.0F;
         float f3 = -1.1F;
         float f4 = 1.1F;
@@ -563,9 +564,9 @@ public class TransformerHooks
         worldRenderer.pos(f4, f6, f7).tex(0.0F + f8, 0.0F + f9).endVertex();
         worldRenderer.pos(f3, f6, f7).tex(f2 + f8, 0.0F + f9).endVertex();
         tessellator.draw();
-        GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.popMatrix();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableBlend();
     }
 
     @SideOnly(Side.CLIENT)

@@ -10,14 +10,14 @@ package micdoodle8.mods.galacticraft.core.client.render.tile;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityDish;
 import micdoodle8.mods.galacticraft.core.util.ClientUtil;
+
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class TileEntityDishRenderer extends TileEntitySpecialRenderer<TileEntityDish>
 {
@@ -56,30 +56,30 @@ public class TileEntityDishRenderer extends TileEntitySpecialRenderer<TileEntity
 
         final EntityPlayer player = FMLClientHandler.instance().getClient().player;
 
-        GL11.glPushMatrix();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glTranslatef((float) par2, (float) par4, (float) par6);
-        GL11.glTranslatef(0.5F, 1.0F, 0.5F);
-        GL11.glScalef(1.6F, 1.25F, 1.6F);
+        GlStateManager.pushMatrix();
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.translate((float) par2, (float) par4, (float) par6);
+        GlStateManager.translate(0.5F, 1.0F, 0.5F);
+        GlStateManager.scale(1.6F, 1.25F, 1.6F);
 
         this.renderEngine.bindTexture(textureSupport);
         ClientUtil.drawBakedModel(modelSupport);
-        GL11.glScalef(1.25F, 1.6F, 1.25F);
-        GL11.glTranslatef(0F, 2.88F * 0.15F / 1.6F, 0F);
-        GL11.glScalef(0.85F, 0.85F, 0.85F);
-        GL11.glRotatef(hour, 0, -1, 0);
+        GlStateManager.scale(1.25F, 1.6F, 1.25F);
+        GlStateManager.translate(0F, 2.88F * 0.15F / 1.6F, 0F);
+        GlStateManager.scale(0.85F, 0.85F, 0.85F);
+        GlStateManager.rotate(hour, 0, -1, 0);
         this.renderEngine.bindTexture(textureFork);
         ClientUtil.drawBakedModel(modelFork);
 
-        GL11.glTranslatef(0.0F, 2.3F, 0.0F);
-        GL11.glRotatef(declination, 1.0F, 0.0F, 0.0F);
-        GL11.glTranslatef(0.0F, -2.3F, 0.0F);
+        GlStateManager.translate(0.0F, 2.3F, 0.0F);
+        GlStateManager.rotate(declination, 1.0F, 0.0F, 0.0F);
+        GlStateManager.translate(0.0F, -2.3F, 0.0F);
 
         this.renderEngine.bindTexture(textureDish);
         ClientUtil.drawBakedModel(modelDish);
 
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glPopMatrix();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.popMatrix();
     }
 }

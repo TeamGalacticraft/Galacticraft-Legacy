@@ -47,15 +47,15 @@ public class SkyProviderAsteroids extends IRenderHandler
     {
         this.sunSize = 17.5F * asteroidsProvider.getSolarSize();
 
-        GL11.glPushMatrix();
-        GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
+        GlStateManager.pushMatrix();
+        GlStateManager.glNewList(this.starGLCallList, GL11.GL_COMPILE);
         this.renderStars();
-        GL11.glEndList();
-        GL11.glPopMatrix();
+        GlStateManager.glEndList();
+        GlStateManager.popMatrix();
         final Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldRenderer = tessellator.getBuffer();
         this.glSkyList = this.starGLCallList + 1;
-        GL11.glNewList(this.glSkyList, GL11.GL_COMPILE);
+        GlStateManager.glNewList(this.glSkyList, GL11.GL_COMPILE);
         final byte byte2 = 64;
         final int i = 256 / byte2 + 2;
         float f = 16F;
@@ -73,9 +73,9 @@ public class SkyProviderAsteroids extends IRenderHandler
             }
         }
 
-        GL11.glEndList();
+        GlStateManager.glEndList();
         this.glSkyList2 = this.starGLCallList + 2;
-        GL11.glNewList(this.glSkyList2, GL11.GL_COMPILE);
+        GlStateManager.glNewList(this.glSkyList2, GL11.GL_COMPILE);
         f = -16F;
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
 
@@ -91,7 +91,7 @@ public class SkyProviderAsteroids extends IRenderHandler
         }
 
         tessellator.draw();
-        GL11.glEndList();
+        GlStateManager.glEndList();
     }
 
     @Override
@@ -103,32 +103,32 @@ public class SkyProviderAsteroids extends IRenderHandler
         final Tessellator var23 = Tessellator.getInstance();
         BufferBuilder worldRenderer = var23.getBuffer();
 
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GlStateManager.disableTexture2D();
         GlStateManager.disableRescaleNormal();
-        GL11.glColor3f(1F, 1F, 1F);
-        GL11.glDepthMask(false);
-        GL11.glEnable(GL11.GL_FOG);
-        GL11.glColor3f(0, 0, 0);
-        GL11.glCallList(this.glSkyList);
-        GL11.glDisable(GL11.GL_FOG);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1F, 1F, 1F);
+        GlStateManager.depthMask(false);
+        GlStateManager.enableFog();
+        GlStateManager.color(0, 0, 0);
+        GlStateManager.callList(this.glSkyList);
+        GlStateManager.disableFog();
+        GlStateManager.disableAlpha();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         RenderHelper.disableStandardItemLighting();
 
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glColor4f(0.7F, 0.7F, 0.7F, 0.7F);
-        GL11.glCallList(this.starGLCallList);
+        GlStateManager.disableTexture2D();
+        GlStateManager.color(0.7F, 0.7F, 0.7F, 0.7F);
+        GlStateManager.callList(this.starGLCallList);
 
-        GL11.glPushMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.pushMatrix();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         // Sun:
-        GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
+        GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableTexture2D();
+        GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
         var12 = this.sunSize / 4.2F;
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldRenderer.pos(-var12, 90.0D, -var12).endVertex();
@@ -136,9 +136,9 @@ public class SkyProviderAsteroids extends IRenderHandler
         worldRenderer.pos(var12, 90.0D, var12).endVertex();
         worldRenderer.pos(-var12, 90.0D, var12).endVertex();
         var23.draw();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableTexture2D();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         var12 = this.sunSize / 1.2F;
         // 110 distance instead of the normal 100, because there is no
         // atmosphere to make the disk seem larger
@@ -150,16 +150,16 @@ public class SkyProviderAsteroids extends IRenderHandler
         worldRenderer.pos(-var12, 90.0D, var12).tex(0.0D, 1.0D).endVertex();
         var23.draw();
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
 
         // HOME:
         var12 = 0.5F;
-        GL11.glScalef(0.6F, 0.6F, 0.6F);
-        GL11.glRotatef(40.0F, 0.0F, 0.0F, 1.0F);
-        GL11.glRotatef(200F, 1.0F, 0.0F, 0.0F);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1F);
+        GlStateManager.scale(0.6F, 0.6F, 0.6F);
+        GlStateManager.rotate(40.0F, 0.0F, 0.0F, 1.0F);
+        GlStateManager.rotate(200F, 1.0F, 0.0F, 0.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(SkyProviderAsteroids.overworldTexture);
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         worldRenderer.pos(-var12, -100.0D, var12).tex(0, 1.0).endVertex();
@@ -168,25 +168,25 @@ public class SkyProviderAsteroids extends IRenderHandler
         worldRenderer.pos(-var12, -100.0D, -var12).tex(0, 0).endVertex();
         var23.draw();
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
-        GL11.glEnable(GL11.GL_FOG);
-        GL11.glPopMatrix();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableFog();
+        GlStateManager.popMatrix();
 
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glColor3f(0.0F, 0.0F, 0.0F);
+        GlStateManager.disableTexture2D();
+        GlStateManager.color(0.0F, 0.0F, 0.0F);
         final double var25 = mc.player.getPosition().getY() - world.getHorizon();
 
-        GL11.glColor3f(70F / 256F, 70F / 256F, 70F / 256F);
+        GlStateManager.color(70F / 256F, 70F / 256F, 70F / 256F);
 
         GlStateManager.enableRescaleNormal();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDepthMask(true);
+        GlStateManager.enableTexture2D();
+        GlStateManager.depthMask(true);
 
-        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.enableColorMaterial();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableBlend();
     }
 
     private void renderStars()

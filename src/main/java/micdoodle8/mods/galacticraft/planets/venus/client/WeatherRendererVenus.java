@@ -22,7 +22,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.IRenderHandler;
-import org.lwjgl.opengl.GL11;
 
 public class WeatherRendererVenus extends IRenderHandler
 {
@@ -69,7 +68,7 @@ public class WeatherRendererVenus extends IRenderHandler
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder worldrenderer = tessellator.getBuffer();
             GlStateManager.disableCull();
-            GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+            GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.alphaFunc(516, 0.1F);

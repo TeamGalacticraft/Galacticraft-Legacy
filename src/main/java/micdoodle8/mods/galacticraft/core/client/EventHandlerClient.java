@@ -37,8 +37,6 @@ import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 
 import com.google.common.base.Function;
 
-import org.lwjgl.opengl.GL11;
-
 public class EventHandlerClient
 {
 
@@ -56,7 +54,7 @@ public class EventHandlerClient
                                                      // never be called
     public void onRenderPlayerPre(RenderPlayerEvent.Pre event)
     {
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
 
         final EntityPlayer player = event.getEntityPlayer();
 
@@ -67,12 +65,12 @@ public class EventHandlerClient
             if (rotateOffset > -10F)
             {
                 rotateOffset += ClientProxyCore.PLAYER_Y_OFFSET;
-                GL11.glTranslatef(0, -rotateOffset, 0);
+                GlStateManager.translate(0, -rotateOffset, 0);
                 float anglePitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * event.getPartialRenderTick();
                 float angleYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * event.getPartialRenderTick();
-                GL11.glRotatef(-angleYaw, 0.0F, 1.0F, 0.0F);
-                GL11.glRotatef(anglePitch, 0.0F, 0.0F, 1.0F);
-                GL11.glTranslatef(0, rotateOffset, 0);
+                GlStateManager.rotate(-angleYaw, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(anglePitch, 0.0F, 0.0F, 1.0F);
+                GlStateManager.translate(0, rotateOffset, 0);
             }
         }
 
@@ -91,7 +89,7 @@ public class EventHandlerClient
                                                       // RenderPlayer
     public void onRenderPlayerPost(RenderPlayerEvent.Post event)
     {
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
         if (event.getEntityPlayer() instanceof EntityPlayerSP)
             sneakRenderOverride = false;

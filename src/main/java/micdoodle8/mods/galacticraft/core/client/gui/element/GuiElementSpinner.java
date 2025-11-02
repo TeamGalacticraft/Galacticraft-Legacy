@@ -10,9 +10,9 @@ package micdoodle8.mods.galacticraft.core.client.gui.element;
 import micdoodle8.mods.galacticraft.core.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 public class GuiElementSpinner extends GuiButton
 {
@@ -47,7 +47,7 @@ public class GuiElementSpinner extends GuiButton
         if (this.visible)
         {
             mc.getTextureManager().bindTexture(GuiElementSpinner.texture);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = mX >= this.x && mY >= this.y && mX < this.x + this.width && mY < this.y + this.height;
             this.hoverUpper = mX >= this.x + 20 && mX < this.x + width && mY > this.y && mY < this.y + this.height / 2;
             this.hoverLower = mX >= this.x + 20 && mX < this.x + width && mY > this.y + this.height / 2 && mY < this.y + this.height;

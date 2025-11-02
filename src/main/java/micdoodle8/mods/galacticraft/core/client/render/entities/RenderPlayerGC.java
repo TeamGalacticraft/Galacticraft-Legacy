@@ -14,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
@@ -47,8 +48,6 @@ import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.planets.mars.blocks.BlockMachineMars;
 import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
-
-import org.lwjgl.opengl.GL11;
 
 /**
  * This renders the thermal armor (unless RenderPlayerAPI is installed). The
@@ -259,7 +258,7 @@ public class RenderPlayerGC extends RenderPlayer
             {
                 entitylivingbaseIn.rotationYawHead = 0;
                 entitylivingbaseIn.prevRotationYawHead = 0;
-                GL11.glTranslatef(0.0F, 0.3F, 0.0F);
+                GlStateManager.translate(0.0F, 0.3F, 0.0F);
             }
         }
     }
@@ -278,7 +277,7 @@ public class RenderPlayerGC extends RenderPlayer
             }
             else if (event.shouldRotate == null)
             {
-                GL11.glRotatef(abstractClientPlayer.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(abstractClientPlayer.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
             }
             else if (event.shouldRotate)
             {
@@ -320,7 +319,7 @@ public class RenderPlayerGC extends RenderPlayer
                     }
                 }
 
-                GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
             }
         }
         else
@@ -335,12 +334,12 @@ public class RenderPlayerGC extends RenderPlayer
                     float rotateOffset = ((ICameraZoomEntity) rocket).getRotateOffset();
                     if (rotateOffset > -10F)
                     {
-                        GL11.glTranslatef(0, -rotateOffset, 0);
+                        GlStateManager.translate(0, -rotateOffset, 0);
                         float anglePitch = rocket.prevRotationPitch;
                         float angleYaw = rocket.prevRotationYaw;
-                        GL11.glRotatef(-angleYaw, 0.0F, 1.0F, 0.0F);
-                        GL11.glRotatef(anglePitch, 0.0F, 0.0F, 1.0F);
-                        GL11.glTranslatef(0, rotateOffset, 0);
+                        GlStateManager.rotate(-angleYaw, 0.0F, 1.0F, 0.0F);
+                        GlStateManager.rotate(anglePitch, 0.0F, 0.0F, 1.0F);
+                        GlStateManager.translate(0, rotateOffset, 0);
                     }
                 }
             }

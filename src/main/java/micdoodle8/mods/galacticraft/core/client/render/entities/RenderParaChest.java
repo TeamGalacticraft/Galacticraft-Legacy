@@ -11,12 +11,13 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.model.ModelParaChest;
 import micdoodle8.mods.galacticraft.core.entities.EntityParachest;
 import micdoodle8.mods.galacticraft.core.items.ItemParaChute;
+
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderParaChest extends Render<EntityParachest>
@@ -51,8 +52,8 @@ public class RenderParaChest extends Render<EntityParachest>
     @Override
     public void doRender(EntityParachest entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float) x - 0.5F, (float) y, (float) z);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float) x - 0.5F, (float) y, (float) z);
 
         this.bindEntityTexture(entity);
 
@@ -61,6 +62,6 @@ public class RenderParaChest extends Render<EntityParachest>
             this.chestModel.renderAll();
         }
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 }

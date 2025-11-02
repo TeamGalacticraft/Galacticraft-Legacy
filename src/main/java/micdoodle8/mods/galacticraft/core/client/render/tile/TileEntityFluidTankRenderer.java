@@ -48,15 +48,15 @@ public class TileEntityFluidTankRenderer extends TileEntitySpecialRenderer<TileE
         final double uMax = sprite.getMaxU();
         final double vMin = sprite.getMinV();
         final double vMax = sprite.getMaxV();
-        GL11.glPushMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glTranslatef((float) x, (float) y + 1.5F, (float) z + 1.0F);
-        GL11.glScalef(1.0F, -1.0F, -1.0F);
-        GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+        GlStateManager.pushMatrix();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.translate((float) x, (float) y + 1.5F, (float) z + 1.0F);
+        GlStateManager.scale(1.0F, -1.0F, -1.0F);
+        GlStateManager.translate(0.5F, 0.5F, 0.5F);
 
         GlStateManager.disableLighting();
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Tessellator tess = Tessellator.getInstance();
         BufferBuilder worldRenderer = tess.getBuffer();
@@ -84,7 +84,7 @@ public class TileEntityFluidTankRenderer extends TileEntitySpecialRenderer<TileE
             }
         }
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, opacity);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, opacity);
 
         if (levelInv < 1.0F)
         {
@@ -144,7 +144,7 @@ public class TileEntityFluidTankRenderer extends TileEntitySpecialRenderer<TileE
         GlStateManager.enableLighting();
         GlStateManager.disableBlend();
 
-        GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.popMatrix();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }

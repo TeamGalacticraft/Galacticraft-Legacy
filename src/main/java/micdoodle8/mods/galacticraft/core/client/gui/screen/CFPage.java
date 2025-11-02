@@ -11,10 +11,10 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.tick.TickHandlerClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 public class CFPage extends GuiTeleporting
 {
@@ -37,7 +37,7 @@ public class CFPage extends GuiTeleporting
         super.drawScreen(mouseX, mouseY, partialTicks);
         ResourceLocation img = new ResourceLocation(Constants.MOD_ID_CORE, "textures/gui/landing.png");
         Minecraft.getMinecraft().renderEngine.bindTexture(img);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Tessellator   tessellator  = Tessellator.getInstance();
         BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);

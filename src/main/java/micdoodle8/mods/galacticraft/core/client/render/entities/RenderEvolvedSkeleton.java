@@ -20,7 +20,6 @@ import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderEvolvedSkeleton extends RenderBiped<EntityEvolvedSkeleton>
@@ -57,7 +56,7 @@ public class RenderEvolvedSkeleton extends RenderBiped<EntityEvolvedSkeleton>
     @Override
     protected void preRenderCallback(EntityEvolvedSkeleton par1EntityLiving, float par2)
     {
-        GL11.glScalef(1.2F, 1.2F, 1.2F);
+        GlStateManager.scale(1.2F, 1.2F, 1.2F);
         if (texSwitch)
         {
             OverlaySensorGlasses.preRenderMobs();
@@ -81,9 +80,9 @@ public class RenderEvolvedSkeleton extends RenderBiped<EntityEvolvedSkeleton>
     protected void applyRotations(EntityEvolvedSkeleton skellie, float pitch, float yaw, float partialTicks)
     {
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        GL11.glTranslatef(0F, -skellie.height * 0.55F, 0F);
-        GL11.glRotatef(skellie.getTumbleAngle(partialTicks), skellie.getTumbleAxisX(), 0F, skellie.getTumbleAxisZ());
-        GL11.glTranslatef(0F, skellie.height * 0.55F, 0F);
+        GlStateManager.translate(0F, -skellie.height * 0.55F, 0F);
+        GlStateManager.rotate(skellie.getTumbleAngle(partialTicks), skellie.getTumbleAxisX(), 0F, skellie.getTumbleAxisZ());
+        GlStateManager.translate(0F, skellie.height * 0.55F, 0F);
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
         super.applyRotations(skellie, pitch, yaw, partialTicks);
     }

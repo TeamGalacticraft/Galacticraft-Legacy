@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.opengl.GL11;
 
 public class LayerShield implements LayerRenderer<EntityLivingBase>
 {
@@ -67,9 +66,9 @@ public class LayerShield implements LayerRenderer<EntityLivingBase>
                     GlStateManager.translate(0.0F, f * 0.01F, 0.0F);
                     GlStateManager.matrixMode(5888);
 
-                    GL11.glDisable(GL11.GL_LIGHTING);
+                    GlStateManager.disableLighting();
                     Minecraft.getMinecraft().renderEngine.bindTexture(RenderPlayerGC.heatShieldTexture);
-                    GL11.glEnable(GL11.GL_BLEND);
+                    GlStateManager.enableBlend();
                     float sTime = (float) ((1.0F - Math.sin((entitylivingbaseIn.ticksExisted + partialTicks) / 10.0F)) * 0.1F + 0.0F);
 
                     float r = 0.9F * sTime;
@@ -77,16 +76,16 @@ public class LayerShield implements LayerRenderer<EntityLivingBase>
                     float b = 0.9F * sTime;
 
                     GlStateManager.depthMask(false);
-                    GL11.glColor4f(r, g, b, 0.2F);
-                    GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
+                    GlStateManager.color(r, g, b, 0.2F);
+                    GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
                     this.shieldModel.render(entitylivingbaseIn, f2, f3, f5, f6, f7, scale);
                     GlStateManager.matrixMode(5890);
                     GlStateManager.loadIdentity();
                     GlStateManager.matrixMode(5888);
-                    GL11.glColor4f(1, 1, 1, 1);
-                    GL11.glDisable(GL11.GL_BLEND);
-                    GL11.glEnable(GL11.GL_ALPHA_TEST);
-                    GL11.glEnable(GL11.GL_LIGHTING);
+                    GlStateManager.color(1, 1, 1, 1);
+                    GlStateManager.disableBlend();
+                    GlStateManager.enableAlpha();
+                    GlStateManager.enableLighting();
                     GlStateManager.depthMask(true);
                 }
             }

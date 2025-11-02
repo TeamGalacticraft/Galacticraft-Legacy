@@ -21,6 +21,7 @@ import micdoodle8.mods.galacticraft.planets.asteroids.dimension.WorldProviderAst
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -67,13 +68,13 @@ public class AsteroidsEventHandlerClient
             if (screen instanceof GuiCelestialSelection)
             {
                 alpha = ((GuiCelestialSelection) screen).getAlpha(renderEvent.celestialBody);
-                GL11.glColor4f(0.7F, 0.0F, 0.0F, alpha / 2.0F);
+                GlStateManager.color(0.7F, 0.0F, 0.0F, alpha / 2.0F);
             } else
             {
-                GL11.glColor4f(0.3F, 0.1F, 0.1F, 1.0F);
+                GlStateManager.color(0.3F, 0.1F, 0.1F, 1.0F);
             }
             renderEvent.setCanceled(true);
-            GL11.glBegin(GL11.GL_LINE_LOOP);
+            GlStateManager.glBegin(GL11.GL_LINE_LOOP);
 
             final float theta = Constants.twoPI / 90;
             final float cos = MathHelper.cos(theta);
@@ -95,8 +96,8 @@ public class AsteroidsEventHandlerClient
                 y = sin * temp + cos * y;
             }
 
-            GL11.glEnd();
-            GL11.glBegin(GL11.GL_LINE_LOOP);
+            GlStateManager.glEnd();
+            GlStateManager.glBegin(GL11.GL_LINE_LOOP);
 
             x = min * renderEvent.celestialBody.getRelativeDistanceFromCenter().unScaledDistance;
             y = 0;
@@ -110,9 +111,9 @@ public class AsteroidsEventHandlerClient
                 y = sin * temp + cos * y;
             }
 
-            GL11.glEnd();
-            GL11.glColor4f(0.7F, 0.0F, 0.0F, alpha / 10.0F);
-            GL11.glBegin(GL11.GL_QUADS);
+            GlStateManager.glEnd();
+            GlStateManager.color(0.7F, 0.0F, 0.0F, alpha / 10.0F);
+            GlStateManager.glBegin(GL11.GL_QUADS);
 
             x = min * renderEvent.celestialBody.getRelativeDistanceFromCenter().unScaledDistance;
             y = 0;
@@ -135,7 +136,7 @@ public class AsteroidsEventHandlerClient
                 GL11.glVertex2f(x2, y2);
             }
 
-            GL11.glEnd();
+            GlStateManager.glEnd();
         }
     }
 
@@ -145,7 +146,7 @@ public class AsteroidsEventHandlerClient
     {
         if (renderEvent.celestialBody.equals(AsteroidsModule.planetAsteroids))
         {
-            GL11.glRotatef(ClientUtil.getClientTimeTotal() / 10.0F % 360, 0, 0, 1);
+            GlStateManager.rotate(ClientUtil.getClientTimeTotal() / 10.0F % 360, 0, 0, 1);
         }
     }
 

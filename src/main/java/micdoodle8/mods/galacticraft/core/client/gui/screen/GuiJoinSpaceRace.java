@@ -32,10 +32,10 @@ import micdoodle8.mods.galacticraft.core.wrappers.FlagData;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import org.lwjgl.opengl.GL11;
 
 public class GuiJoinSpaceRace extends GuiScreen implements ICheckBoxCallback, ITextBoxCallback
 {
@@ -147,13 +147,13 @@ public class GuiJoinSpaceRace extends GuiScreen implements ICheckBoxCallback, IT
                 this.buttonFlag_yPosition + this.buttonFlag_height + 25, ColorUtil.to32BitColor(255, 150, 150, 150));
             this.drawCenteredString(this.fontRenderer, GCCoreUtil.translateWithFormat("gui.space_race.join.member_count.name", this.spaceRaceData.getPlayerNames().size()), this.width / 2,
                 this.buttonFlag_yPosition + this.buttonFlag_height + 40, ColorUtil.to32BitColor(255, 150, 150, 150));
-            GL11.glPushMatrix();
-            GL11.glTranslatef(this.width / 2, this.buttonFlag_yPosition + this.buttonFlag_height + 5 + FMLClientHandler.instance().getClient().fontRenderer.FONT_HEIGHT / 2, 0);
-            GL11.glScalef(1.5F, 1.5F, 1.0F);
-            GL11.glTranslatef(-this.width / 2, (-(this.buttonFlag_yPosition + this.buttonFlag_height + 5)) - FMLClientHandler.instance().getClient().fontRenderer.FONT_HEIGHT / 2, 0);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(this.width / 2, this.buttonFlag_yPosition + this.buttonFlag_height + 5 + FMLClientHandler.instance().getClient().fontRenderer.FONT_HEIGHT / 2, 0);
+            GlStateManager.scale(1.5F, 1.5F, 1.0F);
+            GlStateManager.translate(-this.width / 2, (-(this.buttonFlag_yPosition + this.buttonFlag_height + 5)) - FMLClientHandler.instance().getClient().fontRenderer.FONT_HEIGHT / 2, 0);
             this.drawCenteredString(this.fontRenderer, this.spaceRaceData.getTeamName(), this.width / 2, this.buttonFlag_yPosition + this.buttonFlag_height + 5,
                 ColorUtil.to32BitColor(255, 100, 150, 20));
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
 
         super.drawScreen(par1, par2, par3);
@@ -161,15 +161,15 @@ public class GuiJoinSpaceRace extends GuiScreen implements ICheckBoxCallback, IT
 
     private void drawFlagButton(int mouseX, int mouseY)
     {
-        GL11.glPushMatrix();
-        GL11.glTranslatef(this.buttonFlag_xPosition + 2.9F, this.buttonFlag_yPosition + this.buttonFlag_height + 1 - 4, 0);
-        GL11.glScalef(74.0F, 74.0F, 1F);
-        GL11.glTranslatef(0.0F, 0.36F, 1.0F);
-        GL11.glScalef(1.0F, 1.0F, -1F);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(this.buttonFlag_xPosition + 2.9F, this.buttonFlag_yPosition + this.buttonFlag_height + 1 - 4, 0);
+        GlStateManager.scale(74.0F, 74.0F, 1F);
+        GlStateManager.translate(0.0F, 0.36F, 1.0F);
+        GlStateManager.scale(1.0F, 1.0F, -1F);
         this.dummyFlag.flagData = this.spaceRaceData.getFlagData();
         this.dummyModel.renderFlag(this.dummyFlag, this.ticksPassed);
-        GL11.glColor3f(1, 1, 1);
-        GL11.glPopMatrix();
+        GlStateManager.color(1, 1, 1);
+        GlStateManager.popMatrix();
     }
 
     @Override

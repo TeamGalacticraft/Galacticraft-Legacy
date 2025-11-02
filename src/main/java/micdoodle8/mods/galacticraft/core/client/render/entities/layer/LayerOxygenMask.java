@@ -20,7 +20,6 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class LayerOxygenMask implements LayerRenderer<AbstractClientPlayer>
@@ -61,11 +60,11 @@ public class LayerOxygenMask implements LayerRenderer<AbstractClientPlayer>
 
                 if (wearingMask)
                 {
-                    GL11.glPushMatrix();
-                    GL11.glScalef(1.05F, 1.05F, 1.05F);
+                    GlStateManager.pushMatrix();
+                    GlStateManager.scale(1.05F, 1.05F, 1.05F);
                     this.oxygenMask.render(scale);
-                    GL11.glScalef(1F, 1F, 1F);
-                    GL11.glPopMatrix();
+                    GlStateManager.scale(1F, 1F, 1F);
+                    GlStateManager.popMatrix();
                 }
 
                 GlStateManager.popMatrix();

@@ -291,8 +291,8 @@ public class GameScreenText implements IGameScreen
         }
         float Xoffset = (sizeX - borders - textWidthPixels * scaleText) / 2 + Xmargin;
         float Yoffset = (sizeY - borders - textHeightPixels * scaleText) / 2 + scaleText;
-        GL11.glTranslatef(border + Xoffset, border + Yoffset, 0.0F);
-        GL11.glScalef(scaleText, scaleText, 1.0F);
+        GlStateManager.translate(border + Xoffset, border + Yoffset, 0.0F);
+        GlStateManager.scale(scaleText, scaleText, 1.0F);
 
         // Actually draw the text
         int whiteColour = ColorUtil.to32BitColor(255, 240, 216, 255);
@@ -306,11 +306,11 @@ public class GameScreenText implements IGameScreen
         // If there is an entity to render, draw it on the left of the text
         if (renderEntity != null && entity != null)
         {
-            GL11.glTranslatef(-Xmargin / 2 / scaleText, textHeightPixels / 2 + (-Yoffset + (sizeY - borders) / 2) / scaleText, -0.0005F);
+            GlStateManager.translate(-Xmargin / 2 / scaleText, textHeightPixels / 2 + (-Yoffset + (sizeY - borders) / 2) / scaleText, -0.0005F);
             float scalefactor = 38F / (float) Math.pow(Math.max(entity.height, entity.width), 0.65);
-            GL11.glScalef(scalefactor, scalefactor, 0.0015F);
-            GL11.glRotatef(180F, 0, 0, 1);
-            GL11.glRotatef(180F, 0, 1, 0);
+            GlStateManager.scale(scalefactor, scalefactor, 0.0015F);
+            GlStateManager.rotate(180F, 0, 0, 1);
+            GlStateManager.rotate(180F, 0, 1, 0);
             if (entity instanceof ITelemetry)
             {
                 ((ITelemetry) entity).adjustDisplay(telemeter.clientData);
@@ -324,9 +324,9 @@ public class GameScreenText implements IGameScreen
                 renderEntity.doRender(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
             }
             RenderPlayerGC.flagThermalOverride = false;
-//            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+//            GlStateManager.enableRescaleNormal();
 //            OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-//            GL11.glDisable(GL11.GL_TEXTURE_2D);
+//            GlStateManager.disableTexture2D();
 //            OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
         }
 
@@ -437,11 +437,11 @@ public class GameScreenText implements IGameScreen
 
     private void drawBlackBackground(float greyLevel)
     {
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableTexture2D();
         final Tessellator tess = Tessellator.getInstance();
         BufferBuilder worldRenderer = tess.getBuffer();
-        GL11.glColor4f(greyLevel, greyLevel, greyLevel, 1.0F);
+        GlStateManager.color(greyLevel, greyLevel, greyLevel, 1.0F);
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldRenderer.pos(frameA, frameBy, 0.005F).endVertex();
         worldRenderer.pos(frameBx, frameBy, 0.005F).endVertex();
@@ -449,8 +449,8 @@ public class GameScreenText implements IGameScreen
         worldRenderer.pos(frameA, frameA, 0.005F).endVertex();
         tess.draw();
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableTexture2D();
     }
 
     private void planeEquation(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3)

@@ -17,9 +17,9 @@ import micdoodle8.mods.galacticraft.planets.venus.network.PacketSimpleVenus;
 import micdoodle8.mods.galacticraft.planets.venus.tile.TileEntityLaserTurret;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 public class GuiLaserTurretEditPriority extends GuiScreen implements GuiElementSpinner.ISpinnerCallback
 {
@@ -89,7 +89,7 @@ public class GuiLaserTurretEditPriority extends GuiScreen implements GuiElementS
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(GuiLaserTurretEditPriority.backgroundTexture);
         final int var5 = (this.width - this.xSize) / 2;
         final int var6 = (this.height - this.ySize) / 2;

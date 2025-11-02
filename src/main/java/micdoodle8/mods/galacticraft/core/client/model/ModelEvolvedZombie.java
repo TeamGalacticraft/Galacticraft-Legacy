@@ -10,9 +10,9 @@ package micdoodle8.mods.galacticraft.core.client.model;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class ModelEvolvedZombie extends ModelBiped
 {
@@ -170,18 +170,18 @@ public class ModelEvolvedZombie extends ModelBiped
         if (this.isChild)
         {
             float f6 = 2.0F;
-            GL11.glPushMatrix();
-            GL11.glScalef(1.5F / f6, 1.5F / f6, 1.5F / f6);
-            GL11.glTranslatef(0.0F, 16.0F * f5, 0.0F);
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(1.5F / f6, 1.5F / f6, 1.5F / f6);
+            GlStateManager.translate(0.0F, 16.0F * f5, 0.0F);
             this.bipedHead.render(f5);
             if (this.renderGear)
             {
                 this.oxygenMask.render(f5);
             }
-            GL11.glPopMatrix();
-            GL11.glPushMatrix();
-            GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
-            GL11.glTranslatef(0.0F, 24.0F * f5, 0.0F);
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(1.0F / f6, 1.0F / f6, 1.0F / f6);
+            GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
             if (this.renderGear)
             {
                 this.leftOxygenTank.render(f5);
@@ -207,7 +207,7 @@ public class ModelEvolvedZombie extends ModelBiped
             this.bipedLeftArm.render(f5);
             this.bipedRightLeg.render(f5);
             this.bipedLeftLeg.render(f5);
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         } else
         {
             if (this.renderGear)

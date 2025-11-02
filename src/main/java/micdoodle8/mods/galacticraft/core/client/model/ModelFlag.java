@@ -13,6 +13,7 @@ import micdoodle8.mods.galacticraft.core.entities.EntityFlag;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -65,13 +66,13 @@ public class ModelFlag extends ModelBase
     {
         if (entity.flagData != null)
         {
-            GL11.glPushMatrix();
+            GlStateManager.pushMatrix();
 
-            GL11.glScalef(0.5F, 0.5F, 0.5F);
-            GL11.glTranslatef(0.0F, -1.1F, 0.0F);
+            GlStateManager.scale(0.5F, 0.5F, 0.5F);
+            GlStateManager.translate(0.0F, -1.1F, 0.0F);
 
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_CULL_FACE);
+            GlStateManager.disableTexture2D();
+            GlStateManager.disableCull();
 
             float windLevel = 1.0F;
 
@@ -84,8 +85,8 @@ public class ModelFlag extends ModelBase
             {
                 for (int j = 0; j < entity.flagData.getHeight(); j++)
                 {
-                    GL11.glPushMatrix();
-                    GL11.glTranslatef(0, -1.0F, 0);
+                    GlStateManager.pushMatrix();
+                    GlStateManager.translate(0, -1.0F, 0);
                     float offset = 0.0F;
                     float offsetAhead = 0.0F;
 
@@ -98,7 +99,7 @@ public class ModelFlag extends ModelBase
                     }
 
                     Vector3 col = entity.flagData.getColorAt(i, j);
-                    GL11.glColor3f(col.floatX(), col.floatY(), col.floatZ());
+                    GlStateManager.color(col.floatX(), col.floatY(), col.floatZ());
 
                     Tessellator tess = Tessellator.getInstance();
                     BufferBuilder worldRenderer = tess.getBuffer();
@@ -114,15 +115,15 @@ public class ModelFlag extends ModelBase
 
                     tess.draw();
 
-                    GL11.glColor3f(1, 1, 1);
-                    GL11.glPopMatrix();
+                    GlStateManager.color(1, 1, 1);
+                    GlStateManager.popMatrix();
                 }
             }
 
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glEnable(GL11.GL_CULL_FACE);
+            GlStateManager.enableTexture2D();
+            GlStateManager.enableCull();
 
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
     }
 

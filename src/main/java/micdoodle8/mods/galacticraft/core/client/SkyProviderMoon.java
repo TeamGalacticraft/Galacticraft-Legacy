@@ -46,14 +46,14 @@ public class SkyProviderMoon extends IRenderHandler
 
     public SkyProviderMoon()
     {
-        GL11.glPushMatrix();
-        GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
+        GlStateManager.pushMatrix();
+        GlStateManager.glNewList(this.starGLCallList, GL11.GL_COMPILE);
         this.renderStars();
-        GL11.glEndList();
-        GL11.glPopMatrix();
+        GlStateManager.glEndList();
+        GlStateManager.popMatrix();
         final Tessellator tessellator = Tessellator.getInstance();
         this.glSkyList = this.starGLCallList + 1;
-        GL11.glNewList(this.glSkyList, GL11.GL_COMPILE);
+        GlStateManager.glNewList(this.glSkyList, GL11.GL_COMPILE);
         final byte byte2 = 64;
         final int i = 256 / byte2 + 2;
         float f = 16F;
@@ -72,9 +72,9 @@ public class SkyProviderMoon extends IRenderHandler
             }
         }
 
-        GL11.glEndList();
+        GlStateManager.glEndList();
         this.glSkyList2 = this.starGLCallList + 2;
-        GL11.glNewList(this.glSkyList2, GL11.GL_COMPILE);
+        GlStateManager.glNewList(this.glSkyList2, GL11.GL_COMPILE);
         f = -16F;
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
 
@@ -90,7 +90,7 @@ public class SkyProviderMoon extends IRenderHandler
         }
 
         tessellator.draw();
-        GL11.glEndList();
+        GlStateManager.glEndList();
     }
 
     @Override
@@ -110,18 +110,18 @@ public class SkyProviderMoon extends IRenderHandler
             gcProvider = (WorldProviderMoon) world.provider;
         }
 
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GlStateManager.disableTexture2D();
         GlStateManager.disableRescaleNormal();
-        GL11.glColor3f(1F, 1F, 1F);
+        GlStateManager.color(1F, 1F, 1F);
         final Tessellator var23 = Tessellator.getInstance();
-        GL11.glDepthMask(false);
-        GL11.glEnable(GL11.GL_FOG);
-        GL11.glColor3f(0, 0, 0);
-        GL11.glCallList(this.glSkyList);
-        GL11.glDisable(GL11.GL_FOG);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.depthMask(false);
+        GlStateManager.enableFog();
+        GlStateManager.color(0, 0, 0);
+        GlStateManager.callList(this.glSkyList);
+        GlStateManager.disableFog();
+        GlStateManager.disableAlpha();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         RenderHelper.disableStandardItemLighting();
         float var10;
         float var11;
@@ -136,29 +136,29 @@ public class SkyProviderMoon extends IRenderHandler
 
         if (var20 > 0.0F)
         {
-            GL11.glPushMatrix();
-            GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(-19.0F, 0, 1.0F, 0);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, var20);
-            GL11.glCallList(this.starGLCallList);
-            GL11.glPopMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(-19.0F, 0, 1.0F, 0);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, var20);
+            GlStateManager.callList(this.starGLCallList);
+            GlStateManager.popMatrix();
         }
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glPushMatrix();
+        GlStateManager.enableTexture2D();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+        GlStateManager.pushMatrix();
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
 
-        GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 5F);
-        GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
+        GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 5F);
+        GlStateManager.rotate(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableTexture2D();
+        GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
         var12 = 20.0F / 3.5F;
         BufferBuilder worldRenderer = var23.getBuffer();
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
@@ -167,9 +167,9 @@ public class SkyProviderMoon extends IRenderHandler
         worldRenderer.pos(var12, 99.9D, var12).endVertex();
         worldRenderer.pos(-var12, 99.9D, var12).endVertex();
         var23.draw();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableTexture2D();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         var12 = 20.0F;
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(SkyProviderMoon.sunTexture);
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
@@ -179,23 +179,23 @@ public class SkyProviderMoon extends IRenderHandler
         worldRenderer.pos(-var12, 100.0D, var12).tex(0.0D, 1.0D).endVertex();
         var23.draw();
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
 
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
 
         // HOME:
         var12 = 10.0F;
         final float earthRotation = (float) (world.getSpawnPoint().getZ() - mc.player.posZ) * 0.01F;
-        GL11.glScalef(0.6F, 0.6F, 0.6F);
-        GL11.glRotatef(earthRotation, 1.0F, 0.0F, 0.0F);
-        GL11.glRotatef(200F, 1.0F, 0.0F, 0.0F);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1F);
+        GlStateManager.scale(0.6F, 0.6F, 0.6F);
+        GlStateManager.rotate(earthRotation, 1.0F, 0.0F, 0.0F);
+        GlStateManager.rotate(200F, 1.0F, 0.0F, 0.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
 
         if (ClientProxyCore.overworldTexturesValid)
         {
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, ClientProxyCore.overworldTextureClient.getGlTextureId());
+            GlStateManager.bindTexture(ClientProxyCore.overworldTextureClient.getGlTextureId());
         } else
         {
             // Overworld texture is 48x48 in a 64x64 .png file
@@ -210,21 +210,21 @@ public class SkyProviderMoon extends IRenderHandler
         worldRenderer.pos(-var12, -100.0D, -var12).tex(0D, 0D).endVertex();
         var23.draw();
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
-        GL11.glEnable(GL11.GL_FOG);
-        GL11.glPopMatrix();
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glColor3f(0.0F, 0.0F, 0.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableFog();
+        GlStateManager.popMatrix();
+        GlStateManager.disableTexture2D();
+        GlStateManager.color(0.0F, 0.0F, 0.0F);
         final double var25 = mc.player.getPosition().getY() - world.getHorizon();
 
         if (var25 < 0.0D)
         {
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0.0F, 12.0F, 0.0F);
-            GL11.glCallList(this.glSkyList2);
-            GL11.glPopMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0.0F, 12.0F, 0.0F);
+            GlStateManager.callList(this.glSkyList2);
+            GlStateManager.popMatrix();
             var10 = 1.0F;
             var11 = -((float) (var25 + 65.0D));
             var12 = -var10;
@@ -252,18 +252,18 @@ public class SkyProviderMoon extends IRenderHandler
             var23.draw();
         }
 
-        GL11.glColor3f(70F / 256F, 70F / 256F, 70F / 256F);
+        GlStateManager.color(70F / 256F, 70F / 256F, 70F / 256F);
 
-        GL11.glPushMatrix();
-        GL11.glTranslatef(0.0F, -((float) (var25 - 16.0D)), 0.0F);
-        GL11.glCallList(this.glSkyList2);
-        GL11.glPopMatrix();
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0.0F, -((float) (var25 - 16.0D)), 0.0F);
+        GlStateManager.callList(this.glSkyList2);
+        GlStateManager.popMatrix();
         GlStateManager.enableRescaleNormal();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.enableTexture2D();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableColorMaterial();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableBlend();
     }
 
     private void renderStars()

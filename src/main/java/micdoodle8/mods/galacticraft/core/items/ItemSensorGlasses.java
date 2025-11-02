@@ -57,8 +57,8 @@ public class ItemSensorGlasses extends ItemArmor implements ISortableItem, ISens
     @SideOnly(Side.CLIENT)
     public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks)
     {
-        OverlaySensorGlasses.renderSensorGlassesMain(stack, player, resolution, partialTicks);
-        OverlaySensorGlasses.renderSensorGlassesValueableBlocks(stack, player, resolution, partialTicks);
+        OverlaySensorGlasses.renderSensorGlassesMain();
+        OverlaySensorGlasses.renderSensorGlassesValueableBlocks();
     }
 
     @Override

@@ -15,11 +15,12 @@ import micdoodle8.mods.galacticraft.core.inventory.ContainerIngotCompressor;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityIngotCompressor;
 import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiIngotCompressor extends GuiContainerGC
@@ -83,7 +84,7 @@ public class GuiIngotCompressor extends GuiContainerGC
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         this.mc.renderEngine.bindTexture(GuiIngotCompressor.electricFurnaceTexture);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         int process;
         int containerWidth = (this.width - this.xSize) / 2;

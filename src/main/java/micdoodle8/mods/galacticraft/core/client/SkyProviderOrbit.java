@@ -65,15 +65,15 @@ public class SkyProviderOrbit extends IRenderHandler
     {
         starGLCallList = GLAllocation.generateDisplayLists(3);
 
-        GL11.glPushMatrix();
-        GL11.glNewList(SkyProviderOrbit.starGLCallList, GL11.GL_COMPILE);
+        GlStateManager.pushMatrix();
+        GlStateManager.glNewList(SkyProviderOrbit.starGLCallList, GL11.GL_COMPILE);
         this.renderStars();
-        GL11.glEndList();
-        GL11.glPopMatrix();
+        GlStateManager.glEndList();
+        GlStateManager.popMatrix();
         final Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldRenderer = tessellator.getBuffer();
         SkyProviderOrbit.glSkyList = SkyProviderOrbit.starGLCallList + 1;
-        GL11.glNewList(SkyProviderOrbit.glSkyList, GL11.GL_COMPILE);
+        GlStateManager.glNewList(SkyProviderOrbit.glSkyList, GL11.GL_COMPILE);
         final byte byte2 = 64;
         final int i = 256 / byte2 + 2;
         float f = 16F;
@@ -91,9 +91,9 @@ public class SkyProviderOrbit extends IRenderHandler
             }
         }
 
-        GL11.glEndList();
+        GlStateManager.glEndList();
         SkyProviderOrbit.glSkyList2 = SkyProviderOrbit.starGLCallList + 2;
-        GL11.glNewList(SkyProviderOrbit.glSkyList2, GL11.GL_COMPILE);
+        GlStateManager.glNewList(SkyProviderOrbit.glSkyList2, GL11.GL_COMPILE);
         f = -16F;
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
 
@@ -109,7 +109,7 @@ public class SkyProviderOrbit extends IRenderHandler
         }
 
         tessellator.draw();
-        GL11.glEndList();
+        GlStateManager.glEndList();
 
         displayListsInitialized = true;
     }
@@ -126,7 +126,7 @@ public class SkyProviderOrbit extends IRenderHandler
             // var20 = (float) (this.minecraft.player.posY - 200.0F);
         }
 
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GlStateManager.disableTexture2D();
         GlStateManager.disableRescaleNormal();
         final Vec3d var2 = this.minecraft.world.getSkyColor(this.minecraft.getRenderViewEntity(), partialTicks);
         float var3 = (float) var2.x;
@@ -144,16 +144,16 @@ public class SkyProviderOrbit extends IRenderHandler
             var5 = var8;
         }
 
-        GL11.glColor3f(var3, var4, var5);
+        GlStateManager.color(var3, var4, var5);
         final Tessellator var23 = Tessellator.getInstance();
-        GL11.glDepthMask(false);
-        GL11.glEnable(GL11.GL_FOG);
-        GL11.glColor3f(var3, var4, var5);
-        GL11.glCallList(SkyProviderOrbit.glSkyList);
-        GL11.glDisable(GL11.GL_FOG);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.depthMask(false);
+        GlStateManager.enableFog();
+        GlStateManager.color(var3, var4, var5);
+        GlStateManager.callList(SkyProviderOrbit.glSkyList);
+        GlStateManager.disableFog();
+        GlStateManager.disableAlpha();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         RenderHelper.disableStandardItemLighting();
         final float[] var24 = this.minecraft.world.provider.calcSunriseSunsetColors(this.minecraft.world.getCelestialAngle(partialTicks), partialTicks);
         float var9;
@@ -163,12 +163,12 @@ public class SkyProviderOrbit extends IRenderHandler
 
         if (var24 != null)
         {
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glShadeModel(GL11.GL_SMOOTH);
-            GL11.glPushMatrix();
-            GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(MathHelper.sin(this.minecraft.world.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
-            GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.disableTexture2D();
+            GlStateManager.shadeModel(GL11.GL_SMOOTH);
+            GlStateManager.pushMatrix();
+            GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(MathHelper.sin(this.minecraft.world.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
             var8 = var24[0];
             var9 = var24[1];
             var10 = var24[2];
@@ -198,19 +198,19 @@ public class SkyProviderOrbit extends IRenderHandler
             }
 
             var23.draw();
-            GL11.glPopMatrix();
-            GL11.glShadeModel(GL11.GL_FLAT);
+            GlStateManager.popMatrix();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
         }
 
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glPushMatrix();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+        GlStateManager.pushMatrix();
         var8 = 1.0F - this.minecraft.world.getRainStrength(partialTicks);
         var9 = 0.0F;
         var10 = 0.0F;
         var11 = 0.0F;
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, var8);
-        GL11.glTranslatef(var9, var10, var11);
-        GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, var8);
+        GlStateManager.translate(var9, var10, var11);
+        GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
 
         // Code for rendering spinning spacestations
         float deltaTick = partialTicks - this.prevPartialTicks;
@@ -228,24 +228,24 @@ public class SkyProviderOrbit extends IRenderHandler
         {
             this.spinAngle += 360F;
         }
-        GL11.glRotatef(this.spinAngle, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(this.spinAngle, 0.0F, 1.0F, 0.0F);
 
         // At 0.8, these will look bright against a black sky - allows some
         // headroom for them to
         // look even brighter in outer dimensions (further from the sun)
-        GL11.glColor4f(0.8F, 0.8F, 0.8F, 0.8F);
-        GL11.glCallList(SkyProviderOrbit.starGLCallList);
+        GlStateManager.color(0.8F, 0.8F, 0.8F, 0.8F);
+        GlStateManager.callList(SkyProviderOrbit.starGLCallList);
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GlStateManager.enableTexture2D();
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         float celestialAngle = this.minecraft.world.getCelestialAngle(partialTicks);
-        GL11.glRotatef(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
+        GlStateManager.rotate(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
         if (this.renderSun)
         {
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            GlStateManager.disableTexture2D();
+            GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
             var12 = 8.0F;
             BufferBuilder worldRenderer = var23.getBuffer();
             worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
@@ -254,9 +254,9 @@ public class SkyProviderOrbit extends IRenderHandler
             worldRenderer.pos(var12, 99.9D, var12).endVertex();
             worldRenderer.pos(-var12, 99.9D, var12).endVertex();
             var23.draw();
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.enableTexture2D();
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             var12 = 28.0F;
             this.minecraft.renderEngine.bindTexture(SkyProviderOrbit.sunTexture);
             worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
@@ -269,9 +269,9 @@ public class SkyProviderOrbit extends IRenderHandler
 
         if (this.renderMoon)
         {
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            GlStateManager.disableTexture2D();
+            GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
             var12 = 11.3F;
             BufferBuilder worldRenderer = var23.getBuffer();
             worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
@@ -280,9 +280,9 @@ public class SkyProviderOrbit extends IRenderHandler
             worldRenderer.pos(var12, -99.9D, -var12).endVertex();
             worldRenderer.pos(-var12, -99.9D, -var12).endVertex();
             var23.draw();
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.enableTexture2D();
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             var12 = 40.0F;
             this.minecraft.renderEngine.bindTexture(SkyProviderOrbit.moonTexture);
             float var28 = this.minecraft.world.getMoonPhase();
@@ -300,23 +300,23 @@ public class SkyProviderOrbit extends IRenderHandler
             var23.draw();
         }
 
-        GL11.glPopMatrix();
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.popMatrix();
+        GlStateManager.disableBlend();
 
         if (this.planetToRender != null)
         {
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0.0F, -var20 / 10, 0.0F);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0.0F, -var20 / 10, 0.0F);
             float scale = 100 * (0.3F - var20 / 10000.0F);
             scale = Math.max(scale, 0.2F);
-            GL11.glScalef(scale, 0.0F, scale);
-            GL11.glTranslatef(0.0F, -var20, 0.0F);
-            GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.scale(scale, 0.0F, scale);
+            GlStateManager.translate(0.0F, -var20, 0.0F);
+            GlStateManager.rotate(90F, 0.0F, 1.0F, 0.0F);
             this.minecraft.renderEngine.bindTexture(this.planetToRender);
 
             var10 = 1.0F;
             final float alpha = 0.5F;
-            GL11.glColor4f(Math.min(alpha, 1.0F), Math.min(alpha, 1.0F), Math.min(alpha, 1.0F), Math.min(alpha, 1.0F));
+            GlStateManager.color(Math.min(alpha, 1.0F), Math.min(alpha, 1.0F), Math.min(alpha, 1.0F), Math.min(alpha, 1.0F));
             BufferBuilder worldRenderer = var23.getBuffer();
             worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
             worldRenderer.pos(-var10, 0, var10).tex(0D, 1.0).endVertex();
@@ -324,23 +324,23 @@ public class SkyProviderOrbit extends IRenderHandler
             worldRenderer.pos(var10, 0, -var10).tex(1.0, 0D).endVertex();
             worldRenderer.pos(-var10, 0, -var10).tex(0D, 0D).endVertex();
             var23.draw();
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
 
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GlStateManager.disableTexture2D();
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GlStateManager.enableAlpha();
 
-        GL11.glColor3f(0.0F, 0.0F, 0.0F);
+        GlStateManager.color(0.0F, 0.0F, 0.0F);
 
         GlStateManager.enableRescaleNormal();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        GL11.glDepthMask(true);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableColorMaterial();
+        GlStateManager.depthMask(true);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableBlend();
     }
 
     private void renderStars()

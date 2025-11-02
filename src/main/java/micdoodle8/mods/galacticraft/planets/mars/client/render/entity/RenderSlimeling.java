@@ -11,12 +11,13 @@ import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlaySensorGlasses
 import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
 import micdoodle8.mods.galacticraft.planets.mars.client.model.ModelSlimeling;
 import micdoodle8.mods.galacticraft.planets.mars.entities.EntitySlimeling;
+
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderSlimeling extends RenderLiving<EntitySlimeling>
@@ -43,11 +44,11 @@ public class RenderSlimeling extends RenderLiving<EntitySlimeling>
     {
         super.preRenderCallback(slimeling, par2);
 
-        GL11.glRotatef(180.0F, 0F, 1F, 0F);
+        GlStateManager.rotate(180.0F, 0F, 1F, 0F);
 
-        GL11.glColor3f(slimeling.getColorRed(), slimeling.getColorGreen(), slimeling.getColorBlue());
-        GL11.glScalef(slimeling.getScale(), slimeling.getScale(), slimeling.getScale());
-        GL11.glTranslatef(0.0F, 1.10F, 0.0F);
+        GlStateManager.color(slimeling.getColorRed(), slimeling.getColorGreen(), slimeling.getColorBlue());
+        GlStateManager.scale(slimeling.getScale(), slimeling.getScale(), slimeling.getScale());
+        GlStateManager.translate(0.0F, 1.10F, 0.0F);
         if (texSwitch)
         {
             OverlaySensorGlasses.preRenderMobs();
@@ -73,7 +74,7 @@ public class RenderSlimeling extends RenderLiving<EntitySlimeling>
         super.renderLayers(slimeling, p_177093_2_, p_177093_3_, partialTicks, p_177093_5_, p_177093_6_, p_177093_7_, p_177093_8_);
 
         // After rendering the slimeling, reset the color tint to none
-        GL11.glColor3f(1F, 1F, 1F);
+        GlStateManager.color(1F, 1F, 1F);
     }
 
 //    @Override
@@ -87,16 +88,16 @@ public class RenderSlimeling extends RenderLiving<EntitySlimeling>
 //        {
 //            this.setRenderPassModel(this.renderPassModel);
 //            GL11.glEnable(GL11.GL_NORMALIZE);
-//            GL11.glEnable(GL11.GL_BLEND);
-//            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//            GlStateManager.enableBlend();
+//            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 //            return 1;
 //        }
 //        else
 //        {
 //            if (par2 == 1)
 //            {
-//                GL11.glDisable(GL11.GL_BLEND);
-//                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+//                GlStateManager.disableBlend();
+//                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 //            }
 //
 //            return -1;
@@ -135,7 +136,7 @@ public class RenderSlimeling extends RenderLiving<EntitySlimeling>
 //
 //        super.passSpecialRender(par1EntityLivingBase, par2, par4, par6);
 //        GL11.glDisable(GL11.GL_NORMALIZE);
-//        GL11.glDisable(GL11.GL_BLEND);
+//        GlStateManager.disableBlend();
 //    }
 //
 //    protected void renderLivingLabelWithColor(EntityLivingBase par1EntityLivingBase, String par2Str, double par3, double par5, double par7, int par9, float cR, float cG, float cB)
@@ -147,17 +148,17 @@ public class RenderSlimeling extends RenderLiving<EntitySlimeling>
 //            FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
 //            float f = 1.6F;
 //            float f1 = 0.016666668F * f;
-//            GL11.glPushMatrix();
-//            GL11.glTranslatef((float) par3 + 0.0F, (float) par5 + par1EntityLivingBase.height + 0.55F, (float) par7);
-//            GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-//            GL11.glRotatef(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-//            GL11.glRotatef(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-//            GL11.glScalef(-f1, -f1, f1);
-//            GL11.glDisable(GL11.GL_LIGHTING);
-//            GL11.glDepthMask(false);
-//            GL11.glDisable(GL11.GL_DEPTH_TEST);
-//            GL11.glEnable(GL11.GL_BLEND);
-//            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//            GlStateManager.pushMatrix();
+//            GlStateManager.translate((float) par3 + 0.0F, (float) par5 + par1EntityLivingBase.height + 0.55F, (float) par7);
+//            GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
+//            GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+//            GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+//            GlStateManager.scale(-f1, -f1, f1);
+//            GlStateManager.disableLighting();
+//            GlStateManager.depthMask(false);
+//            GlStateManager.disableDepth();
+//            GlStateManager.enableBlend();
+//            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 //            Tessellator tessellator = Tessellator.instance;
 //            byte b0 = 0;
 //
@@ -166,7 +167,7 @@ public class RenderSlimeling extends RenderLiving<EntitySlimeling>
 //                b0 = -10;
 //            }
 //
-//            GL11.glDisable(GL11.GL_TEXTURE_2D);
+//            GlStateManager.disableTexture2D();
 //            tessellator.startDrawingQuads();
 //            int j = fontrenderer.getStringWidth(par2Str) / 2;
 //            tessellator.setColorRGBA_F(cR, cG, cB, 0.25F);
@@ -175,15 +176,15 @@ public class RenderSlimeling extends RenderLiving<EntitySlimeling>
 //            tessellator.addVertex(j + 1, 8 + b0, 0.0D);
 //            tessellator.addVertex(j + 1, -1 + b0, 0.0D);
 //            tessellator.draw();
-//            GL11.glEnable(GL11.GL_TEXTURE_2D);
+//            GlStateManager.enableTexture2D();
 //            fontrenderer.drawString(par2Str, -fontrenderer.getStringWidth(par2Str) / 2, b0, 553648127);
-//            GL11.glEnable(GL11.GL_DEPTH_TEST);
-//            GL11.glDepthMask(true);
+//            GlStateManager.enableDepth();
+//            GlStateManager.depthMask(true);
 //            fontrenderer.drawString(par2Str, -fontrenderer.getStringWidth(par2Str) / 2, b0, -1);
-//            GL11.glEnable(GL11.GL_LIGHTING);
-//            GL11.glDisable(GL11.GL_BLEND);
-//            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-//            GL11.glPopMatrix();
+//            GlStateManager.enableLighting();
+//            GlStateManager.disableBlend();
+//            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+//            GlStateManager.popMatrix();
 //        }
 //    }
 }

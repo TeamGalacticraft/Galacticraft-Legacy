@@ -13,10 +13,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import org.lwjgl.opengl.GL11;
 
 public class GuiElementDropdown extends GuiButton
 {
@@ -57,15 +57,15 @@ public class GuiElementDropdown extends GuiButton
 
         if (this.visible)
         {
-//            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+//            GlStateManager.disableRescaleNormal();
 //            RenderHelper.disableStandardItemLighting();
-//            GL11.glDisable(GL11.GL_LIGHTING);
-//            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glPushMatrix();
+//            GlStateManager.disableLighting();
+//            GlStateManager.disableDepth();
+            GlStateManager.pushMatrix();
 
             this.zLevel = 300.0F;
-            GL11.glTranslatef(0, 0, 500);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.translate(0, 0, 500);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
             Gui.drawRect(this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.optionStrings.length : this.height), ColorUtil.to32BitColor(255, 0, 0, 0));
             Gui.drawRect(this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.optionStrings.length : this.height) - 1,
@@ -97,12 +97,12 @@ public class GuiElementDropdown extends GuiButton
             par1Minecraft.renderEngine.bindTexture(this.texture);
             this.drawTexturedModalRect(this.x + this.width - 12, this.y + 5, 185, 0, 7, 4);
 
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
             this.zLevel = 0.0F;
-//            GL11.glEnable(GL11.GL_LIGHTING);
-//            GL11.glEnable(GL11.GL_DEPTH_TEST);
+//            GlStateManager.enableLighting();
+//            GlStateManager.enableDepth();
 //            RenderHelper.enableStandardItemLighting();
-//            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+//            GlStateManager.enableRescaleNormal();
         }
     }
 

@@ -13,6 +13,7 @@ import micdoodle8.mods.galacticraft.api.client.IScreenManager;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.MapUtil;
 import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -22,7 +23,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldProvider;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import org.lwjgl.opengl.GL11;
 
 public class DrawGameScreen implements IScreenManager
 {
@@ -192,14 +192,14 @@ public class DrawGameScreen implements IScreenManager
 
         if (type > 0)
         {
-            GL11.glDisable(GL11.GL_LIGHTING);
+            GlStateManager.disableLighting();
         }
 
         GalacticraftRegistry.getGameScreen(type).render(type, ticks, scaleX, scaleZ, this);
 
         if (type > 0)
         {
-            GL11.glEnable(GL11.GL_LIGHTING);
+            GlStateManager.enableLighting();
         }
 
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightMapSaveX, lightMapSaveY);

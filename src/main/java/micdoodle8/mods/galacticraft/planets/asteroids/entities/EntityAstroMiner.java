@@ -45,6 +45,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -75,7 +76,6 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 public class EntityAstroMiner extends Entity implements IInventory, IPacketReceiver, IEntityNoisy, IAntiGrav, ITelemetry
 {
@@ -2412,7 +2412,7 @@ public class EntityAstroMiner extends Entity implements IInventory, IPacketRecei
     @Override
     public void adjustDisplay(int[] data)
     {
-        GL11.glScalef(0.9F, 0.9F, 0.9F);
+        GlStateManager.scale(0.9F, 0.9F, 0.9F);
     }
 
     @Override

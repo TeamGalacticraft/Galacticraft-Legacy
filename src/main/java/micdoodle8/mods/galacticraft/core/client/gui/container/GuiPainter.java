@@ -17,13 +17,13 @@ import micdoodle8.mods.galacticraft.core.util.ColorUtil;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiPainter extends GuiContainerGC
@@ -79,14 +79,14 @@ public class GuiPainter extends GuiContainerGC
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         this.mc.renderEngine.bindTexture(GuiPainter.painterTexture);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         int guiLeft = (this.width - this.xSize) / 2;
         int guiBottom = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(guiLeft, guiBottom, 0, 0, this.xSize, this.ySize);
 
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableTexture2D();
         ColorUtil.setGLColor(tileEntity.guiColor);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldrenderer = tessellator.getBuffer();
@@ -100,6 +100,6 @@ public class GuiPainter extends GuiContainerGC
         worldrenderer.pos((double) (x + width), (double) (y + 0), (double) this.zLevel).endVertex();
         worldrenderer.pos((double) (x + 0F), (double) (y + 0), (double) this.zLevel).endVertex();
         tessellator.draw();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GlStateManager.enableTexture2D();
     }
 }

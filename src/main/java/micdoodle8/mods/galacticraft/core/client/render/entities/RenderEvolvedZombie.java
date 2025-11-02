@@ -22,7 +22,6 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderEvolvedZombie extends RenderBiped<EntityEvolvedZombie>
@@ -61,7 +60,7 @@ public class RenderEvolvedZombie extends RenderBiped<EntityEvolvedZombie>
     @Override
     protected void preRenderCallback(EntityEvolvedZombie zombie, float par2)
     {
-        GL11.glScalef(1.2F, 1.2F, 1.2F);
+        GlStateManager.scale(1.2F, 1.2F, 1.2F);
         if (texSwitch)
         {
             OverlaySensorGlasses.preRenderMobs();
@@ -85,9 +84,9 @@ public class RenderEvolvedZombie extends RenderBiped<EntityEvolvedZombie>
     protected void applyRotations(EntityEvolvedZombie zombie, float pitch, float yaw, float partialTicks)
     {
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        GL11.glTranslatef(0F, -zombie.height * 0.55F, 0F);
-        GL11.glRotatef(zombie.getTumbleAngle(partialTicks), zombie.getTumbleAxisX(), 0F, zombie.getTumbleAxisZ());
-        GL11.glTranslatef(0F, zombie.height * 0.55F, 0F);
+        GlStateManager.translate(0F, -zombie.height * 0.55F, 0F);
+        GlStateManager.rotate(zombie.getTumbleAngle(partialTicks), zombie.getTumbleAxisX(), 0F, zombie.getTumbleAxisZ());
+        GlStateManager.translate(0F, zombie.height * 0.55F, 0F);
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
         super.applyRotations(zombie, pitch, yaw, partialTicks);
     }

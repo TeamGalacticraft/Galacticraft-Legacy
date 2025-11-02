@@ -82,7 +82,7 @@ public class BubbleRenderer
         GlStateManager.disableCull();
 
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.matrixMode(GL11.GL_TEXTURE);
         GlStateManager.loadIdentity();
         GlStateManager.matrixMode(GL11.GL_MODELVIEW);
@@ -99,20 +99,20 @@ public class BubbleRenderer
                 continue;
             }
 
-            GL11.glPushMatrix();
+            GlStateManager.pushMatrix();
 
             float x = (float) (tile.getPos().getX() - interpPosX);
             float y = (float) (tile.getPos().getY() - interpPosY);
             float z = (float) (tile.getPos().getZ() - interpPosZ);
 
-            GL11.glTranslatef(x + 0.5F, y + 1.0F, z + 0.5F);
-            GL11.glScalef(provider.getBubbleSize(), provider.getBubbleSize(), provider.getBubbleSize());
+            GlStateManager.translate(x + 0.5F, y + 1.0F, z + 0.5F);
+            GlStateManager.scale(provider.getBubbleSize(), provider.getBubbleSize(), provider.getBubbleSize());
 
             Vector3 colorVec = provider.getColor();
             int color = ColorUtil.to32BitColor(30, (int) (colorVec.z * 255), (int) (colorVec.y * 255), (int) (colorVec.x * 255));
             ClientUtil.drawBakedModelColored(sphere, color);
 
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
 
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightMapSaveX, lightMapSaveY);

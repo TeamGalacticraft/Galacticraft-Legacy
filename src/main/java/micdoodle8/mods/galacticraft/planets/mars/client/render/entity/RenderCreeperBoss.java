@@ -12,10 +12,10 @@ import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
 import micdoodle8.mods.galacticraft.planets.mars.client.model.ModelCreeperBoss;
 import micdoodle8.mods.galacticraft.planets.mars.entities.EntityCreeperBoss;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 public class RenderCreeperBoss extends RenderLiving<EntityCreeperBoss>
 {
@@ -43,28 +43,28 @@ public class RenderCreeperBoss extends RenderLiving<EntityCreeperBoss>
 //            {
 //                final float var4 = par1EntityCreeper.ticksExisted + par3;
 //                this.bindTexture(RenderCreeperBoss.powerTexture);
-//                GL11.glMatrixMode(GL11.GL_TEXTURE);
-//                GL11.glLoadIdentity();
+//                GlStateManager.matrixMode(GL11.GL_TEXTURE);
+//                GlStateManager.loadIdentity();
 //                final float var5 = var4 * 0.01F;
 //                final float var6 = var4 * 0.01F;
-//                GL11.glTranslatef(var5, var6, 0.0F);
+//                GlStateManager.translate(var5, var6, 0.0F);
 //                this.setRenderPassModel(this.creeperModel);
-//                GL11.glMatrixMode(GL11.GL_MODELVIEW);
-//                GL11.glEnable(GL11.GL_BLEND);
+//                GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+//                GlStateManager.enableBlend();
 //                final float var7 = 0.5F;
-//                GL11.glColor4f(var7, var7, var7, 1.0F);
-//                GL11.glDisable(GL11.GL_LIGHTING);
-//                GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+//                GlStateManager.color(var7, var7, var7, 1.0F);
+//                GlStateManager.disableLighting();
+//                GL11.glBlendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
 //                return 1;
 //            }
 //
 //            if (par2 == 2)
 //            {
-//                GL11.glMatrixMode(GL11.GL_TEXTURE);
-//                GL11.glLoadIdentity();
-//                GL11.glMatrixMode(GL11.GL_MODELVIEW);
-//                GL11.glEnable(GL11.GL_LIGHTING);
-//                GL11.glDisable(GL11.GL_BLEND);
+//                GlStateManager.matrixMode(GL11.GL_TEXTURE);
+//                GlStateManager.loadIdentity();
+//                GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+//                GlStateManager.enableLighting();
+//                GlStateManager.disableBlend();
 //            }
 //        }
 //
@@ -74,8 +74,8 @@ public class RenderCreeperBoss extends RenderLiving<EntityCreeperBoss>
     @Override
     protected void preRenderCallback(EntityCreeperBoss par1EntityLiving, float par2)
     {
-        GL11.glScalef(4.0F, 4.0F, 4.0F);
-        GL11.glRotatef((float) (Math.pow(par1EntityLiving.deathTicks, 2) / 5.0F + (Math.pow(par1EntityLiving.deathTicks, 2) / 5.0F - Math.pow(par1EntityLiving.deathTicks - 1, 2) / 5.0F) * par2), 0.0F,
+        GlStateManager.scale(4.0F, 4.0F, 4.0F);
+        GlStateManager.rotate((float) (Math.pow(par1EntityLiving.deathTicks, 2) / 5.0F + (Math.pow(par1EntityLiving.deathTicks, 2) / 5.0F - Math.pow(par1EntityLiving.deathTicks - 1, 2) / 5.0F) * par2), 0.0F,
             1.0F, 0.0F);
     }
 

@@ -11,12 +11,13 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.client.gui.overlay.OverlaySensorGlasses;
 import micdoodle8.mods.galacticraft.core.client.model.ModelAlienVillager;
 import micdoodle8.mods.galacticraft.core.entities.EntityAlienVillager;
+
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderAlienVillager extends RenderLiving<EntityAlienVillager>
@@ -52,7 +53,7 @@ public class RenderAlienVillager extends RenderLiving<EntityAlienVillager>
             OverlaySensorGlasses.preRenderMobs();
         }
 
-        GL11.glScalef(f1, f1, f1);
+        GlStateManager.scale(f1, f1, f1);
     }
 
     @Override

@@ -24,6 +24,7 @@ import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.client.render.RenderPlanet;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -123,11 +124,11 @@ public class GameScreenCelestial implements IGameScreen
 
     private void drawBlackBackground(float greyLevel)
     {
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableTexture2D();
         final Tessellator tess = Tessellator.getInstance();
         BufferBuilder worldRenderer = tess.getBuffer();
-        GL11.glColor4f(greyLevel, greyLevel, greyLevel, 1.0F);
+        GlStateManager.color(greyLevel, greyLevel, greyLevel, 1.0F);
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
 
         worldRenderer.pos(frameA, frameBy, 0.005F).endVertex();
@@ -136,8 +137,8 @@ public class GameScreenCelestial implements IGameScreen
         worldRenderer.pos(frameA, frameA, 0.005F).endVertex();
         tess.draw();
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.enableTexture2D();
     }
 
     private void drawCelestialBodies(CelestialBody body, float ticks)
@@ -229,15 +230,15 @@ public class GameScreenCelestial implements IGameScreen
             return;
         }
 
-        GL11.glPushMatrix();
-        GL11.glTranslatef(xPos + centreX, yPos + centreY, 0F);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(xPos + centreX, yPos + centreY, 0F);
 
         float alpha = 1.0F;
 
         CelestialBodyRenderEvent.Pre preEvent = new CelestialBodyRenderEvent.Pre(planet, planet.getBodyIcon(), 12);
         MinecraftForge.EVENT_BUS.post(preEvent);
 
-        GL11.glColor4f(1, 1, 1, alpha);
+        GlStateManager.color(1, 1, 1, alpha);
         if (preEvent.celestialBodyTexture != null)
         {
             this.renderEngine.bindTexture(preEvent.celestialBodyTexture);
@@ -252,14 +253,14 @@ public class GameScreenCelestial implements IGameScreen
         CelestialBodyRenderEvent.Post postEvent = new CelestialBodyRenderEvent.Post(planet);
         MinecraftForge.EVENT_BUS.post(postEvent);
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
     private void drawCircle(CelestialBody cBody)
     {
-        GL11.glPushMatrix();
-        GL11.glTranslatef(centreX, centreY, 0.002F);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(centreX, centreY, 0.002F);
+        GlStateManager.disableTexture2D();
 
         float sd = 0.002514F * scale;
         float x = this.getScale(cBody);
@@ -267,16 +268,16 @@ public class GameScreenCelestial implements IGameScreen
         float grey = 0.1F + 0.65F * Math.max(0F, (0.5F - x));
         x = x * scale / sd;
 
-        GL11.glColor4f(grey, grey, grey, 1.0F);
-        GL11.glLineWidth(0.002F);
+        GlStateManager.color(grey, grey, grey, 1.0F);
+        GlStateManager.glLineWidth(0.002F);
 
-        GL11.glScalef(sd, sd, sd);
+        GlStateManager.scale(sd, sd, sd);
         CelestialBodyRenderEvent.CelestialRingRenderEvent.Pre preEvent = new CelestialBodyRenderEvent.CelestialRingRenderEvent.Pre(cBody, new Vector3f(0.0F, 0.0F, 0.0F));
         MinecraftForge.EVENT_BUS.post(preEvent);
 
         if (!preEvent.isCanceled())
         {
-            GL11.glBegin(GL11.GL_LINE_LOOP);
+            GlStateManager.glBegin(GL11.GL_LINE_LOOP);
 
             float temp;
             for (int i = 0; i < lineSegments; i++)
@@ -288,14 +289,14 @@ public class GameScreenCelestial implements IGameScreen
                 y = sin * temp + cos * y;
             }
 
-            GL11.glEnd();
+            GlStateManager.glEnd();
         }
 
         CelestialBodyRenderEvent.CelestialRingRenderEvent.Post postEvent = new CelestialBodyRenderEvent.CelestialRingRenderEvent.Post(cBody);
         MinecraftForge.EVENT_BUS.post(postEvent);
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glPopMatrix();
+        GlStateManager.enableTexture2D();
+        GlStateManager.popMatrix();
     }
 
     private Vector3f getCelestialBodyPosition(CelestialBody cBody, float ticks)
@@ -335,12 +336,12 @@ public class GameScreenCelestial implements IGameScreen
 
     private void drawPlanetsTest(float ticks)
     {
-        GL11.glPushMatrix();
-        GL11.glTranslatef(centreX, centreY, 0F);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(centreX, centreY, 0F);
 
         int id = (int) (ticks / 600F) % 5;
         RenderPlanet.renderID(id, scale, ticks);
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
     private void drawTexturedRectUV(float x, float y, float width, float height, float ticks)

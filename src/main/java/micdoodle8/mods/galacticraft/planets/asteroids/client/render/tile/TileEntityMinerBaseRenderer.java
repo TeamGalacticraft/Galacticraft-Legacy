@@ -89,24 +89,24 @@ public class TileEntityMinerBaseRenderer extends TileEntitySpecialRenderer<TileE
         k += light / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, j / 8.0F, k / 8.0F);
 
-        GL11.glPushMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.pushMatrix();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-        GL11.glTranslatef((float) x + 1F, (float) y + 1F, (float) z + 1F);
-        GL11.glScalef(0.05F, 0.05F, 0.05F);
+        GlStateManager.translate((float) x + 1F, (float) y + 1F, (float) z + 1F);
+        GlStateManager.scale(0.05F, 0.05F, 0.05F);
 
         switch (tile.facing)
         {
             case SOUTH:
-                GL11.glRotatef(180F, 0, 1F, 0);
+                GlStateManager.rotate(180F, 0, 1F, 0);
                 break;
             case WEST:
-                GL11.glRotatef(90F, 0, 1F, 0);
+                GlStateManager.rotate(90F, 0, 1F, 0);
                 break;
             case NORTH:
                 break;
             case EAST:
-                GL11.glRotatef(270F, 0, 1F, 0);
+                GlStateManager.rotate(270F, 0, 1F, 0);
                 break;
         }
 
@@ -121,6 +121,6 @@ public class TileEntityMinerBaseRenderer extends TileEntitySpecialRenderer<TileE
         tessellator.draw();
 
         RenderHelper.enableStandardItemLighting();
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 }

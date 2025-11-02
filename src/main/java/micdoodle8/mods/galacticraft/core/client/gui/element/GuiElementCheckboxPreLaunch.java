@@ -14,6 +14,7 @@ import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,7 +61,7 @@ public class GuiElementCheckboxPreLaunch extends GuiButton
         if (this.visible)
         {
             par1Minecraft.getTextureManager().bindTexture(GuiElementCheckboxPreLaunch.texture);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
             int texWidth = this.isSelected ? 12 : 9;
             int texHeight = this.isSelected ? 16 : 9;

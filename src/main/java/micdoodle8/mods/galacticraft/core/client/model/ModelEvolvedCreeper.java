@@ -10,11 +10,11 @@ package micdoodle8.mods.galacticraft.core.client.model;
 import micdoodle8.mods.galacticraft.core.Constants;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class ModelEvolvedCreeper extends ModelBase
@@ -210,15 +210,15 @@ public class ModelEvolvedCreeper extends ModelBase
         if (this.isChild)
         {
             float f6 = 2.0F;
-            GL11.glPushMatrix();
-            GL11.glScalef(1.5F / f6, 1.5F / f6, 1.5F / f6);
-            GL11.glTranslatef(0.0F, 16.0F * par7, 0.0F);
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(1.5F / f6, 1.5F / f6, 1.5F / f6);
+            GlStateManager.translate(0.0F, 16.0F * par7, 0.0F);
             this.head.render(par7);
             this.oxygenMask.render(par7);
-            GL11.glPopMatrix();
-            GL11.glPushMatrix();
-            GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
-            GL11.glTranslatef(0.0F, 24.0F * par7, 0.0F);
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(1.0F / f6, 1.0F / f6, 1.0F / f6);
+            GlStateManager.translate(0.0F, 24.0F * par7, 0.0F);
             this.leftOxygenTank.render(par7);
             this.rightOxygenTank.render(par7);
             this.tubeRight2.render(par7);
@@ -241,7 +241,7 @@ public class ModelEvolvedCreeper extends ModelBase
             this.leg2.render(par7);
             this.leg3.render(par7);
             this.leg4.render(par7);
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         } else
         {
             this.leftOxygenTank.render(par7);

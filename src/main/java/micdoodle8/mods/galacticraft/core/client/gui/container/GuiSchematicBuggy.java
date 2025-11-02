@@ -13,11 +13,11 @@ import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerBuggyBench;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import org.lwjgl.opengl.GL11;
 
 public class GuiSchematicBuggy extends GuiPositionedContainer implements ISchematicResultPage
 {
@@ -68,7 +68,7 @@ public class GuiSchematicBuggy extends GuiPositionedContainer implements ISchema
     @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.renderEngine.bindTexture(GuiSchematicBuggy.buggyBenchTexture);
         final int var5 = (this.width - this.xSize) / 2;
         final int var6 = (this.height - 221) / 2;

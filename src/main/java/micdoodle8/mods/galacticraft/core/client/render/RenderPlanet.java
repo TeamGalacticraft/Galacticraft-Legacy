@@ -9,6 +9,7 @@ package micdoodle8.mods.galacticraft.core.client.render;
 
 import micdoodle8.mods.galacticraft.core.Constants;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -31,7 +32,7 @@ public class RenderPlanet
 
     public static void renderPlanet(int textureId, float scale, float ticks, float relSize)
     {
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId);
+        GlStateManager.bindTexture(textureId);
         float size = relSize / 70 * scale;
         ticks = ((float) System.nanoTime()) / 50000000F;
         RenderPlanet.drawTexturedRectUV(-size / 2, -size / 2, size, size, ticks);
@@ -74,8 +75,8 @@ public class RenderPlanet
             float size = relSize / 70 * scale;
             RenderPlanet.renderEngine.bindTexture(texture);
             RenderPlanet.drawTexturedRectUV(-size / 2, -size / 2, size, size, ticks);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslatef(0, 0, -0.001F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.translate(0, 0, -0.001F);
             RenderPlanet.renderEngine.bindTexture(textureJupiterUpper);
             size *= 1.001F;
             RenderPlanet.drawTexturedRectUV(-size / 2, -size / 2, size, size, ticks * 0.85F);

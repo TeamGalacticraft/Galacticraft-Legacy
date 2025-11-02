@@ -30,6 +30,7 @@ import micdoodle8.mods.galacticraft.planets.mars.world.gen.WorldGenEggs;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -45,7 +46,6 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 public class EventHandlerMars
 {
@@ -184,28 +184,28 @@ public class EventHandlerMars
 
             if (tile instanceof TileEntityCryogenicChamber)
             {
-                GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(180, 0.0F, 1.0F, 0.0F);
 
                 switch (tile.getBlockMetadata() & 3)
                 {
                     case 0:
-                        GL11.glTranslatef(-0.4F, -0.5F, 4.1F);
+                        GlStateManager.translate(-0.4F, -0.5F, 4.1F);
                         break;
                     case 1:
-                        GL11.glTranslatef(0, -0.5F, 4.1F);
+                        GlStateManager.translate(0, -0.5F, 4.1F);
                         break;
                     case 2:
-                        GL11.glTranslatef(0, -0.5F, 4.1F);
+                        GlStateManager.translate(0, -0.5F, 4.1F);
                         break;
                     case 3:
-                        GL11.glTranslatef(0.0F, -0.5F, 4.1F);
+                        GlStateManager.translate(0.0F, -0.5F, 4.1F);
                         break;
                 }
 
-                GL11.glRotatef(-180, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(-180, 0.0F, 1.0F, 0.0F);
 
-                GL11.glRotatef(FMLClientHandler.instance().getClientPlayerEntity().sleepTimer - 50, 0.0F, 1.0F, 0.0F);
-                GL11.glTranslatef(0.0F, 0.3F, 0.0F);
+                GlStateManager.rotate(FMLClientHandler.instance().getClientPlayerEntity().sleepTimer - 50, 0.0F, 1.0F, 0.0F);
+                GlStateManager.translate(0.0F, 0.3F, 0.0F);
             }
         }
     }

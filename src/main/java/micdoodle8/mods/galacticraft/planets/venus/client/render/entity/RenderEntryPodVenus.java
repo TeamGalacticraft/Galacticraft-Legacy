@@ -29,7 +29,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.obj.OBJModel;
-import org.lwjgl.opengl.GL11;
 
 public class RenderEntryPodVenus extends Render<EntityEntryPodVenus>
 {
@@ -87,7 +86,7 @@ public class RenderEntryPodVenus extends Render<EntityEntryPodVenus>
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
             GlStateManager.disableLighting();
             GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             GlStateManager.cullFace(GlStateManager.CullFace.FRONT);
 
             int color = ColorUtil.to32BitColor(entityEntryPod.posY >= 790.0F ? 255 : (int) Math.max(Math.min(255, -(entityEntryPod.motionY + 0.6F) * 100.0F), 0), 255, 255, 255);
@@ -105,7 +104,7 @@ public class RenderEntryPodVenus extends Render<EntityEntryPodVenus>
 
             GlStateManager.cullFace(GlStateManager.CullFace.BACK);
             GlStateManager.enableCull();
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderHelper.enableStandardItemLighting();
         }
 

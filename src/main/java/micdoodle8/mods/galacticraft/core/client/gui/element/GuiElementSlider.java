@@ -15,6 +15,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -61,12 +62,12 @@ public class GuiElementSlider extends GuiButton
                 }
             }
 
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.disableTexture2D();
+            GlStateManager.enableBlend();
+            GlStateManager.disableAlpha();
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-            GL11.glShadeModel(GL11.GL_SMOOTH);
+            GlStateManager.shadeModel(GL11.GL_SMOOTH);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder worldRenderer = tessellator.getBuffer();
 
@@ -114,17 +115,17 @@ public class GuiElementSlider extends GuiButton
                     .color(this.lastColor.floatX(), this.lastColor.floatY(), this.lastColor.floatZ(), 1.0F).endVertex();
                 tessellator.draw();
 
-                GL11.glShadeModel(GL11.GL_FLAT);
-                GL11.glDisable(GL11.GL_BLEND);
-                GL11.glEnable(GL11.GL_ALPHA_TEST);
-                GL11.glEnable(GL11.GL_TEXTURE_2D);
+                GlStateManager.shadeModel(GL11.GL_FLAT);
+                GlStateManager.disableBlend();
+                GlStateManager.enableAlpha();
+                GlStateManager.enableTexture2D();
 
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                GL11.glDisable(GL11.GL_TEXTURE_2D);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glDisable(GL11.GL_ALPHA_TEST);
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                GlStateManager.disableTexture2D();
+                GlStateManager.enableBlend();
+                GlStateManager.disableAlpha();
                 OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-                GL11.glShadeModel(GL11.GL_SMOOTH);
+                GlStateManager.shadeModel(GL11.GL_SMOOTH);
 
                 worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
                 worldRenderer.pos((double) this.x + this.sliderPos + 1, this.y, this.zLevel).color(1, 1, 1, 1.0F).endVertex();
@@ -134,10 +135,10 @@ public class GuiElementSlider extends GuiButton
                 tessellator.draw();
             }
 
-            GL11.glShadeModel(GL11.GL_FLAT);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glEnable(GL11.GL_ALPHA_TEST);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GlStateManager.shadeModel(GL11.GL_FLAT);
+            GlStateManager.disableBlend();
+            GlStateManager.enableAlpha();
+            GlStateManager.enableTexture2D();
         }
     }
 

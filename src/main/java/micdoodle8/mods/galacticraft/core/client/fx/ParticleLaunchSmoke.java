@@ -9,11 +9,11 @@ package micdoodle8.mods.galacticraft.core.client.fx;
 
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class ParticleLaunchSmoke extends EntityFXLaunchParticle
@@ -54,9 +54,9 @@ public class ParticleLaunchSmoke extends EntityFXLaunchParticle
     @Override
     public void renderParticle(BufferBuilder worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
-        GL11.glPushMatrix();
-        GL11.glDepthMask(false);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GlStateManager.pushMatrix();
+        GlStateManager.depthMask(false);
+        GlStateManager.disableDepth();
         float var8 = (this.particleAge + partialTicks) / this.particleMaxAge * 32.0F;
 
         if (var8 < 0.0F)
@@ -72,9 +72,9 @@ public class ParticleLaunchSmoke extends EntityFXLaunchParticle
         this.particleScale = this.smokeParticleScale * var8;
         super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
 
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(true);
-        GL11.glPopMatrix();
+        GlStateManager.enableDepth();
+        GlStateManager.depthMask(true);
+        GlStateManager.popMatrix();
     }
 
     @Override

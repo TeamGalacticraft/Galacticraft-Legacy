@@ -27,7 +27,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class RenderGrapple extends Render<EntityGrapple>
 {
@@ -53,8 +52,8 @@ public class RenderGrapple extends Render<EntityGrapple>
     @Override
     public void doRender(EntityGrapple grapple, double x, double y, double z, float par8, float partialTicks)
     {
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glPushMatrix();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.pushMatrix();
 
         Vec3d vec3 = new Vec3d(0.0D, -0.2D, 0.0D);
         EntityPlayer shootingEntity = grapple.getShootingEntity();
@@ -66,8 +65,8 @@ public class RenderGrapple extends Render<EntityGrapple>
             double d5 = shootingEntity.prevPosZ + (shootingEntity.posZ - shootingEntity.prevPosZ) * partialTicks + vec3.z;
 
             Tessellator tessellator = Tessellator.getInstance();
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_LIGHTING);
+            GlStateManager.disableTexture2D();
+            GlStateManager.disableLighting();
             tessellator.getBuffer().begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
             byte b2 = 16;
 
@@ -87,14 +86,14 @@ public class RenderGrapple extends Render<EntityGrapple>
 
             tessellator.draw();
             tessellator.getBuffer().setTranslation(0, 0, 0);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GlStateManager.enableLighting();
+            GlStateManager.enableTexture2D();
         }
 
-        GL11.glTranslatef((float) x, (float) y, (float) z);
-        GL11.glRotatef(grapple.prevRotationYaw + (grapple.rotationYaw - grapple.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(grapple.prevRotationPitch + (grapple.rotationPitch - grapple.prevRotationPitch) * partialTicks - 180, 0.0F, 0.0F, 1.0F);
-        GL11.glRotatef(grapple.prevRotationRoll + (grapple.rotationRoll - grapple.prevRotationRoll) * partialTicks, 1.0F, 0.0F, 0.0F);
+        GlStateManager.translate((float) x, (float) y, (float) z);
+        GlStateManager.rotate(grapple.prevRotationYaw + (grapple.rotationYaw - grapple.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(grapple.prevRotationPitch + (grapple.rotationPitch - grapple.prevRotationPitch) * partialTicks - 180, 0.0F, 0.0F, 1.0F);
+        GlStateManager.rotate(grapple.prevRotationRoll + (grapple.rotationRoll - grapple.prevRotationRoll) * partialTicks, 1.0F, 0.0F, 0.0F);
 
         updateModel();
 
@@ -113,7 +112,7 @@ public class RenderGrapple extends Render<EntityGrapple>
 //        this.bindEntityTexture(grapple);
 //        ItemRendererGrappleHook.modelGrapple.renderAll(); TODO
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
 //    protected ResourceLocation getEntityTexture(EntityGrapple grapple)

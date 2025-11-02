@@ -71,7 +71,7 @@ public class FootprintRenderer
         GlStateManager.disableCull();
 
         GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         Tessellator tessellator = Tessellator.getInstance();
         float f7 = 1.0F;
         float f6 = 0.0F;
@@ -91,7 +91,7 @@ public class FootprintRenderer
 
         for (Footprint footprint : footprintsToDraw)
         {
-            GL11.glPushMatrix();
+            GlStateManager.pushMatrix();
 
             if (!sensorGlasses)
             {
@@ -108,7 +108,7 @@ public class FootprintRenderer
             float f12 = (float) (footprint.position.y - interpPosY) + 0.001F;
             float f13 = (float) (footprint.position.z - interpPosZ);
 
-            GL11.glTranslatef(f11, f12, f13);
+            GlStateManager.translate(f11, f12, f13);
 
             GlStateManager.color(1F - ageScale, 1F - ageScale, 1F - ageScale, 1F - ageScale);
             double footprintScale = 0.5F;

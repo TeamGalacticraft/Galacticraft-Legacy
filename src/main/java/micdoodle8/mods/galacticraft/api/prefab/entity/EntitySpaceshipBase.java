@@ -27,6 +27,8 @@ import micdoodle8.mods.galacticraft.core.tile.TileEntityTelemetry;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.DamageSourceGC;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
@@ -49,7 +51,6 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Do not include this prefab class in your released mod download.
@@ -730,8 +731,8 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
     @Override
     public void adjustDisplay(int[] data)
     {
-        GL11.glRotatef(data[4], -1, 0, 0);
-        GL11.glTranslatef(0, this.height / 4, 0);
+        GlStateManager.rotate(data[4], -1, 0, 0);
+        GlStateManager.translate(0, this.height / 4, 0);
     }
 
     /**

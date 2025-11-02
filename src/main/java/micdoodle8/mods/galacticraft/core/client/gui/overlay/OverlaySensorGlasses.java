@@ -20,11 +20,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -35,19 +35,18 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class OverlaySensorGlasses extends Overlay
 {
-
     private static final ResourceLocation hudTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/hud.png");
     private static final ResourceLocation indicatorTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/gui/indicator.png");
     public static final ResourceLocation altTexture = new ResourceLocation(Constants.ASSET_PREFIX, "textures/blocks/sensor_mobs.png");
 
-    private static Minecraft minecraft = FMLClientHandler.instance().getClient();
+    private static final Minecraft minecraft = FMLClientHandler.instance().getClient();
 
-    private static int zoom = 0;
+    private static int zoom;
 
     /**
      * Render the GUI that displays sensor glasses
      */
-    public static void renderSensorGlassesMain(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks)
+    public static void renderSensorGlassesMain()
     {
         OverlaySensorGlasses.zoom++;
 
@@ -57,29 +56,29 @@ public class OverlaySensorGlasses extends Overlay
         final int i = scaledresolution.getScaledWidth();
         final int k = scaledresolution.getScaledHeight();
         OverlaySensorGlasses.minecraft.entityRenderer.setupOverlayRendering();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(false);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.depthMask(false);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableAlpha();
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(OverlaySensorGlasses.hudTexture);
         final Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldRenderer = tessellator.getBuffer();
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        worldRenderer.pos(i / 2 - k - f * 80, k + f * 40, -90D).tex(0.0D, 1.0D).endVertex();
-        worldRenderer.pos(i / 2 + k + f * 80, k + f * 40, -90D).tex(1.0D, 1.0D).endVertex();
-        worldRenderer.pos(i / 2 + k + f * 80, 0.0D - f * 40, -90D).tex(1.0D, 0.0D).endVertex();
-        worldRenderer.pos(i / 2 - k - f * 80, 0.0D - f * 40, -90D).tex(0.0D, 0.0D).endVertex();
+        worldRenderer.pos(i / 2d - k - f * 80, k + f * 40, -90D).tex(0.0D, 1.0D).endVertex();
+        worldRenderer.pos(i / 2d + k + f * 80, k + f * 40, -90D).tex(1.0D, 1.0D).endVertex();
+        worldRenderer.pos(i / 2d + k + f * 80, 0.0D - f * 40, -90D).tex(1.0D, 0.0D).endVertex();
+        worldRenderer.pos(i / 2d - k - f * 80, 0.0D - f * 40, -90D).tex(0.0D, 0.0D).endVertex();
         tessellator.draw();
 
-        GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableAlpha();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    public static void renderSensorGlassesValueableBlocks(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks)
+    public static void renderSensorGlassesValueableBlocks()
     {
         final Iterator<BlockVec3> var51 = ClientProxyCore.valueableBlocks.iterator();
         double var52;
@@ -114,57 +113,50 @@ public class OverlaySensorGlasses extends Overlay
                 var2 = stats.isUsingAdvancedGoggles();
             }
 
-            OverlaySensorGlasses.minecraft.fontRenderer.drawString(
-                GCCoreUtil.translate("gui.sensor.advanced") + ": " + (var2 ? GCCoreUtil.translate("gui.sensor.advancedon") : GCCoreUtil.translate("gui.sensor.advancedoff")), var6 / 2 - 50, 4,
-                0x03b88f);
+            OverlaySensorGlasses.minecraft.fontRenderer.drawString(GCCoreUtil.translate("gui.sensor.advanced") + ": " + (var2 ? GCCoreUtil.translate("gui.sensor.advancedon") : GCCoreUtil.translate("gui.sensor.advancedoff")), var6 / 2 - 50, 4, 0x03b88f);
 
-            try
-            {
-                GL11.glPushMatrix();
+            GlStateManager.pushMatrix();
 
-                if (var20 < 4.0D)
-                {
-                    GL11.glColor4f(0.0F, 255F / 255F, 198F / 255F, (float) Math.min(1.0D, Math.max(0.2D, (var20 - 1.0D) * 0.1D)));
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(OverlaySensorGlasses.indicatorTexture);
-                    GL11.glRotatef(-var60 - ClientProxyCore.playerRotationYaw + 180.0F, 0.0F, 0.0F, 1.0F);
-                    GL11.glTranslated(0.0D, var2 ? -var20 * 16 : -var21 * 16, 0.0D);
-                    GL11.glRotatef(-(-var60 - ClientProxyCore.playerRotationYaw + 180.0F), 0.0F, 0.0F, 1.0F);
-                    Overlay.drawCenteringRectangle(var6 / 2, var7 / 2, 1.0D, 8.0D, 8.0D);
-                }
-            } finally
+            if (var20 < 4.0D)
             {
-                GL11.glPopMatrix();
+                GlStateManager.color(0.0F, 1.0f, 198F / 255F, (float) Math.min(1.0D, Math.max(0.2D, (var20 - 1.0D) * 0.1D)));
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(OverlaySensorGlasses.indicatorTexture);
+                GlStateManager.rotate(-var60 - ClientProxyCore.playerRotationYaw + 180.0F, 0.0F, 0.0F, 1.0F);
+                GlStateManager.translate(0.0D, var2 ? -var20 * 16 : -var21 * 16, 0.0D);
+                GlStateManager.rotate(-(-var60 - ClientProxyCore.playerRotationYaw + 180.0F), 0.0F, 0.0F, 1.0F);
+                Overlay.drawCenteringRectangle(var6 / 2d, var7 / 2d, 1.0D, 8.0D, 8.0D);
             }
+            GlStateManager.popMatrix();
         }
     }
 
     public static void preRenderMobs()
     {
-        GL11.glEnable(GL11.GL_BLEND);
-//TODO  Enable these to see the entity through solid blocks - but would need a postRenderCallback to switch this off again otherwise everything is changed
-//            GL11.glDisable(GL11.GL_DEPTH_TEST);
-//            GL11.glDepthMask(false);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GlStateManager.enableBlend();
+        //TODO Enable these to see the entity through solid blocks - but would need a postRenderCallback to switch this off again otherwise everything is changed
+        // GlStateManager.disableDepth();
+        // GlStateManager.depthMask(false);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableAlpha();
         int i = 15728880;
         int j = i % 65536;
         int k = i / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
-        GL11.glTranslatef(0.0F, 0.045F, 0.0F);
-        GL11.glScalef(1.07F, 1.035F, 1.07F);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j, (float) k);
+        GlStateManager.translate(0.0F, 0.045F, 0.0F);
+        GlStateManager.scale(1.07F, 1.035F, 1.07F);
     }
 
     public static void postRenderMobs()
     {
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
-//        GL11.glEnable(GL11.GL_DEPTH_TEST);
-//        GL11.glDepthMask(true);
+        GlStateManager.enableAlpha();
+        // GlStateManager.enableDepth();
+        // GlStateManager.depthMask(true);
     }
 
     public static boolean overrideMobTexture()
     {
         EntityPlayer player = Minecraft.getMinecraft().player;
-        return (player != null && player.inventory.armorItemInSlot(3) != null && player.inventory.armorItemInSlot(3).getItem() instanceof ISensorGlassesArmor);
+        return player != null && player.inventory.armorItemInSlot(3).getItem() instanceof ISensorGlassesArmor;
     }
 }

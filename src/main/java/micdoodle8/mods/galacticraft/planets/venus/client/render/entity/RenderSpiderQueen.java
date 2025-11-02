@@ -55,11 +55,11 @@ public class RenderSpiderQueen extends RenderLiving<EntitySpiderQueen>
     {
         if (entity.getBurrowedCount() >= 0)
         {
-            GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-            GL11.glTranslatef(0.0F, entity.height, 0.0F);
+            GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.translate(0.0F, entity.height, 0.0F);
         }
-        GL11.glScalef(1.5F, 1.5F, 1.5F);
-        GL11.glRotatef((float) (Math.pow(entity.deathTicks, 2) / 5.0F + (Math.pow(entity.deathTicks, 2) / 5.0F - Math.pow(entity.deathTicks - 1, 2) / 5.0F) * partialTickTime), 0.0F, 1.0F, 0.0F);
+        GlStateManager.scale(1.5F, 1.5F, 1.5F);
+        GlStateManager.rotate((float) (Math.pow(entity.deathTicks, 2) / 5.0F + (Math.pow(entity.deathTicks, 2) / 5.0F - Math.pow(entity.deathTicks - 1, 2) / 5.0F) * partialTickTime), 0.0F, 1.0F, 0.0F);
         super.preRenderCallback(entity, partialTickTime);
     }
 
@@ -68,11 +68,11 @@ public class RenderSpiderQueen extends RenderLiving<EntitySpiderQueen>
     {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float) x, (float) y + 0.8F, (float) z);
-        GL11.glScalef(1.4F, 1.5F, 1.4F);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float) x, (float) y + 0.8F, (float) z);
+        GlStateManager.scale(1.4F, 1.5F, 1.4F);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
         this.updateModels();
 
@@ -89,17 +89,17 @@ public class RenderSpiderQueen extends RenderLiving<EntitySpiderQueen>
 
         if (entity.getBurrowedCount() >= 0)
         {
-            GL11.glDisable(GL11.GL_CULL_FACE);
+            GlStateManager.disableCull();
             ClientUtil.drawBakedModel(webModel);
-            GL11.glScalef(1.05F, 1.1F, 1.05F);
-            GL11.glRotatef(192.5F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.scale(1.05F, 1.1F, 1.05F);
+            GlStateManager.rotate(192.5F, 0.0F, 1.0F, 0.0F);
             ClientUtil.drawBakedModel(webModel);
-            GL11.glEnable(GL11.GL_CULL_FACE);
+            GlStateManager.enableCull();
         }
 
         RenderHelper.enableStandardItemLighting();
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
     @Override

@@ -44,9 +44,9 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
     {
         if (pipe.getBlockType() == GCBlocks.oxygenPipePull)
         {
-            GL11.glPushMatrix();
+            GlStateManager.pushMatrix();
 
-            GL11.glTranslatef((float) x, (float) y, (float) z);
+            GlStateManager.translate((float) x, (float) y, (float) z);
 
             RenderHelper.disableStandardItemLighting();
             this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -58,7 +58,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
                 GlStateManager.shadeModel(GL11.GL_FLAT);
             }
 
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
             TileEntity[] adj = OxygenUtil.getAdjacentFluidConnections(pipe);
 
@@ -68,31 +68,31 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
 
                 if (sideTile != null && !(sideTile instanceof IBufferTransmitter))
                 {
-                    GL11.glPushMatrix();
+                    GlStateManager.pushMatrix();
                     if (sideTile instanceof TileEntityFluidTank)
                         switch (facing)
                         {
                             case SOUTH:
-                                GL11.glTranslatef(0F, 0F, 1 / 16F);
+                                GlStateManager.translate(0F, 0F, 1 / 16F);
                                 break;
                             case NORTH:
-                                GL11.glTranslatef(0F, 0F, -1 / 16F);
+                                GlStateManager.translate(0F, 0F, -1 / 16F);
                                 break;
                             case EAST:
-                                GL11.glTranslatef(1 / 16F, 0F, 0F);
+                                GlStateManager.translate(1 / 16F, 0F, 0F);
                                 break;
                             case WEST:
-                                GL11.glTranslatef(-1 / 16F, 0F, 0F);
+                                GlStateManager.translate(-1 / 16F, 0F, 0F);
                                 break;
                             default:
                                 break;
                         }
                     ClientUtil.drawBakedModel(EventHandlerClient.fluidPipeModels[facing.ordinal()]);
-                    GL11.glPopMatrix();
+                    GlStateManager.popMatrix();
                 }
             }
 
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
 
         float scale;
@@ -125,15 +125,15 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
         if (scale > 0.01)
         {
             this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            GL11.glPushMatrix();
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslatef((float) x, (float) y + 1.0F, (float) z + 1.0F);
-            GL11.glScalef(1.0F, -1.0F, -1.0F);
-            GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+            GlStateManager.pushMatrix();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.translate((float) x, (float) y + 1.0F, (float) z + 1.0F);
+            GlStateManager.scale(1.0F, -1.0F, -1.0F);
+            GlStateManager.translate(0.5F, 0.5F, 0.5F);
 
             GlStateManager.disableLighting();
             GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
             float opacity = 1.0F;
@@ -145,7 +145,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
                 opacity = scale;
             }
 
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, opacity);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, opacity);
 
             TileEntity[] connections = OxygenUtil.getAdjacentFluidConnections(pipe);
 
@@ -161,11 +161,11 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
                         if (!gas)
                         {
                             Integer list = displayLists[Math.max(3, (int) (scale * (stages - 1)))];
-                            GL11.glCallList(list);
+                            GlStateManager.callList(list);
                         } else
                         {
                             Integer list = displayLists[stages - 1];
-                            GL11.glCallList(list);
+                            GlStateManager.callList(list);
                         }
                     }
                 }
@@ -178,19 +178,19 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
                 if (!gas)
                 {
                     Integer list = displayLists[Math.max(3, (int) (scale * (stages - 1)))];
-                    GL11.glCallList(list);
+                    GlStateManager.callList(list);
                 } else
                 {
                     Integer list = displayLists[stages - 1];
-                    GL11.glCallList(list);
+                    GlStateManager.callList(list);
                 }
             }
 
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
 
-            GL11.glPopMatrix();
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.popMatrix();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 
@@ -233,7 +233,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
         for (int i = 0; i < stages; ++i)
         {
             displayLists[i] = GLAllocation.generateDisplayLists(1);
-            GL11.glNewList(displayLists[i], GL11.GL_COMPILE);
+            GlStateManager.glNewList(displayLists[i], GL11.GL_COMPILE);
 
             float level = (i / (float) stages);
 
@@ -298,7 +298,7 @@ public class TileEntityFluidPipeRenderer extends TileEntitySpecialRenderer<TileE
             }
 
             renderBox(minX, maxX, minY, maxY, minZ, maxZ, level, sprite);
-            GL11.glEndList();
+            GlStateManager.glEndList();
         }
 
         return displayLists;

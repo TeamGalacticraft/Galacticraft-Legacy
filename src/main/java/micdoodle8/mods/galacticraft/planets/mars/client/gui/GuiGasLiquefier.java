@@ -22,13 +22,13 @@ import micdoodle8.mods.galacticraft.planets.GalacticraftPlanets;
 import micdoodle8.mods.galacticraft.planets.mars.inventory.ContainerGasLiquefier;
 import micdoodle8.mods.galacticraft.planets.mars.tile.TileEntityGasLiquefier;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiGasLiquefier extends GuiContainerGC
@@ -151,7 +151,7 @@ public class GuiGasLiquefier extends GuiContainerGC
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         this.mc.renderEngine.bindTexture(GuiGasLiquefier.refineryTexture);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         int edgeLeft = (this.width - this.xSize) / 2;
         int edgeTop = (this.height - this.ySize) / 2;

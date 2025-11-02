@@ -26,7 +26,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
 
 public class LayerThermalPadding extends LayerArmorBase<ModelBiped>
 {
@@ -131,7 +130,7 @@ public class LayerThermalPadding extends LayerArmorBase<ModelBiped>
             Minecraft.getMinecraft().renderEngine.bindTexture(RenderPlayerGC.thermalPaddingTexture0);
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             float time = entityLivingBaseIn.ticksExisted / 10.0F;
             float sTime = (float) Math.sin(time) * 0.5F + 0.5F;
 
