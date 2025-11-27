@@ -23,16 +23,14 @@ public class CircuitFabricatorRecipes
 
     /**
      * Input list must be array with 5 elements matching the 5 slots in the
-     * machine. Use null if no item is used in the slot. Use a List<ItemStack>
-     * for Oredicted ingredients. <p> 0: Diamond 1: Silicon 2: Silicon 3:
-     * Redstone dust 4: Recipe item
+     * machine. Use null if no item is used in the slot. Use a List&lt;net.minecraft.item.ItemStack&gt;
+     * for Oredicted ingredients. <p>0: Diamond 1: Silicon 2: Silicon 3: Redstone dust 4: Recipe item</p>
      *
-     * @param output ItemStack
+     * @param output net.minecraft.item.ItemStack
      * @param inputList Object array. Must contain only null, ItemStack, or
-     *        List<ItemStack>.
-     * 
-     * @return
-     */
+     *        List&lt;ItemStack&gt;.
+     *
+	 */
     public static void addRecipe(ItemStack output, List<Object> inputList)
     {
         if (inputList.size() != 5)
@@ -61,7 +59,7 @@ public class CircuitFabricatorRecipes
 
     /**
      * Add the recipe ingredients to the valid items for each slot
-     * 
+     *
      * @param inputList
      */
     @SuppressWarnings("unchecked")

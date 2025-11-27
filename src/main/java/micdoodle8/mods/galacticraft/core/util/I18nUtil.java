@@ -79,7 +79,7 @@ public final class I18nUtil
 
     /**
      * Translates the text with key "(prefix).registry_name.key". This uses the object's registry
-     * name namespace instead of {@link #modId}. Prefix is determined by the object's type.
+     * name namespace instead of modId. Prefix is determined by the object's type.
      *
      * @param object An {@link IForgeRegistryEntry} of some kind, such as a {@link Block} or {@link
      *               Item}

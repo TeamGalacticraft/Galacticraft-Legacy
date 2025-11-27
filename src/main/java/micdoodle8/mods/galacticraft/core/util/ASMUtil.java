@@ -160,7 +160,7 @@ public class ASMUtil {
      * Returns the value of a private static field for a class.
      *
      * @param clazz      The class for which the field value is to be extracted.
-     * @param fieldNames A list of field names for which the value should be extracted.
+     * @param fieldName A list of field names for which the value should be extracted.
      * @return The value of the provided field name.
      */
     @SuppressWarnings("unchecked")
@@ -181,7 +181,7 @@ public class ASMUtil {
      * @param  clazz          The class to find the method on.
      * @param  methodName     The name of the method to find (used in developer environments, i.e. "getWorldTime").
      * @param  parameterTypes The parameter types of the method to find.
-     * 
+     *
      * @return                The method with the specified name and parameters in the given class.
      */
     @Nonnull
@@ -207,7 +207,7 @@ public class ASMUtil {
      * @param  methodName     The name of the method to find (used in developer environments, i.e. "getWorldTime").
      * @param  methodObfName  The obfuscated name of the method to find (used in obfuscated environments, i.e. "getWorldTime"). If the name you are looking for is on a class that is never obfuscated, this should be null.
      * @param  parameterTypes The parameter types of the method to find.
-     * 
+     *
      * @return                The method with the specified name and parameters in the given class.
      */
     @Nonnull

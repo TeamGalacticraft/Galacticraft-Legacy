@@ -95,7 +95,7 @@ public class GalaxyRegistry
     }
 
     /**
-     * Returns the CelestialBody of the given DimensionID. Iterates through, Planets, Moons & Satellites only
+     * Returns the CelestialBody of the given DimensionID. Iterates through, Planets, Moons &amp; Satellites only
      *
      * @param  dimensionID the DIM Id of the CelestialBody
      *
@@ -296,7 +296,8 @@ public class GalaxyRegistry
     // -- DEPRECIATED METHODS -- //
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#getPlanetOrMoonFromTranslationkey(String translationKey)}
+	 *
+     * Replace with {@link GalaxyRegistry#getPlanetOrMoonFromTranslationkey(String translationKey)}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.getPlanetOrMoonFromTranslationkey(String translationKey)")
@@ -306,7 +307,7 @@ public class GalaxyRegistry
     }
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#register(T object)}
+     * Replace with {@link GalaxyRegistry#register(Object object)}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.register(T object)")
@@ -317,7 +318,7 @@ public class GalaxyRegistry
     }
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#register(T object)}
+     * Replace with {@link GalaxyRegistry#register(Object object)}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.register(T object)")
@@ -328,7 +329,7 @@ public class GalaxyRegistry
     }
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#register(T object)}
+     * Replace with {@link GalaxyRegistry#register(Object object)}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.register(T object)")
@@ -339,7 +340,7 @@ public class GalaxyRegistry
     }
 
     /**
-     * @ReplaceWith {@link GalaxyRegistry#register(T object)}
+     * Replace with {@link GalaxyRegistry#register(Object object)}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.register(T object)")
@@ -351,8 +352,8 @@ public class GalaxyRegistry
 
     /**
      * Returns a read-only map containing Solar System Names and their associated Solar Systems.
-     *
-     * @ReplaceWith {@link GalaxyRegistry#getSolarSystems()}
+     * <p>
+     * Replace with {@link GalaxyRegistry#getSolarSystems()}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.getSolarSystems()")
@@ -363,8 +364,8 @@ public class GalaxyRegistry
 
     /**
      * Returns a read-only map containing Planet Names and their associated Planets.
-     *
-     * @ReplaceWith {@link GalaxyRegistry#getPlanets()}
+     * <p>
+     * Replace with {@link GalaxyRegistry#getPlanets()}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.getPlanets()")
@@ -375,8 +376,8 @@ public class GalaxyRegistry
 
     /**
      * Returns a read-only map containing Moon Names and their associated Moons.
-     *
-     * @ReplaceWith {@link GalaxyRegistry#getMoons()}
+     * <p>
+     * Replace with {@link GalaxyRegistry#getMoons()}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.getMoons()")
@@ -387,8 +388,8 @@ public class GalaxyRegistry
 
     /**
      * Returns a read-only map containing Satellite Names and their associated Satellite.
-     *
-     * @ReplaceWith {@link GalaxyRegistry#getSatellites()}
+     * <p>
+     * Replace with {@link GalaxyRegistry#getSatellites()}
      */
     @Deprecated
     @ReplaceWith("GalaxyRegistry.getSatellites()")
