@@ -221,6 +221,11 @@ public class BlockBasicMoon extends Block implements IDetectableResource, IPlant
                 {
                     return (random.nextFloat() < fortune * 0.29F - 0.25F) ? 2 : 1;
                 }
+			case ORE_SAPPHIRE:
+				if (fortune >= 1)
+				{
+					return (random.nextFloat() < fortune * 0.29F - 0.25F) ? 2 : 1;
+				}
                 return 1;
             default:
                 return 1;
