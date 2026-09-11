@@ -221,7 +221,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
                         }
                     }
 
-                    this.populateBuyingList();
+                    //this.populateBuyingList();
                     this.needsInitilization = false;
 
                     if (this.villageObj != null && this.lastBuyingPlayerUuid != null)
@@ -360,6 +360,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
         return SoundEvents.ENTITY_VILLAGER_DEATH;
     }
 
+	/*
     public boolean isMating()
     {
         return this.isMating;
@@ -379,6 +380,7 @@ public class EntityAlienVillager extends EntityAgeable implements IMerchant, INp
     {
         return this.isPlaying;
     }
+    */
 
     @Override
     public void setRevengeTarget(EntityLivingBase livingBase)
